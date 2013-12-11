@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<atom:link href="http://catchchallenger.first-world.info/rss_global.xml" rel="self" type="application/rss+xml" />
+<description>CatchChallenger</description>
+<link>http://catchchallenger.first-world.info</link>
+<language>en</language>
+<title>CatchChallenger: Old scool MMORPG game (crafting, farming, fight, trading, ...)</title>
+		<item>
+		<title>Pre-alpha order is open</title>
+		<link>http://catchchallenger.first-world.info/news/pre-order-is-open.html</link>
+		<description>&lt;strong&gt;Pre-alpha order is open&lt;/strong&gt; to fund the quick developping of the projet. (We are 2 on the projet actually).&lt;br /&gt;
+				The game is playable and fun, you can craft, farm, fight, ... all the actual order have big discount. All the order include all the update from 0.1 to 1.X version (finished part of actual version but no more big features or new gameplay).&lt;br /&gt;
+				The customer have the advantages:
+				&lt;ul&gt;
+					&lt;li&gt;&lt;strong&gt;More advanced client (solo + multi + more stats)&lt;/strong&gt;&lt;/li&gt;
+					&lt;li&gt;Improved datapack for the solo (not sell as product for now)&lt;/li&gt;
+					&lt;li&gt;Priority support (but you need have minimum level in IT)&lt;/li&gt;
+					&lt;li&gt;Have access to update/beta before everybody&lt;/li&gt;
+				&lt;/ul&gt;&lt;/p&gt;</description>
+		<author>alpha_one_x86@first-world.info (brule herman)</author>
+		<pubDate>Wed, 24 Oct 2013 23:13:58 +0100</pubDate>
+		<guid>http://catchchallenger.first-world.info/news/pre-order-is-open.html</guid>
+		<source url="http://catchchallenger.first-world.info/">http://catchchallenger.first-world.info</source>
+		</item>
+	</channel>
+</rss>

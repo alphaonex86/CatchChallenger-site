@@ -1,0 +1,280 @@
+.map
+{
+	border-style:solid;
+	border-width:3px;
+	border-radius:10px;
+	padding:3px 5px;
+	color:#000;
+	text-align: center;
+}
+.mapscreenshot img
+{
+	margin:0 auto;
+	border-radius:10px;
+	border-style:solid;
+	border-width:1px;
+	border-color:#000;
+}
+.map ul
+{
+	list-style-type:none;
+}
+.valuetitle
+{
+	font-weight:bold;
+	margin-bottom:4px;
+}
+.mapnotfound
+{
+	text-decoration:line-through;
+}
+.value
+{
+	border-style:solid;
+	border-width:0px;
+	border-radius:10px;
+	padding:2px;
+	background-color:#fff;
+	text-align: center;
+	margin: auto 0;
+}
+.mapscreenshot
+{
+	margin:3px 1px;
+}
+.map h1
+{
+	margin: 0;
+	font-size:1.5em;
+}
+.map h2
+{
+	margin: 0;
+	font-size:1em;
+	font-style:italic;
+}
+.map .subblock
+{
+	border-style:solid;
+	border-width:2px;
+	border-radius:10px;
+	padding:5px;
+	margin:2px auto;
+}
+.item_details
+{
+	border-color:#13641C;
+	background-color:#217D17;
+}
+.item_details .subblock
+{
+	border-color:#13641C;
+	background-color:#5FC05F;
+}
+.map_type_outdoor
+{
+	border-color:#13641C;
+	background-color:#217D17;
+}
+.map_type_outdoor .subblock
+{
+	border-color:#13641C;
+	background-color:#5FC05F;
+}
+.item_list
+{
+	margin-top:5px;
+	border-style:solid;
+	border-width:2px;
+	border-radius:10px;
+	color:#000;
+}
+.item_list .value
+{
+	background: #FFF;
+}
+.item_list_endline
+{
+	border-radius:0 0 10px 10px;
+}
+.item_list_title th
+{
+	border-radius:10px 10px 0 0;
+}
+.item_list_title_type_outdoor
+{
+	background: #A7E0A2;
+}
+.item_list_type_outdoor
+{
+	background: #5FC05F;
+	border-color:#217D17;
+}
+.item_list_title_type_fire
+{
+	background-color:#ffb263;
+}
+.item_list_type_fire
+{
+	border-color:#d36225;
+	background-color:#f38233;
+}
+.item_list_title_type_normal
+{
+	background-color:#ffb263;
+}
+.item_list_type_normal
+{
+	border-color:#d36225;
+	background-color:#f38233;
+}
+.item_list_title_type_fly
+{
+	background-color:#ffb263;
+}
+.item_list_type_fly
+{
+	border-color:#d36225;
+	background-color:#f38233;
+}
+.item_list_title_type_water
+{
+	background-color:#ffb263;
+}
+.item_list_type_water
+{
+	border-color:#d36225;
+	background-color:#f38233;
+}
+.item_list_title_type_electric
+{
+	background-color:#ffb263;
+}
+.item_list_type_electric
+{
+	border-color:#d36225;
+	background-color:#f38233;
+}
+.item_list_title_type_plant
+{
+	background-color:#ffb263;
+}
+.item_list_type_plant
+{
+	border-color:#d36225;
+	background-color:#f38233;
+}
+.item_list td, .item_list th
+{
+ 	padding:4px;
+}
+.locationimg
+{
+	float:left;
+}
+.monster_type_normal
+{
+	border-color:#13641C;
+	background-color:#217D17;
+}
+.monster_type_normal .subblock
+{
+	border-color:#13641C;
+	background-color:#5FC05F;
+}
+
+.monster_type_fire
+{
+	border-color:#d36225;
+	background-color:#f38233;
+}
+.monster_type_fire .subblock
+{
+	border-color:#d36225;
+	background-color:#ffb263;
+}
+.monster_type_fly
+{
+	border-color:#13641C;
+	background-color:#217D17;
+}
+.monster_type_fly .subblock
+{
+	border-color:#13641C;
+	background-color:#5FC05F;
+}
+
+.monster_type_water
+{
+	border-color:#d36225;
+	background-color:#f38233;
+}
+.monster_type_water .subblock
+{
+	border-color:#d36225;
+	background-color:#ffb263;
+}
+.monster_type_electric
+{
+	border-color:#13641C;
+	background-color:#217D17;
+}
+.monster_type_electric .subblock
+{
+	border-color:#13641C;
+	background-color:#5FC05F;
+}
+
+.monster_type_plant
+{
+	border-color:#d36225;
+	background-color:#f38233;
+}
+.monster_type_plant .subblock
+{
+	border-color:#d36225;
+	background-color:#ffb263;
+}
+.type_label
+{
+	border-radius:4px;
+	padding:1px 15px;
+	font-weight:bold;
+	text-shadow: 1px 1px #000000;
+	color:#fff;
+	margin:1px 5px;
+}
+.type_label a
+{
+	display:inline;
+	color:#fff;
+	text-decoration:normal;
+}
+.type_label_fire
+{
+	background-color:#f38233;
+}
+.type_label_normal
+{
+	background-color:#A55822;
+}
+.type_label_fly
+{
+	background-color:#A55822;
+}
+.type_label_water
+{
+	background-color:#2E9EF3;
+}
+.type_label_electric
+{
+	background-color:#FFEC10;
+}
+.type_label_plant
+{
+	background-color:#71DA5E;
+}
+.type_label_list
+{
+	margin:0 auto;
+}

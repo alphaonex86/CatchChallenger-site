@@ -386,6 +386,7 @@ if(file_exists('datapack/items/items.xml'))
 							if(array_key_exists($monster['id'],$monster_meta))
 							{
 								echo '<li>';
+								echo '<a href="/official-server/datapack-explorer/monsters/'.str_replace(' ','-',strtolower($monster_meta[$monster['id']]['name'])).'.html">';
 								if(file_exists('datapack/monsters/'.$monster['id'].'/front.png'))
 									echo '<img src="datapack/monsters/'.$monster['id'].'/front.png" width="80" height="80" alt="'.htmlspecialchars($monster_meta[$monster['id']]['name']).'" title="'.htmlspecialchars($monster_meta[$monster['id']]['description']).'" /><br />';
 								elseif(file_exists('datapack/monsters/'.$monster['id'].'/front.gif'))
@@ -393,6 +394,7 @@ if(file_exists('datapack/items/items.xml'))
 								else
 									echo 'No skin found!';
 								echo '<b>'.htmlspecialchars($monster_meta[$monster['id']]['name']).'</b> level <i>'.htmlspecialchars($monster['level']).'</i>';
+								echo '</a>';
 								echo '</li>';
 							}
 							else
@@ -426,10 +428,14 @@ if(file_exists('datapack/items/items.xml'))
 									$quantity=htmlspecialchars($item['quantity']).' ';
 								if(array_key_exists($item['id'],$item_meta))
 								{
+									echo '<li>';
+									echo '<a href="/official-server/datapack-explorer/items/'.str_replace(' ','-',strtolower($item_meta[$item['id']]['name'])).'.html" title="'.$item_meta[$item['id']]['name'].'">';
 									if($item_meta[$item['id']]['image']!='' && file_exists('datapack/items/'.$item_meta[$item['id']]['image']))
-										echo '<li><img src="datapack/items/'.htmlspecialchars($item_meta[$item['id']]['image']).'" width="24" height="24" alt="'.htmlspecialchars($item_meta[$item['id']]['description']).'" title="'.htmlspecialchars($item_meta[$item['id']]['description']).'" />'.$quantity.htmlspecialchars($item_meta[$item['id']]['name']).'</li>';
+										echo '<img src="datapack/items/'.htmlspecialchars($item_meta[$item['id']]['image']).'" width="24" height="24" alt="'.htmlspecialchars($item_meta[$item['id']]['description']).'" title="'.htmlspecialchars($item_meta[$item['id']]['description']).'" />'.$quantity.htmlspecialchars($item_meta[$item['id']]['name']);
 									else
-										echo '<li>'.$quantity.htmlspecialchars($item_meta[$item['id']]['name']).'</li>';
+										echo $quantity.htmlspecialchars($item_meta[$item['id']]['name']);
+									echo '</a>';
+									echo '</li>';
 								}
 								else
 									echo '<li>'.$quantity.'unknown item ('.htmlspecialchars($item['id']).')</li>';

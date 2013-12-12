@@ -284,14 +284,15 @@ function industryStatusWithCurrentTime($industryStatus,$industry)
 						if((time()-$data['plant_timestamps'])<($plant_meta[$data['plant']]['fruits']))
 							continue;
 						echo '<tr>';
-						echo '<td>';
+						echo '<td><a href="/official-server/datapack-explorer/items/'.str_replace(' ','-',strtolower($item_meta[$plant_meta[$data['plant']]['itemUsed']]['name'])).'.html">';
 						if(file_exists('../datapack/plants/'.$data['plant'].'.png'))
 							echo '<div style="width:16px;height:32px;background-image:url(\'/datapack/plants/'.htmlspecialchars($data['plant']).'.png\');background-repeat:no-repeat;background-position:-64px 0px;float:left;"></div>';
 						elseif(file_exists('../datapack/plants/'.$data['plant'].'.gif'))
 							echo '<div style="width:16px;height:32px;background-image:url(\'/datapack/plants/'.htmlspecialchars($data['plant']).'.gif\');background-repeat:no-repeat;background-position:-64px 0px;float:left;"></div>';
+						echo '</td></a>';
 						echo '<td>'.htmlspecialchars($item_meta[$plant_meta[$data['plant']]['itemUsed']]['name']).'</td>';
-						echo '<td>';
-						$zone_text='';;
+						echo '<td><a href="/official-server/datapack-explorer/maps/'.str_replace('.tmx','.html',$data['map']).'">';
+						$zone_text='';
 						$zone_meta='../datapack/map/'.str_replace('.tmx','.xml',$data['map']);
 						if(file_exists($zone_meta))
 						{
@@ -300,7 +301,7 @@ function industryStatusWithCurrentTime($industryStatus,$industry)
 								$zone_text=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$content);
 						}
 						echo $zone_text;
-						echo '</td>';
+						echo '</a></td>';
 						if((time()-$data['plant_timestamps'])>$player_owned_expire_at)
 							echo '<td></td><td></td>';
 						else
@@ -413,15 +414,15 @@ function industryStatusWithCurrentTime($industryStatus,$industry)
 						if(array_key_exists($item,$item_meta))
 						{
 							if($item_meta[$item]['image']!='' && file_exists('../datapack/items/'.$item_meta[$item]['image']))
-								echo '<img src="../datapack/items/'.htmlspecialchars($item_meta[$item]['image']).'" width="24" height="24" alt="'.htmlspecialchars($item_meta[$item]['description']).'" title="'.htmlspecialchars($item_meta[$item]['description']).'" style="float:left" />';
+								echo '<a href="/official-server/datapack-explorer/items/'.str_replace(' ','-',strtolower($item_meta[$item]['name'])).'.html"><img src="../datapack/items/'.htmlspecialchars($item_meta[$item]['image']).'" width="24" height="24" alt="'.htmlspecialchars($item_meta[$item]['description']).'" title="'.htmlspecialchars($item_meta[$item]['description']).'" style="float:left" /></a>';
 						}
 						echo '</td>';
-						echo '<td>';
+						echo '<td><a href="/official-server/datapack-explorer/items/'.str_replace(' ','-',strtolower($item_meta[$item]['name'])).'.html">';
 						if(array_key_exists($item,$item_meta))
 							echo htmlspecialchars($item_meta[$item]['name']);
 						else
 							echo 'unknown item ('.htmlspecialchars($item).')';
-						echo '</td>';
+						echo '</td></a>';
 						echo '<td>'.htmlspecialchars($infos['quantity_needed']).'</td>';
 						$average_price=(float)$infos['price_multiplied_by_quantity']/(float)$infos['quantity_needed'];
 						if($average_price<9)
@@ -530,15 +531,15 @@ function industryStatusWithCurrentTime($industryStatus,$industry)
 						if(array_key_exists($item,$item_meta))
 						{
 							if($item_meta[$item]['image']!='' && file_exists('../datapack/items/'.$item_meta[$item]['image']))
-								echo '<img src="../datapack/items/'.htmlspecialchars($item_meta[$item]['image']).'" width="24" height="24" alt="'.htmlspecialchars($item_meta[$item]['description']).'" title="'.htmlspecialchars($item_meta[$item]['description']).'" style="float:left" />';
+								echo '<a href="/official-server/datapack-explorer/items/'.str_replace(' ','-',strtolower($item_meta[$item]['name'])).'.html"><img src="../datapack/items/'.htmlspecialchars($item_meta[$item]['image']).'" width="24" height="24" alt="'.htmlspecialchars($item_meta[$item]['description']).'" title="'.htmlspecialchars($item_meta[$item]['description']).'" style="float:left" /></a>';
 						}
 						echo '</td>';
-						echo '<td>';
+						echo '<td><a href="/official-server/datapack-explorer/items/'.str_replace(' ','-',strtolower($item_meta[$item]['name'])).'.html">';
 						if(array_key_exists($item,$item_meta))
 							echo htmlspecialchars($item_meta[$item]['name']);
 						else
 							echo 'unknown item ('.htmlspecialchars($item).')';
-						echo '</td>';
+						echo '</a></td>';
 						echo '<td>'.htmlspecialchars($infos['quantity_needed']).'</td>';
 						$average_price=(float)$infos['price_multiplied_by_quantity']/(float)$infos['quantity_needed'];
 						if($average_price<9)

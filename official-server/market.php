@@ -141,15 +141,15 @@ if(file_exists('../datapack/items/items.xml'))
 						if(array_key_exists($data['item_id'],$item_meta))
 						{
 							if($item_meta[$data['item_id']]['image']!='' && file_exists('../datapack/items/'.$item_meta[$data['item_id']]['image']))
-								echo '<img src="../datapack/items/'.htmlspecialchars($item_meta[$data['item_id']]['image']).'" width="24" height="24" alt="'.htmlspecialchars($item_meta[$data['item_id']]['description']).'" title="'.htmlspecialchars($item_meta[$data['item_id']]['description']).'" style="float:left" />';
+								echo '<a href="/official-server/datapack-explorer/items/'.str_replace(' ','-',strtolower($item_meta[$data['item_id']]['name'])).'.html"><img src="../datapack/items/'.htmlspecialchars($item_meta[$data['item_id']]['image']).'" width="24" height="24" alt="'.htmlspecialchars($item_meta[$data['item_id']]['description']).'" title="'.htmlspecialchars($item_meta[$data['item_id']]['description']).'" style="float:left" /></a>';
 						}
 						echo '</td>';
-						echo '<td>';
+						echo '<td><a href="/official-server/datapack-explorer/items/'.str_replace(' ','-',strtolower($item_meta[$data['item_id']]['name'])).'.html">';
 						if(array_key_exists($data['item_id'],$item_meta))
 							echo htmlspecialchars($item_meta[$data['item_id']]['name']);
 						else
 							echo 'unknown item ('.htmlspecialchars($data['item_id']).')';
-						echo '</td>';
+						echo '</a></td>';
 						echo '<td>'.htmlspecialchars($data['quantity']).'</td>';
 						$reply_clan_players = mysql_query('SELECT `pseudo`,`skin` FROM `character` WHERE `id`='.$data['player_id']) or die(mysql_error());
 						if($data_clan_players = mysql_fetch_array($reply_clan_players))
@@ -194,17 +194,17 @@ if(file_exists('../datapack/items/items.xml'))
 						if(array_key_exists($data['monster'],$monster_meta))
 						{
 							if(file_exists('../datapack/monsters/'.$data['monster'].'/front.png'))
-								echo '<img src="../datapack/monsters/'.$data['monster'].'/front.png" width="80" height="80" alt="'.htmlspecialchars($monster_meta[$data['monster']]['name']).'" title="'.htmlspecialchars($monster_meta[$data['monster']]['description']).'" />';
+								echo '<a href="/official-server/datapack-explorer/monsters/'.str_replace(' ','-',strtolower($monster_meta[$data['monster']]['name'])).'.html"><img src="../datapack/monsters/'.$data['monster'].'/front.png" width="80" height="80" alt="'.htmlspecialchars($monster_meta[$data['monster']]['name']).'" title="'.htmlspecialchars($monster_meta[$data['monster']]['description']).'" /></a>';
 							elseif(file_exists('../datapack/monsters/'.$data['monster'].'/front.gif'))
-								echo '<img src="../datapack/monsters/'.$data['monster'].'/front.gif" width="80" height="80" alt="'.htmlspecialchars($monster_meta[$data['monster']]['name']).'" title="'.htmlspecialchars($monster_meta[$data['monster']]['description']).'" />';
+								echo '<a href="/official-server/datapack-explorer/monsters/'.str_replace(' ','-',strtolower($monster_meta[$data['monster']]['name'])).'.html"><img src="../datapack/monsters/'.$data['monster'].'/front.gif" width="80" height="80" alt="'.htmlspecialchars($monster_meta[$data['monster']]['name']).'" title="'.htmlspecialchars($monster_meta[$data['monster']]['description']).'" /></a>';
 						}
 						echo '</td>';
-						echo '<td>';
+						echo '<td><a href="/official-server/datapack-explorer/monsters/'.str_replace(' ','-',strtolower($monster_meta[$data['monster']]['name'])).'.html">';
 						if(array_key_exists($data['monster'],$monster_meta))
 							echo '<b>'.htmlspecialchars($monster_meta[$data['monster']]['name']).'</b>';
 						else
 							echo 'Unknown monster ('.htmlspecialchars($data['monster']).')';
-						echo '</td>';
+						echo '</a></td>';
 						echo '<td>'.$data['level'].'</td>';
 						$reply_clan_players = mysql_query('SELECT `pseudo`,`skin` FROM `character` WHERE `id`='.$data['character']) or die(mysql_error());
 						if($data_clan_players = mysql_fetch_array($reply_clan_players))

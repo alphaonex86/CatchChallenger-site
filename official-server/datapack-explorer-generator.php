@@ -886,7 +886,7 @@ foreach($temp_maps as $map)
 		if(preg_match('#<water>(.*)</water>#isU',$content))
 		{
 			$grass_text=preg_replace('#^.*<water>(.*)</water>.*$#isU','$1',$content);
-			preg_match_all('#<monster minLevel="([0-9]+)" maxLevel="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>#isU',$grass_text,$temp_text_list);
+			preg_match_all('#<monster[^>]+/>#isU',$grass_text,$temp_text_list);
 			foreach($temp_text_list[0] as $grass_text_entry)
 			{
 				if(preg_match('#level="([0-9]+)"#isU',$grass_text_entry))
@@ -920,7 +920,7 @@ foreach($temp_maps as $map)
 		if(preg_match('#<cave>(.*)</cave>#isU',$content))
 		{
 			$grass_text=preg_replace('#^.*<cave>(.*)</cave>.*$#isU','$1',$content);
-			preg_match_all('#<monster minLevel="([0-9]+)" maxLevel="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>#isU',$grass_text,$temp_text_list);
+			preg_match_all('#<monster[^>]+/>#isU',$grass_text,$temp_text_list);
 			foreach($temp_text_list[0] as $grass_text_entry)
 			{
 				if(preg_match('#level="([0-9]+)"#isU',$grass_text_entry))

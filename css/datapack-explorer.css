@@ -24,6 +24,10 @@
 	font-weight:bold;
 	margin-bottom:4px;
 }
+.evolution_name
+{
+	font-weight:bold;
+}
 .mapnotfound
 {
 	text-decoration:line-through;

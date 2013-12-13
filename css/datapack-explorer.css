@@ -57,6 +57,11 @@
 	font-size:1em;
 	font-style:italic;
 }
+.map h3
+{
+	margin: 0;
+	font-size:1em;
+}
 .map .subblock
 {
 	border-style:solid;

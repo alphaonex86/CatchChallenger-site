@@ -764,7 +764,10 @@ foreach($temp_maps as $map)
 	$height=0;
 	$pixelwidth=0;
 	$pixelheight=0;
-	$map_folder=preg_replace('#/[^/]+$#','',$map).'/';
+	if(preg_match('#/[^/]+$#',$map))
+		$map_folder=preg_replace('#/[^/]+$#','',$map).'/';
+	else
+		$map_folder='';
 	$map_meta=str_replace('.tmx','.xml',$map);
 	$borders=array();
 	$doors=array();
@@ -778,7 +781,7 @@ foreach($temp_maps as $map)
 		$pixelwidth=$width*$tilewidth;
 		$pixelheight=$height*$tileheight;
 	}
-	preg_match_all('#<object [^>]+type="border-(left|right|top|bottom)".*</object>#isU',$content,$temp_text_list);
+	preg_match_all('#<object[^>]+type="border-(left|right|top|bottom)".*</object>#isU',$content,$temp_text_list);
 	foreach($temp_text_list[0] as $border_text)
 	{
 		if(preg_match('#type="border-(left|right|top|bottom)"#isU',$border_text))
@@ -798,7 +801,7 @@ foreach($temp_maps as $map)
 			}
 		}
 	}
-	preg_match_all('#<object [^>]+type="door".*</object>#isU',$content,$temp_text_list);
+	preg_match_all('#<object[^>]+type="door".*</object>#isU',$content,$temp_text_list);
 	foreach($temp_text_list[0] as $door_text)
 	{
 		if(preg_match('#type="door"#isU',$door_text))
@@ -849,26 +852,29 @@ foreach($temp_maps as $map)
 		if(preg_match('#<grass>(.*)</grass>#isU',$content))
 		{
 			$grass_text=preg_replace('#^.*<grass>(.*)</grass>.*$#isU','$1',$content);
-			preg_match_all('#<monster minLevel="([0-9]+)" maxLevel="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>#isU',$grass_text,$temp_text_list);
+			preg_match_all('#<monster[^>]+/>#isU',$grass_text,$temp_text_list);
 			foreach($temp_text_list[0] as $grass_text_entry)
 			{
-				$minLevel=preg_replace('#^.*<monster minLevel="([0-9]+)" maxLevel="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$1',$grass_text_entry);
-				$maxLevel=preg_replace('#^.*<monster minLevel="([0-9]+)" maxLevel="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$2',$grass_text_entry);
-				$luck=preg_replace('#^.*<monster minLevel="([0-9]+)" maxLevel="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$3',$grass_text_entry);
-				$id=preg_replace('#^.*<monster minLevel="([0-9]+)" maxLevel="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$4',$grass_text_entry);
-				if(isset($monster_meta[$id]))
+				if(preg_match('#level="([0-9]+)"#isU',$grass_text_entry))
 				{
-					$grass[]=array('id'=>$id,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
-					$dropcount+=count($monster_meta[$id]['drops']);
+					$minLevel=preg_replace('#^.*level="([0-9]+)".*$#isU','$1',$grass_text_entry);
+					$maxLevel=preg_replace('#^.*level="([0-9]+)".*$#isU','$1',$grass_text_entry);
 				}
-			}
-			preg_match_all('#<monster level="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>#isU',$grass_text,$temp_text_list);
-			foreach($temp_text_list[0] as $grass_text_entry)
-			{
-				$minLevel=preg_replace('#^.*<monster level="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$1',$grass_text_entry);
-				$maxLevel=preg_replace('#^.*<monster level="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$1',$grass_text_entry);
-				$luck=preg_replace('#^.*<monster level="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$2',$grass_text_entry);
-				$id=preg_replace('#^.*<monster level="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$3',$grass_text_entry);
+				elseif(preg_match('#minLevel="([0-9]+)"#isU',$grass_text_entry) && preg_match('maxLevel="([0-9]+)"#isU',$grass_text_entry))
+				{
+					$minLevel=preg_replace('#^.*minLevel="([0-9]+)".*$#isU','$1',$grass_text_entry);
+					$maxLevel=preg_replace('#^.*maxLevel="([0-9]+)".*$#isU','$1',$grass_text_entry);
+				}
+				else
+					continue;
+				if(preg_match('#luck="([0-9]+)"#isU',$grass_text_entry))
+					$luck=preg_replace('#^.*luck="([0-9]+)".*$#isU','$1',$grass_text_entry);
+				else
+					continue;
+				if(preg_match('#id="([0-9]+)"#isU',$grass_text_entry))
+					$id=preg_replace('#^.*id="([0-9]+)".*$#isU','$1',$grass_text_entry);
+				else
+					continue;
 				if(isset($monster_meta[$id]))
 				{
 					$grass[]=array('id'=>$id,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
@@ -883,23 +889,26 @@ foreach($temp_maps as $map)
 			preg_match_all('#<monster minLevel="([0-9]+)" maxLevel="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>#isU',$grass_text,$temp_text_list);
 			foreach($temp_text_list[0] as $grass_text_entry)
 			{
-				$minLevel=preg_replace('#^.*<monster minLevel="([0-9]+)" maxLevel="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$1',$grass_text_entry);
-				$maxLevel=preg_replace('#^.*<monster minLevel="([0-9]+)" maxLevel="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$2',$grass_text_entry);
-				$luck=preg_replace('#^.*<monster minLevel="([0-9]+)" maxLevel="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$3',$grass_text_entry);
-				$id=preg_replace('#^.*<monster minLevel="([0-9]+)" maxLevel="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$4',$grass_text_entry);
-				if(isset($monster_meta[$id]))
+				if(preg_match('#level="([0-9]+)"#isU',$grass_text_entry))
 				{
-					$water[]=array('id'=>$id,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
-					$dropcount+=count($monster_meta[$id]['drops']);
+					$minLevel=preg_replace('#^.*level="([0-9]+)".*$#isU','$1',$grass_text_entry);
+					$maxLevel=preg_replace('#^.*level="([0-9]+)".*$#isU','$1',$grass_text_entry);
 				}
-			}
-			preg_match_all('#<monster level="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>#isU',$grass_text,$temp_text_list);
-			foreach($temp_text_list[0] as $grass_text_entry)
-			{
-				$minLevel=preg_replace('#^.*<monster level="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$1',$grass_text_entry);
-				$maxLevel=preg_replace('#^.*<monster level="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$1',$grass_text_entry);
-				$luck=preg_replace('#^.*<monster level="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$2',$grass_text_entry);
-				$id=preg_replace('#^.*<monster level="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$3',$grass_text_entry);
+				elseif(preg_match('#minLevel="([0-9]+)"#isU',$grass_text_entry) && preg_match('maxLevel="([0-9]+)"#isU',$grass_text_entry))
+				{
+					$minLevel=preg_replace('#^.*minLevel="([0-9]+)".*$#isU','$1',$grass_text_entry);
+					$maxLevel=preg_replace('#^.*maxLevel="([0-9]+)".*$#isU','$1',$grass_text_entry);
+				}
+				else
+					continue;
+				if(preg_match('#luck="([0-9]+)"#isU',$grass_text_entry))
+					$luck=preg_replace('#^.*luck="([0-9]+)".*$#isU','$1',$grass_text_entry);
+				else
+					continue;
+				if(preg_match('#id="([0-9]+)"#isU',$grass_text_entry))
+					$id=preg_replace('#^.*id="([0-9]+)".*$#isU','$1',$grass_text_entry);
+				else
+					continue;
 				if(isset($monster_meta[$id]))
 				{
 					$water[]=array('id'=>$id,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
@@ -914,23 +923,26 @@ foreach($temp_maps as $map)
 			preg_match_all('#<monster minLevel="([0-9]+)" maxLevel="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>#isU',$grass_text,$temp_text_list);
 			foreach($temp_text_list[0] as $grass_text_entry)
 			{
-				$minLevel=preg_replace('#^.*<monster minLevel="([0-9]+)" maxLevel="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$1',$grass_text_entry);
-				$maxLevel=preg_replace('#^.*<monster minLevel="([0-9]+)" maxLevel="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$2',$grass_text_entry);
-				$luck=preg_replace('#^.*<monster minLevel="([0-9]+)" maxLevel="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$3',$grass_text_entry);
-				$id=preg_replace('#^.*<monster minLevel="([0-9]+)" maxLevel="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$4',$grass_text_entry);
-				if(isset($monster_meta[$id]))
+				if(preg_match('#level="([0-9]+)"#isU',$grass_text_entry))
 				{
-					$cave[]=array('id'=>$id,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
-					$dropcount+=count($monster_meta[$id]['drops']);
+					$minLevel=preg_replace('#^.*level="([0-9]+)".*$#isU','$1',$grass_text_entry);
+					$maxLevel=preg_replace('#^.*level="([0-9]+)".*$#isU','$1',$grass_text_entry);
 				}
-			}
-			preg_match_all('#<monster level="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>#isU',$grass_text,$temp_text_list);
-			foreach($temp_text_list[0] as $grass_text_entry)
-			{
-				$minLevel=preg_replace('#^.*<monster level="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$1',$grass_text_entry);
-				$maxLevel=preg_replace('#^.*<monster level="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$1',$grass_text_entry);
-				$luck=preg_replace('#^.*<monster level="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$2',$grass_text_entry);
-				$id=preg_replace('#^.*<monster level="([0-9]+)" luck="([0-9]+)" id="([0-9]+)"/>.*$#isU','$3',$grass_text_entry);
+				elseif(preg_match('#minLevel="([0-9]+)"#isU',$grass_text_entry) && preg_match('maxLevel="([0-9]+)"#isU',$grass_text_entry))
+				{
+					$minLevel=preg_replace('#^.*minLevel="([0-9]+)".*$#isU','$1',$grass_text_entry);
+					$maxLevel=preg_replace('#^.*maxLevel="([0-9]+)".*$#isU','$1',$grass_text_entry);
+				}
+				else
+					continue;
+				if(preg_match('#luck="([0-9]+)"#isU',$grass_text_entry))
+					$luck=preg_replace('#^.*luck="([0-9]+)".*$#isU','$1',$grass_text_entry);
+				else
+					continue;
+				if(preg_match('#id="([0-9]+)"#isU',$grass_text_entry))
+					$id=preg_replace('#^.*id="([0-9]+)".*$#isU','$1',$grass_text_entry);
+				else
+					continue;
 				if(isset($monster_meta[$id]))
 				{
 					$cave[]=array('id'=>$id,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
@@ -962,6 +974,8 @@ foreach($temp_maps as $map)
 
 	$map_descriptor.='<div class="map map_type_'.$maps_list[$map]['type'].'">';
 		$map_descriptor.='<div class="subblock"><h1>'.$maps_list[$map]['name'].'</h1>';
+		if($maps_list[$map]['type']!='')
+			$map_descriptor.='<h3>('.$maps_list[$map]['type'].')</h3>';
 		if($maps_list[$map]['shortdescription']!='')
 			$map_descriptor.='<h2>'.$maps_list[$map]['shortdescription'].'</h2>';
 		$map_descriptor.='</div>';

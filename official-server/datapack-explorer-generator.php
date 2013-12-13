@@ -946,7 +946,6 @@ foreach($temp_maps as $map)
 if(!is_dir('datapack-explorer/maps/'))
 	mkdir('datapack-explorer/maps/');
 
-/*
 foreach($temp_maps as $map)
 {
 	$map_folder=preg_replace('#/[^/]+$#','',$map).'/';
@@ -956,8 +955,7 @@ foreach($temp_maps as $map)
 		unlink($map_image);
 	if(!is_dir('datapack-explorer/maps/'.$map_folder))
 		mkdir('datapack-explorer/maps/'.$map_folder);
-	echo '/home/user/Desktop/CatchChallenger/tools/build-map2pngGUI-Qt5-Debug/map2pngGUI '.$datapack_path.'map/'.$map.' datapack-explorer/maps/'.$map_image;
-	exec('/home/user/Desktop/CatchChallenger/tools/build-map2pngGUI-Qt5-Debug/map2pngGUI '.$datapack_path.'map/'.$map.' datapack-explorer/maps/'.$map_image);
+	//exec('/home/user/Desktop/CatchChallenger/tools/build-map2pngGUI-Qt5-Debug/map2pngGUI -platform offscreen '.$datapack_path.'map/'.$map.' datapack-explorer/maps/'.$map_image);
 	$content=$template;
 	$content=str_replace('${TITLE}',$maps_list[$map]['name'],$content);
 	$map_descriptor='';
@@ -1169,7 +1167,7 @@ foreach($temp_maps as $map)
 	
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	filewrite('datapack-explorer/maps/'.$map_html,$content);
-}*/
+}
 
 $content=$template;
 $content=str_replace('${TITLE}','Map list',$content);

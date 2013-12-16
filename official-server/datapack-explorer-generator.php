@@ -460,6 +460,21 @@ function getDefinitionXmlList($dir,$sub_dir='')
 	return $files_list;
 }
 
+$xmlZoneList=getXmlList($datapack_path.'map/zone/');
+$zone_meta=array();
+foreach($xmlZoneList as $file)
+{
+	$content=file_get_contents($datapack_path.'map/zone/'.$file);
+	if(!preg_match('#^([^"\\.]+).xml$#isU',$file))
+		continue;
+	$code=preg_replace('#^([^"\\.]+).xml$#isU','$1',$file);
+	if(!preg_match('#<name( lang="en")?>([^<]+)</name>#isU',$content))
+		continue;
+	$name=preg_replace('#^.*<name( lang="en")?>([^<]+)</name>.*$#isU','$2',$content);
+	$name=preg_replace("#[\n\t\r]+#is",'',$name);
+	$zone_meta[$code]=array('name'=>$name);
+}
+
 $fight_meta=array();
 $xmlFightList=getXmlList($datapack_path.'fight/');
 foreach($xmlFightList as $file)
@@ -757,6 +772,7 @@ foreach($xmlFightList as $file)
 
 $maps_list=array();
 $maps_name_to_file=array();
+$zone_to_map=array();
 $temp_maps=getTmxList($datapack_path.'map/');
 foreach($temp_maps as $map)
 {
@@ -770,6 +786,7 @@ foreach($temp_maps as $map)
 		$map_folder='';
 	$map_meta=str_replace('.tmx','.xml',$map);
 	$borders=array();
+	$tp=array();
 	$doors=array();
 	$content=file_get_contents($datapack_path.'map/'.$map);
 	if(preg_match('#orientation="orthogonal" width="([0-9]+)" height="([0-9]+)" tilewidth="([0-9]+)" tileheight="([0-9]+)"#isU',$content))
@@ -801,6 +818,21 @@ foreach($temp_maps as $map)
 			}
 		}
 	}
+	preg_match_all('#<object[^>]+type="teleport( on [a-z]+)?".*</object>#isU',$content,$temp_text_list);
+	foreach($temp_text_list[0] as $border_text)
+	{
+		if(preg_match('#<property name="map" value="([^"]+)"/>#isU',$border_text))
+		{
+			$border_map=preg_replace('#^.*<property name="map" value="([^"]+)"/>.*$#isU','$1',$border_text);
+			$border_map=$map_folder.$border_map;
+			if(!preg_match('#\\.tmx$#',$border_map))
+				$border_map.='.tmx';
+			$border_map=preg_replace('#/[^/]+/\\.\\./#isU','/',$border_map);
+			$border_map=preg_replace('#^[^/]+/\\.\\./#isU','',$border_map);
+			$border_map=preg_replace("#[\n\r\t]+#is",'',$border_map);
+			$tp[]=$border_map;
+		}
+	}
 	preg_match_all('#<object[^>]+type="door".*</object>#isU',$content,$temp_text_list);
 	foreach($temp_text_list[0] as $door_text)
 	{
@@ -826,12 +858,15 @@ foreach($temp_maps as $map)
 	$name='Unknown name ('.$map.')';
 	$shortdescription='';
 	$description='';
+	$zone='';
 	$dropcount=0;
 	if(file_exists($datapack_path.'map/'.$map_meta))
 	{
 		$content=file_get_contents($datapack_path.'map/'.$map_meta);
 		if(preg_match('#type="(outdoor|city|cave)"#isU',$content))
 			$type=preg_replace('#^.*type="(outdoor|city|cave)".*$#isU','$1',$content);
+		if(preg_match('#zone="([^"]+)"#isU',$content))
+			$zone=preg_replace('#^.*zone="([^"]+)".*$#isU','$1',$content);
 		if(preg_match('#<name lang="en">[^<]+</name>#isU',$content))
 			$name=preg_replace('#^.*<name lang="en">([^<]+)</name>.*$#isU','$1',$content);
 		elseif(preg_match('#<name>[^<]+</name>#isU',$content))
@@ -846,6 +881,7 @@ foreach($temp_maps as $map)
 			$description=preg_replace('#^.*<description>([^<]+)</description>.*$#isU','$1',$content);
 		$type=preg_replace("#[\n\r\t]+#is",'',$type);
 		$name=preg_replace("#[\n\r\t]+#is",'',$name);
+		$zone=preg_replace("#[\n\r\t]+#is",'',$zone);
 		$shortdescription=preg_replace("#[\n\r\t]+#is",'',$shortdescription);
 		$description=preg_replace("#[\n\r\t]+#is",'',$description);
 		//grass
@@ -951,9 +987,12 @@ foreach($temp_maps as $map)
 			}
 		}
 	}
-	$maps_list[$map]=array('borders'=>$borders,'doors'=>$doors,'name'=>$name,'shortdescription'=>$shortdescription,'description'=>$description,'type'=>$type,'grass'=>$grass,'water'=>$water,'cave'=>$cave,
+	$maps_list[$map]=array('borders'=>$borders,'tp'=>$tp,'doors'=>$doors,'name'=>$name,'shortdescription'=>$shortdescription,'description'=>$description,'type'=>$type,'grass'=>$grass,'water'=>$water,'cave'=>$cave,
 	'width'=>$width,'height'=>$height,'pixelwidth'=>$pixelwidth,'pixelheight'=>$pixelheight,'dropcount'=>$dropcount,
 	);
+	if(!isset($zone_to_map[$zone]))
+		$zone_to_map[$zone]=array();
+	$zone_to_map[$zone][]=$map;
 }
 if(!is_dir('datapack-explorer/maps/'))
 	mkdir('datapack-explorer/maps/');
@@ -1186,17 +1225,27 @@ foreach($temp_maps as $map)
 $content=$template;
 $content=str_replace('${TITLE}','Map list',$content);
 $map_descriptor='';
-$map_descriptor.='<table class="item_list item_list_type_outdoor"><tr class="item_list_title item_list_title_type_outdoor">
-					<th>Map</th><th>Zone</th></tr>';
-foreach($temp_maps as $map)
+foreach($zone_to_map as $zone=>$map_by_zone)
 {
-	$map_folder=preg_replace('#/[^/]+$#','',$map).'/';
-	$map_html=str_replace('.tmx','.html',$map);
-	$map_descriptor.='<tr class="value"><td><a href="'.$base_datapack_explorer_site_path.'maps/'.$map_html.'" title="'.$maps_list[$map]['name'].'">'.$maps_list[$map]['name'].'</a></td><td></td></tr>';
+	$map_descriptor.='<table class="item_list item_list_type_outdoor map_list"><tr class="item_list_title item_list_title_type_outdoor">
+	<th>';
+	if(isset($zone_meta[$zone]))
+		$map_descriptor.=$zone_meta[$zone]['name'];
+	elseif($zone=='')
+		$map_descriptor.='Unknown zone';
+	else
+		$map_descriptor.=$zone;
+	$map_descriptor.='</th></tr>';
+	foreach($map_by_zone as $map)
+	{
+		$map_folder=preg_replace('#/[^/]+$#','',$map).'/';
+		$map_html=str_replace('.tmx','.html',$map);
+		$map_descriptor.='<tr class="value"><td><a href="'.$base_datapack_explorer_site_path.'maps/'.$map_html.'" title="'.$maps_list[$map]['name'].'">'.$maps_list[$map]['name'].'</a></td></tr>';
+	}
+	$map_descriptor.='<tr>
+	<td colspan="1" class="item_list_endline item_list_title_type_outdoor"></td>
+	</tr></table>';
 }
-$map_descriptor.='<tr>
-					<td colspan="2" class="item_list_endline item_list_title_type_outdoor"></td>
-					</tr></table>';
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 filewrite('datapack-explorer/maps.html',$content);
 
@@ -2146,9 +2195,9 @@ foreach($quests_meta as $id=>$quest)
 		}
 		if(count($quest['steps'])>0)
 		{
-			foreach($quest['steps'] as $id=>$step)
+			foreach($quest['steps'] as $id_step=>$step)
 			{
-				$map_descriptor.='<div class="subblock"><div class="valuetitle">Step #'.$id.'</div><div class="value">';
+				$map_descriptor.='<div class="subblock"><div class="valuetitle">Step #'.$id_step.'</div><div class="value">';
 				$map_descriptor.=$step['text'];
 				if(count($step['items']))
 				{

@@ -1006,7 +1006,9 @@ foreach($temp_maps as $map)
 		unlink($map_image);
 	if(!is_dir('datapack-explorer/maps/'.$map_folder))
 		mkdir('datapack-explorer/maps/'.$map_folder);
-	//exec('/home/user/Desktop/CatchChallenger/tools/build-map2pngGUI-Qt5-Debug/map2pngGUI -platform offscreen '.$datapack_path.'map/'.$map.' datapack-explorer/maps/'.$map_image);
+	if(isset($map_generator))
+		if($map_generator!='')
+			exec($map_generator.' -platform offscreen '.$datapack_path.'map/'.$map.' datapack-explorer/maps/'.$map_image);
 	$content=$template;
 	$content=str_replace('${TITLE}',$maps_list[$map]['name'],$content);
 	$map_descriptor='';

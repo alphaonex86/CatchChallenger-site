@@ -862,32 +862,32 @@ foreach($temp_maps as $map)
 	$dropcount=0;
 	if(file_exists($datapack_path.'map/'.$map_meta))
 	{
-		$content=file_get_contents($datapack_path.'map/'.$map_meta);
-		if(preg_match('#type="(outdoor|city|cave)"#isU',$content))
-			$type=preg_replace('#^.*type="(outdoor|city|cave)".*$#isU','$1',$content);
-		if(preg_match('#zone="([^"]+)"#isU',$content))
-			$zone=preg_replace('#^.*zone="([^"]+)".*$#isU','$1',$content);
-		if(preg_match('#<name lang="en">[^<]+</name>#isU',$content))
-			$name=preg_replace('#^.*<name lang="en">([^<]+)</name>.*$#isU','$1',$content);
-		elseif(preg_match('#<name>[^<]+</name>#isU',$content))
-			$name=preg_replace('#^.*<name>([^<]+)</name>.*$#isU','$1',$content);
-		if(preg_match('#<shortdescription lang="en">[^<]+</shortdescription>#isU',$content))
-			$shortdescription=preg_replace('#^.*<shortdescription lang="en">([^<]+)</shortdescription>.*$#isU','$1',$content);
-		elseif(preg_match('#<shortdescription>[^<]+</shortdescription>#isU',$content))
-			$shortdescription=preg_replace('#^.*<shortdescription>([^<]+)</shortdescription>.*$#isU','$1',$content);
-		if(preg_match('#<description lang="en">[^<]+</description>#isU',$content))
-			$description=preg_replace('#^.*<description lang="en">([^<]+)</description>.*$#isU','$1',$content);
-		elseif(preg_match('#<description>[^<]+</description>#isU',$content))
-			$description=preg_replace('#^.*<description>([^<]+)</description>.*$#isU','$1',$content);
+		$content_meta_map=file_get_contents($datapack_path.'map/'.$map_meta);
+		if(preg_match('#type="(outdoor|city|cave)"#isU',$content_meta_map))
+			$type=preg_replace('#^.*type="(outdoor|city|cave)".*$#isU','$1',$content_meta_map);
+		if(preg_match('#zone="([^"]+)"#isU',$content_meta_map))
+			$zone=preg_replace('#^.*zone="([^"]+)".*$#isU','$1',$content_meta_map);
+		if(preg_match('#<name lang="en">[^<]+</name>#isU',$content_meta_map))
+			$name=preg_replace('#^.*<name lang="en">([^<]+)</name>.*$#isU','$1',$content_meta_map);
+		elseif(preg_match('#<name>[^<]+</name>#isU',$content_meta_map))
+			$name=preg_replace('#^.*<name>([^<]+)</name>.*$#isU','$1',$content_meta_map);
+		if(preg_match('#<shortdescription lang="en">[^<]+</shortdescription>#isU',$content_meta_map))
+			$shortdescription=preg_replace('#^.*<shortdescription lang="en">([^<]+)</shortdescription>.*$#isU','$1',$content_meta_map);
+		elseif(preg_match('#<shortdescription>[^<]+</shortdescription>#isU',$content_meta_map))
+			$shortdescription=preg_replace('#^.*<shortdescription>([^<]+)</shortdescription>.*$#isU','$1',$content_meta_map);
+		if(preg_match('#<description lang="en">[^<]+</description>#isU',$content_meta_map))
+			$description=preg_replace('#^.*<description lang="en">([^<]+)</description>.*$#isU','$1',$content_meta_map);
+		elseif(preg_match('#<description>[^<]+</description>#isU',$content_meta_map))
+			$description=preg_replace('#^.*<description>([^<]+)</description>.*$#isU','$1',$content_meta_map);
 		$type=preg_replace("#[\n\r\t]+#is",'',$type);
 		$name=preg_replace("#[\n\r\t]+#is",'',$name);
 		$zone=preg_replace("#[\n\r\t]+#is",'',$zone);
 		$shortdescription=preg_replace("#[\n\r\t]+#is",'',$shortdescription);
 		$description=preg_replace("#[\n\r\t]+#is",'',$description);
 		//grass
-		if(preg_match('#<grass>(.*)</grass>#isU',$content))
+		if(preg_match('#<grass>(.*)</grass>#isU',$content_meta_map) && preg_match('#<layer name="Grass"#isU',$content))
 		{
-			$grass_text=preg_replace('#^.*<grass>(.*)</grass>.*$#isU','$1',$content);
+			$grass_text=preg_replace('#^.*<grass>(.*)</grass>.*$#isU','$1',$content_meta_map);
 			preg_match_all('#<monster[^>]+/>#isU',$grass_text,$temp_text_list);
 			foreach($temp_text_list[0] as $grass_text_entry)
 			{
@@ -919,9 +919,9 @@ foreach($temp_maps as $map)
 			}
 		}
 		//water
-		if(preg_match('#<water>(.*)</water>#isU',$content))
+		if(preg_match('#<water>(.*)</water>#isU',$content_meta_map) && preg_match('#<layer name="Water"#isU',$content))
 		{
-			$grass_text=preg_replace('#^.*<water>(.*)</water>.*$#isU','$1',$content);
+			$grass_text=preg_replace('#^.*<water>(.*)</water>.*$#isU','$1',$content_meta_map);
 			preg_match_all('#<monster[^>]+/>#isU',$grass_text,$temp_text_list);
 			foreach($temp_text_list[0] as $grass_text_entry)
 			{
@@ -953,9 +953,9 @@ foreach($temp_maps as $map)
 			}
 		}
 		//cave
-		if(preg_match('#<cave>(.*)</cave>#isU',$content))
+		if(preg_match('#<cave>(.*)</cave>#isU',$content_meta_map))
 		{
-			$grass_text=preg_replace('#^.*<cave>(.*)</cave>.*$#isU','$1',$content);
+			$grass_text=preg_replace('#^.*<cave>(.*)</cave>.*$#isU','$1',$content_meta_map);
 			preg_match_all('#<monster[^>]+/>#isU',$grass_text,$temp_text_list);
 			foreach($temp_text_list[0] as $grass_text_entry)
 			{
@@ -1038,6 +1038,13 @@ foreach($temp_maps as $map)
 					$map_descriptor.='<li>Door: <a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$door).'">'.$maps_list[$door]['name'].'</a></li>';
 				else
 					$map_descriptor.='<li>Door: <span class="mapnotfound">'.$door.'</span></li>';
+			}
+			foreach($maps_list[$map]['tp'] as $tp)
+			{
+				if(isset($maps_list[$tp]))
+					$map_descriptor.='<li>Teleporter: <a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$tp).'">'.$maps_list[$tp]['name'].'</a></li>';
+				else
+					$map_descriptor.='<li>Teleporter: <span class="mapnotfound">'.$tp.'</span></li>';
 			}
 			$map_descriptor.='</ul></div></div>';
 		}

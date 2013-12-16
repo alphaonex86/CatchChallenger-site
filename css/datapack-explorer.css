@@ -7,6 +7,10 @@
 	color:#000;
 	text-align: center;
 }
+.screenshot img
+{
+	background-color:#000;
+}
 .mapscreenshot img
 {
 	margin:0 auto;
@@ -14,6 +18,7 @@
 	border-style:solid;
 	border-width:1px;
 	border-color:#000;
+	margin:3px 1px;
 }
 .map ul
 {
@@ -41,10 +46,6 @@
 	background-color:#fff;
 	text-align: center;
 	margin: auto 0;
-}
-.mapscreenshot
-{
-	margin:3px 1px;
 }
 .map h1
 {

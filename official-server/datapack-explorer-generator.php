@@ -1021,7 +1021,7 @@ foreach($temp_maps as $map)
 			$map_descriptor.='<h2>'.$maps_list[$map]['shortdescription'].'</h2>';
 		$map_descriptor.='</div>';
 		if(file_exists('datapack-explorer/maps/'.$map_image))
-			$map_descriptor.='<div class="value mapscreenshot"><a href="'.$base_datapack_explorer_site_path.'maps/'.$map_image.'"><img src="'.$base_datapack_explorer_site_path.'maps/'.$map_image.'" alt="Screenshot of '.$maps_list[$map]['name'].'" title="Screenshot of '.$maps_list[$map]['name'].'" width="'.($maps_list[$map]['pixelwidth']/2).'" height="'.($maps_list[$map]['pixelheight']/2).'" /></a></div>';
+			$map_descriptor.='<div class="value mapscreenshot screenshot"><a href="'.$base_datapack_explorer_site_path.'maps/'.$map_image.'"><img src="'.$base_datapack_explorer_site_path.'maps/'.$map_image.'" alt="Screenshot of '.$maps_list[$map]['name'].'" title="Screenshot of '.$maps_list[$map]['name'].'" width="'.($maps_list[$map]['pixelwidth']/2).'" height="'.($maps_list[$map]['pixelheight']/2).'" /></a></div>';
 		if($maps_list[$map]['description']!='')
 			$map_descriptor.='<div class="subblock"><div class="valuetitle">Map description</div><div class="value">'.$maps_list[$map]['description'].'</div></div>';
 		if(count($maps_list[$map]['borders'])>0 || count($maps_list[$map]['doors'])>0)
@@ -1284,7 +1284,7 @@ foreach($monster_meta as $id=>$monster)
 		$map_descriptor.='<div class="subblock"><h1>'.$monster['name'].'</h1>';
 		$map_descriptor.='<h2>#'.$id.'</h2>';
 		$map_descriptor.='</div>';
-		$map_descriptor.='<div class="value mapscreenshot">';
+		$map_descriptor.='<div class="value screenshot">';
 		if(file_exists($datapack_path.'monsters/'.$id.'/front.png'))
 			$map_descriptor.='<img src="'.$base_datapack_site_path.'monsters/'.$id.'/front.png" width="80" height="80" alt="'.$monster['name'].'" title="'.$monster['name'].'" />';
 		else if(file_exists($datapack_path.'monsters/'.$id.'/front.gif'))
@@ -1601,7 +1601,7 @@ foreach($item_meta as $id=>$item)
 		$map_descriptor.='<div class="subblock"><h1>'.$item['name'].'</h1>';
 		$map_descriptor.='<h2>#'.$id.'</h2>';
 		$map_descriptor.='</div>';
-		$map_descriptor.='<div class="value mapscreenshot">';
+		$map_descriptor.='<div class="value screenshot">';
 		$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item['image'].'" width="24" height="24" alt="'.$item['name'].'" title="'.$item['name'].'" />';
 		$map_descriptor.='</div>';
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">Price</div><div class="value">'.$item['price'].'</div></div>';
@@ -1786,7 +1786,7 @@ foreach($crafting_meta as $id=>$crafting)
 		$map_descriptor.='<div class="subblock"><h1>'.$item_meta[$crafting['itemToLearn']]['name'].'</h1>';
 		$map_descriptor.='<h2>#'.$id.'</h2>';
 		$map_descriptor.='</div>';
-		$map_descriptor.='<div class="value mapscreenshot">';
+		$map_descriptor.='<div class="value screenshot">';
 		$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$crafting['itemToLearn']]['name'])).'.html" title="'.$item_meta[$crafting['itemToLearn']]['name'].'">';
 		$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$crafting['itemToLearn']]['image'].'" width="24" height="24" alt="'.$item_meta[$crafting['itemToLearn']]['name'].'" title="'.$item_meta[$crafting['itemToLearn']]['name'].'" />';
 		$map_descriptor.='</a>';

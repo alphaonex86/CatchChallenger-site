@@ -1641,8 +1641,6 @@ foreach($monster_meta as $id=>$monster)
 				</tr>';
 			foreach($monster_to_map[$id]['water'] as $monster_on_map)
 			{
-				$name=$monster_meta[$monster_on_map['id']]['name'];
-				$link=$base_datapack_explorer_site_path.'monsters/'.str_replace(' ','-',strtolower($name)).'.html';
 				$map_descriptor.='<tr class="value">';
 					if(isset($maps_list[$monster_on_map['map']]))
 						$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$monster_on_map['map']]['name'].'">'.$maps_list[$monster_on_map['map']]['name'].'</a></td>';
@@ -1666,8 +1664,6 @@ foreach($monster_meta as $id=>$monster)
 				</tr>';
 			foreach($monster_to_map[$id]['cave'] as $monster_on_map)
 			{
-				$name=$monster_meta[$monster_on_map['id']]['name'];
-				$link=$base_datapack_explorer_site_path.'monsters/'.str_replace(' ','-',strtolower($name)).'.html';
 				$map_descriptor.='<tr class="value">';
 					if(isset($maps_list[$monster_on_map['map']]))
 						$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$monster_on_map['map']]['name'].'">'.$maps_list[$monster_on_map['map']]['name'].'</a></td>';

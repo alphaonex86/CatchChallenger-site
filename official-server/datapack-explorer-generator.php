@@ -1297,6 +1297,7 @@ foreach($temp_maps as $map)
 	
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
+	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 	filewrite('datapack-explorer/maps/'.$map_html,$content);
 }
 
@@ -1323,6 +1324,7 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 }
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
+$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 filewrite('datapack-explorer/maps.html',$content);
 
 foreach($monster_meta as $id=>$monster)
@@ -1723,6 +1725,7 @@ foreach($monster_meta as $id=>$monster)
 
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
+	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 	filewrite('datapack-explorer/monsters/'.str_replace(' ','-',strtolower($monster['name'])).'.html',$content);
 }
 
@@ -1760,6 +1763,7 @@ $map_descriptor.='<tr>
 </table>';
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
+$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 filewrite('datapack-explorer/monsters.html',$content);
 
 foreach($item_meta as $id=>$item)
@@ -1895,6 +1899,7 @@ foreach($item_meta as $id=>$item)
 
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
+	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 	filewrite('datapack-explorer/items/'.str_replace(' ','-',strtolower($item['name'])).'.html',$content);
 }
 
@@ -1948,6 +1953,7 @@ $map_descriptor.='<tr>
 
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
+$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 filewrite('datapack-explorer/items.html',$content);
 
 foreach($crafting_meta as $id=>$crafting)
@@ -2036,6 +2042,7 @@ foreach($crafting_meta as $id=>$crafting)
 
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
+	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 	filewrite('datapack-explorer/crafting/'.str_replace(' ','-',strtolower($item_meta[$crafting['itemToLearn']]['name'])).'.html',$content);
 }
 
@@ -2086,6 +2093,7 @@ $map_descriptor.='<tr>
 </table>';
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
+$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 filewrite('datapack-explorer/crafting.html',$content);
 
 
@@ -2144,6 +2152,7 @@ foreach($industries_meta as $id=>$industry)
 
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
+	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 	filewrite('datapack-explorer/industries/'.$id.'.html',$content);
 }
 
@@ -2227,6 +2236,7 @@ $map_descriptor.='<tr>
 </table>';
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
+$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 filewrite('datapack-explorer/industries.html',$content);
 
 $content=$template;
@@ -2361,6 +2371,7 @@ foreach($start as $entry)
 }
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
+$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 filewrite('datapack-explorer/start.html',$content);
 
 foreach($quests_meta as $id=>$quest)
@@ -2541,6 +2552,7 @@ foreach($quests_meta as $id=>$quest)
 
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
+	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 	filewrite('datapack-explorer/quests/'.$id.'-'.str_replace(' ','-',strtolower($quest['name'])).'.html',$content);
 }
 
@@ -2565,6 +2577,7 @@ $map_descriptor.='<tr>
 
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
+$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 filewrite('datapack-explorer/quests.html',$content);
 
 foreach($type_meta as $type=>$type_content)
@@ -2677,6 +2690,7 @@ foreach($type_meta as $type=>$type_content)
 
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
+	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 	filewrite('datapack-explorer/monsters/type-'.$type.'.html',$content);
 }
 
@@ -2707,6 +2721,7 @@ $map_descriptor.='<tr>
 </table>';
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
+$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 filewrite('datapack-explorer/types.html',$content);
 
 foreach($skill_meta as $skill_id=>$skill)
@@ -2841,6 +2856,7 @@ foreach($skill_meta as $skill_id=>$skill)
 
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
+	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 	filewrite('datapack-explorer/monsters/skills/'.str_replace(' ','-',strtolower($skill['name'])).'.html',$content);
 }
 
@@ -2875,4 +2891,5 @@ $map_descriptor.='<tr>
 </table>';
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
+$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 filewrite('datapack-explorer/skills.html',$content);

@@ -1784,7 +1784,7 @@ foreach($item_meta as $id=>$item)
 		$map_descriptor.='<h2>#'.$id.'</h2>';
 		$map_descriptor.='</div>';
 		$map_descriptor.='<div class="value datapackscreenshot">';
-		if(file_exists($datapack_path.'items/'.$item['image']))
+		if($item['image']!='' && file_exists($datapack_path.'items/'.$item['image']))
 			$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item['image'].'" width="24" height="24" alt="'.$item['name'].'" title="'.$item['name'].'" />';
 		$map_descriptor.='</div>';
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">Price</div><div class="value">'.$item['price'].'</div></div>';
@@ -1923,7 +1923,7 @@ foreach($item_meta as $id=>$item)
 {
 	$link=$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item['name'])).'.html';
 	$name=$item['name'];
-	if(file_exists($datapack_path.'items/'.$item['image']))
+	if($item['image']!='' && file_exists($datapack_path.'items/'.$item['image']))
 		$image=$base_datapack_site_path.'/items/'.$item['image'];
 	else
 		$image='';
@@ -1975,7 +1975,7 @@ foreach($crafting_meta as $id=>$crafting)
 		$map_descriptor.='</div>';
 		$map_descriptor.='<div class="value datapackscreenshot">';
 		$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$crafting['itemToLearn']]['name'])).'.html" title="'.$item_meta[$crafting['itemToLearn']]['name'].'">';
-		if(file_exists($datapack_path.'items/'.$item_meta[$crafting['itemToLearn']]['image']))
+		if($item_meta[$crafting['itemToLearn']]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$crafting['itemToLearn']]['image']))
 			$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$crafting['itemToLearn']]['image'].'" width="24" height="24" alt="'.$item_meta[$crafting['itemToLearn']]['name'].'" title="'.$item_meta[$crafting['itemToLearn']]['name'].'" />';
 		$map_descriptor.='</a>';
 		$map_descriptor.='</div>';
@@ -1986,7 +1986,7 @@ foreach($crafting_meta as $id=>$crafting)
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">Do the item</div><div class="value">';
 		$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$crafting['doItemId']]['name'])).'.html" title="'.$item_meta[$crafting['doItemId']]['name'].'">';
 			$map_descriptor.='<table><tr><td>';
-			if(file_exists($datapack_path.'items/'.$item_meta[$crafting['doItemId']]['image']))
+			if($item_meta[$crafting['doItemId']]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$crafting['doItemId']]['image']))
 				$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$crafting['doItemId']]['image'].'" width="24" height="24" alt="'.$item_meta[$crafting['doItemId']]['name'].'" title="'.$item_meta[$crafting['doItemId']]['name'].'" />';
 			$map_descriptor.='</td><td>'.$item_meta[$crafting['doItemId']]['name'].'</td></tr></table>';
 		$map_descriptor.='</a>';
@@ -1997,7 +1997,7 @@ foreach($crafting_meta as $id=>$crafting)
 		{
 			$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$material]['name'])).'.html" title="'.$item_meta[$material]['name'].'">';
 				$map_descriptor.='<table><tr><td>';
-				if(file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
+				if($item_meta[$material]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
 					$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'].'" title="'.$item_meta[$material]['name'].'" />';
 				$map_descriptor.='</td><td>';
 			if($quantity>1)
@@ -2130,7 +2130,7 @@ foreach($industries_meta as $id=>$industry)
 		{
 			$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$material]['name'])).'.html" title="'.$item_meta[$material]['name'].'">';
 			$map_descriptor.='<table><tr><td>';
-			if(file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
+			if($item_meta[$material]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
 				$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'].'" title="'.$item_meta[$material]['name'].'" />';
 			$map_descriptor.='</td><td>';
 			if($quantity>1)
@@ -2144,7 +2144,7 @@ foreach($industries_meta as $id=>$industry)
 		foreach($industry['products'] as $material=>$quantity)
 		{
 			$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$material]['name'])).'.html" title="'.$item_meta[$material]['name'].'">';
-			if(file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
+			if($item_meta[$material]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
 				$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'].'" title="'.$item_meta[$material]['name'].'" />';
 			$map_descriptor.='</td><td>';
 			if($quantity>1)

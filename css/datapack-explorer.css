@@ -92,30 +92,30 @@
 }
 .map_type_city
 {
-	background: #5DA4C0;
+	background:#5DA4C0;
 	border-color:#154B7D;
 }
 .map_type_city .subblock
 {
-	background: #9FD0E0;
+	background:#9FD0E0;
 }
 .map_type_cave
 {
-	background: #C0AC5C;
+	background:#C0AC5C;
 	border-color:#7D6515;
 }
 .map_type_cave .subblock
 {
-	background: #E0D89A;
+	background:#E0D89A;
 }
 .map_type_indoor
 {
-	background: #A659C0;
+	background:#A659C0;
 	border-color:#56137D;
 }
 .map_type_indoor .subblock
 {
-	background: #D79AE0;
+	background:#D79AE0;
 }
 .item_list
 {
@@ -127,7 +127,7 @@
 }
 .item_list .value
 {
-	background: #FFF;
+	background:#FFF;
 }
 .item_list_endline
 {
@@ -137,15 +137,45 @@
 {
 	border-radius:10px 10px 0 0;
 }
+
+
 .item_list_title_type_outdoor
 {
-	background: #A7E0A2;
+	background:#A7E0A2;
 }
 .item_list_type_outdoor
 {
-	background: #5FC05F;
+	background:#5FC05F;
 	border-color:#217D17;
 }
+.item_list_title_type_city
+{
+	background:#9FD0E0;
+}
+.item_list_type_city
+{
+	background:#5DA4C0;
+	border-color:#154B7D;
+}
+.item_list_title_type_cave
+{
+	background:#E0D89A;
+}
+.item_list_type_cave
+{
+	background:#C0AC5C;
+	border-color:#7D6515;
+}
+.item_list_title_type_indoor
+{
+	background:#D79AE0;
+}
+.item_list_type_indoor
+{
+	background:#A659C0;
+	border-color:#56137D;
+}
+
 .item_list_title_type_fire
 {
 	background-color:#ffb263;
@@ -154,6 +184,32 @@
 {
 	border-color:#d36225;
 	background-color:#f38233;
+}
+.item_list_title_type_earth
+{
+	background-color:#E49930;
+	background: linear-gradient(45deg, #E49930 25%,
+	#B0CC51 25%, #B0CC51 50%, 
+	#E49930 50%, #E49930 75%, 
+	#B0CC51 75%);
+}
+.item_list_type_earth
+{
+	border-color:#50350D;
+	background-color:#BF904E;
+	background: linear-gradient(45deg, #BF904E 25%,
+	#8b0 25%, #8b0 50%, 
+	#BF904E 50%, #BF904E 75%, 
+	#8b0 75%);
+}
+.item_list_title_type_stone
+{
+	background-color:#E49930;
+}
+.item_list_type_stone
+{
+	border-color:#50350D;
+	background-color:#BF904E;
 }
 .item_list_title_type_normal
 {
@@ -164,14 +220,14 @@
 	border-color:#B5B5B5;
 	background-color:#D4D4D4;
 }
-.item_list_title_type_fly
+.item_list_title_type_bird
 {
-	background-color:#ffb263;
+	background-color:#C560FF;
 }
-.item_list_type_fly
+.item_list_type_bird
 {
-	border-color:#d36225;
-	background-color:#f38233;
+	border-color:#6C1886;
+	background-color:#A237F3;
 }
 .item_list_title_type_water
 {
@@ -229,15 +285,43 @@
 	border-color:#d36225;
 	background-color:#ffb263;
 }
-.monster_type_fly
+.monster_type_earth
 {
-	border-color:#13641C;
-	background-color:#217D17;
+	border-color:#50350D;
+	background-color:#BF904E;
+	background: linear-gradient(45deg, #BF904E 25%,
+	#8b0 25%, #8b0 50%, 
+	#BF904E 50%, #BF904E 75%, 
+	#8b0 75%);
 }
-.monster_type_fly .subblock
+.monster_type_earth .subblock
 {
-	border-color:#13641C;
-	background-color:#5FC05F;
+	border-color:#50350D;
+	background-color:#E49930;
+	background: linear-gradient(45deg, #E49930 25%,
+	#B0CC51 25%, #B0CC51 50%, 
+	#E49930 50%, #E49930 75%, 
+	#B0CC51 75%);
+}
+.monster_type_stone
+{
+	border-color:#50350D;
+	background-color:#BF904E;
+}
+.monster_type_stone .subblock
+{
+	border-color:#50350D;
+	background-color:#E49930;
+}
+.monster_type_bird
+{
+	border-color:#371364;
+	background-color:#6526C5;
+}
+.monster_type_bird .subblock
+{
+	border-color:#371364;
+	background-color:#B36DDE;
 }
 
 .monster_type_water
@@ -290,13 +374,25 @@
 {
 	background-color:#f38233;
 }
+.type_label_earth
+{
+	background-color:#BF904E;
+	background: linear-gradient(45deg, #BF904E 25%,
+	#8b0 25%, #8b0 50%, 
+	#BF904E 50%, #BF904E 75%, 
+	#8b0 75%);
+}
+.type_label_stone
+{
+	background-color:#BF904E;
+}
 .type_label_normal
 {
 	background-color:#B5B5B5;
 }
-.type_label_fly
+.type_label_bird
 {
-	background-color:#A55822;
+	background-color:#8A47C5;
 }
 .type_label_water
 {

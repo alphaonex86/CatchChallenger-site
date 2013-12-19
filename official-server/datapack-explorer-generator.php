@@ -1140,7 +1140,7 @@ foreach($temp_maps as $map)
 						$link=$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$drop['item']]['name'])).'.html';
 						$name=$item_meta[$drop['item']]['name'];
 						if($item_meta[$drop['item']]['image']!='')
-							$image='/datapack/items/'.$item_meta[$drop['item']]['image'];
+							$image=$base_datapack_site_path.'/items/'.$item_meta[$drop['item']]['image'];
 						else
 							$image='';
 					}
@@ -1390,10 +1390,12 @@ foreach($monster_meta as $id=>$monster)
 			$type_list=array();
 			if(isset($effectiveness_list['2']))
 				foreach($effectiveness_list['2'] as $type)
-					$type_list[]='<span class="type_label type_label_'.$type.'">2x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_meta[$type]['english_name'].'</a></span>';
+					if(isset($type_meta[$type]))
+						$type_list[]='<span class="type_label type_label_'.$type.'">2x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_meta[$type]['english_name'].'</a></span>';
 			if(isset($effectiveness_list['4']))
 				foreach($effectiveness_list['4'] as $type)
-					$type_list[]='<span class="type_label type_label_'.$type.'">4x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_meta[$type]['english_name'].'</a></span>';
+					if(isset($type_meta[$type]))
+						$type_list[]='<span class="type_label type_label_'.$type.'">4x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_meta[$type]['english_name'].'</a></span>';
 			$map_descriptor.=implode(' ',$type_list);
 			$map_descriptor.='</div></div>';
 		}
@@ -1403,10 +1405,12 @@ foreach($monster_meta as $id=>$monster)
 			$type_list=array();
 			if(isset($effectiveness_list['0.25']))
 				foreach($effectiveness_list['0.25'] as $type)
-					$type_list[]='<span class="type_label type_label_'.$type.'">0.25x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_meta[$type]['english_name'].'</a></span>';
+					if(isset($type_meta[$type]))
+						$type_list[]='<span class="type_label type_label_'.$type.'">0.25x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_meta[$type]['english_name'].'</a></span>';
 			if(isset($effectiveness_list['0.5']))
 				foreach($effectiveness_list['0.5'] as $type)
-					$type_list[]='<span class="type_label type_label_'.$type.'">0.5x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_meta[$type]['english_name'].'</a></span>';
+					if(isset($type_meta[$type]))
+						$type_list[]='<span class="type_label type_label_'.$type.'">0.5x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_meta[$type]['english_name'].'</a></span>';
 			$map_descriptor.=implode(' ',$type_list);
 			$map_descriptor.='</div></div>';
 		}
@@ -1415,7 +1419,8 @@ foreach($monster_meta as $id=>$monster)
 			$map_descriptor.='<div class="subblock"><div class="valuetitle">Immune to</div><div class="value">';
 			$type_list=array();
 			foreach($effectiveness_list['0'] as $type)
-				$type_list[]='<span class="type_label type_label_'.$type.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_meta[$type]['english_name'].'</a></span>';
+				if(isset($type_meta[$type]))
+					$type_list[]='<span class="type_label type_label_'.$type.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_meta[$type]['english_name'].'</a></span>';
 			$map_descriptor.=implode(' ',$type_list);
 			$map_descriptor.='</div></div>';
 		}
@@ -1436,7 +1441,7 @@ foreach($monster_meta as $id=>$monster)
 				$link=$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$drop['item']]['name'])).'.html';
 				$name=$item_meta[$drop['item']]['name'];
 				if($item_meta[$drop['item']]['image']!='')
-					$image='/datapack/items/'.$item_meta[$drop['item']]['image'];
+					$image=$base_datapack_site_path.'/items/'.$item_meta[$drop['item']]['image'];
 				else
 					$image='';
 			}
@@ -1918,8 +1923,8 @@ foreach($item_meta as $id=>$item)
 {
 	$link=$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item['name'])).'.html';
 	$name=$item['name'];
-	if($item['image']!='')
-		$image='/datapack/items/'.$item['image'];
+	if(file_exists($datapack_path.'items/'.$item['image']))
+		$image=$base_datapack_site_path.'/items/'.$item['image'];
 	else
 		$image='';
 	$map_descriptor.='<tr class="value">
@@ -2060,7 +2065,7 @@ foreach($crafting_meta as $id=>$crafting)
 	$link=$base_datapack_explorer_site_path.'crafting/'.str_replace(' ','-',strtolower($item_meta[$crafting['itemToLearn']]['name'])).'.html';
 	$name=$item_meta[$crafting['itemToLearn']]['name'];
 	if($item_meta[$crafting['itemToLearn']]['image']!='')
-		$image='/datapack/items/'.$item_meta[$crafting['itemToLearn']]['image'];
+		$image=$base_datapack_site_path.'/items/'.$item_meta[$crafting['itemToLearn']]['image'];
 	else
 		$image='';
 	$map_descriptor.='<tr class="value">
@@ -2178,7 +2183,7 @@ foreach($industries_meta as $id=>$industry)
 		$link=$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$item]['name'])).'.html';
 		$name=$item_meta[$item]['name'];
 		if($item_meta[$item]['image']!='')
-			$image='/datapack/items/'.$item_meta[$item]['image'];
+			$image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
 		else
 			$image='';
 		$map_descriptor.='<div style="float:left;text-align:center;">';
@@ -2206,7 +2211,7 @@ foreach($industries_meta as $id=>$industry)
 		$link=$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$item]['name'])).'.html';
 		$name=$item_meta[$item]['name'];
 		if($item_meta[$item]['image']!='')
-			$image='/datapack/items/'.$item_meta[$item]['image'];
+			$image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
 		else
 			$image='';
 		$map_descriptor.='<div style="float:left;text-align:middle;">';
@@ -2424,7 +2429,7 @@ foreach($quests_meta as $id=>$quest)
 							$link=$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$item['item']]['name'])).'.html';
 							$name=$item_meta[$item['item']]['name'];
 							if($item_meta[$item['item']]['image']!='')
-								$image='/datapack/items/'.$item_meta[$item['item']]['image'];
+								$image=$base_datapack_site_path.'/items/'.$item_meta[$item['item']]['image'];
 							else
 								$image='';
 						}
@@ -2500,7 +2505,7 @@ foreach($quests_meta as $id=>$quest)
 							$link=$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$item['item']]['name'])).'.html';
 							$name=$item_meta[$item['item']]['name'];
 							if($item_meta[$item['item']]['image']!='')
-								$image='/datapack/items/'.$item_meta[$item['item']]['image'];
+								$image=$base_datapack_site_path.'/items/'.$item_meta[$item['item']]['image'];
 							else
 								$image='';
 						}
@@ -2611,10 +2616,12 @@ foreach($type_meta as $type=>$type_content)
 			$type_list=array();
 			if(isset($effectiveness_list['2']))
 				foreach($effectiveness_list['2'] as $type_effectiveness)
-					$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">2x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
+					if(isset($type_meta[$type_effectiveness]))
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">2x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
 			if(isset($effectiveness_list['4']))
 				foreach($effectiveness_list['4'] as $type_effectiveness)
-					$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">4x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
+					if(isset($type_meta[$type_effectiveness]))
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">4x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
 			$map_descriptor.=implode(' ',$type_list);
 			$map_descriptor.='</div></div>';
 		}
@@ -2624,10 +2631,12 @@ foreach($type_meta as $type=>$type_content)
 			$type_list=array();
 			if(isset($effectiveness_list['0.25']))
 				foreach($effectiveness_list['0.25'] as $type_effectiveness)
-					$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">0.25x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
+					if(isset($type_meta[$type_effectiveness]))
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">0.25x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
 			if(isset($effectiveness_list['0.5']))
 				foreach($effectiveness_list['0.5'] as $type_effectiveness)
-					$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">0.5x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
+					if(isset($type_meta[$type_effectiveness]))
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">0.5x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
 			$map_descriptor.=implode(' ',$type_list);
 			$map_descriptor.='</div></div>';
 		}
@@ -2636,7 +2645,59 @@ foreach($type_meta as $type=>$type_content)
 			$map_descriptor.='<div class="subblock"><div class="valuetitle">Immune to</div><div class="value">';
 			$type_list=array();
 			foreach($effectiveness_list['0'] as $type_effectiveness)
-				$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
+				if(isset($type_meta[$type_effectiveness]))
+					$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
+			$map_descriptor.=implode(' ',$type_list);
+			$map_descriptor.='</div></div>';
+		}
+		$effectiveness_list=array();
+		if(isset($type_meta[$type]))
+		{
+			foreach($type_meta[$type]['multiplicator'] as $temp_type=>$multiplicator)
+			{
+				if(!isset($effectiveness_list[(string)$multiplicator]))
+					$effectiveness_list[(string)$multiplicator]=array();
+				$effectiveness_list[(string)$multiplicator][]=$temp_type;
+			}
+		}
+		if(isset($type_meta[$type]))
+		{
+			
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">Effective against</div><div class="value">';
+			$type_list=array();
+			if(isset($effectiveness_list['2']))
+				foreach($effectiveness_list['2'] as $type_effectiveness)
+					if(isset($type_meta[$type_effectiveness]))
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">2x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
+			if(isset($effectiveness_list['4']))
+				foreach($effectiveness_list['4'] as $type_effectiveness)
+					if(isset($type_meta[$type_effectiveness]))
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">4x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
+			$map_descriptor.=implode(' ',$type_list);
+			$map_descriptor.='</div></div>';
+		}
+		if(isset($effectiveness_list['0.25']) || isset($effectiveness_list['0.5']))
+		{
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">Not effective against</div><div class="value">';
+			$type_list=array();
+			if(isset($effectiveness_list['0.25']))
+				foreach($effectiveness_list['0.25'] as $type_effectiveness)
+					if(isset($type_meta[$type_effectiveness]))
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">0.25x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
+			if(isset($effectiveness_list['0.5']))
+				foreach($effectiveness_list['0.5'] as $type_effectiveness)
+					if(isset($type_meta[$type_effectiveness]))
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">0.5x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
+			$map_descriptor.=implode(' ',$type_list);
+			$map_descriptor.='</div></div>';
+		}
+		if(isset($effectiveness_list['0']))
+		{
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">Useless against</div><div class="value">';
+			$type_list=array();
+			foreach($effectiveness_list['0'] as $type_effectiveness)
+				if(isset($type_meta[$type_effectiveness]))
+					$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
 			$map_descriptor.=implode(' ',$type_list);
 			$map_descriptor.='</div></div>';
 		}
@@ -2736,53 +2797,56 @@ foreach($skill_meta as $skill_id=>$skill)
 
 	$type=$skill['type'];
 	$effectiveness_list=array();
-	foreach($type_meta as $realtypeindex=>$typecontent)
+	if(isset($type_meta[$type]))
 	{
-		$effectiveness=(float)1.0;
-		if(isset($typecontent['multiplicator'][$type]))
-			$effectiveness*=$typecontent['multiplicator'][$type];
-		if($effectiveness!=1.0)
+		foreach($type_meta[$type]['multiplicator'] as $temp_type=>$multiplicator)
 		{
-			if(!isset($effectiveness_list[(string)$effectiveness]))
-				$effectiveness_list[(string)$effectiveness]=array();
-			$effectiveness_list[(string)$effectiveness][]=$realtypeindex;
+			if(!isset($effectiveness_list[(string)$multiplicator]))
+				$effectiveness_list[(string)$multiplicator]=array();
+			$effectiveness_list[(string)$multiplicator][]=$temp_type;
 		}
 	}
 	$map_descriptor.='<div class="map monster_type_'.$type.'">';
 		$map_descriptor.='<div class="subblock"><h1>'.$skill['name'].'</h1></div>';
 		$map_descriptor.='<div class="type_label_list"><span class="type_label type_label_'.$type.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_meta[$type]['english_name'].'</a></span></div>';
-		if(isset($effectiveness_list['4']) || isset($effectiveness_list['2']))
+		if(isset($type_meta[$type]))
 		{
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Weak to</div><div class="value">';
+			
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">Effective against</div><div class="value">';
 			$type_list=array();
 			if(isset($effectiveness_list['2']))
 				foreach($effectiveness_list['2'] as $type_effectiveness)
-					$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">2x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
+					if(isset($type_meta[$type_effectiveness]))
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">2x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
 			if(isset($effectiveness_list['4']))
 				foreach($effectiveness_list['4'] as $type_effectiveness)
-					$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">4x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
+					if(isset($type_meta[$type_effectiveness]))
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">4x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
 			$map_descriptor.=implode(' ',$type_list);
 			$map_descriptor.='</div></div>';
 		}
 		if(isset($effectiveness_list['0.25']) || isset($effectiveness_list['0.5']))
 		{
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Resistant to</div><div class="value">';
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">Not effective against</div><div class="value">';
 			$type_list=array();
 			if(isset($effectiveness_list['0.25']))
 				foreach($effectiveness_list['0.25'] as $type_effectiveness)
-					$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">0.25x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
+					if(isset($type_meta[$type_effectiveness]))
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">0.25x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
 			if(isset($effectiveness_list['0.5']))
 				foreach($effectiveness_list['0.5'] as $type_effectiveness)
-					$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">0.5x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
+					if(isset($type_meta[$type_effectiveness]))
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">0.5x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
 			$map_descriptor.=implode(' ',$type_list);
 			$map_descriptor.='</div></div>';
 		}
 		if(isset($effectiveness_list['0']))
 		{
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Immune to</div><div class="value">';
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">Useless against</div><div class="value">';
 			$type_list=array();
 			foreach($effectiveness_list['0'] as $type_effectiveness)
-				$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
+				if(isset($type_meta[$type_effectiveness]))
+					$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_effectiveness.'.html">'.$type_meta[$type_effectiveness]['english_name'].'</a></span>';
 			$map_descriptor.=implode(' ',$type_list);
 			$map_descriptor.='</div></div>';
 		}

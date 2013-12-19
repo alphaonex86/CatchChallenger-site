@@ -90,6 +90,33 @@
 	border-color:#13641C;
 	background-color:#5FC05F;
 }
+.map_type_city
+{
+	background: #5DA4C0;
+	border-color:#154B7D;
+}
+.map_type_city .subblock
+{
+	background: #9FD0E0;
+}
+.map_type_cave
+{
+	background: #C0AC5C;
+	border-color:#7D6515;
+}
+.map_type_cave .subblock
+{
+	background: #E0D89A;
+}
+.map_type_indoor
+{
+	background: #A659C0;
+	border-color:#56137D;
+}
+.map_type_indoor .subblock
+{
+	background: #D79AE0;
+}
 .item_list
 {
 	margin-top:5px;
@@ -130,12 +157,12 @@
 }
 .item_list_title_type_normal
 {
-	background-color:#ffb263;
+	background-color:#F5F5F5;
 }
 .item_list_type_normal
 {
-	border-color:#d36225;
-	background-color:#f38233;
+	border-color:#B5B5B5;
+	background-color:#D4D4D4;
 }
 .item_list_title_type_fly
 {
@@ -148,30 +175,30 @@
 }
 .item_list_title_type_water
 {
-	background-color:#ffb263;
+	background-color:#65D4FF;
 }
 .item_list_type_water
 {
-	border-color:#d36225;
-	background-color:#f38233;
+	border-color:#3A5295;
+	background-color:#5DA8E5;
 }
 .item_list_title_type_electric
 {
-	background-color:#ffb263;
+	background-color:#FFED63;
 }
 .item_list_type_electric
 {
-	border-color:#d36225;
-	background-color:#f38233;
+	border-color:#C7954F;
+	background-color:#EFCB5F;
 }
 .item_list_title_type_plant
 {
-	background-color:#ffb263;
+	background-color:#71DA5E;
 }
 .item_list_type_plant
 {
-	border-color:#d36225;
-	background-color:#f38233;
+	border-color:#22582B;
+	background-color:#43AA54;
 }
 .item_list td, .item_list th
 {
@@ -183,13 +210,13 @@
 }
 .monster_type_normal
 {
-	border-color:#13641C;
-	background-color:#217D17;
+	border-color:#B5B5B5;
+	background-color:#D4D4D4;
 }
 .monster_type_normal .subblock
 {
-	border-color:#13641C;
-	background-color:#5FC05F;
+	border-color:#B5B5B5;
+	background-color:#D4D4D4;
 }
 
 .monster_type_fire
@@ -215,34 +242,34 @@
 
 .monster_type_water
 {
-	border-color:#d36225;
-	background-color:#f38233;
+	border-color:#375B88;
+	background-color:#5BA7E5;
 }
 .monster_type_water .subblock
 {
-	border-color:#d36225;
-	background-color:#ffb263;
+	border-color:#375B88;
+	background-color:#68D5FF;
 }
 .monster_type_electric
 {
-	border-color:#13641C;
-	background-color:#217D17;
+	border-color:#C7954F;
+	background-color:#EFCB5F;
 }
 .monster_type_electric .subblock
 {
-	border-color:#13641C;
-	background-color:#5FC05F;
+	border-color:#C7954F;
+	background-color:#FFF564;
 }
 
 .monster_type_plant
 {
-	border-color:#d36225;
-	background-color:#f38233;
+	border-color:#22582B;
+	background-color:#43AA54;
 }
 .monster_type_plant .subblock
 {
-	border-color:#d36225;
-	background-color:#ffb263;
+	border-color:#22582B;
+	background-color:#71DA5E;
 }
 .type_label
 {
@@ -265,7 +292,7 @@
 }
 .type_label_normal
 {
-	background-color:#A55822;
+	background-color:#B5B5B5;
 }
 .type_label_fly
 {

@@ -33,6 +33,84 @@ function filewrite($file,$content)
 		die('Unable to write or create the file: '.$file);
 }
 
+function text_operation_lower_case($text)
+{
+	$text=strtolower($text);
+	$text=str_replace('Â','â',$text);
+	$text=str_replace('À','à',$text);
+	$text=str_replace('Ä','ä',$text);
+	$text=str_replace('Ç','ç',$text);
+	$text=str_replace('Ê','ê',$text);
+	$text=str_replace('È','è',$text);
+	$text=str_replace('Ë','ë',$text);
+	$text=str_replace('É','é',$text);
+	$text=str_replace('Ï','ï',$text);
+	$text=str_replace('Ö','ö',$text);
+	$text=str_replace('Ô','ô',$text);
+	$text=str_replace('Û','û',$text);
+	$text=str_replace('Ù','ù',$text);
+	$text=str_replace('Ü','ü',$text);
+	return $text;
+}
+
+function text_operation_clean_text($text,$minimum_word_length=4,$minimum_string_length=15,$maximum_string_length=64)
+{
+	$text=text_operation_lower_case($text);
+
+	$text=str_replace('â','a',str_replace('à','a',$text));
+	$text=str_replace('ã','a',str_replace('á','a',str_replace('ã','a',str_replace('ä','a',$text))));
+
+	$text=str_replace('ç','c',$text);
+
+	$text=str_replace('é','e',str_replace('è','e',str_replace('ê','e',str_replace('ë','e',$text))));
+
+	$text=str_replace('ì','i',str_replace('í','i',str_replace('î','i',str_replace('ï','i',$text))));
+
+	$text=str_replace('ñ','n',$text);
+	
+	$text=str_replace('õ','o',str_replace('ö','o',str_replace('ó','o',str_replace('ô','o',$text))));
+	$text=str_replace('ô','o',str_replace('ò','o',$text));
+	
+	$text=str_replace('û','u',str_replace('ü','u',str_replace('ú','u',str_replace('ù','u',$text))));
+	
+	$text=str_replace('ý','y',str_replace('ÿ','y',$text));
+	
+	if(strlen($text)>$maximum_string_length)
+		$text=substr($text,0,$maximum_string_length);
+	$text=preg_replace('#([0-9]+)(\.|-| )+#','$1 ',$text);
+	$text=preg_replace('#[^a-zA-Z0-9_-]+#',' ',$text);
+	$text=preg_replace('# +#',' ',$text);
+	if($minimum_word_length>2)
+	{
+		$a=$minimum_word_length-1;
+		do
+		{
+			$text_temp=preg_replace('#\b[a-zA-Z_-]{1,'.$a.'}\b#',' ',$text);
+			$text_temp=preg_replace('# +#',' ',$text_temp);
+			$text_temp=preg_replace('# +$#','',$text_temp);
+			$text_temp=preg_replace('#^ +#','',$text_temp);
+			$a--;
+		}
+		while(strlen($text_temp)<=$minimum_string_length && $a>1);
+		if(strlen($text_temp)>$minimum_string_length && $a>1)
+			$text=$text_temp;
+	}
+	$text=preg_replace('# +#',' ',$text);
+	$text=preg_replace('# +$#','',$text);
+	$text=preg_replace('#^ +#','',$text);
+	return $text;
+}
+
+function text_operation_do_for_url($text,$minimum_word_length=4,$minimum_string_length=15,$maximum_string_length=64)
+{
+	$text=text_operation_clean_text($text,$minimum_word_length,$minimum_string_length,$maximum_string_length);
+	$text=str_replace(' ','-',$text);
+	$text=preg_replace('#-+#','-',$text);
+	$text=preg_replace('#^-+#','',$text);
+	$text=preg_replace('#-+$#','',$text);
+	return $text;
+}
+
 $template=file_get_contents('template.html');
 
 $item_meta=array();
@@ -1137,7 +1215,7 @@ foreach($temp_maps as $map)
 				{
 					if(isset($item_meta[$drop['item']]))
 					{
-						$link=$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$drop['item']]['name'])).'.html';
+						$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$drop['item']]['name']).'.html';
 						$name=$item_meta[$drop['item']]['name'];
 						if($item_meta[$drop['item']]['image']!='')
 							$image=$base_datapack_site_path.'/items/'.$item_meta[$drop['item']]['image'];
@@ -1176,7 +1254,7 @@ foreach($temp_maps as $map)
 						if($link!='')
 							$map_descriptor.='</a>';
 						$map_descriptor.='</td>';
-						$map_descriptor.='<td>Drop on <a href="'.$base_datapack_explorer_site_path.'monsters/'.str_replace(' ','-',strtolower($monster_meta[$monster['id']]['name'])).'.html" title="'.$monster_meta[$monster['id']]['name'].'">'.$monster_meta[$monster['id']]['name'].'</a> with luck of '.$drop['luck'].'%</td>
+						$map_descriptor.='<td>Drop on <a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_meta[$monster['id']]['name']).'.html" title="'.$monster_meta[$monster['id']]['name'].'">'.$monster_meta[$monster['id']]['name'].'</a> with luck of '.$drop['luck'].'%</td>
 					</tr>';
 				}
 			}
@@ -1206,7 +1284,7 @@ foreach($temp_maps as $map)
 				if(isset($monster_meta[$monster['id']]))
 				{
 					$name=$monster_meta[$monster['id']]['name'];
-					$link=$base_datapack_explorer_site_path.'monsters/'.str_replace(' ','-',strtolower($name)).'.html';
+					$link=$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($name).'.html';
 					$map_descriptor.='<tr class="value">
 						<td>';
 						if(file_exists($datapack_path.'monsters/'.$monster['id'].'/small.png'))
@@ -1237,7 +1315,7 @@ foreach($temp_maps as $map)
 				if(isset($monster_meta[$monster['id']]))
 				{
 					$name=$monster_meta[$monster['id']]['name'];
-					$link=$base_datapack_explorer_site_path.'monsters/'.str_replace(' ','-',strtolower($name)).'.html';
+					$link=$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($name).'.html';
 					$map_descriptor.='<tr class="value">
 						<td>';
 						if(file_exists($datapack_path.'monsters/'.$monster['id'].'/small.png'))
@@ -1268,7 +1346,7 @@ foreach($temp_maps as $map)
 				if(isset($monster_meta[$monster['id']]))
 				{
 					$name=$monster_meta[$monster['id']]['name'];
-					$link=$base_datapack_explorer_site_path.'monsters/'.str_replace(' ','-',strtolower($name)).'.html';
+					$link=$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($name).'.html';
 					$map_descriptor.='<tr class="value">
 						<td>';
 						if(file_exists($datapack_path.'monsters/'.$monster['id'].'/small.png'))
@@ -1438,7 +1516,7 @@ foreach($monster_meta as $id=>$monster)
 		{
 			if(isset($item_meta[$drop['item']]))
 			{
-				$link=$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$drop['item']]['name'])).'.html';
+				$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$drop['item']]['name']).'.html';
 				$name=$item_meta[$drop['item']]['name'];
 				if($item_meta[$drop['item']]['image']!='')
 					$image=$base_datapack_site_path.'/items/'.$item_meta[$drop['item']]['image'];
@@ -1509,7 +1587,7 @@ foreach($monster_meta as $id=>$monster)
 					else
 						$map_descriptor.=$level;
 					$map_descriptor.='</td>';
-					$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'monsters/skills/'.str_replace(' ','-',strtolower($skill_meta[$attack['id']]['name'])).'.html">'.$skill_meta[$attack['id']]['name'];
+					$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'monsters/skills/'.text_operation_do_for_url($skill_meta[$attack['id']]['name']).'.html">'.$skill_meta[$attack['id']]['name'];
 					if($attack['attack_level']>1)
 						$map_descriptor.=' at level '.$attack['attack_level'];
 					$map_descriptor.='</a></td>';
@@ -1549,17 +1627,17 @@ foreach($monster_meta as $id=>$monster)
 			foreach($reverse_evolution[$id] as $evolution)
 			{
 				if(file_exists($datapack_path.'monsters/'.$evolution['evolveFrom'].'/front.png'))
-					$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.'monsters/'.str_replace(' ','-',strtolower($monster_meta[$evolution['evolveFrom']]['name'])).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$evolution['evolveFrom'].'/front.png" width="80" height="80" alt="'.$monster_meta[$evolution['evolveFrom']]['name'].'" title="'.$monster_meta[$evolution['evolveFrom']]['name'].'" /></a></td></tr>';
+					$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_meta[$evolution['evolveFrom']]['name']).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$evolution['evolveFrom'].'/front.png" width="80" height="80" alt="'.$monster_meta[$evolution['evolveFrom']]['name'].'" title="'.$monster_meta[$evolution['evolveFrom']]['name'].'" /></a></td></tr>';
 				else if(file_exists($datapack_path.'monsters/'.$evolution['evolveFrom'].'/front.gif'))
-					$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.'monsters/'.str_replace(' ','-',strtolower($monster_meta[$evolution['evolveFrom']]['name'])).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$evolution['evolveFrom'].'/front.gif" width="80" height="80" alt="'.$monster_meta[$evolution['evolveFrom']]['name'].'" title="'.$monster_meta[$evolution['evolveFrom']]['name'].'" /></a></td></tr>';
-				$map_descriptor.='<tr><td class="evolution_name"><a href="'.$base_datapack_explorer_site_path.'monsters/'.str_replace(' ','-',strtolower($monster_meta[$evolution['evolveFrom']]['name'])).'.html">'.$monster_meta[$evolution['evolveFrom']]['name'].'</a></td></tr>';
+					$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_meta[$evolution['evolveFrom']]['name']).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$evolution['evolveFrom'].'/front.gif" width="80" height="80" alt="'.$monster_meta[$evolution['evolveFrom']]['name'].'" title="'.$monster_meta[$evolution['evolveFrom']]['name'].'" /></a></td></tr>';
+				$map_descriptor.='<tr><td class="evolution_name"><a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_meta[$evolution['evolveFrom']]['name']).'.html">'.$monster_meta[$evolution['evolveFrom']]['name'].'</a></td></tr>';
 				if($evolution['type']=='level')
 					$map_descriptor.='<tr><td class="evolution_type">At level '.$evolution['level'].'</td></tr>';
 				elseif($evolution['type']=='item')
 				{
 					if(isset($item_meta[$evolution['level']]))
 					{
-						$link=$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$evolution['level']]['name'])).'.html';
+						$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$evolution['level']]['name']).'.html';
 						$name=$item_meta[$evolution['level']]['name'];
 						$map_descriptor.='<tr><td class="evolution_type">Evolve with<br /><a href="'.$link.'" title="'.$name.'">';
 						if($item_meta[$evolution['level']]['image']!='')
@@ -1599,17 +1677,17 @@ foreach($monster_meta as $id=>$monster)
 			foreach($monster['evolution_list'] as $evolution)
 			{
 				if(file_exists($datapack_path.'monsters/'.$evolution['evolveTo'].'/front.png'))
-					$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.'monsters/'.str_replace(' ','-',strtolower($monster_meta[$evolution['evolveTo']]['name'])).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$evolution['evolveTo'].'/front.png" width="80" height="80" alt="'.$monster_meta[$evolution['evolveTo']]['name'].'" title="'.$monster_meta[$evolution['evolveTo']]['name'].'" /></a></td></tr>';
+					$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_meta[$evolution['evolveTo']]['name']).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$evolution['evolveTo'].'/front.png" width="80" height="80" alt="'.$monster_meta[$evolution['evolveTo']]['name'].'" title="'.$monster_meta[$evolution['evolveTo']]['name'].'" /></a></td></tr>';
 				else if(file_exists($datapack_path.'monsters/'.$evolution['evolveTo'].'/front.gif'))
-					$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.'monsters/'.str_replace(' ','-',strtolower($monster_meta[$evolution['evolveTo']]['name'])).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$evolution['evolveTo'].'/front.gif" width="80" height="80" alt="'.$monster_meta[$evolution['evolveTo']]['name'].'" title="'.$monster_meta[$evolution['evolveTo']]['name'].'" /></a></td></tr>';
-				$map_descriptor.='<tr><td class="evolution_name"><a href="'.$base_datapack_explorer_site_path.'monsters/'.str_replace(' ','-',strtolower($monster_meta[$evolution['evolveTo']]['name'])).'.html">'.$monster_meta[$evolution['evolveTo']]['name'].'</a></td></tr>';
+					$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_meta[$evolution['evolveTo']]['name']).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$evolution['evolveTo'].'/front.gif" width="80" height="80" alt="'.$monster_meta[$evolution['evolveTo']]['name'].'" title="'.$monster_meta[$evolution['evolveTo']]['name'].'" /></a></td></tr>';
+				$map_descriptor.='<tr><td class="evolution_name"><a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_meta[$evolution['evolveTo']]['name']).'.html">'.$monster_meta[$evolution['evolveTo']]['name'].'</a></td></tr>';
 				if($evolution['type']=='level')
 					$map_descriptor.='<tr><td class="evolution_type">At level '.$evolution['level'].'</td></tr>';
 				elseif($evolution['type']=='item')
 				{
 					if(isset($item_meta[$evolution['level']]))
 					{
-						$link=$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$evolution['level']]['name'])).'.html';
+						$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$evolution['level']]['name']).'.html';
 						$name=$item_meta[$evolution['level']]['name'];
 						$map_descriptor.='<tr><td class="evolution_type">Evolve with<br /><a href="'.$link.'" title="'.$name.'">';
 						if($item_meta[$evolution['level']]['image']!='')
@@ -1731,7 +1809,7 @@ foreach($monster_meta as $id=>$monster)
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
-	filewrite('datapack-explorer/monsters/'.str_replace(' ','-',strtolower($monster['name'])).'.html',$content);
+	filewrite('datapack-explorer/monsters/'.text_operation_do_for_url($monster['name']).'.html',$content);
 }
 
 $content=$template;
@@ -1744,7 +1822,7 @@ $map_descriptor.='<table class="item_list item_list_type_normal">
 foreach($monster_meta as $id=>$monster)
 {
 	$name=$monster['name'];
-	$link=$base_datapack_explorer_site_path.'monsters/'.str_replace(' ','-',strtolower($name)).'.html';
+	$link=$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($name).'.html';
 	$map_descriptor.='<tr class="value">';
 	$map_descriptor.='<td>';
 	if(file_exists($datapack_path.'monsters/'.$id.'/small.png'))
@@ -1807,7 +1885,7 @@ foreach($item_meta as $id=>$item)
 				else
 					$quantity_text=$item_to_monster_list['quantity_min'];
 				$name=$monster_meta[$item_to_monster_list['monster']]['name'];
-				$link=$base_datapack_explorer_site_path.'monsters/'.str_replace(' ','-',strtolower($name)).'.html';
+				$link=$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($name).'.html';
 				$map_descriptor.='<tr class="value">';
 				$map_descriptor.='<td>';
 				if(file_exists($datapack_path.'monsters/'.$item_to_monster_list['monster'].'/small.png'))
@@ -1839,7 +1917,7 @@ foreach($item_meta as $id=>$item)
 			if(isset($quests_meta[$quest_id]))
 			{
 				$map_descriptor.='<tr class="value">';
-				$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'quests/'.$quest_id.'-'.str_replace(' ','-',strtolower($quests_meta[$quest_id]['name'])).'.html" title="'.$quests_meta[$quest_id]['name'].'">';
+				$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'quests/'.$quest_id.'-'.text_operation_do_for_url($quests_meta[$quest_id]['name']).'.html" title="'.$quests_meta[$quest_id]['name'].'">';
 				$map_descriptor.=$quests_meta[$quest_id]['name'];
 				$map_descriptor.='</a></td>';
 				$map_descriptor.='<td>'.$quantity.'</td>';
@@ -1905,7 +1983,7 @@ foreach($item_meta as $id=>$item)
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
-	filewrite('datapack-explorer/items/'.str_replace(' ','-',strtolower($item['name'])).'.html',$content);
+	filewrite('datapack-explorer/items/'.text_operation_do_for_url($item['name']).'.html',$content);
 }
 
 $content=$template;
@@ -1921,7 +1999,7 @@ $map_descriptor.='<table class="item_list item_list_type_normal">
 </tr>';
 foreach($item_meta as $id=>$item)
 {
-	$link=$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item['name'])).'.html';
+	$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item['name']).'.html';
 	$name=$item['name'];
 	if($item['image']!='' && file_exists($datapack_path.'items/'.$item['image']))
 		$image=$base_datapack_site_path.'/items/'.$item['image'];
@@ -1974,7 +2052,7 @@ foreach($crafting_meta as $id=>$crafting)
 		$map_descriptor.='<h2>#'.$id.'</h2>';
 		$map_descriptor.='</div>';
 		$map_descriptor.='<div class="value datapackscreenshot">';
-		$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$crafting['itemToLearn']]['name'])).'.html" title="'.$item_meta[$crafting['itemToLearn']]['name'].'">';
+		$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$crafting['itemToLearn']]['name']).'.html" title="'.$item_meta[$crafting['itemToLearn']]['name'].'">';
 		if($item_meta[$crafting['itemToLearn']]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$crafting['itemToLearn']]['image']))
 			$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$crafting['itemToLearn']]['image'].'" width="24" height="24" alt="'.$item_meta[$crafting['itemToLearn']]['name'].'" title="'.$item_meta[$crafting['itemToLearn']]['name'].'" />';
 		$map_descriptor.='</a>';
@@ -1984,7 +2062,7 @@ foreach($crafting_meta as $id=>$crafting)
 		//	$map_descriptor.='<div class="subblock"><div class="valuetitle">Success</div><div class="value">'.$crafting['success'].'%</div></div>';
 
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">Do the item</div><div class="value">';
-		$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$crafting['doItemId']]['name'])).'.html" title="'.$item_meta[$crafting['doItemId']]['name'].'">';
+		$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$crafting['doItemId']]['name']).'.html" title="'.$item_meta[$crafting['doItemId']]['name'].'">';
 			$map_descriptor.='<table><tr><td>';
 			if($item_meta[$crafting['doItemId']]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$crafting['doItemId']]['image']))
 				$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$crafting['doItemId']]['image'].'" width="24" height="24" alt="'.$item_meta[$crafting['doItemId']]['name'].'" title="'.$item_meta[$crafting['doItemId']]['name'].'" />';
@@ -1995,7 +2073,7 @@ foreach($crafting_meta as $id=>$crafting)
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">Material</div><div class="value">';
 		foreach($crafting['material'] as $material=>$quantity)
 		{
-			$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$material]['name'])).'.html" title="'.$item_meta[$material]['name'].'">';
+			$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$material]['name']).'.html" title="'.$item_meta[$material]['name'].'">';
 				$map_descriptor.='<table><tr><td>';
 				if($item_meta[$material]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
 					$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'].'" title="'.$item_meta[$material]['name'].'" />';
@@ -2025,7 +2103,7 @@ foreach($crafting_meta as $id=>$crafting)
 				else
 					$quantity_text=$item_to_monster_list['quantity_min'];
 				$name=$monster_meta[$item_to_monster_list['monster']]['name'];
-				$link=$base_datapack_explorer_site_path.'monsters/'.str_replace(' ','-',strtolower($name)).'.html';
+				$link=$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($name).'.html';
 				$map_descriptor.='<tr class="value">';
 				$map_descriptor.='<td>';
 				if(file_exists($datapack_path.'monsters/'.$item_to_monster_list['monster'].'/small.png'))
@@ -2048,7 +2126,7 @@ foreach($crafting_meta as $id=>$crafting)
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
-	filewrite('datapack-explorer/crafting/'.str_replace(' ','-',strtolower($item_meta[$crafting['itemToLearn']]['name'])).'.html',$content);
+	filewrite('datapack-explorer/crafting/'.text_operation_do_for_url($item_meta[$crafting['itemToLearn']]['name']).'.html',$content);
 }
 
 $content=$template;
@@ -2062,7 +2140,7 @@ $map_descriptor.='<table class="item_list item_list_type_normal">
 </tr>';
 foreach($crafting_meta as $id=>$crafting)
 {
-	$link=$base_datapack_explorer_site_path.'crafting/'.str_replace(' ','-',strtolower($item_meta[$crafting['itemToLearn']]['name'])).'.html';
+	$link=$base_datapack_explorer_site_path.'crafting/'.text_operation_do_for_url($item_meta[$crafting['itemToLearn']]['name']).'.html';
 	$name=$item_meta[$crafting['itemToLearn']]['name'];
 	if($item_meta[$crafting['itemToLearn']]['image']!='')
 		$image=$base_datapack_site_path.'/items/'.$item_meta[$crafting['itemToLearn']]['image'];
@@ -2128,7 +2206,7 @@ foreach($industries_meta as $id=>$industry)
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">Resources</div><div class="value">';
 		foreach($industry['resources'] as $material=>$quantity)
 		{
-			$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$material]['name'])).'.html" title="'.$item_meta[$material]['name'].'">';
+			$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$material]['name']).'.html" title="'.$item_meta[$material]['name'].'">';
 			$map_descriptor.='<table><tr><td>';
 			if($item_meta[$material]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
 				$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'].'" title="'.$item_meta[$material]['name'].'" />';
@@ -2143,7 +2221,7 @@ foreach($industries_meta as $id=>$industry)
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">Products</div><div class="value">';
 		foreach($industry['products'] as $material=>$quantity)
 		{
-			$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$material]['name'])).'.html" title="'.$item_meta[$material]['name'].'">';
+			$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$material]['name']).'.html" title="'.$item_meta[$material]['name'].'">';
 			if($item_meta[$material]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
 				$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'].'" title="'.$item_meta[$material]['name'].'" />';
 			$map_descriptor.='</td><td>';
@@ -2180,7 +2258,7 @@ foreach($industries_meta as $id=>$industry)
 	$map_descriptor.='<td>';
 	foreach($industry['resources'] as $item=>$quantity)
 	{
-		$link=$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$item]['name'])).'.html';
+		$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']).'.html';
 		$name=$item_meta[$item]['name'];
 		if($item_meta[$item]['image']!='')
 			$image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
@@ -2208,7 +2286,7 @@ foreach($industries_meta as $id=>$industry)
 	$map_descriptor.='<td>';
 	foreach($industry['products'] as $item=>$quantity)
 	{
-		$link=$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$item]['name'])).'.html';
+		$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']).'.html';
 		$name=$item_meta[$item]['name'];
 		if($item_meta[$item]['image']!='')
 			$image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
@@ -2315,7 +2393,7 @@ foreach($start as $entry)
 		if(array_key_exists($monster['id'],$monster_meta))
 		{
 			$map_descriptor.='<li>';
-			$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'monsters/'.str_replace(' ','-',strtolower($monster_meta[$monster['id']]['name'])).'.html">';
+			$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_meta[$monster['id']]['name']).'.html">';
 			if(file_exists($datapack_path.'monsters/'.$monster['id'].'/front.png'))
 				$map_descriptor.='<img src="'.$base_datapack_site_path.'monsters/'.$monster['id'].'/front.png" width="80" height="80" alt="'.htmlspecialchars($monster_meta[$monster['id']]['name']).'" title="'.htmlspecialchars($monster_meta[$monster['id']]['description']).'" /><br />';
 			elseif(file_exists($datapack_path.'monsters/'.$monster['id'].'/front.gif'))
@@ -2358,7 +2436,7 @@ foreach($start as $entry)
 			if(array_key_exists($item['id'],$item_meta))
 			{
 				$map_descriptor.='<li>';
-				$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$item['id']]['name'])).'.html" title="'.$item_meta[$item['id']]['name'].'">';
+				$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item['id']]['name']).'.html" title="'.$item_meta[$item['id']]['name'].'">';
 				if($item_meta[$item['id']]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$item['id']]['image']))
 					$map_descriptor.='<li><img src="'.$base_datapack_site_path.'items/'.htmlspecialchars($item_meta[$item['id']]['image']).'" width="24" height="24" alt="'.htmlspecialchars($item_meta[$item['id']]['description']).'" title="'.htmlspecialchars($item_meta[$item['id']]['description']).'" />'.$quantity.htmlspecialchars($item_meta[$item['id']]['name']).'</li>';
 				else
@@ -2404,7 +2482,7 @@ foreach($quests_meta as $id=>$quest)
 				$map_descriptor.='<div class="subblock"><div class="valuetitle">Requirements</div><div class="value">';
 				foreach($quest['requirements']['quests'] as $quest_id)
 				{
-					$map_descriptor.='Quest: <a href="'.$base_datapack_explorer_site_path.'quests/'.$quest_id.'-'.str_replace(' ','-',strtolower($quests_meta[$quest_id]['name'])).'.html" title="'.$quests_meta[$quest_id]['name'].'">';
+					$map_descriptor.='Quest: <a href="'.$base_datapack_explorer_site_path.'quests/'.$quest_id.'-'.text_operation_do_for_url($quests_meta[$quest_id]['name']).'.html" title="'.$quests_meta[$quest_id]['name'].'">';
 					$map_descriptor.=$quests_meta[$quest_id]['name'];
 					$map_descriptor.='</a><br />';
 				}
@@ -2426,7 +2504,7 @@ foreach($quests_meta as $id=>$quest)
 						$map_descriptor.='<tr class="value"><td>';
 						if(isset($item_meta[$item['item']]))
 						{
-							$link=$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$item['item']]['name'])).'.html';
+							$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item['item']]['name']).'.html';
 							$name=$item_meta[$item['item']]['name'];
 							if($item_meta[$item['item']]['image']!='')
 								$image=$base_datapack_site_path.'/items/'.$item_meta[$item['item']]['image'];
@@ -2465,7 +2543,7 @@ foreach($quests_meta as $id=>$quest)
 							if(isset($monster_meta[$item['monster']]))
 							{
 								$name=$monster_meta[$item['monster']]['name'];
-								$link=$base_datapack_explorer_site_path.'monsters/'.str_replace(' ','-',strtolower($name)).'.html';
+								$link=$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($name).'.html';
 								$map_descriptor.='<td>';
 								if(file_exists($datapack_path.'monsters/'.$item['monster'].'/small.png'))
 									$map_descriptor.='<div class="monstericon"><a href="'.$link.'"><img src="'.$base_datapack_site_path.'monsters/'.$item['monster'].'/small.png" width="32" height="32" alt="'.$monster_meta[$item['monster']]['name'].'" title="'.$monster_meta[$item['monster']]['name'].'" /></a></div>';
@@ -2502,7 +2580,7 @@ foreach($quests_meta as $id=>$quest)
 						$map_descriptor.='<tr class="value"><td>';
 						if(isset($item_meta[$item['item']]))
 						{
-							$link=$base_datapack_explorer_site_path.'items/'.str_replace(' ','-',strtolower($item_meta[$item['item']]['name'])).'.html';
+							$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item['item']]['name']).'.html';
 							$name=$item_meta[$item['item']]['name'];
 							if($item_meta[$item['item']]['image']!='')
 								$image=$base_datapack_site_path.'/items/'.$item_meta[$item['item']]['image'];
@@ -2558,7 +2636,7 @@ foreach($quests_meta as $id=>$quest)
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
-	filewrite('datapack-explorer/quests/'.$id.'-'.str_replace(' ','-',strtolower($quest['name'])).'.html',$content);
+	filewrite('datapack-explorer/quests/'.$id.'-'.text_operation_do_for_url($quest['name']).'.html',$content);
 }
 
 $content=$template;
@@ -2572,7 +2650,7 @@ $map_descriptor.='<table class="item_list item_list_type_normal">
 foreach($quests_meta as $id=>$quest)
 {
 	$map_descriptor.='<tr class="value">
-	<td><a href="'.$base_datapack_explorer_site_path.'quests/'.$id.'-'.str_replace(' ','-',strtolower($quest['name'])).'.html" title="'.$quest['name'].'">'.$quest['name'].'</a></td>';
+	<td><a href="'.$base_datapack_explorer_site_path.'quests/'.$id.'-'.text_operation_do_for_url($quest['name']).'.html" title="'.$quest['name'].'">'.$quest['name'].'</a></td>';
 	$map_descriptor.='</tr>';
 }
 $map_descriptor.='<tr>
@@ -2725,7 +2803,7 @@ foreach($type_meta as $type=>$type_content)
 				if(isset($monster_meta[$monster]))
 				{
 					$name=$monster_meta[$monster]['name'];
-					$link=$base_datapack_explorer_site_path.'monsters/'.str_replace(' ','-',strtolower($name)).'.html';
+					$link=$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($name).'.html';
 					$map_descriptor.='<tr class="value">
 						<td>';
 						if(file_exists($datapack_path.'monsters/'.$monster.'/small.png'))
@@ -2887,7 +2965,7 @@ foreach($skill_meta as $skill_id=>$skill)
 				if(isset($monster_meta[$monster]))
 				{
 					$name=$monster_meta[$monster]['name'];
-					$link=$base_datapack_explorer_site_path.'monsters/'.str_replace(' ','-',strtolower($name)).'.html';
+					$link=$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($name).'.html';
 					$map_descriptor.='<tr class="value">
 						<td>';
 						if(file_exists($datapack_path.'monsters/'.$monster.'/small.png'))
@@ -2921,7 +2999,7 @@ foreach($skill_meta as $skill_id=>$skill)
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
-	filewrite('datapack-explorer/monsters/skills/'.str_replace(' ','-',strtolower($skill['name'])).'.html',$content);
+	filewrite('datapack-explorer/monsters/skills/'.text_operation_do_for_url($skill['name']).'.html',$content);
 }
 
 $content=$template;
@@ -2937,7 +3015,7 @@ $map_descriptor.='<table class="item_list item_list_type_normal">
 foreach($skill_meta as $skill_id=>$skill)
 {
 	$map_descriptor.='<tr class="value">';
-	$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'monsters/skills/'.str_replace(' ','-',strtolower($skill['name'])).'.html">'.$skill['name'].'</a></td>';
+	$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'monsters/skills/'.text_operation_do_for_url($skill['name']).'.html">'.$skill['name'].'</a></td>';
 	if(isset($type_meta[$skill['type']]))
 		$map_descriptor.='<td><span class="type_label type_label_'.$skill['type'].'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$skill['type'].'.html">'.$type_meta[$skill['type']]['english_name'].'</a></span></td>';
 	else

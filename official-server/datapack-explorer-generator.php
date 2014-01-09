@@ -1140,9 +1140,10 @@ foreach($temp_maps as $map)
 		$zone_to_map[$zone]=array();
 	$zone_to_map[$zone][$map]=$name;
 }
-if(!is_dir('datapack-explorer/maps/'))
-	mkdir('datapack-explorer/maps/');
+if(!is_dir($datapack_explorer_local_path.'maps/'))
+	mkdir($datapack_explorer_local_path.'maps/');
 
+$temprand=rand(10000,99999);
 foreach($temp_maps as $map)
 {
 	$map_folder=preg_replace('#/[^/]+$#','',$map).'/';
@@ -1150,11 +1151,26 @@ foreach($temp_maps as $map)
 	$map_image=str_replace('.tmx','.png',$map);
 	if(file_exists($map_image))
 		unlink($map_image);
-	if(!is_dir('datapack-explorer/maps/'.$map_folder))
-		mkdir('datapack-explorer/maps/'.$map_folder);
+	if(!is_dir($datapack_explorer_local_path.'maps/'.$map_folder))
+		mkdir($datapack_explorer_local_path.'maps/'.$map_folder);
 	if(isset($map_generator))
 		if($map_generator!='')
-			exec($map_generator.' -platform offscreen '.$datapack_path.'map/'.$map.' datapack-explorer/maps/'.$map_image);
+		{
+			exec($map_generator.' -platform offscreen '.$datapack_path.'map/'.$map.' '.$datapack_explorer_local_path.'maps/'.$map_image,$output,$return_var);
+			if($return_var==0)
+			{
+				exec('cat '.$datapack_explorer_local_path.'maps/'.$map_image.' | /usr/bin/pngquant - --speed 1 > /tmp/tmp'.$temprand.'.png',$output,$return_var);
+				if($return_var==0)
+				{
+					if(!rename('/tmp/tmp'.$temprand.'.png',$datapack_explorer_local_path.'maps/'.$map_image))
+						echo 'Compressed preview move of '.$datapack_path.'map/'.$map.' failed'."\n";
+				}
+				else
+					echo 'Png compression of '.$datapack_path.'map/'.$map.' failed'."\n";
+			}
+			else
+				echo 'Preview generation of '.$datapack_path.'map/'.$map.' failed'."\n";
+		}
 	$content=$template;
 	$content=str_replace('${TITLE}',$maps_list[$map]['name'],$content);
 	$map_descriptor='';
@@ -1166,7 +1182,7 @@ foreach($temp_maps as $map)
 		if($maps_list[$map]['shortdescription']!='')
 			$map_descriptor.='<h2>'.$maps_list[$map]['shortdescription'].'</h2>';
 		$map_descriptor.='</div>';
-		if(file_exists('datapack-explorer/maps/'.$map_image))
+		if(file_exists($datapack_explorer_local_path.'maps/'.$map_image))
 			$map_descriptor.='<div class="value mapscreenshot datapackscreenshot"><a href="'.$base_datapack_explorer_site_path.'maps/'.$map_image.'"><img src="'.$base_datapack_explorer_site_path.'maps/'.$map_image.'" alt="Screenshot of '.$maps_list[$map]['name'].'" title="Screenshot of '.$maps_list[$map]['name'].'" width="'.($maps_list[$map]['pixelwidth']/2).'" height="'.($maps_list[$map]['pixelheight']/2).'" /></a></div>';
 		if($maps_list[$map]['description']!='')
 			$map_descriptor.='<div class="subblock"><div class="valuetitle">Map description</div><div class="value">'.$maps_list[$map]['description'].'</div></div>';
@@ -1376,7 +1392,7 @@ foreach($temp_maps as $map)
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
-	filewrite('datapack-explorer/maps/'.$map_html,$content);
+	filewrite($datapack_explorer_local_path.'maps/'.$map_html,$content);
 }
 
 $content=$template;
@@ -1403,7 +1419,7 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=preg_replace("#[\r\n\t]+#isU",'',$content);
-filewrite('datapack-explorer/maps.html',$content);
+filewrite($datapack_explorer_local_path.'maps.html',$content);
 
 foreach($monster_meta as $id=>$monster)
 {
@@ -1421,8 +1437,8 @@ foreach($monster_meta as $id=>$monster)
 			}
 		}
 	}
-	if(!is_dir('datapack-explorer/monsters/'))
-		mkdir('datapack-explorer/monsters/');
+	if(!is_dir($datapack_explorer_local_path.'monsters/'))
+		mkdir($datapack_explorer_local_path.'monsters/');
 	$content=$template;
 	$content=str_replace('${TITLE}',$monster['name'],$content);
 	$map_descriptor='';
@@ -1809,7 +1825,7 @@ foreach($monster_meta as $id=>$monster)
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
-	filewrite('datapack-explorer/monsters/'.text_operation_do_for_url($monster['name']).'.html',$content);
+	filewrite($datapack_explorer_local_path.'monsters/'.text_operation_do_for_url($monster['name']).'.html',$content);
 }
 
 $content=$template;
@@ -1847,12 +1863,12 @@ $map_descriptor.='<tr>
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=preg_replace("#[\r\n\t]+#isU",'',$content);
-filewrite('datapack-explorer/monsters.html',$content);
+filewrite($datapack_explorer_local_path.'monsters.html',$content);
 
 foreach($item_meta as $id=>$item)
 {
-	if(!is_dir('datapack-explorer/items/'))
-		mkdir('datapack-explorer/items/');
+	if(!is_dir($datapack_explorer_local_path.'items/'))
+		mkdir($datapack_explorer_local_path.'items/');
 	$content=$template;
 	$content=str_replace('${TITLE}',$item['name'],$content);
 	$map_descriptor='';
@@ -1983,7 +1999,7 @@ foreach($item_meta as $id=>$item)
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
-	filewrite('datapack-explorer/items/'.text_operation_do_for_url($item['name']).'.html',$content);
+	filewrite($datapack_explorer_local_path.'items/'.text_operation_do_for_url($item['name']).'.html',$content);
 }
 
 $content=$template;
@@ -2037,12 +2053,12 @@ $map_descriptor.='<tr>
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=preg_replace("#[\r\n\t]+#isU",'',$content);
-filewrite('datapack-explorer/items.html',$content);
+filewrite($datapack_explorer_local_path.'items.html',$content);
 
 foreach($crafting_meta as $id=>$crafting)
 {
-	if(!is_dir('datapack-explorer/crafting/'))
-		mkdir('datapack-explorer/crafting/');
+	if(!is_dir($datapack_explorer_local_path.'crafting/'))
+		mkdir($datapack_explorer_local_path.'crafting/');
 	$content=$template;
 	$content=str_replace('${TITLE}',$item_meta[$crafting['itemToLearn']]['name'],$content);
 	$map_descriptor='';
@@ -2126,7 +2142,7 @@ foreach($crafting_meta as $id=>$crafting)
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
-	filewrite('datapack-explorer/crafting/'.text_operation_do_for_url($item_meta[$crafting['itemToLearn']]['name']).'.html',$content);
+	filewrite($datapack_explorer_local_path.'crafting/'.text_operation_do_for_url($item_meta[$crafting['itemToLearn']]['name']).'.html',$content);
 }
 
 $content=$template;
@@ -2177,13 +2193,13 @@ $map_descriptor.='<tr>
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=preg_replace("#[\r\n\t]+#isU",'',$content);
-filewrite('datapack-explorer/crafting.html',$content);
+filewrite($datapack_explorer_local_path.'crafting.html',$content);
 
 
 foreach($industries_meta as $id=>$industry)
 {
-	if(!is_dir('datapack-explorer/industries/'))
-		mkdir('datapack-explorer/industries/');
+	if(!is_dir($datapack_explorer_local_path.'industries/'))
+		mkdir($datapack_explorer_local_path.'industries/');
 	$content=$template;
 	$content=str_replace('${TITLE}','Industry #'.$id,$content);
 	$map_descriptor='';
@@ -2236,7 +2252,7 @@ foreach($industries_meta as $id=>$industry)
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
-	filewrite('datapack-explorer/industries/'.$id.'.html',$content);
+	filewrite($datapack_explorer_local_path.'industries/'.$id.'.html',$content);
 }
 
 $content=$template;
@@ -2320,7 +2336,7 @@ $map_descriptor.='<tr>
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=preg_replace("#[\r\n\t]+#isU",'',$content);
-filewrite('datapack-explorer/industries.html',$content);
+filewrite($datapack_explorer_local_path.'industries.html',$content);
 
 $content=$template;
 $content=str_replace('${TITLE}','Starter characters',$content);
@@ -2455,12 +2471,12 @@ foreach($start as $entry)
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=preg_replace("#[\r\n\t]+#isU",'',$content);
-filewrite('datapack-explorer/start.html',$content);
+filewrite($datapack_explorer_local_path.'start.html',$content);
 
 foreach($quests_meta as $id=>$quest)
 {
-	if(!is_dir('datapack-explorer/quests/'))
-		mkdir('datapack-explorer/quests/');
+	if(!is_dir($datapack_explorer_local_path.'quests/'))
+		mkdir($datapack_explorer_local_path.'quests/');
 	$content=$template;
 	$content=str_replace('${TITLE}',$quest['name'],$content);
 	$map_descriptor='';
@@ -2636,7 +2652,7 @@ foreach($quests_meta as $id=>$quest)
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
-	filewrite('datapack-explorer/quests/'.$id.'-'.text_operation_do_for_url($quest['name']).'.html',$content);
+	filewrite($datapack_explorer_local_path.'quests/'.$id.'-'.text_operation_do_for_url($quest['name']).'.html',$content);
 }
 
 $content=$template;
@@ -2661,12 +2677,12 @@ $map_descriptor.='<tr>
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=preg_replace("#[\r\n\t]+#isU",'',$content);
-filewrite('datapack-explorer/quests.html',$content);
+filewrite($datapack_explorer_local_path.'quests.html',$content);
 
 foreach($type_meta as $type=>$type_content)
 {
-	if(!is_dir('datapack-explorer/monsters/'))
-		mkdir('datapack-explorer/monsters/');
+	if(!is_dir($datapack_explorer_local_path.'monsters/'))
+		mkdir($datapack_explorer_local_path.'monsters/');
 	$content=$template;
 	$content=str_replace('${TITLE}',$type_content['english_name'],$content);
 	$map_descriptor='';
@@ -2830,7 +2846,7 @@ foreach($type_meta as $type=>$type_content)
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
-	filewrite('datapack-explorer/monsters/type-'.$type.'.html',$content);
+	filewrite($datapack_explorer_local_path.'monsters/type-'.$type.'.html',$content);
 }
 
 $content=$template;
@@ -2861,14 +2877,14 @@ $map_descriptor.='<tr>
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=preg_replace("#[\r\n\t]+#isU",'',$content);
-filewrite('datapack-explorer/types.html',$content);
+filewrite($datapack_explorer_local_path.'types.html',$content);
 
 foreach($skill_meta as $skill_id=>$skill)
 {
-	if(!is_dir('datapack-explorer/monsters/'))
-		mkdir('datapack-explorer/monsters/');
-	if(!is_dir('datapack-explorer/monsters/skills/'))
-		mkdir('datapack-explorer/monsters/skills/');
+	if(!is_dir($datapack_explorer_local_path.'monsters/'))
+		mkdir($datapack_explorer_local_path.'monsters/');
+	if(!is_dir($datapack_explorer_local_path.'monsters/skills/'))
+		mkdir($datapack_explorer_local_path.'monsters/skills/');
 	$content=$template;
 	$content=str_replace('${TITLE}',$skill['name'],$content);
 	$map_descriptor='';
@@ -2999,7 +3015,7 @@ foreach($skill_meta as $skill_id=>$skill)
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
-	filewrite('datapack-explorer/monsters/skills/'.text_operation_do_for_url($skill['name']).'.html',$content);
+	filewrite($datapack_explorer_local_path.'monsters/skills/'.text_operation_do_for_url($skill['name']).'.html',$content);
 }
 
 $content=$template;
@@ -3034,4 +3050,4 @@ $map_descriptor.='<tr>
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=preg_replace("#[\r\n\t]+#isU",'',$content);
-filewrite('datapack-explorer/skills.html',$content);
+filewrite($datapack_explorer_local_path.'skills.html',$content);

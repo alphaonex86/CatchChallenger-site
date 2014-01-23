@@ -2017,10 +2017,10 @@ foreach($item_meta as $id=>$item)
 		if(isset($item_to_plant[$id]) && isset($plant_meta[$item_to_plant[$id]]))
 		{
 			$image='';
-			if(file_exists('../datapack/plants/'.$item_to_plant[$id].'.png'))
-				$image.='/datapack/plants/'.htmlspecialchars($item_to_plant[$id]).'.png';
-			elseif(file_exists('../datapack/plants/'.$item_to_plant[$id].'.gif'))
-				$image.='/datapack/plants/'.htmlspecialchars($item_to_plant[$id]).'.gif';
+			if(file_exists($datapack_path.'plants/'.$item_to_plant[$id].'.png'))
+				$image.=$base_datapack_site_path.'plants/'.htmlspecialchars($item_to_plant[$id]).'.png';
+			elseif(file_exists($datapack_path.'plants/'.$item_to_plant[$id].'.gif'))
+				$image.=$base_datapack_site_path.'plants/'.htmlspecialchars($item_to_plant[$id]).'.gif';
 			if($image!='')
 			{
 				$map_descriptor.='<div class="subblock"><div class="valuetitle">Plant</div><div class="value">';
@@ -2085,7 +2085,6 @@ foreach($item_meta as $id=>$item)
 			$map_descriptor.='</div></div>';
 		}
 
-		//$item_to_evolution[$level][]=array('from'=>$id,'to'=>$evolveTo);
 		if(isset($item_to_evolution[$id]) && count($item_to_evolution[$id])>0)
 		{
 			$count_evol=0;

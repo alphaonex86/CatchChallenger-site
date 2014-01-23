@@ -9,8 +9,8 @@ else if(!@mysql_select_db($mysql_db))
 if(!$is_up)
 	exit;
 
-if(!is_dir('datapack-explorer'))
-	if(!mkdir('datapack-explorer'))
+if(!is_dir($datapack_explorer_local_path))
+	if(!mkdir($datapack_explorer_local_path))
 		exit;
 
 $automaticallygen='<div id="automaticallygen">Automatically generated from ';
@@ -1239,8 +1239,6 @@ foreach($temp_maps as $map)
 			else
 				echo 'Preview generation of '.$datapack_path.'map/'.$map.' failed'."\n";
 		}
-	$content=$template;
-	$content=str_replace('${TITLE}',$maps_list[$map]['name'],$content);
 	$map_descriptor='';
 
 	$map_descriptor.='<div class="map map_type_'.$maps_list[$map]['type'].'">';
@@ -1457,14 +1455,14 @@ foreach($temp_maps as $map)
 		</table>';
 	}
 	
+	$content=$template;
+	$content=str_replace('${TITLE}',$maps_list[$map]['name'],$content);
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 	filewrite($datapack_explorer_local_path.'maps/'.$map_html,$content);
 }
 
-$content=$template;
-$content=str_replace('${TITLE}','Map list',$content);
 $map_descriptor='';
 foreach($zone_to_map as $zone=>$map_by_zone)
 {
@@ -1484,6 +1482,8 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 	<td colspan="1" class="item_list_endline item_list_title_type_outdoor"></td>
 	</tr></table>';
 }
+$content=$template;
+$content=str_replace('${TITLE}','Map list',$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=preg_replace("#[\r\n\t]+#isU",'',$content);
@@ -1507,8 +1507,6 @@ foreach($monster_meta as $id=>$monster)
 	}
 	if(!is_dir($datapack_explorer_local_path.'monsters/'))
 		mkdir($datapack_explorer_local_path.'monsters/');
-	$content=$template;
-	$content=str_replace('${TITLE}',$monster['name'],$content);
 	$map_descriptor='';
 
 	$effectiveness_list=array();
@@ -1947,14 +1945,14 @@ foreach($monster_meta as $id=>$monster)
 		</table>';
 	}
 
+	$content=$template;
+	$content=str_replace('${TITLE}',$monster['name'],$content);
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 	filewrite($datapack_explorer_local_path.'monsters/'.text_operation_do_for_url($monster['name']).'.html',$content);
 }
 
-$content=$template;
-$content=str_replace('${TITLE}','Monster list',$content);
 $map_descriptor='';
 $map_descriptor.='<table class="item_list item_list_type_normal">
 <tr class="item_list_title item_list_title_type_normal">
@@ -1985,6 +1983,8 @@ $map_descriptor.='<tr>
 	<td colspan="3" class="item_list_endline item_list_title_type_normal"></td>
 </tr>
 </table>';
+$content=$template;
+$content=str_replace('${TITLE}','Monster list',$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=preg_replace("#[\r\n\t]+#isU",'',$content);
@@ -1994,8 +1994,6 @@ foreach($item_meta as $id=>$item)
 {
 	if(!is_dir($datapack_explorer_local_path.'items/'))
 		mkdir($datapack_explorer_local_path.'items/');
-	$content=$template;
-	$content=str_replace('${TITLE}',$item['name'],$content);
 	$map_descriptor='';
 
 	$map_descriptor.='<div class="map item_details">';
@@ -2313,17 +2311,15 @@ foreach($item_meta as $id=>$item)
 		</table>';
 	}
 
+	$content=$template;
+	$content=str_replace('${TITLE}',$item['name'],$content);
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 	filewrite($datapack_explorer_local_path.'items/'.text_operation_do_for_url($item['name']).'.html',$content);
 }
 
-$content=$template;
-$content=str_replace('${TITLE}','Item list',$content);
 $map_descriptor='';
-
-
 
 $map_descriptor.='<table class="item_list item_list_type_normal">
 <tr class="item_list_title item_list_title_type_normal">
@@ -2370,6 +2366,8 @@ $map_descriptor.='<tr>
 </tr>
 </table>';
 
+$content=$template;
+$content=str_replace('${TITLE}','Item list',$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=preg_replace("#[\r\n\t]+#isU",'',$content);
@@ -2379,8 +2377,6 @@ filewrite($datapack_explorer_local_path.'items.html',$content);
 {
 	if(!is_dir($datapack_explorer_local_path.'crafting/'))
 		mkdir($datapack_explorer_local_path.'crafting/');
-	$content=$template;
-	$content=str_replace('${TITLE}',$item_meta[$crafting['itemToLearn']]['name'],$content);
 	$map_descriptor='';
 
 	$map_descriptor.='<div class="map item_details">';
@@ -2459,14 +2455,14 @@ filewrite($datapack_explorer_local_path.'items.html',$content);
 		</table>';
 	}
 
+	$content=$template;
+	$content=str_replace('${TITLE}',$item_meta[$crafting['itemToLearn']]['name'],$content);
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 	filewrite($datapack_explorer_local_path.'crafting/'.text_operation_do_for_url($item_meta[$crafting['itemToLearn']]['name']).'.html',$content);
 }*/
 
-$content=$template;
-$content=str_replace('${TITLE}','Crafting list',$content);
 $map_descriptor='';
 
 $map_descriptor.='<table class="item_list item_list_type_normal">
@@ -2511,6 +2507,8 @@ $map_descriptor.='<tr>
 	<td colspan="3" class="item_list_endline item_list_title_type_normal"></td>
 </tr>
 </table>';
+$content=$template;
+$content=str_replace('${TITLE}','Crafting list',$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=preg_replace("#[\r\n\t]+#isU",'',$content);
@@ -2521,8 +2519,6 @@ foreach($industries_meta as $id=>$industry)
 {
 	if(!is_dir($datapack_explorer_local_path.'industries/'))
 		mkdir($datapack_explorer_local_path.'industries/');
-	$content=$template;
-	$content=str_replace('${TITLE}','Industry #'.$id,$content);
 	$map_descriptor='';
 
 	$map_descriptor.='<div class="map item_details">';
@@ -2570,14 +2566,14 @@ foreach($industries_meta as $id=>$industry)
 		$map_descriptor.='</div></div>';
 	$map_descriptor.='</div>';
 
+	$content=$template;
+	$content=str_replace('${TITLE}','Industry #'.$id,$content);
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 	filewrite($datapack_explorer_local_path.'industries/'.$id.'.html',$content);
 }
 
-$content=$template;
-$content=str_replace('${TITLE}','Industries list',$content);
 $map_descriptor='';
 
 $map_descriptor.='<table class="item_list item_list_type_normal">
@@ -2654,13 +2650,13 @@ $map_descriptor.='<tr>
 	<td colspan="3" class="item_list_endline item_list_title_type_normal"></td>
 </tr>
 </table>';
+$content=$template;
+$content=str_replace('${TITLE}','Industries list',$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=preg_replace("#[\r\n\t]+#isU",'',$content);
 filewrite($datapack_explorer_local_path.'industries.html',$content);
 
-$content=$template;
-$content=str_replace('${TITLE}','Starter characters',$content);
 $map_descriptor='';
 $index=1;
 $loadSkinPreview=array();
@@ -2789,6 +2785,8 @@ foreach($start as $entry)
 	$map_descriptor.='</fieldset>';
 	$index++;
 }
+$content=$template;
+$content=str_replace('${TITLE}','Starter characters',$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=preg_replace("#[\r\n\t]+#isU",'',$content);
@@ -2798,8 +2796,6 @@ foreach($quests_meta as $id=>$quest)
 {
 	if(!is_dir($datapack_explorer_local_path.'quests/'))
 		mkdir($datapack_explorer_local_path.'quests/');
-	$content=$template;
-	$content=str_replace('${TITLE}',$quest['name'],$content);
 	$map_descriptor='';
 
 	$map_descriptor.='<div class="map item_details">';
@@ -2989,14 +2985,14 @@ foreach($quests_meta as $id=>$quest)
 		}
 	$map_descriptor.='</div>';
 
+	$content=$template;
+	$content=str_replace('${TITLE}',$quest['name'],$content);
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 	filewrite($datapack_explorer_local_path.'quests/'.$id.'-'.text_operation_do_for_url($quest['name']).'.html',$content);
 }
 
-$content=$template;
-$content=str_replace('${TITLE}','Quests list',$content);
 $map_descriptor='';
 
 $map_descriptor.='<table class="item_list item_list_type_normal">
@@ -3014,6 +3010,8 @@ $map_descriptor.='<tr>
 </tr>
 </table>';
 
+$content=$template;
+$content=str_replace('${TITLE}','Quests list',$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=preg_replace("#[\r\n\t]+#isU",'',$content);
@@ -3023,8 +3021,6 @@ foreach($type_meta as $type=>$type_content)
 {
 	if(!is_dir($datapack_explorer_local_path.'monsters/'))
 		mkdir($datapack_explorer_local_path.'monsters/');
-	$content=$template;
-	$content=str_replace('${TITLE}',$type_content['english_name'],$content);
 	$map_descriptor='';
 
 	$effectiveness_list=array();
@@ -3183,14 +3179,14 @@ foreach($type_meta as $type=>$type_content)
 		</table>';
 	}
 
+	$content=$template;
+	$content=str_replace('${TITLE}',$type_content['english_name'],$content);
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 	filewrite($datapack_explorer_local_path.'monsters/type-'.$type.'.html',$content);
 }
 
-$content=$template;
-$content=str_replace('${TITLE}','Type list',$content);
 $map_descriptor='';
 $map_descriptor.='<table class="item_list item_list_type_normal">
 <tr class="item_list_title item_list_title_type_normal">
@@ -3214,6 +3210,8 @@ $map_descriptor.='<tr>
 	<td colspan="2" class="item_list_endline item_list_title_type_normal"></td>
 </tr>
 </table>';
+$content=$template;
+$content=str_replace('${TITLE}','Type list',$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=preg_replace("#[\r\n\t]+#isU",'',$content);
@@ -3225,8 +3223,6 @@ foreach($skill_meta as $skill_id=>$skill)
 		mkdir($datapack_explorer_local_path.'monsters/');
 	if(!is_dir($datapack_explorer_local_path.'monsters/skills/'))
 		mkdir($datapack_explorer_local_path.'monsters/skills/');
-	$content=$template;
-	$content=str_replace('${TITLE}',$skill['name'],$content);
 	$map_descriptor='';
 
 	$type=$skill['type'];
@@ -3352,14 +3348,14 @@ foreach($skill_meta as $skill_id=>$skill)
 		</table>';
 	}
 
+	$content=$template;
+	$content=str_replace('${TITLE}',$skill['name'],$content);
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 	filewrite($datapack_explorer_local_path.'monsters/skills/'.text_operation_do_for_url($skill['name']).'.html',$content);
 }
 
-$content=$template;
-$content=str_replace('${TITLE}','Skills list',$content);
 $map_descriptor='';
 $map_descriptor.='<table class="item_list item_list_type_normal">
 <tr class="item_list_title item_list_title_type_normal">
@@ -3387,17 +3383,15 @@ $map_descriptor.='<tr>
 	<td colspan="4" class="item_list_endline item_list_title_type_normal"></td>
 </tr>
 </table>';
+$content=$template;
+$content=str_replace('${TITLE}','Skills list',$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=preg_replace("#[\r\n\t]+#isU",'',$content);
 filewrite($datapack_explorer_local_path.'skills.html',$content);
 
-$content=$template;
-$content=str_replace('${TITLE}','Plants list',$content);
+
 $map_descriptor='';
-
-
-
 $map_descriptor.='<table class="item_list item_list_type_normal">
 <tr class="item_list_title item_list_title_type_normal">
 	<th colspan="2">Plant</th>
@@ -3442,6 +3436,8 @@ $map_descriptor.='<tr>
 </tr>
 </table>';
 
+$content=$template;
+$content=str_replace('${TITLE}','Plants list',$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=preg_replace("#[\r\n\t]+#isU",'',$content);

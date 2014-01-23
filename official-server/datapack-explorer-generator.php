@@ -167,6 +167,12 @@ if(file_exists($datapack_path.'items/items.xml'))
 				if(preg_match('#hp="([0-9]+(\.[0-9]+)?|all)"#isU',$temp_text))
 					$effect['regeneration']=preg_replace('#^.*hp="([0-9]+(\.[0-9]+)?|all)".*$#isU','$1',$temp_text);
 			}
+			if(preg_match('#<hp[^>]+/>#isU',$entry))
+			{
+				$temp_text=preg_replace('#^.*(<hp[^>]+/>).*$#isU','$1',$entry);
+				if(preg_match('#add="([0-9]+(\.[0-9]+)?|all)"#isU',$temp_text))
+					$effect['regeneration']=preg_replace('#^.*add="([0-9]+(\.[0-9]+)?|all)".*$#isU','$1',$temp_text);
+			}
 			if(count($effect)>0)
 				$item_meta[$id]=array('price'=>$price,'image'=>$image,'name'=>$name,'description'=>$description,'effect'=>$effect);
 			else
@@ -424,6 +430,7 @@ if(file_exists($datapack_path.'plants/plants.xml'))
 
 $monster_meta=array();
 $item_to_monster=array();
+$item_to_evolution=array();
 $reverse_evolution=array();
 $type_to_monster=array();
 $skill_to_monster=array();
@@ -542,6 +549,12 @@ if(file_exists($datapack_path.'monsters/monster.xml'))
 			$evolveTo=preg_replace('#^.*level="([0-9]+)" type="([^"]+)" evolveTo="([0-9]+)".*$#isU','$3',$attack_text);
 			if(isset($reverse_evolution[$evolveTo]))
 				$reverse_evolution[$evolveTo]=array();
+			if($type_evolution=='item')
+			{
+				if(isset($item_to_evolution[$level]))
+					$item_to_evolution[$level]=array();
+				$item_to_evolution[$level][]=array('from'=>$id,'to'=>$evolveTo);
+			}
 			$reverse_evolution[$evolveTo][]=array('level'=>$level,'type'=>$type_evolution,'evolveFrom'=>$id);
 			$evolution_list[]=array('level'=>$level,'type'=>$type_evolution,'evolveTo'=>$evolveTo);
 		}
@@ -1861,11 +1874,13 @@ foreach($monster_meta as $id=>$monster)
 				$map_descriptor.='<tr class="value">';
 					if(isset($maps_list[$monster_on_map['map']]))
 					{
-						$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$monster_on_map['map']]['name'].'">'.$maps_list[$monster_on_map['map']]['name'].'</a></td>';
 						if(isset($zone_meta[$maps_list[$monster_on_map['map']]['zone']]))
+						{
+							$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$monster_on_map['map']]['name'].'">'.$maps_list[$monster_on_map['map']]['name'].'</a></td>';
 							$map_descriptor.='<td>'.$zone_meta[$maps_list[$monster_on_map['map']]['zone']]['name'].'</td>';
+						}
 						else
-							$map_descriptor.='<td>&nbsp;</td>';
+							$map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$monster_on_map['map']]['name'].'">'.$maps_list[$monster_on_map['map']]['name'].'</a></td>';
 					}
 					else
 						$map_descriptor.='<td>Unknown map</td><td>&nbsp;</td>';
@@ -2068,6 +2083,60 @@ foreach($item_meta as $id=>$item)
 				$map_descriptor.='</a>';
 			}
 			$map_descriptor.='</div></div>';
+		}
+
+		//$item_to_evolution[$level][]=array('from'=>$id,'to'=>$evolveTo);
+		if(isset($item_to_evolution[$id]) && count($item_to_evolution[$id])>0)
+		{
+			$count_evol=0;
+			foreach($item_to_evolution[$id] as $evolution)
+			{
+				if(isset($monster_meta[$evolution['from']]) && isset($monster_meta[$evolution['to']]))
+					$count_evol++;
+			}
+			foreach($item_to_evolution[$id] as $evolution)
+			{
+				if(isset($monster_meta[$evolution['from']]) && isset($monster_meta[$evolution['to']]))
+				{
+					$map_descriptor.='<table class="item_list item_list_type_normal">
+					<tr class="item_list_title item_list_title_type_normal">
+						<th colspan="'.$count_evol.'">Evolve from</th>
+					</tr>';
+					$map_descriptor.='<tr class="value">';
+					$map_descriptor.='<td>';
+					$map_descriptor.='<table class="monsterforevolution">';
+					if(file_exists($datapack_path.'monsters/'.$evolution['from'].'/front.png'))
+						$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_meta[$evolution['from']]['name']).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$evolution['from'].'/front.png" width="80" height="80" alt="'.$monster_meta[$evolution['from']]['name'].'" title="'.$monster_meta[$evolution['from']]['name'].'" /></a></td></tr>';
+					else if(file_exists($datapack_path.'monsters/'.$evolution['from'].'/front.gif'))
+						$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_meta[$evolution['from']]['name']).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$evolution['from'].'/front.gif" width="80" height="80" alt="'.$monster_meta[$evolution['from']]['name'].'" title="'.$monster_meta[$evolution['from']]['name'].'" /></a></td></tr>';
+					$map_descriptor.='<tr><td class="evolution_name"><a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_meta[$evolution['from']]['name']).'.html">'.$monster_meta[$evolution['from']]['name'].'</a></td></tr>';
+					$map_descriptor.='</table>';
+					$map_descriptor.='</td>';
+					$map_descriptor.='</tr>';
+
+					$map_descriptor.='<tr><td class="evolution_type">Evolve with<br /><a href="'.$link.'" title="'.$item_meta[$id]['name'].'">';
+					if($item_meta[$id]['image']!='')
+						$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$id]['image'].'" alt="'.$item_meta[$id]['name'].'" title="'.$item_meta[$id]['name'].'" style="float:left;" />';
+					$map_descriptor.=$item_meta[$id]['name'].'</a></td></tr>';
+
+					$map_descriptor.='<tr class="value">';
+					$map_descriptor.='<td>';
+					$map_descriptor.='<table class="monsterforevolution">';
+					if(file_exists($datapack_path.'monsters/'.$evolution['to'].'/front.png'))
+						$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_meta[$evolution['to']]['name']).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$evolution['to'].'/front.png" width="80" height="80" alt="'.$monster_meta[$evolution['to']]['name'].'" title="'.$monster_meta[$evolution['to']]['name'].'" /></a></td></tr>';
+					else if(file_exists($datapack_path.'monsters/'.$evolution['to'].'/front.gif'))
+						$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_meta[$evolution['to']]['name']).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$evolution['to'].'/front.gif" width="80" height="80" alt="'.$monster_meta[$evolution['to']]['name'].'" title="'.$monster_meta[$evolution['to']]['name'].'" /></a></td></tr>';
+					$map_descriptor.='<tr><td class="evolution_name"><a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_meta[$evolution['to']]['name']).'.html">'.$monster_meta[$evolution['to']]['name'].'</a></td></tr>';
+					$map_descriptor.='</table>';
+					$map_descriptor.='</td>';
+					$map_descriptor.='</tr>';
+
+					$map_descriptor.='<tr>
+						<th colspan="'.$count_evol.'" class="item_list_endline item_list_title item_list_title_type_normal">Evolve to</th>
+					</tr>
+					</table>';
+				}
+			}
 		}
 
 	$map_descriptor.='</div>';

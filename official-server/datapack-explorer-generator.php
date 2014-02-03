@@ -9,6 +9,9 @@ else if(!@mysql_select_db($mysql_db))
 if(!$is_up)
 	exit;
 
+if(!isset($datapack_explorer_local_path))
+	die('$datapack_explorer_local_path not set');
+
 if(!is_dir($datapack_explorer_local_path))
 	if(!mkdir($datapack_explorer_local_path))
 		exit;

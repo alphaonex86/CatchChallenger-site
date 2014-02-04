@@ -114,6 +114,26 @@ function text_operation_do_for_url($text,$minimum_word_length=4,$minimum_string_
 	return $text;
 }
 
+function text_operation_lower_case_first_letter_upper($text)
+{
+	if(strlen($text)<=0)
+		return $text;
+	else if(strlen($text)==1)
+		return strtoupper($text);
+	else
+		return strtoupper(substr($text,0,1)).text_operation_lower_case(substr($text,1,strlen($text)-1));
+}
+
+function text_operation_first_letter_upper($text)
+{
+	if(strlen($text)<=0)
+		return $text;
+	else if(strlen($text)==1)
+		return strtoupper($text);
+	else
+		return strtoupper(substr($text,0,1)).substr($text,1,strlen($text)-1);
+}
+
 $template=file_get_contents('template.html');
 
 $item_meta=array();
@@ -138,7 +158,7 @@ if(file_exists($datapack_path.'items/items.xml'))
 		$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
 		if(!preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
 			continue;
-		$description=preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry);
+		$description=text_operation_first_letter_upper(preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry));
 		if(preg_match('#<trap[^>]+/>#isU',$entry))
 		{
 			$temp_text=preg_replace('#^.*(<trap[^>]+/>).*$#isU','$1',$entry);
@@ -517,7 +537,13 @@ if(file_exists($datapack_path.'monsters/monster.xml'))
 		$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
 		if(!preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
 			continue;
-		$description=preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry);
+		$description=text_operation_first_letter_upper(preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry));
+		$kind='';
+		if(preg_match('#<kind( lang="en")?>(.*)</kind>#isU',$entry))
+			$kind=preg_replace('#^.*<kind( lang="en")?>(.*)</kind>.*$#isU','$2',$entry);
+		$habitat='';
+		if(preg_match('#<habitat( lang="en")?>(.*)</habitat>#isU',$entry))
+			$habitat=preg_replace('#^.*<habitat( lang="en")?>(.*)</habitat>.*$#isU','$2',$entry);
 		$attack_list=array();
 		preg_match_all('#<attack[^>]+/>#isU',$entry,$temp_text_list);
 		foreach($temp_text_list[0] as $attack_text)
@@ -588,7 +614,7 @@ if(file_exists($datapack_path.'monsters/monster.xml'))
 			$item_to_monster[$item][]=array('monster'=>$id,'quantity_min'=>$quantity_min,'quantity_max'=>$quantity_max,'luck'=>$luck);
 		}
 		ksort($attack_list);
-		$monster_meta[$id]=array('name'=>$name,'type'=>$type,'description'=>$description,'attack_list'=>$attack_list,'drops'=>$drops_list,'evolution_list'=>$evolution_list,'ratio_gender'=>$ratio_gender,'catch_rate'=>$catch_rate,
+		$monster_meta[$id]=array('name'=>$name,'type'=>$type,'description'=>$description,'kind'=>$kind,'habitat'=>$habitat,'attack_list'=>$attack_list,'drops'=>$drops_list,'evolution_list'=>$evolution_list,'ratio_gender'=>$ratio_gender,'catch_rate'=>$catch_rate,
 		'height'=>$height,'weight'=>$weight,'egg_step'=>$egg_step,'hp'=>$hp,'attack'=>$attack,'defense'=>$defense,'special_attack'=>$special_attack,'special_defense'=>$special_defense,'speed'=>$speed,
 		);
 	}
@@ -768,7 +794,7 @@ if(file_exists($datapack_path.'player/start.xml'))
 		$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
 		if(!preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
 			continue;
-		$description=preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry);
+		$description=text_operation_first_letter_upper(preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry));
 		if(!preg_match('#<map.*file="([^"]+)".*/>#isU',$entry))
 			continue;
 		if(!preg_match('#<map.*x="([0-9]+)".*/>#isU',$entry))
@@ -1078,9 +1104,9 @@ foreach($temp_maps as $map)
 		elseif(preg_match('#<shortdescription>[^<]+</shortdescription>#isU',$content_meta_map))
 			$shortdescription=preg_replace('#^.*<shortdescription>([^<]+)</shortdescription>.*$#isU','$1',$content_meta_map);
 		if(preg_match('#<description lang="en">[^<]+</description>#isU',$content_meta_map))
-			$description=preg_replace('#^.*<description lang="en">([^<]+)</description>.*$#isU','$1',$content_meta_map);
+			$description=text_operation_first_letter_upper(preg_replace('#^.*<description lang="en">([^<]+)</description>.*$#isU','$1',$content_meta_map));
 		elseif(preg_match('#<description>[^<]+</description>#isU',$content_meta_map))
-			$description=preg_replace('#^.*<description>([^<]+)</description>.*$#isU','$1',$content_meta_map);
+			$description=text_operation_first_letter_upper(preg_replace('#^.*<description>([^<]+)</description>.*$#isU','$1',$content_meta_map));
 		$type=preg_replace("#[\n\r\t]+#is",'',$type);
 		$name=preg_replace("#[\n\r\t]+#is",'',$name);
 		$zone=preg_replace("#[\n\r\t]+#is",'',$zone);
@@ -1543,6 +1569,12 @@ foreach($monster_meta as $id=>$monster)
 				$type_list[]='<span class="type_label type_label_'.$type.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_meta[$type]['english_name'].'</a></span>';
 		$map_descriptor.='<div class="type_label_list">'.implode(' ',$type_list).'</div></div></div>';
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">Gender ratio</div><div class="value">'.$monster['ratio_gender'].'% male, '.(100-$monster['ratio_gender']).'% female</div></div>';
+		if($monster['description']!='')
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">Description</div><div class="value">'.$monster['description'].'</div></div>';
+		if($monster['kind']!='')
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">Kind</div><div class="value">'.$monster['kind'].'</div></div>';
+		if($monster['habitat']!='')
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">Habitat</div><div class="value">'.$monster['habitat'].'</div></div>';
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">Catch rate</div><div class="value">'.$monster['catch_rate'].'</div></div>';
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">Egg step</div><div class="value">'.$monster['egg_step'].'</div></div>';
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">Body</div><div class="value">Height: '.$monster['height'].'m, width: '.$monster['weight'].'kg</div></div>';
@@ -2011,6 +2043,8 @@ foreach($item_meta as $id=>$item)
 			$map_descriptor.='<div class="subblock"><div class="valuetitle">Price</div><div class="value">'.$item['price'].'$</div></div>';
 		else
 			$map_descriptor.='<div class="subblock"><div class="valuetitle">Price</div><div class="value">Can\'t be sold</div></div>';
+		if($item['description']!='')
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">Description</div><div class="value">'.$item['description'].'</div></div>';
 		if(isset($item['trap']))
 			$map_descriptor.='<div class="subblock"><div class="valuetitle">Trap</div><div class="value">Bonus rate: '.$item['trap'].'x</div></div>';
 		if(isset($item['repel']))

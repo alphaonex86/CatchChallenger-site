@@ -3432,7 +3432,7 @@ $map_descriptor='';
 $map_descriptor.='<table class="item_list item_list_type_normal">
 <tr class="item_list_title item_list_title_type_normal">
 	<th colspan="2">Plant</th>
-	<th>Time to grow</th>
+	<th colspan="2">Time to grow</th>
 	<th>Fruits produced</th>
 </tr>';
 foreach($plant_meta as $id=>$plant)
@@ -3464,12 +3464,16 @@ foreach($plant_meta as $id=>$plant)
 	if($link!='')
 		$map_descriptor.='</a>';
 	$map_descriptor.='</td>';
+	$map_descriptor.='<td>';
+	if(file_exists($datapack_path.'plants/'.$id.'.png'))
+		$map_descriptor.='<img src="'.$base_datapack_site_path.'plants/'.$id.'.png" width="80" height="32" alt="'.$name.'" title="'.$name.'" />';
+	$map_descriptor.='</td>';
 	$map_descriptor.='<td><b>'.($plant['fruits']/60).'</b> minutes</td>';
 	$map_descriptor.='<td>'.$plant['quantity'].'</td>';
 	$map_descriptor.='</tr>';
 }
 $map_descriptor.='<tr>
-	<td colspan="4" class="item_list_endline item_list_title_type_normal"></td>
+	<td colspan="5" class="item_list_endline item_list_title_type_normal"></td>
 </tr>
 </table>';
 

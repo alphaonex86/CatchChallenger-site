@@ -1243,31 +1243,17 @@ if(!is_dir($datapack_explorer_local_path.'maps/'))
 $temprand=rand(10000,99999);
 foreach($temp_maps as $map)
 {
-	$map_folder=preg_replace('#/[^/]+$#','',$map).'/';
 	$map_html=str_replace('.tmx','.html',$map);
 	$map_image=str_replace('.tmx','.png',$map);
 	if(file_exists($map_image))
 		unlink($map_image);
-	if(!is_dir($datapack_explorer_local_path.'maps/'.$map_folder))
-		mkdir($datapack_explorer_local_path.'maps/'.$map_folder);
-	if(isset($map_generator))
-		if($map_generator!='')
-		{
-			exec($map_generator.' -platform offscreen '.$datapack_path.'map/'.$map.' '.$datapack_explorer_local_path.'maps/'.$map_image,$output,$return_var);
-			if($return_var==0)
-			{
-				exec('cat '.$datapack_explorer_local_path.'maps/'.$map_image.' | /usr/bin/pngquant - --speed 1 > /tmp/tmp'.$temprand.'.png',$output,$return_var);
-				if($return_var==0)
-				{
-					if(!rename('/tmp/tmp'.$temprand.'.png',$datapack_explorer_local_path.'maps/'.$map_image))
-						echo 'Compressed preview move of '.$datapack_path.'map/'.$map.' failed'."\n";
-				}
-				else
-					echo 'Png compression of '.$datapack_path.'map/'.$map.' failed'."\n";
-			}
-			else
-				echo 'Preview generation of '.$datapack_path.'map/'.$map.' failed'."\n";
-		}
+	$map_folder='';
+	if(preg_match('#/#isU',$map))
+	{
+		$map_folder=preg_replace('#/[^/]+$#','',$map).'/';
+		if(!is_dir($datapack_explorer_local_path.'maps/'.$map_folder))
+			mkdir($datapack_explorer_local_path.'maps/'.$map_folder);
+	}
 	$map_descriptor='';
 
 	$map_descriptor.='<div class="map map_type_'.$maps_list[$map]['type'].'">';
@@ -1283,27 +1269,40 @@ foreach($temp_maps as $map)
 			$map_descriptor.='<div class="subblock"><div class="valuetitle">Map description</div><div class="value">'.$maps_list[$map]['description'].'</div></div>';
 		if(count($maps_list[$map]['borders'])>0 || count($maps_list[$map]['doors'])>0 || count($maps_list[$map]['tp'])>0)
 		{
+			$duplicate=array();
 			$map_descriptor.='<div class="subblock"><div class="valuetitle">Linked locations</div><div class="value"><ul>';
 			foreach($maps_list[$map]['borders'] as $bordertype=>$border)
 			{
-				if(isset($maps_list[$border]))
-					$map_descriptor.='<li>Border '.$bordertype.': <a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$border).'">'.$maps_list[$border]['name'].'</a></li>';
-				else
-					$map_descriptor.='<li>Border '.$bordertype.': <span class="mapnotfound">'.$border.'</span></li>';
+				if(!isset($duplicate[$border]))
+				{
+					$duplicate[$border]='';
+					if(isset($maps_list[$border]))
+						$map_descriptor.='<li>Border '.$bordertype.': <a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$border).'">'.$maps_list[$border]['name'].'</a></li>';
+					else
+						$map_descriptor.='<li>Border '.$bordertype.': <span class="mapnotfound">'.$border.'</span></li>';
+				}
 			}
 			foreach($maps_list[$map]['doors'] as $door)
 			{
-				if(isset($maps_list[$door]))
-					$map_descriptor.='<li>Door: <a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$door).'">'.$maps_list[$door]['name'].'</a></li>';
-				else
-					$map_descriptor.='<li>Door: <span class="mapnotfound">'.$door.'</span></li>';
+				if(!isset($duplicate[$door]))
+				{
+					$duplicate[$door]='';
+					if(isset($maps_list[$door]))
+						$map_descriptor.='<li>Door: <a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$door).'">'.$maps_list[$door]['name'].'</a></li>';
+					else
+						$map_descriptor.='<li>Door: <span class="mapnotfound">'.$door.'</span></li>';
+				}
 			}
 			foreach($maps_list[$map]['tp'] as $tp)
 			{
-				if(isset($maps_list[$tp]))
-					$map_descriptor.='<li>Teleporter: <a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$tp).'">'.$maps_list[$tp]['name'].'</a></li>';
-				else
-					$map_descriptor.='<li>Teleporter: <span class="mapnotfound">'.$tp.'</span></li>';
+				if(!isset($duplicate[$tp]))
+				{
+					$duplicate[$tp]='';
+					if(isset($maps_list[$tp]))
+						$map_descriptor.='<li>Teleporter: <a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$tp).'">'.$maps_list[$tp]['name'].'</a></li>';
+					else
+						$map_descriptor.='<li>Teleporter: <span class="mapnotfound">'.$tp.'</span></li>';
+				}
 			}
 			$map_descriptor.='</ul></div></div>';
 		}
@@ -1490,6 +1489,23 @@ foreach($temp_maps as $map)
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 	filewrite($datapack_explorer_local_path.'maps/'.$map_html,$content);
+}
+
+if(isset($map_generator) && $map_generator!='')
+{
+	$pwd=getcwd();
+	$return_var=0;
+	echo 'cd '.$datapack_explorer_local_path.'maps/ && '.$map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/';
+	chdir($datapack_explorer_local_path.'maps/');
+	exec($map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/',$output,$return_var);
+	if(isset($png_compress) && $png_compress!='')
+	{
+		$before = microtime(true);
+		exec($png_compress);
+		$after = microtime(true);
+		echo 'Png compressed into '.(int)($after-$before)."s\n";
+	}
+	chdir($pwd);
 }
 
 $map_descriptor='';

@@ -296,7 +296,7 @@ if(file_exists('datapack/items/items.xml'))
 									$key=rand(10000,99999);
 									if($smtp_server!='')
 									{
-										$mail->addAddress($_POST['email'], '');
+										$mail->addAddress($_POST['email'], $_POST['login']);
 										$mail->Subject = $_POST['login'].' enable your account into '.$_SERVER['HTTP_HOST'];
 										$mail->Body = 'Hello '.$_POST['login'].', to enable your account into http://'.$_SERVER['HTTP_HOST'].', click here: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?key='.$key.'&email='.$_POST['email'];
 

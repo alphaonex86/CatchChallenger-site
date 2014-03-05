@@ -10,3 +10,6 @@ $datapack_path='../datapack/';
 //$map_generator='/home/user/CatchChallenger/tools/build-map2pngGUI-Qt5-Debug/map2pngGUI';
 //$png_compress='/home/user/Desktop/CatchChallenger/tools/datapack-compressor/png-compress.sh';
 $datapack_explorer_local_path='datapack-explorer/';
+$smtp_server='';
+$smtp_login='';
+$smtp_password='';

@@ -1,11 +1,27 @@
 <?php
 $is_up=true;
 require 'config.php';
+
 $mysql_link=@mysql_connect($mysql_host,$mysql_login,$mysql_pass,true);
 if($mysql_link===NULL)
 	$is_up=false;
 else if(!@mysql_select_db($mysql_db))
 	$is_up=false;
+
+require_once 'libs/class.smtp.php';
+require_once 'libs/class.phpmailer.php';
+
+$mail = new PHPMailer();
+$mail->isSMTP();
+$mail->SMTPSecure='tls';
+$mail->Host = $smtp_server;
+$mail->Port = 25;
+$mail->SMTPAuth = true;
+$mail->Username = $smtp_login;
+$mail->Password = $smtp_password;
+$mail->setFrom('alpha_one_x86@first-world.info', 'alpha_one_x86');
+$mail->addReplyTo('alpha_one_x86@first-world.info', 'alpha_one_x86');
+$mail->isHTML(false);
 
 $ADMINISTRATOR_EMAIL='alpha_one_x86@first-world.info';
 function send_mail($title,$text,$to,$type,$from)
@@ -278,8 +294,22 @@ if(file_exists('datapack/items/items.xml'))
 								{
 									$key=rand(10000,99999);
 									$mysql_return=mysql_query('INSERT INTO `account_register`(`login`,`password`,`email`,`key`,`date`) VALUES(\''.$login_hash.'\',\''.hash("sha512",hash("sha512",$_POST['password'])).'\',\''.addslashes($_POST['email']).'\',\''.addslashes($key).'\','.time().');') or die(mysql_error());
-									echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, check your email</b></span><br />';
-									send_mail($_POST['login'].' enable your account into '.$_SERVER['HTTP_HOST'],'Hello '.$_POST['login'].', to enable your account into http://'.$_SERVER['HTTP_HOST'].', click here: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?key='.$key.'&email='.$_POST['email'],$_POST['email'],'text/plain',$ADMINISTRATOR_EMAIL);
+									if($smtp_server!='')
+									{
+										$mail->addAddress($_POST['email'], '');
+										$mail->Subject = $_POST['login'].' enable your account into '.$_SERVER['HTTP_HOST'];
+										$mail->body = 'Hello '.$_POST['login'].', to enable your account into http://'.$_SERVER['HTTP_HOST'].', click here: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?key='.$key.'&email='.$_POST['email'];
+
+										if (!$mail->send())
+											echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Mailer error: '.$mail->ErrorInfo.', contact the admin at '.$ADMINISTRATOR_EMAIL.'</b></span><br />';
+										else
+											echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, check your email</b></span><br />';
+									}
+									else
+									{
+										send_mail($_POST['login'].' enable your account into '.$_SERVER['HTTP_HOST'],'Hello '.$_POST['login'].', to enable your account into http://'.$_SERVER['HTTP_HOST'].', click here: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?key='.$key.'&email='.$_POST['email'],$_POST['email'],'text/plain',$ADMINISTRATOR_EMAIL);
+										echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, check your email</b></span><br />';
+									}
 								}
 							}
 						}

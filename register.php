@@ -301,7 +301,7 @@ if(file_exists('datapack/items/items.xml'))
 										$mail->body = 'Hello '.$_POST['login'].', to enable your account into http://'.$_SERVER['HTTP_HOST'].', click here: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?key='.$key.'&email='.$_POST['email'];
 
 										if (!$mail->send())
-											echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Mailer error: '.$mail->ErrorInfo.', contact the admin at '.$ADMINISTRATOR_EMAIL.'</b></span><br />';
+											echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;;"><b>Mailer error: '.$mail->ErrorInfo.', contact the admin at '.$ADMINISTRATOR_EMAIL.'</b></span><br />';
 										else
 											echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, check your email</b></span><br />';
 									}
@@ -330,10 +330,10 @@ if(file_exists('datapack/items/items.xml'))
 								echo '</script>'."\n";
 							}
 							else
-								echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Wrong key for the registration</b></span><br />';
+								echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Wrong key for the registration</b></span><br />';
 						}
 						else
-							echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registration not found, already validated?</b></span><br />';
+							echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Registration not found, already validated?</b></span><br />';
 					}
 					echo 'The registration is actually <span style="color:green;"><b>open</b></span>.<br />';
 					echo '<a href="lost-password.html"><span style="font-size:0.7em;">Lost password</span></a><br />';

@@ -1240,6 +1240,18 @@ foreach($temp_maps as $map)
 if(!is_dir($datapack_explorer_local_path.'maps/'))
 	mkdir($datapack_explorer_local_path.'maps/');
 
+foreach($temp_maps as $map)
+{
+	$map_html=str_replace('.tmx','.html',$map);
+	$map_image=str_replace('.tmx','.png',$map);
+	if(preg_match('#/#isU',$map))
+	{
+		$map_folder=preg_replace('#/[^/]+$#','',$map).'/';
+		if(!is_dir($datapack_explorer_local_path.'maps/'.$map_folder))
+			mkdir($datapack_explorer_local_path.'maps/'.$map_folder);
+	}
+}
+
 $temprand=rand(10000,99999);
 if(isset($map_generator) && $map_generator!='')
 {
@@ -1262,8 +1274,6 @@ foreach($temp_maps as $map)
 {
 	$map_html=str_replace('.tmx','.html',$map);
 	$map_image=str_replace('.tmx','.png',$map);
-	if(file_exists($map_image))
-		unlink($map_image);
 	$map_folder='';
 	if(preg_match('#/#isU',$map))
 	{

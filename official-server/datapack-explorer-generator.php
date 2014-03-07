@@ -1241,6 +1241,23 @@ if(!is_dir($datapack_explorer_local_path.'maps/'))
 	mkdir($datapack_explorer_local_path.'maps/');
 
 $temprand=rand(10000,99999);
+if(isset($map_generator) && $map_generator!='')
+{
+	$pwd=getcwd();
+	$return_var=0;
+	echo 'cd '.$datapack_explorer_local_path.'maps/ && '.$map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/';
+	chdir($datapack_explorer_local_path.'maps/');
+	exec($map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/',$output,$return_var);
+	if(isset($png_compress) && $png_compress!='')
+	{
+		$before = microtime(true);
+		exec($png_compress);
+		$after = microtime(true);
+		echo 'Png compressed into '.(int)($after-$before)."s\n";
+	}
+	chdir($pwd);
+}
+
 foreach($temp_maps as $map)
 {
 	$map_html=str_replace('.tmx','.html',$map);
@@ -1489,23 +1506,6 @@ foreach($temp_maps as $map)
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
 	filewrite($datapack_explorer_local_path.'maps/'.$map_html,$content);
-}
-
-if(isset($map_generator) && $map_generator!='')
-{
-	$pwd=getcwd();
-	$return_var=0;
-	echo 'cd '.$datapack_explorer_local_path.'maps/ && '.$map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/';
-	chdir($datapack_explorer_local_path.'maps/');
-	exec($map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/',$output,$return_var);
-	if(isset($png_compress) && $png_compress!='')
-	{
-		$before = microtime(true);
-		exec($png_compress);
-		$after = microtime(true);
-		echo 'Png compressed into '.(int)($after-$before)."s\n";
-	}
-	chdir($pwd);
 }
 
 $map_descriptor='';

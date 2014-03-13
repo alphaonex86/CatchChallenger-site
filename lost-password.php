@@ -7,6 +7,9 @@ if($mysql_link===NULL)
 else if(!@mysql_select_db($mysql_db))
 	$is_up=false;
 
+require_once 'libs/class.smtp.php';
+require_once 'libs/class.phpmailer.php';
+
 $mail = new PHPMailer();
 $mail->isSMTP();
 $mail->SMTPSecure='tls';

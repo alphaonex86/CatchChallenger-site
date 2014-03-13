@@ -7,6 +7,18 @@ if($mysql_link===NULL)
 else if(!@mysql_select_db($mysql_db))
 	$is_up=false;
 
+$mail = new PHPMailer();
+$mail->isSMTP();
+$mail->SMTPSecure='tls';
+$mail->Host = $smtp_server;
+$mail->Port = 25;
+$mail->SMTPAuth = true;
+$mail->Username = $smtp_login;
+$mail->Password = $smtp_password;
+$mail->setFrom('alpha_one_x86@first-world.info', 'alpha_one_x86');
+$mail->addReplyTo('alpha_one_x86@first-world.info', 'alpha_one_x86');
+$mail->isHTML(false);
+
 $ADMINISTRATOR_EMAIL='alpha_one_x86@first-world.info';
 function send_mail($title,$text,$to,$type,$from)
 {
@@ -19,15 +31,25 @@ function send_mail($title,$text,$to,$type,$from)
 
 function send_change_password($id)
 {
-	global $ADMINISTRATOR_EMAIL;
+	global $ADMINISTRATOR_EMAIL,$mail,$smtp_server;
 	$reply = mysql_query('SELECT * FROM `player` WHERE `id`='.addslashes($id)) or die(mysql_error());
 	if($data = mysql_fetch_array($reply))
 	{
 		$reply_meta_data = mysql_query('SELECT * FROM `player_meta` WHERE `id`='.addslashes($id)) or die(mysql_error());
 		if($data_meta_data = mysql_fetch_array($reply_meta_data))
 		{
-			send_mail('Change your password on '.$_SERVER['HTTP_HOST'],'To change your password on http://'.$_SERVER['HTTP_HOST'].', click here: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?id='.$id.'&oldpass='.$data['password'],$data_meta_data['email'],'text/plain',$ADMINISTRATOR_EMAIL);
-			return true;
+			if($smtp_server!='')
+			{
+				$mail->addAddress($data_meta_data['email'], '');
+				$mail->Subject = 'Change your password on '.$_SERVER['HTTP_HOST'];
+				$mail->Body = 'To change your password on http://'.$_SERVER['HTTP_HOST'].', click here: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?id='.$id.'&oldpass='.$data['password'];
+				return $mail->send();
+			}
+			else
+			{
+				send_mail('Change your password on '.$_SERVER['HTTP_HOST'],'To change your password on http://'.$_SERVER['HTTP_HOST'].', click here: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?id='.$id.'&oldpass='.$data['password'],$data_meta_data['email'],'text/plain',$ADMINISTRATOR_EMAIL);
+				return true;
+			}
 		}
 		else
 			return false;

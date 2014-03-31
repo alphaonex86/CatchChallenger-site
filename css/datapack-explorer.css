@@ -183,20 +183,20 @@
 	border-color:#56137D;
 }
 
-.item_list_title_type_fire
+.item_list_title_type_fight
 {
 	background-color:#FF9595;
 }
-.item_list_type_fire
+.item_list_type_fight
 {
 	border-color:#D33A3A;
 	background-color:#F34A47;
 }
-.item_list_title_type_fight
+.item_list_title_type_fire
 {
 	background-color:#ffb263;
 }
-.item_list_type_fight
+.item_list_type_fire
 {
 	border-color:#d36225;
 	background-color:#f38233;
@@ -336,22 +336,22 @@
 	background-color:#D4D4D4;
 }
 
-.monster_type_fire
+.monster_type_fight
 {
 	border-color:#D34444;
 	background-color:#F34E4E;
 }
-.monster_type_fire .subblock
+.monster_type_fight .subblock
 {
 	border-color:#D34444;
 	background-color:#FF8888;
 }
-.monster_type_fight
+.monster_type_fire
 {
 	border-color:#d36225;
 	background-color:#f38233;
 }
-.monster_type_fight .subblock
+.monster_type_fire .subblock
 {
 	border-color:#d36225;
 	background-color:#ffb263;
@@ -491,11 +491,11 @@
 	color:#fff;
 	text-decoration:normal;
 }
-.type_label_fire
+.type_label_fight
 {
 	background-color:#F34D4D;
 }
-.type_label_fight
+.type_label_fire
 {
 	background-color:#f38233;
 }

@@ -137,7 +137,14 @@
 {
 	border-radius:10px 10px 0 0;
 }
-
+.item_list_title .item_list_title_corner
+{
+	border-radius:10px 10px 10px 10px;
+}
+.item_list_title_left
+{
+	border-radius:10px 0 0 10px;
+}
 
 .item_list_title_type_outdoor
 {
@@ -178,9 +185,18 @@
 
 .item_list_title_type_fire
 {
-	background-color:#ffb263;
+	background-color:#FF9595;
 }
 .item_list_type_fire
+{
+	border-color:#D33A3A;
+	background-color:#F34A47;
+}
+.item_list_title_type_fight
+{
+	background-color:#ffb263;
+}
+.item_list_type_fight
 {
 	border-color:#d36225;
 	background-color:#f38233;
@@ -201,6 +217,15 @@
 	#8b0 25%, #8b0 50%, 
 	#BF904E 50%, #BF904E 75%, 
 	#8b0 75%);
+}
+.item_list_title_type_ground
+{
+	background-color:#A46E22;
+}
+.item_list_type_ground
+{
+	border-color:#301F07;
+	background-color:#94703C;
 }
 .item_list_title_type_stone
 {
@@ -229,6 +254,15 @@
 	border-color:#6C1886;
 	background-color:#A237F3;
 }
+.item_list_title_type_poison
+{
+	background-color:#E881FF;
+}
+.item_list_type_poison
+{
+	border-color:#9C43AB;
+	background-color:#EC6DFF;
+}
 .item_list_title_type_water
 {
 	background-color:#65D4FF;
@@ -238,14 +272,32 @@
 	border-color:#3A5295;
 	background-color:#5DA8E5;
 }
+.item_list_title_type_ice
+{
+	background-color:#BDFFFF;
+}
+.item_list_type_ice
+{
+	border-color:#6FA5BE;
+	background-color:#6AE7FF;
+}
 .item_list_title_type_electric
 {
-	background-color:#FFED63;
+	background-color:#FEF205;
 }
 .item_list_type_electric
 {
 	border-color:#C7954F;
 	background-color:#EFCB5F;
+}
+.item_list_title_type_spectre
+{
+	background-color:#D3FF64;
+}
+.item_list_type_spectre
+{
+	border-color:#B3C74F;
+	background-color:#D0EF5F;
 }
 .item_list_title_type_plant
 {
@@ -255,6 +307,15 @@
 {
 	border-color:#22582B;
 	background-color:#43AA54;
+}
+.item_list_title_type_psy
+{
+	background-color:#4A903E;
+}
+.item_list_type_psy
+{
+	border-color:#122F17;
+	background-color:#2D7238;
 }
 .item_list td, .item_list th
 {
@@ -277,10 +338,20 @@
 
 .monster_type_fire
 {
+	border-color:#D34444;
+	background-color:#F34E4E;
+}
+.monster_type_fire .subblock
+{
+	border-color:#D34444;
+	background-color:#FF8888;
+}
+.monster_type_fight
+{
 	border-color:#d36225;
 	background-color:#f38233;
 }
-.monster_type_fire .subblock
+.monster_type_fight .subblock
 {
 	border-color:#d36225;
 	background-color:#ffb263;
@@ -303,6 +374,16 @@
 	#E49930 50%, #E49930 75%, 
 	#B0CC51 75%);
 }
+.monster_type_ground
+{
+	border-color:#271906;
+	background-color:#896738;
+}
+.monster_type_ground .subblock
+{
+	border-color:#271906;
+	background-color:#B07625;
+}
 .monster_type_stone
 {
 	border-color:#50350D;
@@ -323,6 +404,16 @@
 	border-color:#371364;
 	background-color:#B36DDE;
 }
+.monster_type_poison
+{
+	border-color:#833896;
+	background-color:#B863E9;
+}
+.monster_type_poison .subblock
+{
+	border-color:#833896;
+	background-color:#D995DE;
+}
 
 .monster_type_water
 {
@@ -334,6 +425,16 @@
 	border-color:#375B88;
 	background-color:#68D5FF;
 }
+.monster_type_ice
+{
+	border-color:#65B7C1;
+	background-color:#6DE7FF;
+}
+.monster_type_ice .subblock
+{
+	border-color:#65B7C1;
+	background-color:#74EFFF;
+}
 .monster_type_electric
 {
 	border-color:#C7954F;
@@ -343,6 +444,16 @@
 {
 	border-color:#C7954F;
 	background-color:#FFF564;
+}
+.monster_type_spectre
+{
+	border-color:#ABC74F;
+	background-color:#C1EF5E;
+}
+.monster_type_spectre .subblock
+{
+	border-color:#ABC74F;
+	background-color:#CEFF64;
 }
 
 .monster_type_plant
@@ -354,6 +465,16 @@
 {
 	border-color:#22582B;
 	background-color:#71DA5E;
+}
+.monster_type_psy
+{
+	border-color:#102B15;
+	background-color:#2B6F37;
+}
+.monster_type_psy .subblock
+{
+	border-color:#102B15;
+	background-color:#4D9540;
 }
 .type_label
 {
@@ -372,6 +493,10 @@
 }
 .type_label_fire
 {
+	background-color:#F34D4D;
+}
+.type_label_fight
+{
 	background-color:#f38233;
 }
 .type_label_earth
@@ -381,6 +506,10 @@
 	#8b0 25%, #8b0 50%, 
 	#BF904E 50%, #BF904E 75%, 
 	#8b0 75%);
+}
+.type_label_ground
+{
+	background-color:#926E3B;
 }
 .type_label_stone
 {
@@ -394,17 +523,33 @@
 {
 	background-color:#8A47C5;
 }
+.type_label_poison
+{
+	background-color:#B46DC5;
+}
 .type_label_water
 {
 	background-color:#2E9EF3;
+}
+.type_label_ice
+{
+	background-color:#75E7F3;
 }
 .type_label_electric
 {
 	background-color:#FFEC10;
 }
+.type_label_spectre
+{
+	background-color:#CBFF0F;
+}
 .type_label_plant
 {
 	background-color:#71DA5E;
+}
+.type_label_psy
+{
+	background-color:#498E3D;
 }
 .type_label_list
 {
@@ -423,4 +568,19 @@
 	margin-top:10px;
 	text-shadow: 2px 2px 2px rgba(150, 150, 150, 1);
 	text-align:center;
+}
+.very_effective
+{
+	background-color:#6BDD4B;
+	font-weight:bold;
+}
+.no_effective
+{
+	background-color:#A8ACDD;
+	font-weight:bold;
+}
+.not_very_effective
+{
+	background-color:#DD5649;
+	font-weight:bold;
 }

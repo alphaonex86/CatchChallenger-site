@@ -3273,6 +3273,32 @@ $map_descriptor.='<tr>
 	<td colspan="2" class="item_list_endline item_list_title_type_normal"></td>
 </tr>
 </table>';
+$map_descriptor.='<table class="item_list item_list_type_normal">
+<tr class="item_list_title item_list_title_type_normal">
+	<th class="item_list_title_corner">Effective against</th>';
+foreach($type_meta as $type=>$type_content)
+	$map_descriptor.='<th><div class="type_label_list"><span class="type_label type_label_'.$type.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_content['english_name'].'</a></span></div></th>';
+foreach($type_meta as $type=>$type_content)
+{
+	$map_descriptor.='<tr class="value"><td class="item_list_title_left item_list_title_type_normal"><div class="type_label_list"><span class="type_label type_label_'.$type.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_content['english_name'].'</a></span></div></td>';
+	foreach($type_meta as $type2=>$type_content2)
+	{
+		$effectiveness=(float)1.0;
+		if(isset($type_content['multiplicator'][$type2]))
+			$effectiveness*=$type_content['multiplicator'][$type2];
+		if($effectiveness>1.0)
+			$map_descriptor.='<td class="very_effective">'.$effectiveness.'</td>';
+		elseif($effectiveness==1.0)
+			$map_descriptor.='<td class="normal_effective">'.$effectiveness.'</td>';
+		elseif($effectiveness==0.0)
+			$map_descriptor.='<td class="no_effective">'.$effectiveness.'</td>';
+		elseif($effectiveness<1.0)
+			$map_descriptor.='<td class="not_very_effective">'.$effectiveness.'</td>';
+	}
+	$map_descriptor.='</tr>';
+}
+$map_descriptor.='</tr>';
+$map_descriptor.='</table>';
 $content=$template;
 $content=str_replace('${TITLE}','Type list',$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);

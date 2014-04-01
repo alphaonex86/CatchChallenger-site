@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	die('abort into generator items');
+	die('abort into generator items'."\n");
 
 foreach($item_meta as $id=>$item)
 {

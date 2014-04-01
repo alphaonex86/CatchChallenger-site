@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	die('abort into load other');
+	die('abort into load other'."\n");
 
 $xmlZoneList=getXmlList($datapack_path.'map/zone/');
 $zone_meta=array();
@@ -33,7 +33,7 @@ foreach($xmlFightList as $file)
 		$id=preg_replace('#^.*<fight id="([0-9]+)".*</fight>.*$#isU','$1',$entry);
 		if(isset($fight_meta[$id]))
 		{
-			echo 'duplicate id '.$id.' for the fight';
+			echo 'duplicate id '.$id.' for the fight'."\n";
 			continue;
 		}
 		if(preg_match('#<gain cash="([0-9]+)"#isU',$entry))
@@ -69,7 +69,7 @@ foreach($xmlFightList as $file)
 		$id=preg_replace('#^.*<industrialrecipe id="([0-9]+)".*</industrialrecipe>.*$#isU','$1',$entry);
 		if(isset($industries_meta[$id]))
 		{
-			echo 'duplicate id '.$id.' for the industries';
+			echo 'duplicate id '.$id.' for the industries'."\n";
 			continue;
 		}
 		if(!preg_match('#time="([0-9]+)"#isU',$entry))
@@ -111,7 +111,7 @@ foreach($xmlFightList as $file)
 		$id=preg_replace('#^.*<shop id="([0-9]+)".*</shop>.*$#isU','$1',$entry);
 		if(isset($shop_meta[$id]))
 		{
-			echo 'duplicate id '.$id.' for the shop';
+			echo 'duplicate id '.$id.' for the shop'."\n";
 			continue;
 		}
 		$products=array();
@@ -234,7 +234,7 @@ foreach($xmlFightList as $file)
 	$id=preg_replace('#^.*([0-9]+).*$#is','$1',$file);
 	if(isset($quests_meta[$id]))
 	{
-		echo 'duplicate id '.$id.' for the quests';
+		echo 'duplicate id '.$id.' for the quests'."\n";
 		continue;
 	}
 	$content=file_get_contents($datapack_path.'quests/'.$file);

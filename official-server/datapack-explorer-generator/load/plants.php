@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	die('abort into load plans');
+	die('abort into load plans'."\n");
 
 $plant_meta=array();
 $item_to_plant=array();
@@ -21,7 +21,7 @@ if(file_exists($datapack_path.'plants/plants.xml'))
 		$id=preg_replace('#^.*<plant[^>]+id="([0-9]+)".*</plant>.*$#isU','$1',$entry);
 		if(isset($plant_meta[$id]))
 		{
-			echo 'duplicate id '.$id.' for plant';
+			echo 'duplicate id '.$id.' for plant'."\n";
 			continue;
 		}
 		$itemUsed=preg_replace('#^.*<plant[^>]+itemUsed="([0-9]+)".*</plant>.*$#isU','$1',$entry);

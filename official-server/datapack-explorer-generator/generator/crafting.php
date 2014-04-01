@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	die('abort into generator crafting');
+	die('abort into generator crafting'."\n");
 
 $map_descriptor='';
 

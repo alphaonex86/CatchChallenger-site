@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	die('abort into generator monsters');
+	die('abort into generator monsters'."\n");
 
 foreach($monster_meta as $id=>$monster)
 {

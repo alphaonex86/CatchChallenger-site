@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	die('abort into load type');
+	die('abort into load type'."\n");
 
 $type_meta=array();
 if(file_exists($datapack_path.'monsters/type.xml'))

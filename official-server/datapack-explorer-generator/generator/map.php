@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	die('abort into generator map');
+	die('abort into generator map'."\n");
 
 if(!is_dir($datapack_explorer_local_path.'maps/'))
 	mkdir($datapack_explorer_local_path.'maps/');

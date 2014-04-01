@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	die('abort into generator skills');
+	die('abort into generator skills'."\n");
 
 foreach($skill_meta as $skill_id=>$skill)
 {

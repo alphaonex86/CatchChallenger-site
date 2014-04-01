@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	die('abort into load items');
+	die('abort into load items'."\n");
 
 $item_meta=array();
 $item_to_trap=array();
@@ -14,6 +14,11 @@ if(file_exists($datapack_path.'items/items.xml'))
 		if(!preg_match('#<item[^>]*id="[0-9]+".*</item>#isU',$entry))
 			continue;
 		$id=preg_replace('#^.*<item[^>]*id="([0-9]+)".*</item>.*$#isU','$1',$entry);
+		if(isset($item_meta[$id]))
+		{
+			echo 'duplicate id '.$id.' for item'."\n";
+			continue;
+		}
 		$price=0;
 		if(preg_match('#<item[^>]*price="[0-9]+".*</item>#isU',$entry))
 			$price=preg_replace('#^.*<item[^>]*price="([0-9]+)".*</item>.*$#isU','$1',$entry);

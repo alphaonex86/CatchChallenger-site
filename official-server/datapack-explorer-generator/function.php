@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	die('abort into function');
+	die('abort into function'."\n");
 
 function filewrite($file,$content)
 {

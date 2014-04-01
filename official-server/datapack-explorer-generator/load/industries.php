@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	die('abort into load industries');
+	die('abort into load industries'."\n");
 
 $industrie_meta=array();
 $industrie_link_meta=array();
@@ -35,7 +35,7 @@ if(is_dir($datapack_path.'industries/'))
 					$id=preg_replace('#^.*<industrialrecipe[^>]*id="([0-9]+)".*$#isU','$1',$entry);
 					if(isset($industrie_meta[$id]))
 					{
-						echo 'duplicate id '.$id.' for the industries';
+						echo 'duplicate id '.$id.' for the industries'."\n";
 						continue;
 					}
 					$time=preg_replace('#^.*<industrialrecipe[^>]*time="([0-9]+)".*$#isU','$1',$entry);

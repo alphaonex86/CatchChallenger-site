@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	die('abort into load map');
+	die('abort into load map'."\n");
 
 $maps_list=array();
 $maps_name_to_file=array();

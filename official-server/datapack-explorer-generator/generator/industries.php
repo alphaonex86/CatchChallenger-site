@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	die('abort into generator industries');
+	die('abort into generator industries'."\n");
 
 foreach($industries_meta as $id=>$industry)
 {

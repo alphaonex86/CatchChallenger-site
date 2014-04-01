@@ -34,6 +34,7 @@ require 'datapack-explorer-generator/load/items.php';
 require 'datapack-explorer-generator/load/type.php';
 require 'datapack-explorer-generator/load/reputation.php';
 require 'datapack-explorer-generator/load/recipes.php';
+require 'datapack-explorer-generator/load/buff.php';
 require 'datapack-explorer-generator/load/skill.php';
 require 'datapack-explorer-generator/load/industries.php';
 require 'datapack-explorer-generator/load/plants.php';
@@ -42,6 +43,8 @@ require 'datapack-explorer-generator/load/other.php';
 require 'datapack-explorer-generator/load/map.php';
 
 require 'datapack-explorer-generator/generator/map.php';
+require 'datapack-explorer-generator/generator/buffs.php';
+require 'datapack-explorer-generator/generator/skills.php';
 require 'datapack-explorer-generator/generator/monsters.php';
 require 'datapack-explorer-generator/generator/items.php';
 require 'datapack-explorer-generator/generator/items-index.php';

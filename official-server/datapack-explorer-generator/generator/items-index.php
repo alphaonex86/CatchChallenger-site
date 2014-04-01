@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	die('abort into generator items index');
+	die('abort into generator items index'."\n");
 
 $map_descriptor='';
 

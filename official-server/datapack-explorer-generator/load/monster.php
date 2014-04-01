@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	exit;
+	die('abort into load monster');
 
 $monster_meta=array();
 $item_to_monster=array();
@@ -19,6 +19,11 @@ if(file_exists($datapack_path.'monsters/monster.xml'))
 		if(!preg_match('#.*id="[0-9]+".*#isU',$first))
 			continue;
 		$id=preg_replace('#^.*id="([0-9]+)".*$#isU','$1',$first);
+		if(isset($monster_meta[$id]))
+		{
+			echo 'duplicate id '.$id.' for monster';
+			continue;
+		}
 		$ratio_gender="50";
 		if(preg_match('#ratio_gender="([0-9]+)%?"#isU',$first))
 			$ratio_gender=preg_replace('#^.*ratio_gender="([0-9]+)%?".*$#isU','$1',$first);

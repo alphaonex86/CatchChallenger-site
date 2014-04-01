@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	exit;
+	die('abort into generator quests');
 
 foreach($quests_meta as $id=>$quest)
 {

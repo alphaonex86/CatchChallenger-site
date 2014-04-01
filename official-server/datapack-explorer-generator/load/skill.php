@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	exit;
+	die('abort into load skill');
 
 $skill_meta=array();
 if(file_exists($datapack_path.'monsters/skill.xml'))
@@ -12,6 +12,11 @@ if(file_exists($datapack_path.'monsters/skill.xml'))
 		if(!preg_match('#id="[0-9]+"#isU',$entry))
 			continue;
 		$id=preg_replace('#^.*id="([0-9]+)".*$#isU','$1',$entry);
+		if(isset($skill_meta[$id]))
+		{
+			echo 'duplicate id '.$id.' for the skill';
+			continue;
+		}
 		$type='normal';
 		if(preg_match('#type="[^"]+"#isU',$entry))
 			$type=preg_replace('#^.*type="([^"]+)".*$#isU','$1',$entry);

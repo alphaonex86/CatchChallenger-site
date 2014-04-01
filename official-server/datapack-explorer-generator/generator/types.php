@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	exit;
+	die('abort into generator types');
 
 foreach($type_meta as $type=>$type_content)
 {

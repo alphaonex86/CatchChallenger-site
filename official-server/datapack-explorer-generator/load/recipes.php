@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	exit;
+	die('abort into load recipes');
 
 $crafting_meta=array();
 $item_to_crafting=array();
@@ -15,6 +15,11 @@ if(file_exists($datapack_path.'crafting/recipes.xml'))
 		$id=preg_replace('#^.*<recipe[^>]*id="([0-9]+)".*</recipe>.*$#isU','$1',$entry);
 		if(!preg_match('#<recipe[^>]*itemToLearn="[0-9]+".*</recipe>#isU',$entry))
 			continue;
+		if(isset($crafting_meta[$id]))
+		{
+			echo 'duplicate id '.$id.' for the crafting recipe';
+			continue;
+		}
 		$itemToLearn=preg_replace('#^.*<recipe[^>]*itemToLearn="([0-9]+)".*</recipe>.*$#isU','$1',$entry);
 		if(!preg_match('#<recipe[^>]*doItemId="[0-9]+".*</recipe>#isU',$entry))
 			continue;

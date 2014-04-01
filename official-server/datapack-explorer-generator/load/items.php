@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	exit;
+	die('abort into load items');
 
 $item_meta=array();
 $item_to_trap=array();
@@ -80,4 +80,4 @@ if(file_exists($datapack_path.'items/items.xml'))
 				$item_meta[$id]=array('price'=>$price,'image'=>$image,'name'=>$name,'description'=>$description);
 		}
 	}
-} 
+}

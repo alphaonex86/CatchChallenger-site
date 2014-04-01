@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	exit;
+	die('abort into load reputation');
 
 $reputation_meta=array();
 if(file_exists($datapack_path.'player/reputation.xml'))

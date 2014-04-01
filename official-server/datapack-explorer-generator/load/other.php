@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	exit;
+	die('abort into load other');
 
 $xmlZoneList=getXmlList($datapack_path.'map/zone/');
 $zone_meta=array();
@@ -31,6 +31,11 @@ foreach($xmlFightList as $file)
 		if(!preg_match('#<fight id="[0-9]+".*</fight>#isU',$entry))
 			continue;
 		$id=preg_replace('#^.*<fight id="([0-9]+)".*</fight>.*$#isU','$1',$entry);
+		if(isset($fight_meta[$id]))
+		{
+			echo 'duplicate id '.$id.' for the fight';
+			continue;
+		}
 		if(preg_match('#<gain cash="([0-9]+)"#isU',$entry))
 			$cash=preg_replace('#^.*<gain cash="([0-9]+)".*$#isU','$1',$entry);
 		if(preg_match('#<start( lang="en")?>(<!\\[CDATA\\[)?(.*)(]]>)?</start>#isU',$entry))
@@ -62,6 +67,11 @@ foreach($xmlFightList as $file)
 		if(!preg_match('#<industrialrecipe id="([0-9]+)".*</industrialrecipe>#isU',$entry))
 			continue;
 		$id=preg_replace('#^.*<industrialrecipe id="([0-9]+)".*</industrialrecipe>.*$#isU','$1',$entry);
+		if(isset($industries_meta[$id]))
+		{
+			echo 'duplicate id '.$id.' for the industries';
+			continue;
+		}
 		if(!preg_match('#time="([0-9]+)"#isU',$entry))
 			continue;
 		$time=preg_replace('#^.*time="([0-9]+)".*$#isU','$1',$entry);
@@ -99,6 +109,11 @@ foreach($xmlFightList as $file)
 		if(!preg_match('#<shop id="([0-9]+)".*</shop>#isU',$entry))
 			continue;
 		$id=preg_replace('#^.*<shop id="([0-9]+)".*</shop>.*$#isU','$1',$entry);
+		if(isset($shop_meta[$id]))
+		{
+			echo 'duplicate id '.$id.' for the shop';
+			continue;
+		}
 		$products=array();
 		preg_match_all('#<product itemId="([0-9]+)" />#isU',$entry,$monster_text_list);
 		foreach($monster_text_list[0] as $monster_text)
@@ -217,6 +232,11 @@ foreach($xmlFightList as $file)
 	if(!preg_match('#([0-9]+)#is',$file))
 		continue;
 	$id=preg_replace('#^.*([0-9]+).*$#is','$1',$file);
+	if(isset($quests_meta[$id]))
+	{
+		echo 'duplicate id '.$id.' for the quests';
+		continue;
+	}
 	$content=file_get_contents($datapack_path.'quests/'.$file);
 	$repeatable=false;
 	if(preg_match('#repeatable="(yes|true)"#isU',$content))

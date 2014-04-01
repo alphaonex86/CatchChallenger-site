@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	exit;
+	die('abort into generator plants');
 
 $map_descriptor='';
 $map_descriptor.='<table class="item_list item_list_type_normal">

@@ -24,11 +24,11 @@ if(isset($datapack_source_url) && $datapack_source_url!='')
 	$automaticallygen.='</a>';
 $automaticallygen.='</div>';
 
+$datapackexplorergeneratorinclude=true;
+
 require 'datapack-explorer-generator/function.php';
 
 $template=file_get_contents('template.html');
-
-$datapackexplorergeneratorinclude=true;
 
 require 'datapack-explorer-generator/load/items.php';
 require 'datapack-explorer-generator/load/type.php';

@@ -16,7 +16,7 @@ foreach($buff_meta as $buff_id=>$buff)
 		{
 			$map_descriptor.='<div class="subblock"><div class="valuetitle">';
 			if(file_exists($datapack_path.'/monsters/buff/'.$buff_id.'.png'))
-				$map_descriptor.='<center><img src="'.$base_datapack_site_path.'monsters/buff/'.$buff_id.'.png" alt="" width="16" height="16" style="float:none" /></center>';
+				$map_descriptor.='<center><img src="'.$base_datapack_site_path.'monsters/buff/'.$buff_id.'.png" alt="" width="16" height="16" /></center>';
 			$map_descriptor.='Level '.$level.'</div><div class="value">';
 			if($effect['capture_bonus']!=1)
 				$map_descriptor.='Capture bonus: '.$effect['capture_bonus'].'<br />';
@@ -117,16 +117,22 @@ foreach($buff_meta as $buff_id=>$buff)
 $map_descriptor='';
 $map_descriptor.='<table class="item_list item_list_type_normal">
 <tr class="item_list_title item_list_title_type_normal">
-	<th>Buff</th>
+	<th colspan="2">Buff</th>
 </tr>';
 foreach($buff_meta as $buff_id=>$buff)
 {
 	$map_descriptor.='<tr class="value">';
+	$map_descriptor.='<td>';
+	if(file_exists($datapack_path.'/monsters/buff/'.$buff_id.'.png'))
+		$map_descriptor.='<img src="'.$base_datapack_site_path.'monsters/buff/'.$buff_id.'.png" alt="" width="16" height="16" />';
+	else
+		$map_descriptor.='&nbsp;';
+	$map_descriptor.='</td>';
 	$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'monsters/buffs/'.text_operation_do_for_url($buff['name']).'.html">'.$buff['name'].'</a></td>';
 	$map_descriptor.='</tr>';
 }
 $map_descriptor.='<tr>
-	<td class="item_list_endline item_list_title_type_normal"></td>
+	<td colspan="2" class="item_list_endline item_list_title_type_normal"></td>
 </tr>
 </table>';
 $content=$template;

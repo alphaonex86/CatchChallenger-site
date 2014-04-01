@@ -72,7 +72,19 @@ foreach($item_meta as $id=>$item)
 				if($item['effect']['buff']=='all')
 					$map_descriptor.='<li>Remove all debuff</li>';
 				else
-					$map_descriptor.='<li>Remove the debuff '.$item['effect']['buff'].'</li>';
+				{
+					$buff_id=$item['effect']['buff'];
+					$map_descriptor.='<li>Remove the debuff:';
+					$map_descriptor.='<center><table><td>';
+					if(file_exists($datapack_path.'/monsters/buff/'.$buff_id.'.png'))
+						$map_descriptor.='<img src="'.$base_datapack_site_path.'monsters/buff/'.$buff_id.'.png" alt="" width="16" height="16" />';
+					else
+						$map_descriptor.='&nbsp;';
+					$map_descriptor.='</td>';
+					$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'monsters/buffs/'.text_operation_do_for_url($buff_meta[$buff_id]['name']).'.html">'.$buff_meta[$buff_id]['name'].'</a></td>';
+					$map_descriptor.='</table></center>';
+					$map_descriptor.='</li>';
+				}
 			}
 			$map_descriptor.='</ul></div></div>';
 		}

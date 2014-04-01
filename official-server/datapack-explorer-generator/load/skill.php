@@ -49,7 +49,20 @@ if(file_exists($datapack_path.'monsters/skill.xml'))
 			$life_quantity=0;
 			if(preg_match('#life[^>]+quantity="(-?[0-9]+%?)"#isU',$level_text))
 				$life_quantity=preg_replace('#^.*life[^>]+quantity="(-?[0-9]+%?)".*$#isU','$1',$level_text);
-			$level_list[$number]=array('endurance'=>$endurance,'sp'=>$sp,'life_quantity'=>$life_quantity,'base_level_luck'=>$base_level_luck);
+			$buff_list=array();
+			preg_match_all('#(<buff[^>]+>)#isU',$level_text,$temp_buff_list);
+			foreach($temp_buff_list[0] as $buff)
+			{
+				if(preg_match('#id="([0-9]+)"#isU',$buff))
+				{
+					$id=preg_replace('#^.*id="([0-9]+)".*$#isU','$1',$buff);
+					$success=100;
+					if(preg_match('#success="([0-9]+)%?"#isU',$buff))
+						$success=preg_replace('#^.*success="([0-9]+)%?".*$#isU','$1',$buff);
+					$buff_list[]=array('id'=>$id,'success'=>$success);
+				}
+			}
+			$level_list[$number]=array('endurance'=>$endurance,'sp'=>$sp,'life_quantity'=>$life_quantity,'buff'=>$buff_list,'base_level_luck'=>$base_level_luck);
 		}
 		$skill_meta[$id]=array('type'=>$type,'name'=>$name,'level_list'=>$level_list);
 	}

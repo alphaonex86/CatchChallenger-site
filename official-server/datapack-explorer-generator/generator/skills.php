@@ -75,6 +75,32 @@ foreach($skill_meta as $skill_id=>$skill)
 				$map_descriptor.='You can\'t learn this skill<br />';
 			if($effect['life_quantity']!='0' || $effect['life_quantity']!='0%')
 				$map_descriptor.='Life quantity: '.$effect['life_quantity'].'<br />';
+			if(count($effect['buff'])>0)
+			{
+				$map_descriptor.='Add buff:';
+				$map_descriptor.='<center><table class="item_list item_list_type_'.$type.'">
+				<tr class="item_list_title item_list_title_type_'.$type.'">
+					<th colspan="2">Buff</th>
+					<th>Success</th>
+				</tr>';
+				foreach($effect['buff'] as $buff)
+				{
+					$buff_id=$buff['id'];
+					$map_descriptor.='<tr class="value"><td>';
+					if(file_exists($datapack_path.'/monsters/buff/'.$buff_id.'.png'))
+						$map_descriptor.='<img src="'.$base_datapack_site_path.'monsters/buff/'.$buff_id.'.png" alt="" width="16" height="16" />';
+					else
+						$map_descriptor.='&nbsp;';
+					$map_descriptor.='</td>';
+					$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'monsters/buffs/'.text_operation_do_for_url($buff_meta[$buff_id]['name']).'.html">'.$buff_meta[$buff_id]['name'].'</a></td>';
+					$map_descriptor.='<td>'.$buff['success'].'%</td>';
+					$map_descriptor.='</tr>';
+				}
+				$map_descriptor.='<tr>
+				<td colspan="3" class="item_list_endline item_list_title_type_'.$type.'"></td>
+				</tr>
+				</table></center>';
+			}
 			if($effect['base_level_luck']!='100')
 				$map_descriptor.='Luck: '.$effect['base_level_luck'].'%<br />';
 			$map_descriptor.='</div></div>';
@@ -151,18 +177,21 @@ $map_descriptor.='<table class="item_list item_list_type_normal">
 </tr>';
 foreach($skill_meta as $skill_id=>$skill)
 {
-	$map_descriptor.='<tr class="value">';
-	$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'monsters/skills/'.text_operation_do_for_url($skill['name']).'.html">'.$skill['name'].'</a></td>';
-	if(isset($type_meta[$skill['type']]))
-		$map_descriptor.='<td><span class="type_label type_label_'.$skill['type'].'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$skill['type'].'.html">'.$type_meta[$skill['type']]['english_name'].'</a></span></td>';
-	else
-		$map_descriptor.='<td>&nbsp;</td>';
-	if(isset($skill['level_list'][1]))
-		$map_descriptor.='<td>'.$skill['level_list'][1]['endurance'].'</td>';
-	else
-		$map_descriptor.='<td>&nbsp;</td>';
-	$map_descriptor.='<td>'.count($skill['level_list']).'</td>';
-	$map_descriptor.='</tr>';
+	if(count($skill['level_list'])>0)
+	{
+		$map_descriptor.='<tr class="value">';
+		$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'monsters/skills/'.text_operation_do_for_url($skill['name']).'.html">'.$skill['name'].'</a></td>';
+		if(isset($type_meta[$skill['type']]))
+			$map_descriptor.='<td><span class="type_label type_label_'.$skill['type'].'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$skill['type'].'.html">'.$type_meta[$skill['type']]['english_name'].'</a></span></td>';
+		else
+			$map_descriptor.='<td>&nbsp;</td>';
+		if(isset($skill['level_list'][1]))
+			$map_descriptor.='<td>'.$skill['level_list'][1]['endurance'].'</td>';
+		else
+			$map_descriptor.='<td>&nbsp;</td>';
+		$map_descriptor.='<td>'.count($skill['level_list']).'</td>';
+		$map_descriptor.='</tr>';
+	}
 }
 $map_descriptor.='<tr>
 	<td colspan="4" class="item_list_endline item_list_title_type_normal"></td>

@@ -150,11 +150,11 @@ if(file_exists($datapack_path.'monsters/monster.xml'))
 			$level=preg_replace('#^.*level="([0-9]+)" type="([^"]+)" evolveTo="([0-9]+)".*$#isU','$1',$attack_text);
 			$type_evolution=preg_replace('#^.*level="([0-9]+)" type="([^"]+)" evolveTo="([0-9]+)".*$#isU','$2',$attack_text);
 			$evolveTo=preg_replace('#^.*level="([0-9]+)" type="([^"]+)" evolveTo="([0-9]+)".*$#isU','$3',$attack_text);
-			if(isset($reverse_evolution[$evolveTo]))
+			if(!isset($reverse_evolution[$evolveTo]))
 				$reverse_evolution[$evolveTo]=array();
 			if($type_evolution=='item')
 			{
-				if(isset($item_to_evolution[$level]))
+				if(!isset($item_to_evolution[$level]))
 					$item_to_evolution[$level]=array();
 				$item_to_evolution[$level][]=array('from'=>$id,'to'=>$evolveTo);
 			}

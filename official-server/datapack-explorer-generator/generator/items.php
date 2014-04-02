@@ -128,7 +128,7 @@ foreach($item_meta as $id=>$item)
 			{
 				if(isset($monster_meta[$evolution['from']]) && isset($monster_meta[$evolution['to']]))
 				{
-					$map_descriptor.='<table class="item_list item_list_type_normal">
+					$map_descriptor.='<table class="item_list item_list_type_normal map_list">
 					<tr class="item_list_title item_list_title_type_normal">
 						<th colspan="'.$count_evol.'">Evolve from</th>
 					</tr>';
@@ -167,6 +167,7 @@ foreach($item_meta as $id=>$item)
 					</table>';
 				}
 			}
+			$map_descriptor.='<br style="clear:both" />';
 		}
 
 	$map_descriptor.='</div>';

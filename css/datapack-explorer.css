@@ -584,3 +584,37 @@
 	background-color:#DD5649;
 	font-weight:bold;
 }
+.genderbar
+{
+	border-spacing:0;
+	border-collapse:collapse;
+	width:150px;
+	height:20px;
+}
+.genderbar td
+{
+	padding:0;
+}
+.genderbarmale
+{
+	border-radius:20px 0 0 20px;
+	height:100%;
+	background-color:#6ae;
+	background-image:url('/official-server/images/genderbar/male.gif');
+	background-position:right;
+}
+.genderbarfemale
+{
+	border-radius:0 20px 20px 0;
+	height:100%;
+	background-color:#EDd;
+	background-image:url('/official-server/images/genderbar/female.gif');
+	background-position:left;
+}
+.genderbarunknown
+{
+	border-radius:20px;
+	height:100%;
+	background-color:#aaa;
+	background-image:url('/official-server/images/genderbar/unknown.gif');
+}

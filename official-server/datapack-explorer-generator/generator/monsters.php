@@ -40,19 +40,30 @@ foreach($monster_meta as $id=>$monster)
 		$map_descriptor.='<div class="subblock"><h1>'.$monster['name'].'</h1>';
 		$map_descriptor.='<h2>#'.$id.'</h2>';
 		$map_descriptor.='</div>';
-		$map_descriptor.='<div class="value datapackscreenshot">';
+		$map_descriptor.='<div class="value datapackscreenshot"><center>';
 		if(file_exists($datapack_path.'monsters/'.$id.'/front.png'))
 			$map_descriptor.='<img src="'.$base_datapack_site_path.'monsters/'.$id.'/front.png" width="80" height="80" alt="'.$monster['name'].'" title="'.$monster['name'].'" />';
 		else if(file_exists($datapack_path.'monsters/'.$id.'/front.gif'))
 			$map_descriptor.='<img src="'.$base_datapack_site_path.'monsters/'.$id.'/front.gif" width="80" height="80" alt="'.$monster['name'].'" title="'.$monster['name'].'" />';
-		$map_descriptor.='</div>';
+		$map_descriptor.='</center></div>';
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">Type</div><div class="value">';
 		$type_list=array();
 		foreach($monster['type'] as $type)
 			if(isset($type_meta[$type]))
 				$type_list[]='<span class="type_label type_label_'.$type.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_meta[$type]['english_name'].'</a></span>';
 		$map_descriptor.='<div class="type_label_list">'.implode(' ',$type_list).'</div></div></div>';
-		$map_descriptor.='<div class="subblock"><div class="valuetitle">Gender ratio</div><div class="value">'.$monster['ratio_gender'].'% male, '.(100-$monster['ratio_gender']).'% female</div></div>';
+		$map_descriptor.='<div class="subblock"><div class="valuetitle">Gender ratio</div><div class="value">';
+		if($monster['ratio_gender']<0 || $monster['ratio_gender']>100)
+		{
+			$map_descriptor.='<center><table class="genderbar"><tr><td class="genderbarunknown" style="width:100%"></td></tr></table></center>';
+			$map_descriptor.='Unknown gender';
+		}
+		else
+		{
+			$map_descriptor.='<center><table class="genderbar"><tr><td class="genderbarmale" style="width:'.$monster['ratio_gender'].'%"></td><td class="genderbarfemale" style="width:'.(100-$monster['ratio_gender']).'%"></td></tr></table></center>';
+			$map_descriptor.=$monster['ratio_gender'].'% male, '.(100-$monster['ratio_gender']).'% female';
+		}
+		$map_descriptor.='</div></div>';
 		if($monster['description']!='')
 			$map_descriptor.='<div class="subblock"><div class="valuetitle">Description</div><div class="value">'.$monster['description'].'</div></div>';
 		if($monster['kind']!='')

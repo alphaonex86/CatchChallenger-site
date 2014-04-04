@@ -9,9 +9,10 @@ $reverse_evolution=array();
 $type_to_monster=array();
 $skill_to_monster=array();
 $item_to_skill_of_monster=array();
-if(file_exists($datapack_path.'monsters/monster.xml'))
+$temp_monsters=getXmlList($datapack_path.'monsters/');
+foreach($temp_monsters as $monster_file)
 {
-	$content=file_get_contents($datapack_path.'monsters/monster.xml');
+	$content=file_get_contents($datapack_path.'monsters/'.$monster_file);
 	preg_match_all('#<monster.*</monster>#isU',$content,$entry_list);
 	foreach($entry_list[0] as $entry)
 	{
@@ -145,11 +146,15 @@ if(file_exists($datapack_path.'monsters/monster.xml'))
 		preg_match_all('#<evolution [^>]+/>#isU',$entry,$temp_text_list);
 		foreach($temp_text_list[0] as $attack_text)
 		{
-			if(!preg_match('#level="([0-9]+)" type="([^"]+)" evolveTo="([0-9]+)"#isU',$attack_text))
+			if(!preg_match('#level="([0-9]+)"#isU',$attack_text))
 				continue;
-			$level=preg_replace('#^.*level="([0-9]+)" type="([^"]+)" evolveTo="([0-9]+)".*$#isU','$1',$attack_text);
-			$type_evolution=preg_replace('#^.*level="([0-9]+)" type="([^"]+)" evolveTo="([0-9]+)".*$#isU','$2',$attack_text);
-			$evolveTo=preg_replace('#^.*level="([0-9]+)" type="([^"]+)" evolveTo="([0-9]+)".*$#isU','$3',$attack_text);
+			if(!preg_match('#type="([^"]+)"#isU',$attack_text))
+				continue;
+			if(!preg_match('#evolveTo="([0-9]+)"#isU',$attack_text))
+				continue;
+			$level=preg_replace('#^.*level="([0-9]+)".*$#isU','$1',$attack_text);
+			$type_evolution=preg_replace('#^.*type="([^"]+)".*$#isU','$1',$attack_text);
+			$evolveTo=preg_replace('#^.*evolveTo="([0-9]+)".*$#isU','$1',$attack_text);
 			if(!isset($reverse_evolution[$evolveTo]))
 				$reverse_evolution[$evolveTo]=array();
 			if($type_evolution=='item')

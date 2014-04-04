@@ -4,9 +4,10 @@ if(!isset($datapackexplorergeneratorinclude))
 
 $buff_to_skill=array();
 $skill_meta=array();
-if(file_exists($datapack_path.'monsters/skill.xml'))
+$temp_skills=getXmlList($datapack_path.'monsters/skill/');
+foreach($temp_skills as $skill_file)
 {
-	$content=file_get_contents($datapack_path.'monsters/skill.xml');
+	$content=file_get_contents($datapack_path.'monsters/skill/'.$skill_file);
 	preg_match_all('#<skill.*</skill>#isU',$content,$temp_text_list);
 	foreach($temp_text_list[0] as $entry)
 	{

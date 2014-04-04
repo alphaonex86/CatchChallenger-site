@@ -12,10 +12,10 @@ foreach($item_meta as $id=>$item)
 		$map_descriptor.='<div class="subblock"><h1>'.$item['name'].'</h1>';
 		$map_descriptor.='<h2>#'.$id.'</h2>';
 		$map_descriptor.='</div>';
-		$map_descriptor.='<div class="value datapackscreenshot">';
+		$map_descriptor.='<div class="value datapackscreenshot"><center>';
 		if($item['image']!='' && file_exists($datapack_path.'items/'.$item['image']))
 			$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item['image'].'" width="24" height="24" alt="'.$item['name'].'" title="'.$item['name'].'" />';
-		$map_descriptor.='</div>';
+		$map_descriptor.='</center></div>';
 		if($item['price']>0)
 			$map_descriptor.='<div class="subblock"><div class="valuetitle">Price</div><div class="value">'.$item['price'].'$</div></div>';
 		else

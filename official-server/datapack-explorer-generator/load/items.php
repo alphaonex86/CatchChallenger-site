@@ -5,9 +5,10 @@ if(!isset($datapackexplorergeneratorinclude))
 $item_meta=array();
 $item_to_trap=array();
 $item_to_regeneration=array();
-if(file_exists($datapack_path.'items/items.xml'))
+$temp_items=getXmlList($datapack_path.'items/');
+foreach($temp_items as $item_file)
 {
-	$content=file_get_contents($datapack_path.'items/items.xml');
+	$content=file_get_contents($datapack_path.'items/'.$item_file);
 	preg_match_all('#<item[^>]*>.*</item>#isU',$content,$temp_text_list);
 	foreach($temp_text_list[0] as $entry)
 	{

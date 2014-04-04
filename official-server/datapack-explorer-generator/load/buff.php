@@ -3,9 +3,10 @@ if(!isset($datapackexplorergeneratorinclude))
 	die('abort into load buff'."\n");
 
 $buff_meta=array();
-if(file_exists($datapack_path.'monsters/buff.xml'))
+$temp_buffs=getXmlList($datapack_path.'monsters/buff/');
+foreach($temp_buffs as $buff_file)
 {
-	$content=file_get_contents($datapack_path.'monsters/buff.xml');
+	$content=file_get_contents($datapack_path.'monsters/buff/'.$buff_file);
 	preg_match_all('#<buff.*</buff>#isU',$content,$temp_text_list);
 	foreach($temp_text_list[0] as $entry)
 	{

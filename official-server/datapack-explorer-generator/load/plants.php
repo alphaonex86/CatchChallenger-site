@@ -31,3 +31,4 @@ if(file_exists($datapack_path.'plants/plants.xml'))
 		$plant_meta[$id]=array('itemUsed'=>$itemUsed,'fruits'=>$fruits,'quantity'=>$quantity);
 	}
 }
+ksort($plant_meta);

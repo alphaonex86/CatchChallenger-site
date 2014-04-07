@@ -38,3 +38,4 @@ if(file_exists($datapack_path.'crafting/recipes.xml'))
 		$item_to_crafting[$itemToLearn]=array('doItemId'=>$doItemId,'material'=>$material);
 	}
 }
+ksort($crafting_meta);

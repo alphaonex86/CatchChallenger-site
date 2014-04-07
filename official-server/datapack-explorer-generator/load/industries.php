@@ -75,3 +75,4 @@ if(is_dir($datapack_path.'industries/'))
 		closedir($handle);
 	}
 }
+ksort($industrie_meta);

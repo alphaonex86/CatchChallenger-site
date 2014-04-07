@@ -68,3 +68,4 @@ foreach($temp_skills as $skill_file)
 		$skill_meta[$id]=array('type'=>$type,'name'=>$name,'level_list'=>$level_list);
 	}
 }
+ksort($skill_meta);

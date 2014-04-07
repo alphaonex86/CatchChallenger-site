@@ -6,6 +6,9 @@ $maps_list=array();
 $maps_name_to_file=array();
 $zone_to_map=array();
 $monster_to_map=array();
+$bots_file=array();
+$bot_id_to_skin=array();
+$bot_id_to_map=array();
 $temp_maps=getTmxList($datapack_path.'map/');
 foreach($temp_maps as $map)
 {
@@ -21,6 +24,7 @@ foreach($temp_maps as $map)
 	$borders=array();
 	$tp=array();
 	$doors=array();
+	$bots=array();
 	$content=file_get_contents($datapack_path.'map/'.$map);
 	if(preg_match('#orientation="orthogonal" width="([0-9]+)" height="([0-9]+)" tilewidth="([0-9]+)" tileheight="([0-9]+)"#isU',$content))
 	{
@@ -80,7 +84,36 @@ foreach($temp_maps as $map)
 				$door_map=preg_replace('#/[^/]+/\\.\\./#isU','/',$door_map);
 				$door_map=preg_replace('#^[^/]+/\\.\\./#isU','',$door_map);
 				$door_map=preg_replace("#[\n\r\t]+#is",'',$door_map);
-				$doors[]=$door_map;
+				$doors[]=array('map'=>$door_map);
+			}
+		}
+	}
+	preg_match_all('#<object[^>]+type="bot".*</object>#isU',$content,$temp_text_list);
+	foreach($temp_text_list[0] as $bot_text)
+	{
+		if(preg_match('#type="bot"#isU',$bot_text))
+		{
+			if(preg_match('#<property name="id" value="([0-9]+)"/>#isU',$bot_text) && preg_match('#<property name="file" value="([^"]+)"/>#isU',$bot_text))
+			{
+				$bot_id=preg_replace('#^.*<property name="id" value="([0-9]+)"/>.*$#isU','$1',$bot_text);
+				$bot_file=preg_replace('#^.*<property name="file" value="([^"]+)"/>.*$#isU','$1',$bot_text);
+				$bot_file=$map_folder.$bot_file;
+				if(!preg_match('#\\.xml$#',$bot_file))
+					$bot_file.='.xml';
+				$bot_file=preg_replace('#/[^/]+/\\.\\./#isU','/',$bot_file);
+				$bot_file=preg_replace('#^[^/]+/\\.\\./#isU','',$bot_file);
+				$bot_file=preg_replace("#[\n\r\t]+#is",'',$bot_file);
+				if(preg_match('#<property name="lookAt" value="(bottom|top|left|right)"/>#isU',$bot_text) && preg_match('#<property name="skin" value="([^"]+)"/>#isU',$bot_text))
+				{
+					$lookAt=preg_replace('#^.*<property name="lookAt" value="(bottom|top|left|right)"/>.*$#isU','$1',$bot_text);
+					$skin=preg_replace('#^.*<property name="skin" value="([^"]+)"/>.*$#isU','$1',$bot_text);
+					$bots[]=array('file'=>$bot_file,'id'=>$bot_id,'lookAt'=>$lookAt,'skin'=>$skin);
+					$bot_id_to_skin[$bot_id]=$skin;
+					$bot_id_to_map[$bot_id]=$map;
+				}
+				else
+					$bots[]=array('file'=>$bot_file,'id'=>$bot_id);
+				$bots_file[$bot_file]=true;
 			}
 		}
 	}
@@ -235,7 +268,7 @@ foreach($temp_maps as $map)
 			}
 		}
 	}
-	$maps_list[$map]=array('borders'=>$borders,'tp'=>$tp,'doors'=>$doors,'name'=>$name,'shortdescription'=>$shortdescription,'description'=>$description,'type'=>$type,'grass'=>$grass,'water'=>$water,'cave'=>$cave,
+	$maps_list[$map]=array('borders'=>$borders,'tp'=>$tp,'doors'=>$doors,'bots'=>$bots,'name'=>$name,'shortdescription'=>$shortdescription,'description'=>$description,'type'=>$type,'grass'=>$grass,'water'=>$water,'cave'=>$cave,
 	'width'=>$width,'height'=>$height,'pixelwidth'=>$pixelwidth,'pixelheight'=>$pixelheight,'dropcount'=>$dropcount,'zone'=>$zone
 	);
 	if(!isset($zone_to_map[$zone]))

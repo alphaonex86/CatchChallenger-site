@@ -2,6 +2,13 @@
 if(!isset($datapackexplorergeneratorinclude))
 	die('abort into function'."\n");
 
+function mkpath($path)
+{
+	if(file_exists($path) or @mkdir($path))
+		return true;
+	return (mkpath(dirname($path)) and mkdir($path));
+}
+
 function filewrite($file,$content)
 {
 	if($filecurs=fopen($file, 'w'))

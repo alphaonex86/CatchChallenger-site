@@ -26,29 +26,39 @@ foreach($industries_meta as $id=>$industry)
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">Resources</div><div class="value">';
 		foreach($industry['resources'] as $material=>$quantity)
 		{
-			$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$material]['name']).'.html" title="'.$item_meta[$material]['name'].'">';
-			$map_descriptor.='<table><tr><td>';
-			if($item_meta[$material]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
-				$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'].'" title="'.$item_meta[$material]['name'].'" />';
-			$map_descriptor.='</td><td>';
-			if($quantity>1)
-				$map_descriptor.=$quantity.'x ';
-			$map_descriptor.=$item_meta[$material]['name'].'</td></tr></table>';
-			$map_descriptor.='</a>';
+			if(isset($item_meta[$material]))
+			{
+				$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$material]['name']).'.html" title="'.$item_meta[$material]['name'].'">';
+				$map_descriptor.='<table><tr><td>';
+				if($item_meta[$material]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
+					$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'].'" title="'.$item_meta[$material]['name'].'" />';
+				$map_descriptor.='</td><td>';
+				if($quantity>1)
+					$map_descriptor.=$quantity.'x ';
+				$map_descriptor.=$item_meta[$material]['name'].'</td></tr></table>';
+				$map_descriptor.='</a>';
+			}
+			else
+				$map_descriptor.='Unknown material: '.$material;
 		}
 		$map_descriptor.='</div></div>';
 
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">Products</div><div class="value">';
 		foreach($industry['products'] as $material=>$quantity)
 		{
-			$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$material]['name']).'.html" title="'.$item_meta[$material]['name'].'">';
-			if($item_meta[$material]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
-				$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'].'" title="'.$item_meta[$material]['name'].'" />';
-			$map_descriptor.='</td><td>';
-			if($quantity>1)
-				$map_descriptor.=$quantity.'x ';
-			$map_descriptor.=$item_meta[$material]['name'].'</td></tr></table>';
-			$map_descriptor.='</a>';
+			if(isset($item_meta[$material]))
+			{
+				$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$material]['name']).'.html" title="'.$item_meta[$material]['name'].'">';
+				if($item_meta[$material]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
+					$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'].'" title="'.$item_meta[$material]['name'].'" />';
+				$map_descriptor.='</td><td>';
+				if($quantity>1)
+					$map_descriptor.=$quantity.'x ';
+				$map_descriptor.=$item_meta[$material]['name'].'</td></tr></table>';
+				$map_descriptor.='</a>';
+			}
+			else
+				$map_descriptor.='Unknown material: '.$material;
 		}
 		$map_descriptor.='</div></div>';
 	$map_descriptor.='</div>';
@@ -78,57 +88,67 @@ foreach($industries_meta as $id=>$industry)
 	$map_descriptor.='<td>';
 	foreach($industry['resources'] as $item=>$quantity)
 	{
-		$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']).'.html';
-		$name=$item_meta[$item]['name'];
-		if($item_meta[$item]['image']!='')
-			$image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
-		else
-			$image='';
-		$map_descriptor.='<div style="float:left;text-align:center;">';
-		if($image!='')
+		if(isset($item_meta[$item]))
 		{
+			$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']).'.html';
+			$name=$item_meta[$item]['name'];
+			if($item_meta[$item]['image']!='')
+				$image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
+			else
+				$image='';
+			$map_descriptor.='<div style="float:left;text-align:center;">';
+			if($image!='')
+			{
+				if($link!='')
+					$map_descriptor.='<a href="'.$link.'">';
+				$map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />';
+				if($link!='')
+					$map_descriptor.='</a>';
+			}
 			if($link!='')
 				$map_descriptor.='<a href="'.$link.'">';
-			$map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />';
+			if($name!='')
+				$map_descriptor.=$name;
+			else
+				$map_descriptor.='Unknown item';
 			if($link!='')
-				$map_descriptor.='</a>';
+				$map_descriptor.='</a></div>';
 		}
-		if($link!='')
-			$map_descriptor.='<a href="'.$link.'">';
-		if($name!='')
-			$map_descriptor.=$name;
 		else
 			$map_descriptor.='Unknown item';
-		if($link!='')
-			$map_descriptor.='</a></div>';
 	}
 	$map_descriptor.='</td>';
 	$map_descriptor.='<td>';
 	foreach($industry['products'] as $item=>$quantity)
 	{
-		$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']).'.html';
-		$name=$item_meta[$item]['name'];
-		if($item_meta[$item]['image']!='')
-			$image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
-		else
-			$image='';
-		$map_descriptor.='<div style="float:left;text-align:middle;">';
-		if($image!='')
+		if(isset($item_meta[$item]))
 		{
+			$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']).'.html';
+			$name=$item_meta[$item]['name'];
+			if($item_meta[$item]['image']!='')
+				$image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
+			else
+				$image='';
+			$map_descriptor.='<div style="float:left;text-align:middle;">';
+			if($image!='')
+			{
+				if($link!='')
+					$map_descriptor.='<a href="'.$link.'">';
+				$map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />';
+				if($link!='')
+					$map_descriptor.='</a>';
+			}
 			if($link!='')
 				$map_descriptor.='<a href="'.$link.'">';
-			$map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />';
+			if($name!='')
+				$map_descriptor.=$name;
+			else
+				$map_descriptor.='Unknown item';
 			if($link!='')
-				$map_descriptor.='</a>';
+				$map_descriptor.='</a></div>';
 		}
-		if($link!='')
-			$map_descriptor.='<a href="'.$link.'">';
-		if($name!='')
-			$map_descriptor.=$name;
 		else
 			$map_descriptor.='Unknown item';
-		if($link!='')
-			$map_descriptor.='</a></div>';
 	}
 	$map_descriptor.='</td>';
 	$map_descriptor.='</tr>';

@@ -81,7 +81,10 @@ foreach($item_meta as $id=>$item)
 					else
 						$map_descriptor.='&nbsp;';
 					$map_descriptor.='</td>';
-					$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'monsters/buffs/'.text_operation_do_for_url($buff_meta[$buff_id]['name']).'.html">'.$buff_meta[$buff_id]['name'].'</a></td>';
+					if(isset($buff_meta[$buff_id]))
+						$map_descriptor.='<td>Unknown buff</td>';
+					else
+						$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'monsters/buffs/'.text_operation_do_for_url($buff_meta[$buff_id]['name']).'.html">'.$buff_meta[$buff_id]['name'].'</a></td>';
 					$map_descriptor.='</table></center>';
 					$map_descriptor.='</li>';
 				}

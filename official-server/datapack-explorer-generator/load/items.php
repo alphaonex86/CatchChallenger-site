@@ -87,3 +87,4 @@ foreach($temp_items as $item_file)
 		}
 	}
 }
+ksort($item_meta);

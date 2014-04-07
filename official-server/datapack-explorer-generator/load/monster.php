@@ -199,3 +199,4 @@ foreach($temp_monsters as $monster_file)
 		);
 	}
 }
+ksort($monster_meta);

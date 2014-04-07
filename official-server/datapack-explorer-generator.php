@@ -40,7 +40,10 @@ require 'datapack-explorer-generator/load/industries.php';
 require 'datapack-explorer-generator/load/plants.php';
 require 'datapack-explorer-generator/load/monster.php';
 require 'datapack-explorer-generator/load/other.php';
+require 'datapack-explorer-generator/load/shops.php';
 require 'datapack-explorer-generator/load/map.php';
+require 'datapack-explorer-generator/load/fights.php';
+require 'datapack-explorer-generator/load/bots.php';
 
 require 'datapack-explorer-generator/generator/map.php';
 require 'datapack-explorer-generator/generator/buffs.php';
@@ -53,3 +56,6 @@ require 'datapack-explorer-generator/generator/industries.php';
 require 'datapack-explorer-generator/generator/start.php';
 require 'datapack-explorer-generator/generator/quests.php';
 require 'datapack-explorer-generator/generator/types.php';
+require 'datapack-explorer-generator/generator/bots.php';
+/*require 'datapack-explorer-generator/generator/zone.php';
+require 'datapack-explorer-generator/generator/reputation.php';*/

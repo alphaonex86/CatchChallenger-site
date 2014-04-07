@@ -5,7 +5,7 @@ if(!isset($datapackexplorergeneratorinclude))
 $map_descriptor='';
 $index=1;
 $loadSkinPreview=array();
-foreach($start as $entry)
+foreach($start_meta as $entry)
 {
 	$map_descriptor.='
 	<fieldset>

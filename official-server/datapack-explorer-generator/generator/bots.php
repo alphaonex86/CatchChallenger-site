@@ -57,7 +57,8 @@ foreach($bots_meta as $bot_id=>$bot)
 				if(isset($zone_meta[$maps_list[$bot_id_to_map[$bot_id]]['zone']]))
 				{
 					$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$bot_id_to_map[$bot_id]).'" title="'.$maps_list[$bot_id_to_map[$bot_id]]['name'].'">'.$maps_list[$bot_id_to_map[$bot_id]]['name'].'</a>&nbsp;';
-					$map_descriptor.='('.$zone_meta[$maps_list[$bot_id_to_map[$bot_id]]['zone']]['name'].')';
+					$zone_name=$zone_meta[$maps_list[$bot_id_to_map[$bot_id]]['zone']]['name'];
+					$map_descriptor.='(Zone: <a href="'.$base_datapack_explorer_site_path.'zones/'.text_operation_do_for_url($zone_name).'.html" title="'.$zone_name.'">'.$zone_name.'</a>)';
 				}
 				else
 					$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$bot_id_to_map[$bot_id]).'" title="'.$maps_list[$bot_id_to_map[$bot_id]]['name'].'">'.$maps_list[$bot_id_to_map[$bot_id]]['name'].'</a>';
@@ -182,7 +183,7 @@ foreach($bots_meta as $bot_id=>$bot)
 			{
 				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Heal</div>
 				<div class="value">
-					<center><div style="width:128px;height:128px;background-image:url(\'/official-server/images/flags-big.png\');background-repeat:no-repeat;background-position:0px 0px;"></center>
+					<center><div style="width:128px;height:128px;background-image:url(\'/official-server/images/flags-512.png\');background-repeat:no-repeat;background-position:0px 0px;"></center>
 				</div>
 				</div>';
 			}
@@ -190,7 +191,7 @@ foreach($bots_meta as $bot_id=>$bot)
 			{
 				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Learn</div>
 				<div class="value">
-					<center><div style="width:128px;height:128px;background-image:url(\'/official-server/images/flags-big.png\');background-repeat:no-repeat;background-position:-384px 0px;"></center>
+					<center><div style="width:128px;height:128px;background-image:url(\'/official-server/images/flags-512.png\');background-repeat:no-repeat;background-position:-384px 0px;"></center>
 				</div>
 				</div>';
 			}
@@ -198,7 +199,7 @@ foreach($bots_meta as $bot_id=>$bot)
 			{
 				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Warehouse</div>
 				<div class="value">
-					<center><div style="width:128px;height:128px;background-image:url(\'/official-server/images/flags-big.png\');background-repeat:no-repeat;background-position:0px -128px;"></center>
+					<center><div style="width:128px;height:128px;background-image:url(\'/official-server/images/flags-512.png\');background-repeat:no-repeat;background-position:0px -128px;"></center>
 				</div>
 				</div>';
 			}
@@ -206,7 +207,7 @@ foreach($bots_meta as $bot_id=>$bot)
 			{
 				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Market</div>
 				<div class="value">
-					<center><div style="width:128px;height:128px;background-image:url(\'/official-server/images/flags-big.png\');background-repeat:no-repeat;background-position:0px -128px;"></center>
+					<center><div style="width:128px;height:128px;background-image:url(\'/official-server/images/flags-512.png\');background-repeat:no-repeat;background-position:0px -128px;"></center>
 				</div>
 				</div>';
 			}
@@ -214,7 +215,7 @@ foreach($bots_meta as $bot_id=>$bot)
 			{
 				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Clan</div>
 				<div class="value">
-					<center><div style="width:128px;height:128px;background-image:url(\'/official-server/images/flags-big.png\');background-repeat:no-repeat;background-position:-384px -128px;"></center>
+					<center><div style="width:128px;height:128px;background-image:url(\'/official-server/images/flags-512.png\');background-repeat:no-repeat;background-position:-384px -128px;"></center>
 				</div>
 				</div>';
 			}
@@ -222,7 +223,7 @@ foreach($bots_meta as $bot_id=>$bot)
 			{
 				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Sell</div>
 				<div class="value">
-					<center><div style="width:128px;height:128px;background-image:url(\'/official-server/images/flags-big.png\');background-repeat:no-repeat;background-position:-256px 0px;"></center>
+					<center><div style="width:128px;height:128px;background-image:url(\'/official-server/images/flags-512.png\');background-repeat:no-repeat;background-position:-256px 0px;"></center>
 				</div>
 				</div>';
 			}
@@ -231,11 +232,11 @@ foreach($bots_meta as $bot_id=>$bot)
 				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Zone capture</div>
 				<div class="value">
 					Zone: ';
-				if(isset($zone_meta[$step['type']]['name']))
-					$map_descriptor.='Unknown zone';
+				if(isset($zone_meta[$step['zone']]))
+					$map_descriptor.=$zone_meta[$step['zone']]['name'];
 				else
-					$map_descriptor.=$zone_meta[$step['type']]['name'];
-				$map_descriptor.='<center><div style="width:128px;height:128px;background-image:url(\'/official-server/images/flags-big.png\');background-repeat:no-repeat;background-position:-256px -128px;"></center>
+					$map_descriptor.='Unknown zone';
+				$map_descriptor.='<center><div style="width:128px;height:128px;background-image:url(\'/official-server/images/flags-512.png\');background-repeat:no-repeat;background-position:-256px -128px;"></center>
 				</div>
 				</div>';
 			}

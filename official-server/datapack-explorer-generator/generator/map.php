@@ -67,7 +67,7 @@ foreach($temp_maps as $map)
 
 		if(isset($zone_meta[$maps_list[$map]['zone']]))
 			$zone_name=$zone_meta[$maps_list[$map]['zone']]['name'];
-		elseif(!isset($map['zone'])) || $maps_list[$map]['zone']=='')
+		elseif(!isset($map['zone']) || $maps_list[$map]['zone']=='')
 			$zone_name='Unknown zone';
 		else
 			$zone_name=$map['zone'];

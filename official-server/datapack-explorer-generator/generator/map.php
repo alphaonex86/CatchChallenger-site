@@ -649,7 +649,7 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 	if(isset($zone_to_function[$zone]['zonecapture']))
 		$map_descriptor.='<div style="float:left;width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-32px -16px;" title="Zone capture"></div>';
 	if(isset($zone_to_function[$zone]['industry']))
-		$map_descriptor.='<div style="float:left;width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-32px -16px;" title="Industry"></div>';
+		$map_descriptor.='<div style="float:left;width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:0px -32px;" title="Industry"></div>';
 	$map_descriptor.='</th></tr>';
 	asort($map_by_zone);
 	foreach($map_by_zone as $map=>$name)
@@ -674,7 +674,7 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 		if(isset($map_to_function[$map]['zonecapture']))
 			$map_descriptor.='<div style="float:left;width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-32px -16px;" title="Zone capture"></div>';
 		if(isset($map_to_function[$map]['industry']))
-			$map_descriptor.='<div style="float:left;width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-32px -16px;" title="Industry"></div>';
+			$map_descriptor.='<div style="float:left;width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:0px -32px;" title="Industry"></div>';
 		$map_descriptor.='</a></td></tr>';
 	}
 	$map_descriptor.='<tr>

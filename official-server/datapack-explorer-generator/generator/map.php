@@ -61,13 +61,13 @@ foreach($temp_maps as $map)
 			$map_descriptor.='<h2>'.$maps_list[$map]['shortdescription'].'</h2>';
 		$map_descriptor.='</div>';
 		if(file_exists($datapack_explorer_local_path.'maps/'.$map_image))
-			$map_descriptor.='<div class="value mapscreenshot datapackscreenshot"><a href="'.$base_datapack_explorer_site_path.'maps/'.$map_image.'"><img src="'.$base_datapack_explorer_site_path.'maps/'.$map_image.'" alt="Screenshot of '.$maps_list[$map]['name'].'" title="Screenshot of '.$maps_list[$map]['name'].'" width="'.($maps_list[$map]['pixelwidth']/2).'" height="'.($maps_list[$map]['pixelheight']/2).'" /></a></div>';
+			$map_descriptor.='<center><div class="value mapscreenshot datapackscreenshot"><a href="'.$base_datapack_explorer_site_path.'maps/'.$map_image.'"><img src="'.$base_datapack_explorer_site_path.'maps/'.$map_image.'" alt="Screenshot of '.$maps_list[$map]['name'].'" title="Screenshot of '.$maps_list[$map]['name'].'" width="'.($maps_list[$map]['pixelwidth']/2).'" height="'.($maps_list[$map]['pixelheight']/2).'" /></a></div></center>';
 		if($maps_list[$map]['description']!='')
 			$map_descriptor.='<div class="subblock"><div class="valuetitle">Map description</div><div class="value">'.$maps_list[$map]['description'].'</div></div>';
 
 		if(isset($zone_meta[$maps_list[$map]['zone']]))
 			$zone_name=$zone_meta[$maps_list[$map]['zone']]['name'];
-		elseif($maps_list[$map]['zone']=='')
+		elseif(!isset($map['zone'])) || $maps_list[$map]['zone']=='')
 			$zone_name='Unknown zone';
 		else
 			$zone_name=$map['zone'];

@@ -96,6 +96,7 @@ foreach($temp_maps as $map)
 			if(preg_match('#<property name="id" value="([0-9]+)"/>#isU',$bot_text) && preg_match('#<property name="file" value="([^"]+)"/>#isU',$bot_text))
 			{
 				$bot_id=preg_replace('#^.*<property name="id" value="([0-9]+)"/>.*$#isU','$1',$bot_text);
+				$bot_id_to_map[$bot_id]=$map;
 				$bot_file=preg_replace('#^.*<property name="file" value="([^"]+)"/>.*$#isU','$1',$bot_text);
 				$bot_file=$map_folder.$bot_file;
 				if(!preg_match('#\\.xml$#',$bot_file))
@@ -109,7 +110,6 @@ foreach($temp_maps as $map)
 					$skin=preg_replace('#^.*<property name="skin" value="([^"]+)"/>.*$#isU','$1',$bot_text);
 					$bots[]=array('file'=>$bot_file,'id'=>$bot_id,'lookAt'=>$lookAt,'skin'=>$skin);
 					$bot_id_to_skin[$bot_id]=$skin;
-					$bot_id_to_map[$bot_id]=$map;
 				}
 				else
 					$bots[]=array('file'=>$bot_file,'id'=>$bot_id);

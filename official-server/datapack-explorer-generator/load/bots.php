@@ -3,6 +3,7 @@ if(!isset($datapackexplorergeneratorinclude))
 	die('abort into load bots'."\n");
 
 $bots_meta=array();
+$bots_name_count=array();
 foreach($bots_file as $file=>$value)
 {
 	$content=file_get_contents($datapack_path.'map/'.$file);
@@ -17,7 +18,13 @@ foreach($bots_file as $file=>$value)
 		{
 			$name='';
 			if(preg_match('#<name( lang="en")?>.*</name>#isU',$bot_text))
+			{
 				$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$bot_text);
+				if(isset($bots_name_count[$name]))
+					$bots_name_count[$name]++;
+				else
+					$bots_name_count[$name]=1;
+			}
 			$bots_meta[$id]=array('name'=>$name,'onlytext'=>true,'step'=>array());
 			$temp_step_list=explode('<step',$bot_text);
 			foreach($temp_step_list as $step_text)

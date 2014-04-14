@@ -308,17 +308,19 @@ foreach($temp_maps as $map)
 			{
 				if($bots_meta[$bot_on_map['id']]['name']=='')
 					$link=text_operation_do_for_url('bot '.$bot_on_map['id']);
-				else
+				else if($bots_name_count[$bots_meta[$bot_on_map['id']]['name']]==1)
 					$link=text_operation_do_for_url($bots_meta[$bot_on_map['id']]['name']);
+				else
+					$link=text_operation_do_for_url($bot_on_map['id'].'-'.$bots_meta[$bot_on_map['id']]['name']);
 				$bot_id=$bot_on_map['id'];
 				$bot=$bots_meta[$bot_id];
 				if($bot['onlytext']==true)
 				{
 					$map_descriptor.='<tr class="value">';
 					if($bot['name']=='')
-						$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url('bot '.$bot_id).'.html" title="Bot #'.$bot_id.'">Bot #'.$bot_id.'</a></td>';
+						$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.$link.'.html" title="Bot #'.$bot_id.'">Bot #'.$bot_id.'</a></td>';
 					else
-						$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url($bot['name']).'.html" title="'.$bot['name'].'">'.$bot['name'].'</a></td>';
+						$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.$link.'.html" title="'.$bot['name'].'">'.$bot['name'].'</a></td>';
 					if(isset($bot_id_to_skin[$bot_id]))
 					{
 						if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png'))
@@ -359,9 +361,9 @@ foreach($temp_maps as $map)
 
 						$map_descriptor.='<tr class="value">';
 						if($bot['name']=='')
-							$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url('bot '.$bot_id).'.html" title="Bot #'.$bot_id.'">Bot #'.$bot_id.'</a></td>';
+							$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.$link.'.html" title="Bot #'.$bot_id.'">Bot #'.$bot_id.'</a></td>';
 						else
-							$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url($bot['name']).'.html" title="'.$bot['name'].'">'.$bot['name'].'</a></td>';
+							$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.$link.'.html" title="'.$bot['name'].'">'.$bot['name'].'</a></td>';
 						if(isset($bot_id_to_skin[$bot_id]))
 						{
 							if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png'))

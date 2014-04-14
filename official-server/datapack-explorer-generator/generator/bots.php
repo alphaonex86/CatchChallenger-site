@@ -16,7 +16,10 @@ foreach($bots_meta as $bot_id=>$bot)
 		}
 		else
 		{
-			$final_url_name=$bot['name'];
+			if($bots_name_count[$bot['name']]==1)
+				$final_url_name=$bot['name'];
+			else
+				$final_url_name=$bot_id.'-'.$bot['name'];
 			$map_descriptor.='<div class="subblock"><h1>'.$bot['name'].'</h1>';
 			$map_descriptor.='<h2>Bot #'.$bot_id.'</h2>';
 		}
@@ -366,15 +369,17 @@ $map_descriptor.='<table class="item_list item_list_type_normal">
 </tr>';
 foreach($bots_meta as $bot_id=>$bot)
 {
-		if($bot['name']=='')
-			$final_url_name='bot '.$bot_id;
-		else
-			$final_url_name=$bot['name'];
+	if($bot['name']=='')
+		$final_url_name='bot '.$bot_id;
+	elseif($bots_name_count[$bot['name']]==1)
+		$final_url_name=$bot['name'];
+	else
+		$final_url_name=$bot_id.'-'.$bot['name'];
 	$map_descriptor.='<tr class="value">';
 	if($bot['name']=='')
-		$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url('bot '.$bot_id).'.html" title="Bot #'.$bot_id.'">Bot #'.$bot_id.'</a></td>';
+		$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url($final_url_name).'.html" title="Bot #'.$bot_id.'">Bot #'.$bot_id.'</a></td>';
 	else
-		$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url($bot['name']).'.html" title="'.$bot['name'].'">'.$bot['name'].'</a></td>';
+		$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url($final_url_name).'.html" title="'.$bot['name'].'">'.$bot['name'].'</a></td>';
 	$map_descriptor.='</tr>';
 }
 $map_descriptor.='<tr>
@@ -383,7 +388,7 @@ $map_descriptor.='<tr>
 </table>';
 
 $content=$template;
-$content=str_replace('${TITLE}','bots list',$content);
+$content=str_replace('${TITLE}','Bots list',$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=preg_replace("#[\r\n\t]+#isU",'',$content);

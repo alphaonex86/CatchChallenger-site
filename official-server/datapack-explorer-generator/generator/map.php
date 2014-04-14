@@ -306,12 +306,19 @@ foreach($temp_maps as $map)
 
 			if(isset($bots_meta[$bot_on_map['id']]))
 			{
+				if($bots_meta[$bot_on_map['id']]['name']=='')
+					$link=text_operation_do_for_url('bot '.$bot_on_map['id']);
+				else
+					$link=text_operation_do_for_url($bots_meta[$bot_on_map['id']]['name']);
 				$bot_id=$bot_on_map['id'];
 				$bot=$bots_meta[$bot_id];
 				if($bot['onlytext']==true)
 				{
 					$map_descriptor.='<tr class="value">';
-					$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.$bot_id.'.html">Bot #'.$bot_id.'</a></td>';
+					if($bot['name']=='')
+						$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url('bot '.$bot_id).'.html" title="Bot #'.$bot_id.'">Bot #'.$bot_id.'</a></td>';
+					else
+						$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url($bot['name']).'.html" title="'.$bot['name'].'">'.$bot['name'].'</a></td>';
 					if(isset($bot_id_to_skin[$bot_id]))
 					{
 						if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png'))
@@ -351,7 +358,10 @@ foreach($temp_maps as $map)
 							$zone_to_function[$maps_list[$map]['zone']][$step['type']]++;
 
 						$map_descriptor.='<tr class="value">';
-						$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.$bot_id.'.html">Bot #'.$bot_id.'</a></td>';
+						if($bot['name']=='')
+							$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url('bot '.$bot_id).'.html" title="Bot #'.$bot_id.'">Bot #'.$bot_id.'</a></td>';
+						else
+							$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url($bot['name']).'.html" title="'.$bot['name'].'">'.$bot['name'].'</a></td>';
 						if(isset($bot_id_to_skin[$bot_id]))
 						{
 							if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png'))

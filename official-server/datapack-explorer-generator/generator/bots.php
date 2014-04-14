@@ -9,7 +9,17 @@ foreach($bots_meta as $bot_id=>$bot)
 	$map_descriptor='';
 
 	$map_descriptor.='<div class="map item_details">';
-		$map_descriptor.='<div class="subblock"><h1>Bot #'.$bot_id.'</h1>';
+		if($bot['name']=='')
+		{
+			$final_url_name='bot '.$bot_id;
+			$map_descriptor.='<div class="subblock"><h1>Bot #'.$bot_id.'</h1>';
+		}
+		else
+		{
+			$final_url_name=$bot['name'];
+			$map_descriptor.='<div class="subblock"><h1>'.$bot['name'].'</h1>';
+			$map_descriptor.='<h2>Bot #'.$bot_id.'</h2>';
+		}
 		if(isset($bot_id_to_skin[$bot_id]))
 		{
 			if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png'))
@@ -338,9 +348,43 @@ foreach($bots_meta as $bot_id=>$bot)
 	$map_descriptor.='</div>';
 
 	$content=$template;
-	$content=str_replace('${TITLE}','Bot #'.$bot_id,$content);
+	if($bot['name']=='')
+		$content=str_replace('${TITLE}','Bot #'.$bot_id,$content);
+	else
+		$content=str_replace('${TITLE}',$bot['name'],$content);
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
-	filewrite($datapack_explorer_local_path.'bots/'.text_operation_do_for_url($bot_id).'.html',$content);
+	filewrite($datapack_explorer_local_path.'bots/'.text_operation_do_for_url($final_url_name).'.html',$content);
 }
+
+$map_descriptor='';
+
+$map_descriptor.='<table class="item_list item_list_type_normal">
+<tr class="item_list_title item_list_title_type_normal">
+	<th>Quests</th>
+</tr>';
+foreach($bots_meta as $bot_id=>$bot)
+{
+		if($bot['name']=='')
+			$final_url_name='bot '.$bot_id;
+		else
+			$final_url_name=$bot['name'];
+	$map_descriptor.='<tr class="value">';
+	if($bot['name']=='')
+		$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url('bot '.$bot_id).'.html" title="Bot #'.$bot_id.'">Bot #'.$bot_id.'</a></td>';
+	else
+		$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url($bot['name']).'.html" title="'.$bot['name'].'">'.$bot['name'].'</a></td>';
+	$map_descriptor.='</tr>';
+}
+$map_descriptor.='<tr>
+	<td colspan="1" class="item_list_endline item_list_title_type_normal"></td>
+</tr>
+</table>';
+
+$content=$template;
+$content=str_replace('${TITLE}','bots list',$content);
+$content=str_replace('${CONTENT}',$map_descriptor,$content);
+$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
+$content=preg_replace("#[\r\n\t]+#isU",'',$content);
+filewrite($datapack_explorer_local_path.'bots.html',$content);

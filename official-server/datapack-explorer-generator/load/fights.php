@@ -13,6 +13,7 @@ foreach($xmlFightList as $file)
 		$start='';
 		$win='';
 		$cash=0;
+        $items=array();
 		if(!preg_match('#<fight id="[0-9]+".*</fight>#isU',$entry))
 			continue;
 		$id=preg_replace('#^.*<fight id="([0-9]+)".*</fight>.*$#isU','$1',$entry);
@@ -21,8 +22,14 @@ foreach($xmlFightList as $file)
 			echo 'duplicate id '.$id.' for the fight'."\n";
 			continue;
 		}
-		if(preg_match('#<gain cash="([0-9]+)"#isU',$entry))
-			$cash=preg_replace('#^.*<gain cash="([0-9]+)".*$#isU','$1',$entry);
+        if(preg_match('#<gain cash="([0-9]+)"#isU',$entry))
+            $cash=preg_replace('#^.*<gain cash="([0-9]+)".*$#isU','$1',$entry);
+        preg_match_all('#<gain item="([0-9]+)"#isU',$entry,$items_list);
+        foreach($items_list[1] as $entry_item)
+        {
+          $item=preg_replace('#^.*<gain item="([0-9]+)".*$#isU','$1',$entry_item);
+          $items[]=array('item'=>$item,'quantity'=>1);
+        }
 		if(preg_match('#<start( lang="en")?>(<!\\[CDATA\\[)?(.*)(]]>)?</start>#isU',$entry))
 			$start=preg_replace('#^.*<start( lang="en")?>(<!\\[CDATA\\[)?(.*)(]]>)?</start>.*$#isU','$3',$entry);
 		if(preg_match('#<win( lang="en")?>(<!\\[CDATA\\[)?(.*)(]]>)?</win>#isU',$entry))
@@ -37,6 +44,6 @@ foreach($xmlFightList as $file)
 			$level=preg_replace('#^.*<monster id="([0-9]+)" level="([0-9]+)" />.*$#isU','$2',$monster_text);
 			$monsters[]=array('monster'=>$monster,'level'=>$level);
 		}
-		$fight_meta[$id]=array('start'=>$start,'win'=>$win,'cash'=>$cash,'monsters'=>$monsters);
+		$fight_meta[$id]=array('start'=>$start,'win'=>$win,'cash'=>$cash,'monsters'=>$monsters,'items'=>$items);
 	}
 }

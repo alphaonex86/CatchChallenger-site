@@ -156,7 +156,64 @@ foreach($bots_meta as $bot_id=>$bot)
 					<center><div style="width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-16px -16px;"></center>
 					<div class="value">';
 					if($fight_meta[$step['fightid']]['cash']>0)
-						$map_descriptor.='Rewards: '.$fight_meta[$step['fightid']]['cash'].'$';
+						$map_descriptor.='Rewards: <b>'.$fight_meta[$step['fightid']]['cash'].'$</b><br />';
+
+                    if(count($fight_meta[$step['fightid']]['items'])>0)
+                    {
+                        $map_descriptor.='<center><table class="item_list item_list_type_normal">
+                        <tr class="item_list_title item_list_title_type_normal">
+                            <th colspan="2">Item</th>
+                        </tr>';
+                        foreach($fight_meta[$step['fightid']]['items'] as $item)
+                        {
+                            if(isset($item_meta[$item['item']]))
+                            {
+                                $link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item['item']]['name']).'.html';
+                                $name=$item_meta[$item['item']]['name'];
+                                if($item_meta[$item['item']]['image']!='')
+                                    $image=$base_datapack_site_path.'/items/'.$item_meta[$item['item']]['image'];
+                                else
+                                    $image='';
+                            }
+                            else
+                            {
+                                $link='';
+                                $name='';
+                                $image='';
+                            }
+                            $quantity_text='';
+                            if($drop['quantity_min']!=$drop['quantity_max'])
+                                $quantity_text=$drop['quantity_min'].' to '.$drop['quantity_max'].' ';
+                            elseif($drop['quantity_min']>1)
+                                $quantity_text=$drop['quantity_min'].' ';
+                            $map_descriptor.='<tr class="value">
+                                <td>';
+                                if($image!='')
+                                {
+                                    if($link!='')
+                                        $map_descriptor.='<a href="'.$link.'">';
+                                    $map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />';
+                                    if($link!='')
+                                        $map_descriptor.='</a>';
+                                }
+                                $map_descriptor.='</td>
+                                <td>';
+                                if($link!='')
+                                    $map_descriptor.='<a href="'.$link.'">';
+                                if($name!='')
+                                    $map_descriptor.=$quantity_text.$name;
+                                else
+                                    $map_descriptor.=$quantity_text.'Unknown item';
+                                if($link!='')
+                                    $map_descriptor.='</a>';
+                                $map_descriptor.='</td>';
+                                $map_descriptor.='</tr>';
+                        }
+                        $map_descriptor.='<tr>
+                            <td colspan="2" class="item_list_endline item_list_title_type_normal"></td>
+                        </tr>
+                        </table></center>';
+                    }
 
 					foreach($fight_meta[$step['fightid']]['monsters'] as $monster)
 					{
@@ -172,10 +229,16 @@ foreach($bots_meta as $bot_id=>$bot)
 							$map_descriptor.='<td>';
 							$map_descriptor.='<table class="monsterforevolution">';
 							if(file_exists($datapack_path.'monsters/'.$monster['monster'].'/front.png'))
-								$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_full['name']).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$monster['monster'].'/front.png" width="80" height="80" alt="'.$monster_full['name'].'" title="'.$monster_full['name'].'" /></a></td></tr>';
+								$map_descriptor.='<tr><td><center><a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_full['name']).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$monster['monster'].'/front.png" width="80" height="80" alt="'.$monster_full['name'].'" title="'.$monster_full['name'].'" /></center></a></td></tr>';
 							else if(file_exists($datapack_path.'monsters/'.$monster['monster'].'/front.gif'))
-								$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_full['name']).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$monster['monster'].'/front.gif" width="80" height="80" alt="'.$monster_full['name'].'" title="'.$monster_full['name'].'" /></a></td></tr>';
+								$map_descriptor.='<tr><td><center><a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_full['name']).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$monster['monster'].'/front.gif" width="80" height="80" alt="'.$monster_full['name'].'" title="'.$monster_full['name'].'" /></center></a></td></tr>';
 							$map_descriptor.='<tr><td class="evolution_name"><a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_full['name']).'.html">'.$monster_full['name'].'</a></td></tr>';
+                            $map_descriptor.='<tr><td>';
+                            $type_list=array();
+                            foreach($monster_meta[$monster['monster']]['type'] as $type)
+                                if(isset($type_meta[$type]))
+                                    $type_list[]='<span class="type_label type_label_'.$type.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_meta[$type]['english_name'].'</a></span>';
+                            $map_descriptor.='<div class="type_label_list">'.implode(' ',$type_list).'</div></td></tr>';
 							$map_descriptor.='<tr><td>Level '.$monster['level'].'</td></tr>';
 							$map_descriptor.='</table>';
 							$map_descriptor.='</td>';

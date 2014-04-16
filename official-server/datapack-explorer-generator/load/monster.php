@@ -93,15 +93,19 @@ foreach($temp_monsters as $monster_file)
 		if(!preg_match('#<name( lang="en")?>.*</name>#isU',$entry))
 			continue;
 		$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
+        $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
 		if(!preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
 			continue;
 		$description=text_operation_first_letter_upper(preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry));
+        $description=str_replace('<![CDATA[','',str_replace(']]>','',$description));
 		$kind='';
 		if(preg_match('#<kind( lang="en")?>(.*)</kind>#isU',$entry))
 			$kind=preg_replace('#^.*<kind( lang="en")?>(.*)</kind>.*$#isU','$2',$entry);
+        $kind=str_replace('<![CDATA[','',str_replace(']]>','',$kind));
 		$habitat='';
 		if(preg_match('#<habitat( lang="en")?>(.*)</habitat>#isU',$entry))
 			$habitat=preg_replace('#^.*<habitat( lang="en")?>(.*)</habitat>.*$#isU','$2',$entry);
+        $habitat=str_replace('<![CDATA[','',str_replace(']]>','',$habitat));
 		$attack_list=array();
 		$attack_list_byitem=array();
 		preg_match_all('#<attack[^>]+/>#isU',$entry,$temp_text_list);

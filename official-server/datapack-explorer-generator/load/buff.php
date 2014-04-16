@@ -21,9 +21,11 @@ foreach($temp_buffs as $buff_file)
 		if(!preg_match('#<name( lang="en")?>.*</name>#isU',$entry))
 			continue;
 		$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
-		if(!preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
-			continue;
-		$description=preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry);
+        $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
+        $description='';
+		if(preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
+          $description=preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry);
+        $description=str_replace('<![CDATA[','',str_replace(']]>','',$description));
 
 		$default_capture_bonus=1;
 		if(preg_match('#<effect[^>]+capture_bonus="([0-9]+(\.[0-9]+)?)"#isU',$entry))

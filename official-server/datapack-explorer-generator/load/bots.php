@@ -20,6 +20,7 @@ foreach($bots_file as $file=>$value)
 			if(preg_match('#<name( lang="en")?>.*</name>#isU',$bot_text))
 			{
 				$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$bot_text);
+                $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
 				if(isset($bots_name_count[$name]))
 					$bots_name_count[$name]++;
 				else
@@ -53,8 +54,11 @@ foreach($bots_file as $file=>$value)
 									$fightid=preg_replace('#^.*fightid="([0-9]+)".*$#isU','$1',$step_text);
 									if(isset($fight_meta[$fightid]))
 									{
+                                        $leader=false;
+                                        if(preg_match('#leader="true"#isU',$step_text))
+                                            $leader=true;
 										$bots_meta[$id]['onlytext']=false;
-										$bots_meta[$id]['step'][$step_id]=array('type'=>$step_type,'fightid'=>$fightid);
+										$bots_meta[$id]['step'][$step_id]=array('type'=>$step_type,'fightid'=>$fightid,'leader'=>$leader);
 									}
 									else
 										echo 'fightid not found: '.$fightid.' for step with id '.$step_id.' for bot '.$id."\n";

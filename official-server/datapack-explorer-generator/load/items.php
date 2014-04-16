@@ -11,6 +11,7 @@ foreach($temp_text_list[1] as $index=>$base_group_name)
 	if(!preg_match('#<name( lang="en")?>.*</name>#isU',$temp_text_list[2][$index]))
 		continue;
 	$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$temp_text_list[2][$index]);
+    $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
 	$item_group[$base_group_name]=$name;
 }
 
@@ -55,10 +56,12 @@ foreach($temp_items as $item_file)
 		if(!preg_match('#<name( lang="en")?>.*</name>#isU',$entry))
 			continue;
 		$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
+        $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
 		if(preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
 			$description=text_operation_first_letter_upper(preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry));
 		else
 			$description='';
+        $description=str_replace('<![CDATA[','',str_replace(']]>','',$description));
 		if(preg_match('#<trap[^>]+/>#isU',$entry))
 		{
 			$temp_text=preg_replace('#^.*(<trap[^>]+/>).*$#isU','$1',$entry);

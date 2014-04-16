@@ -22,6 +22,7 @@ if(file_exists($datapack_path.'player/reputation.xml'))
 			if(!preg_match('#<text( lang="en")?>.*</text>#isU',$level))
 				continue;
 			$text=preg_replace('#^.*<text( lang="en")?>(.*)</text>.*$#isU','$2',$level);
+            $text=str_replace('<![CDATA[','',str_replace(']]>','',$text));
 			$reputation_meta_list[(int)$point]=$text;
 		}
 		if(count($reputation_meta_list)>0)

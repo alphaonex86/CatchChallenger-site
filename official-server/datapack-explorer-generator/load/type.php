@@ -13,11 +13,13 @@ if(file_exists($datapack_path.'monsters/type.xml'))
 		if(!preg_match('#name="([^"]+)"#isU',$entry))
 			continue;
 		$name=preg_replace('#^.*name="([^"]+)".*$#isU','$1',$entry);
+        $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
 		$english_name='Unknown name';
 		if(preg_match('#<name lang="en">([^<]+)</name>#isU',$entry))
 			$english_name=preg_replace('#^.*<name lang="en">([^<]+)</name>.*$#isU','$1',$entry);
 		elseif(preg_match('#<name>([^<]+)</name>#isU',$entry))
 			$english_name=preg_replace('#^.*<name>([^<]+)</name>.*$#isU','$1',$entry);
+        $english_name=str_replace('<![CDATA[','',str_replace(']]>','',$english_name));
 		preg_match_all('#<multiplicator number="([^"]+)" to="([^"]+)" />#isU',$entry,$multiplicator_list);
 		foreach($multiplicator_list[0] as $tempmultiplicator)
 		{

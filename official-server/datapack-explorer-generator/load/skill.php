@@ -31,6 +31,7 @@ foreach($temp_skills as $skill_file)
 		if(!preg_match('#<name( lang="en")?>.*</name>#isU',$entry))
 			continue;
 		$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
+        $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
 		$level_list=array();
 		preg_match_all('#<level.*</level>#isU',$entry,$temp_level_list);
 		foreach($temp_level_list[0] as $level_text)

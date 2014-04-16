@@ -13,6 +13,7 @@ foreach($xmlZoneList as $file)
 	if(!preg_match('#<name( lang="en")?>([^<]+)</name>#isU',$content))
 		continue;
 	$name=preg_replace('#^.*<name( lang="en")?>([^<]+)</name>.*$#isU','$2',$content);
+    $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
 	$name=preg_replace("#[\n\t\r]+#is",'',$name);
 	$zone_meta[$code]=array('name'=>$name);
 }
@@ -79,19 +80,23 @@ foreach($xmlFightList as $file)
 			continue;
 		$cycletobefull=preg_replace('#^.*cycletobefull="([0-9]+)".*$#isU','$1',$entry);
 		$resources=array();
-		preg_match_all('#<resource id="([0-9]+)" quantity="([0-9]+)" />#isU',$entry,$monster_text_list);
+		preg_match_all('#<resource id="([0-9]+)"[^>]*/>#isU',$entry,$monster_text_list);
 		foreach($monster_text_list[0] as $monster_text)
 		{
-			$item=preg_replace('#^.*<resource id="([0-9]+)" quantity="([0-9]+)" />.*$#isU','$1',$monster_text);
-			$quantity=preg_replace('#^.*<resource id="([0-9]+)" quantity="([0-9]+)" />.*$#isU','$2',$monster_text);
+			$item=preg_replace('#^.*<resource id="([0-9]+)"[^>]*/>.*$#isU','$1',$monster_text);
+            $quantity=1;
+            if(!preg_match('#quantity="([0-9]+)"#isU',$monster_text))
+              $quantity=preg_replace('#^.*quantity="([0-9]+)".*$#isU','$1',$monster_text);
 			$resources[$item]=$quantity;
 		}
 		$products=array();
-		preg_match_all('#<product id="([0-9]+)" quantity="([0-9]+)" />#isU',$entry,$monster_text_list);
+		preg_match_all('#<product id="([0-9]+)"[^>]*/>#isU',$entry,$monster_text_list);
 		foreach($monster_text_list[0] as $monster_text)
 		{
-			$item=preg_replace('#^.*<product id="([0-9]+)" quantity="([0-9]+)" />.*$#isU','$1',$monster_text);
-			$quantity=preg_replace('#^.*<product id="([0-9]+)" quantity="([0-9]+)" />.*$#isU','$2',$monster_text);
+			$item=preg_replace('#^.*<product id="([0-9]+)"[^>]*/>.*$#isU','$1',$monster_text);
+            $quantity=1;
+            if(!preg_match('#quantity="([0-9]+)"#isU',$monster_text))
+              $quantity=preg_replace('#^.*quantity="([0-9]+)".*$#isU','$1',$monster_text);
 			$products[$item]=$quantity;
 		}
 		$industries_meta[$id]=array('time'=>$time,'cycletobefull'=>$cycletobefull,'resources'=>$resources,'products'=>$products);
@@ -108,9 +113,11 @@ if(file_exists($datapack_path.'player/start.xml'))
 		if(!preg_match('#<name( lang="en")?>.*</name>#isU',$entry))
 			continue;
 		$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
+        $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
 		if(!preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
 			continue;
 		$description=text_operation_first_letter_upper(preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry));
+        $description=str_replace('<![CDATA[','',str_replace(']]>','',$description));
 		if(!preg_match('#<map.*file="([^"]+)".*/>#isU',$entry))
 			continue;
 		if(!preg_match('#<map.*x="([0-9]+)".*/>#isU',$entry))
@@ -220,8 +227,7 @@ foreach($xmlFightList as $file)
 	if(!preg_match('#<name( lang="en")?>.*</name>#isU',$content))
 		continue;
 	$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$content);
-	$name=str_replace('<![CDATA[','',$name);
-	$name=str_replace(']]>','',$name);
+    $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
 
 	$requirements=array();
 	preg_match_all('#<requirements.*</requirements>#isU',$content,$entry_list);

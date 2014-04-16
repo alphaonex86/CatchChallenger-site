@@ -61,7 +61,15 @@ foreach($temp_maps as $map)
 			$map_descriptor.='<h2>'.$maps_list[$map]['shortdescription'].'</h2>';
 		$map_descriptor.='</div>';
 		if(file_exists($datapack_explorer_local_path.'maps/'.$map_image))
-			$map_descriptor.='<center><div class="value mapscreenshot datapackscreenshot"><a href="'.$base_datapack_explorer_site_path.'maps/'.$map_image.'"><img src="'.$base_datapack_explorer_site_path.'maps/'.$map_image.'" alt="Screenshot of '.$maps_list[$map]['name'].'" title="Screenshot of '.$maps_list[$map]['name'].'" width="'.($maps_list[$map]['pixelwidth']/2).'" height="'.($maps_list[$map]['pixelheight']/2).'" /></a></div></center>';
+		{
+			if($maps_list[$map]['pixelwidth']>1600 || $maps_list[$map]['pixelheight']>800)
+				$ratio=4;
+			elseif($maps_list[$map]['pixelwidth']>800 || $maps_list[$map]['pixelheight']>400)
+				$ratio=2;
+			else
+				$ratio=1;
+			$map_descriptor.='<div class="value mapscreenshot datapackscreenshot"><a href="'.$base_datapack_explorer_site_path.'maps/'.$map_image.'"><center><img src="'.$base_datapack_explorer_site_path.'maps/'.$map_image.'" alt="Screenshot of '.$maps_list[$map]['name'].'" title="Screenshot of '.$maps_list[$map]['name'].'" width="'.($maps_list[$map]['pixelwidth']/$ratio).'" height="'.($maps_list[$map]['pixelheight']/$ratio).'" /></center></a></div>';
+		}
 		if($maps_list[$map]['description']!='')
 			$map_descriptor.='<div class="subblock"><div class="valuetitle">Map description</div><div class="value">'.$maps_list[$map]['description'].'</div></div>';
 
@@ -317,10 +325,7 @@ foreach($temp_maps as $map)
 				if($bot['onlytext']==true)
 				{
 					$map_descriptor.='<tr class="value">';
-					if($bot['name']=='')
-						$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.$link.'.html" title="Bot #'.$bot_id.'">Bot #'.$bot_id.'</a></td>';
-					else
-						$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.$link.'.html" title="'.$bot['name'].'">'.$bot['name'].'</a></td>';
+					$have_skin=true;
 					if(isset($bot_id_to_skin[$bot_id]))
 					{
 						if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png'))
@@ -332,11 +337,19 @@ foreach($temp_maps as $map)
 						elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.gif'))
 							$map_descriptor.='<td><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></td>';
 						else
-							$map_descriptor.='<td>&nbsp;</td>';
+							$have_skin=false;
 					}
 					else
-						$map_descriptor.='<td>&nbsp;</td>';
-					$map_descriptor.='<td>Text</td>';
+						$have_skin=false;
+					$map_descriptor.='<td';
+					if(!$have_skin)
+						$map_descriptor.=' colspan="3"';
+					else
+						$map_descriptor.=' colspan="2"';
+					if($bot['name']=='')
+						$map_descriptor.='><a href="'.$base_datapack_explorer_site_path.'bots/'.$link.'.html" title="Bot #'.$bot_id.'">Bot #'.$bot_id.'</a></td>';
+					else
+						$map_descriptor.='><a href="'.$base_datapack_explorer_site_path.'bots/'.$link.'.html" title="'.$bot['name'].'">'.$bot['name'].'</a></td>';
 					$map_descriptor.='<td>Text only</td>';
 					$map_descriptor.='</tr>';
 				}
@@ -360,10 +373,7 @@ foreach($temp_maps as $map)
 							$zone_to_function[$maps_list[$map]['zone']][$step['type']]++;
 
 						$map_descriptor.='<tr class="value">';
-						if($bot['name']=='')
-							$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.$link.'.html" title="Bot #'.$bot_id.'">Bot #'.$bot_id.'</a></td>';
-						else
-							$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'bots/'.$link.'.html" title="'.$bot['name'].'">'.$bot['name'].'</a></td>';
+						$have_skin=true;
 						if(isset($bot_id_to_skin[$bot_id]))
 						{
 							if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png'))
@@ -375,10 +385,17 @@ foreach($temp_maps as $map)
 							elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.gif'))
 								$map_descriptor.='<td><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></td>';
 							else
-								$map_descriptor.='<td>&nbsp;</td>';
+								$have_skin=false;
 						}
 						else
-							$map_descriptor.='<td>&nbsp;</td>';
+							$have_skin=false;
+						$map_descriptor.='<td';
+						if(!$have_skin)
+							$map_descriptor.=' colspan="2"';
+						if($bot['name']=='')
+							$map_descriptor.='><a href="'.$base_datapack_explorer_site_path.'bots/'.$link.'.html" title="Bot #'.$bot_id.'">Bot #'.$bot_id.'</a></td>';
+						else
+							$map_descriptor.='><a href="'.$base_datapack_explorer_site_path.'bots/'.$link.'.html" title="'.$bot['name'].'">'.$bot['name'].'</a></td>';
 					}
 					if($step['type']=='text')
 					{}

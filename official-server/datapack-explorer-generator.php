@@ -60,3 +60,7 @@ require 'datapack-explorer-generator/generator/bots.php';
 require 'datapack-explorer-generator/generator/zone.php';
 require 'datapack-explorer-generator/generator/plants.php';
 //require 'datapack-explorer-generator/generator/reputation.php';
+
+
+//require 'datapack-explorer-generator/tools/map-fix-broken-links.php';
+//require 'datapack-explorer-generator/tools/rename-map-file-name.php';

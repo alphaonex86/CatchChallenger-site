@@ -9,7 +9,12 @@ $monster_to_map=array();
 $bots_file=array();
 $bot_id_to_skin=array();
 $bot_id_to_map=array();
+$map_name_to_path=array();
+$map_short_path_to_name=array();
+$map_short_path_to_path=array();
 $temp_maps=getTmxList($datapack_path.'map/');
+$duplicate_map_file_name=false;
+$duplicate_map_file_name_list=array();
 foreach($temp_maps as $map)
 {
 	$width=0;
@@ -133,10 +138,35 @@ foreach($temp_maps as $map)
 			$type=preg_replace('#^.*type="(outdoor|city|cave|indoor)".*$#isU','$1',$content_meta_map);
 		if(preg_match('#zone="([^"]+)"#isU',$content_meta_map))
 			$zone=preg_replace('#^.*zone="([^"]+)".*$#isU','$1',$content_meta_map);
-		if(preg_match('#<name lang="en">[^<]+</name>#isU',$content_meta_map))
-			$name=preg_replace('#^.*<name lang="en">([^<]+)</name>.*$#isU','$1',$content_meta_map);
-		elseif(preg_match('#<name>[^<]+</name>#isU',$content_meta_map))
-			$name=preg_replace('#^.*<name>([^<]+)</name>.*$#isU','$1',$content_meta_map);
+		if(preg_match('#<name( lang="en")?>[^<]+</name>#isU',$content_meta_map))
+		{
+			$name=preg_replace('#^.*<name( lang="en")?>([^<]+)</name>.*$#isU','$2',$content_meta_map);
+			$simplified_name=str_replace($map_folder,'',str_replace('.tmx','',$map));
+			if(preg_match('#-?[0-9]+\.-?[0-9]+#isU',$simplified_name))
+			{
+				$name_for_url=text_operation_do_for_url($name);
+				$name_for_url=preg_replace('#^.*((last-)floor)#isU','$1',$name_for_url);
+				if(isset($duplicate_map_file_name_list[$simplified_name]))
+					$duplicate_map_file_name=true;
+				else
+					$duplicate_map_file_name_list[$simplified_name]=1;
+				$map_short_path_to_path[str_replace($map_folder,'',$map)]=$map_folder.$simplified_name;
+				$map_path_without_ext=$map_folder.$simplified_name;
+				if(!isset($map_name_to_path[$map_folder.$name_for_url]))
+				{
+					$map_name_to_path[$map_folder.$name_for_url]=$map_path_without_ext;
+					$map_short_path_to_name[$simplified_name]=$name_for_url;
+				}
+				else
+				{
+					$index=2;
+					while(isset($map_name_to_path[$map_folder.$name_for_url.'-'.$index]))
+						$index++;
+					$map_name_to_path[$map_folder.$name_for_url.'-'.$index]=$map_path_without_ext;
+					$map_short_path_to_name[$simplified_name]=$name_for_url.'-'.$index;
+				}
+			}
+		}
 		if(preg_match('#<shortdescription lang="en">[^<]+</shortdescription>#isU',$content_meta_map))
 			$shortdescription=preg_replace('#^.*<shortdescription lang="en">([^<]+)</shortdescription>.*$#isU','$1',$content_meta_map);
 		elseif(preg_match('#<shortdescription>[^<]+</shortdescription>#isU',$content_meta_map))
@@ -268,10 +298,11 @@ foreach($temp_maps as $map)
 			}
 		}
 	}
-	$maps_list[$map]=array('borders'=>$borders,'tp'=>$tp,'doors'=>$doors,'bots'=>$bots,'name'=>$name,'shortdescription'=>$shortdescription,'description'=>$description,'type'=>$type,'grass'=>$grass,'water'=>$water,'cave'=>$cave,
+	$maps_list[$map]=array('folder'=>$map_folder,'borders'=>$borders,'tp'=>$tp,'doors'=>$doors,'bots'=>$bots,'name'=>$name,'shortdescription'=>$shortdescription,'description'=>$description,'type'=>$type,'grass'=>$grass,'water'=>$water,'cave'=>$cave,
 	'width'=>$width,'height'=>$height,'pixelwidth'=>$pixelwidth,'pixelheight'=>$pixelheight,'dropcount'=>$dropcount,'zone'=>$zone
 	);
 	if(!isset($zone_to_map[$zone]))
 		$zone_to_map[$zone]=array();
 	$zone_to_map[$zone][$map]=$name;
 }
+ksort($map_short_path_to_name);

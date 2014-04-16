@@ -11,6 +11,8 @@ foreach($item_meta as $id=>$item)
 	$map_descriptor.='<div class="map item_details">';
 		$map_descriptor.='<div class="subblock"><h1>'.$item['name'].'</h1>';
 		$map_descriptor.='<h2>#'.$id.'</h2>';
+		if($item['group']!='')
+			$map_descriptor.='<h3>'.$item_group[$item['group']].'</h3>';
 		$map_descriptor.='</div>';
 		$map_descriptor.='<div class="value datapackscreenshot"><center>';
 		if($item['image']!='' && file_exists($datapack_path.'items/'.$item['image']))

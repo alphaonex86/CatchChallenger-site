@@ -4,6 +4,7 @@ if(!isset($datapackexplorergeneratorinclude))
 
 $xmlZoneList=getXmlList($datapack_path.'map/zone/');
 $zone_meta=array();
+$zone_name_to_code=array();
 foreach($xmlZoneList as $file)
 {
 	$content=file_get_contents($datapack_path.'map/zone/'.$file);
@@ -16,6 +17,7 @@ foreach($xmlZoneList as $file)
     $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
 	$name=preg_replace("#[\n\t\r]+#is",'',$name);
 	$zone_meta[$code]=array('name'=>$name);
+    $zone_name_to_code[$name]=$code;
 }
 
 $fight_meta=array();

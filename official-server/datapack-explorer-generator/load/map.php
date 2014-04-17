@@ -15,6 +15,7 @@ $map_short_path_to_path=array();
 $temp_maps=getTmxList($datapack_path.'map/');
 $duplicate_map_file_name=false;
 $duplicate_map_file_name_list=array();
+$maps_name_to_map=array();
 foreach($temp_maps as $map)
 {
 	$width=0;
@@ -304,5 +305,6 @@ foreach($temp_maps as $map)
 	if(!isset($zone_to_map[$zone]))
 		$zone_to_map[$zone]=array();
 	$zone_to_map[$zone][$map]=$name;
+    $maps_name_to_map[$name]=$map;
 }
 ksort($map_short_path_to_name);

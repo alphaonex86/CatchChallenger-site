@@ -476,7 +476,17 @@ foreach($bots_by_zone as $zone=>$bot_id_list)
         <tr class="item_list_title item_list_title_type_normal">
             <th colspan="2">';
         if($zone!='')
-            $map_descriptor.=$zone;
+        {
+            if(isset($zone_name_to_code[$zone]))
+                $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'zones/'.text_operation_do_for_url($zone).'.html" title="'.$zone.'">'.$zone.'</a>';
+            else
+            {
+                if(isset($maps_name_to_map[$zone]))
+                    $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$maps_name_to_map[$zone]).'" title="'.$maps_list[$maps_name_to_map[$zone]]['name'].'">'.$zone.'</a>';
+                else
+                    $map_descriptor.=$zone;
+            }
+        }
         else
             $map_descriptor.='Unknown zone';
         $map_descriptor.='</th>

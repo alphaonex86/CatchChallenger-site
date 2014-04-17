@@ -479,10 +479,11 @@ foreach($bots_by_zone as $zone=>$bot_id_list)
           {
             if(isset($maps_list[$bot_id_to_map[$bot_id]]))
             {
-              if(isset($zone_meta[$maps_list[$bot_id_to_map[$bot_id]]['zone']]))
+              /*if(isset($zone_meta[$maps_list[$bot_id_to_map[$bot_id]]['zone']]))
                 $final_name=$bot['name'].' ('.$zone_meta[$maps_list[$bot_id_to_map[$bot_id]]['zone']]['name'].')';
               else
-                $final_name=$bot['name'].' ('.$maps_list[$bot_id_to_map[$bot_id]]['name'].')';
+                $final_name=$bot['name'].' ('.$maps_list[$bot_id_to_map[$bot_id]]['name'].')';*/
+                $final_name=$bot['name'];
             }
             else
               $final_name=$bot['name'];

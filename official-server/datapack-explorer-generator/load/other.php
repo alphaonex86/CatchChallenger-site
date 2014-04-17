@@ -19,6 +19,7 @@ foreach($xmlZoneList as $file)
 	$zone_meta[$code]=array('name'=>$name);
     $zone_name_to_code[$name]=$code;
 }
+ksort($zone_meta);
 
 $fight_meta=array();
 $xmlFightList=getXmlList($datapack_path.'fight/');
@@ -58,6 +59,7 @@ foreach($xmlFightList as $file)
 		$fight_meta[$id]=array('start'=>$start,'win'=>$win,'cash'=>$cash,'monsters'=>$monsters);
 	}
 }
+ksort($fight_meta);
 
 $industries_meta=array();
 $xmlFightList=getXmlList($datapack_path.'industries/');
@@ -104,6 +106,7 @@ foreach($xmlFightList as $file)
 		$industries_meta[$id]=array('time'=>$time,'cycletobefull'=>$cycletobefull,'resources'=>$resources,'products'=>$products);
 	}
 }
+ksort($industries_meta);
 
 $start_meta=array();
 if(file_exists($datapack_path.'player/start.xml'))
@@ -325,3 +328,4 @@ foreach($xmlFightList as $file)
 	}
 	$quests_meta[$id]=array('name'=>$name,'repeatable'=>$repeatable,'steps'=>$steps,'rewards'=>$rewards,'requirements'=>$requirements);
 }
+ksort($quests_meta);

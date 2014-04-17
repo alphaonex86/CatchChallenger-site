@@ -307,10 +307,28 @@ foreach($temp_maps as $map)
 		</tr>';
 		foreach($maps_list[$map]['bots'] as $bot_on_map)
 		{
-			if(!isset($zone_to_bot_count[$maps_list[$map]['zone']]))
-				$zone_to_bot_count[$maps_list[$map]['zone']]=1;
-			else
-				$zone_to_bot_count[$maps_list[$map]['zone']]++;
+            if(isset($bot_id_to_skin[$bot_id]))
+            {
+                if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png'))
+                    $have_skin=true;
+                elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.png'))
+                    $have_skin=true;
+                elseif(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.gif'))
+                    $have_skin=true;
+                elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.gif'))
+                    $have_skin=true;
+                else
+                    $have_skin=false;
+            }
+            else
+                $have_skin=false;
+            if($have_skin)
+            {
+                if(!isset($zone_to_bot_count[$maps_list[$map]['zone']]))
+                    $zone_to_bot_count[$maps_list[$map]['zone']]=1;
+                else
+                    $zone_to_bot_count[$maps_list[$map]['zone']]++;
+            }
 
 			if(isset($bots_meta[$bot_on_map['id']]))
 			{
@@ -464,7 +482,20 @@ foreach($temp_maps as $map)
 						{
 							$map_descriptor.='<td>Fight<div style="width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-16px -16px;"></td><td>';
                             if($step['leader'])
+                            {
                                 $map_descriptor.='<b>Leader</b><br />';
+                                if(isset($bot_id_to_skin[$bot_id]))
+                                {
+                                    if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/front.png'))
+                                        $map_descriptor.='<center><img src="'.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/front.png" width="80" height="80" alt="" /></center>';
+                                    else if(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/front.png'))
+                                        $map_descriptor.='<center><img src="'.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/front.png" width="80" height="80" alt="" /></center>';
+                                    elseif(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/front.gif'))
+                                        $map_descriptor.='<center><img src="'.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/front.gif" width="80" height="80" alt="" /></center>';
+                                    else if(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/front.gif'))
+                                        $map_descriptor.='<center><img src="'.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/front.gif" width="80" height="80" alt="" /></center>';
+                                }
+                            }
                             if($fight_meta[$step['fightid']]['cash']>0)
                                 $map_descriptor.='Rewards: <b>'.$fight_meta[$step['fightid']]['cash'].'$</b><br />';
 
@@ -714,6 +745,7 @@ foreach($temp_maps as $map)
 }
 
 $map_descriptor='';
+ksort($zone_to_map);
 foreach($zone_to_map as $zone=>$map_by_zone)
 {
 	if(isset($zone_meta[$zone]))

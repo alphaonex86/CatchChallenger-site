@@ -85,7 +85,7 @@ foreach($industries_meta as $id=>$industry)
 	$map_descriptor.='<td>';
 	$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'industries/'.$id.'.html">#'.$id.'</a>';
 	$map_descriptor.='</td>';
-	$map_descriptor.='<td>';
+	$map_descriptor.='<td><center>';
 	foreach($industry['resources'] as $item=>$quantity)
 	{
 		if(isset($item_meta[$item]))
@@ -96,7 +96,7 @@ foreach($industries_meta as $id=>$industry)
 				$image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
 			else
 				$image='';
-			$map_descriptor.='<div style="float:left;text-align:center;">';
+			$map_descriptor.='<div style="float:left;text-align:middle;">';
 			if($image!='')
 			{
 				if($link!='')
@@ -117,8 +117,8 @@ foreach($industries_meta as $id=>$industry)
 		else
 			$map_descriptor.='Unknown item';
 	}
-	$map_descriptor.='</td>';
-	$map_descriptor.='<td>';
+	$map_descriptor.='</center></td>';
+	$map_descriptor.='<td><center>';
 	foreach($industry['products'] as $item=>$quantity)
 	{
 		if(isset($item_meta[$item]))
@@ -150,7 +150,7 @@ foreach($industries_meta as $id=>$industry)
 		else
 			$map_descriptor.='Unknown item';
 	}
-	$map_descriptor.='</td>';
+	$map_descriptor.='</center></td>';
 	$map_descriptor.='</tr>';
 }
 $map_descriptor.='<tr>

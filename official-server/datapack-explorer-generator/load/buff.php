@@ -92,3 +92,4 @@ foreach($temp_buffs as $buff_file)
 		$buff_meta[$id]=array('name'=>$name,'level_list'=>$level_list);
 	}
 }
+ksort($buff_meta);

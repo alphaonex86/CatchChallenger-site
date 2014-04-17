@@ -40,7 +40,7 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 		if(isset($zone_to_function[$zone]['learn']))
 			$map_descriptor.='<tr class="value"><td><div style="float:left;width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-48px 0px;" title="Learn"></div>'.$zone_to_function[$zone]['learn'].' bot(s) of learn</td></tr>';
 		if(isset($zone_to_function[$zone]['warehouse']))
-			$map_descriptor.='<tr class="value"><td><div style="float:left;width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:0px -16px;" title="Warehouse"></div>'.$zone_to_function[$zone]['warehouse'].' bot(s) of warehouse</td></tr>';
+			$map_descriptor.='<tr class="value"><td><div style="float:left;width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:0px -16px;" title="Warehouse"></div>'.$zone_to_function[$zone]['warehouse'].' warehouse(s)</td></tr>';
 		if(isset($zone_to_function[$zone]['market']))
 			$map_descriptor.='<tr class="value"><td><div style="float:left;width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:0px -16px;" title="Market"></div>'.$zone_to_function[$zone]['market'].' market(s)</td></tr>';
 		if(isset($zone_to_function[$zone]['clan']))

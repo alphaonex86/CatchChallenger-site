@@ -134,6 +134,7 @@ function getTmxList($dir,$sub_dir='')
 			}
 			closedir($handle);
 		}
+    sort($files_list);
 	return $files_list;
 }
 
@@ -152,6 +153,7 @@ function getXmlList($dir,$sub_dir='')
 			}
 			closedir($handle);
 		}
+    sort($files_list);
 	return $files_list;
 }
 
@@ -170,5 +172,6 @@ function getDefinitionXmlList($dir,$sub_dir='')
 			}
 			closedir($handle);
 		}
+    sort($files_list);
 	return $files_list;
 }

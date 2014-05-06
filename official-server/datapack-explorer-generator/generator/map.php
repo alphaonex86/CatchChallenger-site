@@ -347,13 +347,13 @@ foreach($temp_maps as $map)
 					if(isset($bot_id_to_skin[$bot_id]))
 					{
 						if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png'))
-							$map_descriptor.='<td><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></td>';
+							$map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>';
 						elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.png'))
-							$map_descriptor.='<td><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></td>';
+							$map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>';
 						elseif(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.gif'))
-							$map_descriptor.='<td><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></td>';
+							$map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>';
 						elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.gif'))
-							$map_descriptor.='<td><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></td>';
+							$map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>';
 						else
 							$have_skin=false;
 					}
@@ -419,7 +419,7 @@ foreach($temp_maps as $map)
 					{}
 					else if($step['type']=='shop')
 					{
-						$map_descriptor.='<td>Shop<div style="width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-32px 0px;"></td><td>';
+						$map_descriptor.='<td><center>Shop<div style="width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-32px 0px;"></center></td><td>';
 						$map_descriptor.='<center><table class="item_list item_list_type_normal">
 						<tr class="item_list_title item_list_title_type_normal">
 							<th colspan="2">Item</th>
@@ -480,7 +480,7 @@ foreach($temp_maps as $map)
 					{
 						if(isset($fight_meta[$step['fightid']]))
 						{
-							$map_descriptor.='<td>Fight<div style="width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-16px -16px;"></td><td>';
+							$map_descriptor.='<td><center>Fight<div style="width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-16px -16px;"></center></td><td>';
                             if($step['leader'])
                             {
                                 $map_descriptor.='<b>Leader</b><br />';
@@ -523,10 +523,8 @@ foreach($temp_maps as $map)
                                         $image='';
                                     }
                                     $quantity_text='';
-                                    if($drop['quantity_min']!=$drop['quantity_max'])
-                                        $quantity_text=$drop['quantity_min'].' to '.$drop['quantity_max'].' ';
-                                    elseif($drop['quantity_min']>1)
-                                        $quantity_text=$drop['quantity_min'].' ';
+                                    if($item['quantity']>1)
+                                        $quantity_text=$item['quantity'].' ';
                                     $map_descriptor.='<tr class="value">
                                         <td>';
                                         if($image!='')
@@ -601,42 +599,42 @@ foreach($temp_maps as $map)
 					}
 					else if($step['type']=='heal')
 					{
-						$map_descriptor.='<td>Heal</td>
+						$map_descriptor.='<td><center>Heal</center></td>
 						<td><center><div style="width:64px;height:64px;background-image:url(\'/official-server/images/flags-256.png\');background-repeat:no-repeat;background-position:0px 0px;"></center></td>';
 					}
 					else if($step['type']=='learn')
 					{
-						$map_descriptor.='<td>Learn</td>
+						$map_descriptor.='<td><center>Learn</center></td>
 						<td><center><div style="width:64px;height:64px;background-image:url(\'/official-server/images/flags-256.png\');background-repeat:no-repeat;background-position:-192px 0px;"></center></td>';
 					}
 					else if($step['type']=='warehouse')
 					{
-						$map_descriptor.='<td>Warehouse</td>
+						$map_descriptor.='<td><center>Warehouse</center></td>
 						<td><center><div style="width:64px;height:64px;background-image:url(\'/official-server/images/flags-256.png\');background-repeat:no-repeat;background-position:0px -64px;"></center></td>';
 					}
 					else if($step['type']=='market')
 					{
-						$map_descriptor.='<td>Market</td>
+						$map_descriptor.='<td><center>Market</center></td>
 						<td><center><div style="width:64px;height:64px;background-image:url(\'/official-server/images/flags-256.png\');background-repeat:no-repeat;background-position:0px -64px;"></center></td>';
 					}
 					else if($step['type']=='clan')
 					{
-						$map_descriptor.='<td>Clan</td>
+						$map_descriptor.='<td><center>Clan</center></td>
 						<td><center><div style="width:64px;height:64px;background-image:url(\'/official-server/images/flags-256.png\');background-repeat:no-repeat;background-position:-192px -64px;"></center></td>';
 					}
 					else if($step['type']=='sell')
 					{
-						$map_descriptor.='<td>Sell</td>
+						$map_descriptor.='<td><center>Sell</center></td>
 						<td><center><div style="width:64px;height:64px;background-image:url(\'/official-server/images/flags-256.png\');background-repeat:no-repeat;background-position:-128px 0px;"></center></td>';
 					}
 					else if($step['type']=='zonecapture')
 					{
-						$map_descriptor.='<td>Zone capture</td>
+						$map_descriptor.='<td><center>Zone capture</center></td>
 						<td><center><div style="width:64px;height:64px;background-image:url(\'/official-server/images/flags-256.png\');background-repeat:no-repeat;background-position:-128px -64px;"></center></td>';
 					}
 					else if($step['type']=='industry')
 					{
-						$map_descriptor.='<td>Industry<div style="width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:0px -32px;"></td><td>';
+						$map_descriptor.='<td><center>Industry<div style="width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:0px -32px;"></center></td><td>';
 
 						$map_descriptor.='<center><table class="item_list item_list_type_normal">
 						<tr class="item_list_title item_list_title_type_normal">

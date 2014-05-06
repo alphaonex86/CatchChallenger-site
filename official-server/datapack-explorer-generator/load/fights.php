@@ -3,6 +3,7 @@ if(!isset($datapackexplorergeneratorinclude))
 	die('abort into load fights'."\n");
 
 $fight_meta=array();
+$item_to_fight=array();
 $xmlFightList=getXmlList($datapack_path.'fight/');
 foreach($xmlFightList as $file)
 {
@@ -27,8 +28,11 @@ foreach($xmlFightList as $file)
         preg_match_all('#<gain item="([0-9]+)"#isU',$entry,$items_list);
         foreach($items_list[1] as $entry_item)
         {
-          $item=preg_replace('#^.*<gain item="([0-9]+)".*$#isU','$1',$entry_item);
-          $items[]=array('item'=>$item,'quantity'=>1);
+            $item=preg_replace('#^.*<gain item="([0-9]+)".*$#isU','$1',$entry_item);
+            $items[]=array('item'=>$item,'quantity'=>1);
+            if(!isset($item_to_fight[$item]))
+                $item_to_fight[$item]=array();
+            $item_to_fight[$item][]=$id;
         }
 		if(preg_match('#<start( lang="en")?>(<!\\[CDATA\\[)?(.*)(]]>)?</start>#isU',$entry))
 			$start=preg_replace('#^.*<start( lang="en")?>(<!\\[CDATA\\[)?(.*)(]]>)?</start>.*$#isU','$3',$entry);

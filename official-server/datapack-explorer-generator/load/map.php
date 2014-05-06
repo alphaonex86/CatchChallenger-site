@@ -50,15 +50,22 @@ foreach($temp_maps as $map)
 			$border_orientation=preg_replace("#[\n\r\t]+#is",'',$border_orientation);
 			if(preg_match('#<property name="map" value="([^"]+)"/>#isU',$border_text))
 			{
-				$border_map=preg_replace('#^.*<property name="map" value="([^"]+)"/>.*$#isU','$1',$border_text);
-				$border_map=$map_folder.$border_map;
-				if(!preg_match('#\\.tmx$#',$border_map))
-					$border_map.='.tmx';
-				$border_map=preg_replace('#/[^/]+/\\.\\./#isU','/',$border_map);
-				$border_map=preg_replace('#^[^/]+/\\.\\./#isU','',$border_map);
-				$border_map=preg_replace("#[\n\r\t]+#is",'',$border_map);
-				$borders[$border_orientation]=$border_map;
+                if(!isset($borders[$border_orientation]))
+                {
+                    $border_map=preg_replace('#^.*<property name="map" value="([^"]+)"/>.*$#isU','$1',$border_text);
+                    $border_map=$map_folder.$border_map;
+                    if(!preg_match('#\\.tmx$#',$border_map))
+                        $border_map.='.tmx';
+                    $border_map=preg_replace('#/[^/]+/\\.\\./#isU','/',$border_map);
+                    $border_map=preg_replace('#^[^/]+/\\.\\./#isU','',$border_map);
+                    $border_map=preg_replace("#[\n\r\t]+#is",'',$border_map);
+                    $borders[$border_orientation]=$border_map;
+                }
+                else
+                    echo 'Dual same border detected '.$map."\n";
 			}
+            else
+                echo 'No map property on '.$map."\n";
 		}
 	}
 	preg_match_all('#<object[^>]+type="teleport( on [a-z]+)?".*</object>#isU',$content,$temp_text_list);
@@ -75,6 +82,8 @@ foreach($temp_maps as $map)
 			$border_map=preg_replace("#[\n\r\t]+#is",'',$border_map);
 			$tp[]=$border_map;
 		}
+        else
+            echo 'No map property on '.$map."\n";
 	}
 	preg_match_all('#<object[^>]+type="door".*</object>#isU',$content,$temp_text_list);
 	foreach($temp_text_list[0] as $door_text)
@@ -92,6 +101,8 @@ foreach($temp_maps as $map)
 				$door_map=preg_replace("#[\n\r\t]+#is",'',$door_map);
 				$doors[]=array('map'=>$door_map);
 			}
+            else
+                echo 'No map property on '.$map."\n";
 		}
 	}
 	preg_match_all('#<object[^>]+type="bot".*</object>#isU',$content,$temp_text_list);

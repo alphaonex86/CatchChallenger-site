@@ -3,6 +3,7 @@ if(!isset($datapackexplorergeneratorinclude))
 	die('abort into load bots'."\n");
 
 $bots_meta=array();
+$fight_to_bot=array();
 $bots_name_count=array();
 foreach($bots_file as $file=>$value)
 {
@@ -59,6 +60,9 @@ foreach($bots_file as $file=>$value)
                                             $leader=true;
 										$bots_meta[$id]['onlytext']=false;
 										$bots_meta[$id]['step'][$step_id]=array('type'=>$step_type,'fightid'=>$fightid,'leader'=>$leader);
+                                        if(!isset($fight_to_bot[$fightid]))
+                                            $fight_to_bot[$fightid]=array();
+                                        $fight_to_bot[$fightid][]=$id;
 									}
 									else
 										echo 'fightid not found: '.$fightid.' for step with id '.$step_id.' for bot '.$id."\n";

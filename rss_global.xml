@@ -7,21 +7,46 @@
 <language>en</language>
 <title>CatchChallenger: Old scool MMORPG game (crafting, farming, fight, trading, ...)</title>
 		<item>
-		<title>Pre-alpha order is open</title>
-		<link>http://catchchallenger.first-world.info/news/pre-order-is-open.html</link>
-		<description>&lt;strong&gt;Pre-alpha order is open&lt;/strong&gt; to fund the quick developping of the projet. (We are 2 on the projet actually).&lt;br /&gt;
-				The game is playable and fun, you can craft, farm, fight, ... all the actual order have big discount. All the order include all the update from 0.1 to 1.X version (finished part of actual version but no more big features or new gameplay).&lt;br /&gt;
-				The customer have the advantages:
-				&lt;ul&gt;
-					&lt;li&gt;&lt;strong&gt;More advanced client (solo + multi + more stats)&lt;/strong&gt;&lt;/li&gt;
-					&lt;li&gt;Improved datapack for the solo (not sell as product for now)&lt;/li&gt;
-					&lt;li&gt;Priority support (but you need have minimum level in IT)&lt;/li&gt;
-					&lt;li&gt;Have access to update/beta before everybody&lt;/li&gt;
-				&lt;/ul&gt;&lt;/p&gt;</description>
-		<author>alpha_one_x86@first-world.info (brule herman)</author>
-		<pubDate>Wed, 24 Oct 2013 23:13:58 +0100</pubDate>
-		<guid>http://catchchallenger.first-world.info/news/pre-order-is-open.html</guid>
-		<source url="http://catchchallenger.first-world.info/">http://catchchallenger.first-world.info</source>
-		</item>
+        <title>The last alpha version</title>
+        <link>http://amber/news/last-alpha-version.html</link>
+        <description>This version 0.4 is the last alpha version.&lt;br /&gt;
+            Lot of work have been done is this version (day/night cycle, swim in water, more advanced datapack, better site, mirror to another server/datapack, ...)&lt;br /&gt;
+            The project have more than 4MB of code, for 1500 commits on 3 years of life. The &lt;strong&gt;&lt;a href="../roadmap.html"&gt;roadmap is now public&lt;/a&gt;&lt;/strong&gt;.&lt;br /&gt;
+            The algorithmic research continue. Same about &lt;strong&gt;performance, security, features&lt;/strong&gt;. The target for the site, is to be complete as this wiki: &lt;a href="http://bulbapedia.bulbagarden.net/wiki/Pikachu"&gt;bulbapedia&lt;/a&gt;&lt;br /&gt;
+            The project need:
+            &lt;ul&gt;
+                &lt;li&gt;&lt;strong&gt;Somebody to do the datapack&lt;/strong&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;A dev QtQuick2 (to do the fight and the map display)&lt;/strong&gt;&lt;/li&gt;
+                &lt;li&gt;Customers, have the advantages:
+                &lt;ul&gt;
+                    &lt;li&gt;Custom skin&lt;/li&gt;
+                    &lt;li&gt;More advanced client (solo + multi + more stats)&lt;/li&gt;
+                    &lt;li&gt;Improved datapack for the solo (not sell as product for now)&lt;/li&gt;
+                    &lt;li&gt;Priority support (but you need have minimum level in IT)&lt;/li&gt;
+                    &lt;li&gt;Have access to update/beta before everybody&lt;/li&gt;
+                &lt;/ul&gt;&lt;/li&gt;
+            &lt;/ul&gt;</description>
+        <author>alpha_one_x86@first-world.info (brule herman)</author>
+        <pubDate>Tue, 27 May 2014 20:23:00 +0100</pubDate>
+        <guid>http://amber/news/last-alpha-version.html</guid>
+        <source url="http://catchchallenger.first-world.info/">http://catchchallenger.first-world.info</source>
+        </item>
+        <item>
+        <title>Pre-alpha order is open</title>
+        <link>http://catchchallenger.first-world.info/news/pre-order-is-open.html</link>
+        <description>&lt;strong&gt;Pre-alpha order is open&lt;/strong&gt; to fund the quick developping of the projet. (We are 2 on the projet actually).&lt;br /&gt;
+                The game is playable and fun, you can craft, farm, fight, ... all the actual order have big discount. All the order include all the update from 0.1 to 1.X version (finished part of actual version but no more big features or new gameplay).&lt;br /&gt;
+                The customer have the advantages:
+                &lt;ul&gt;
+                    &lt;li&gt;&lt;strong&gt;More advanced client (solo + multi + more stats)&lt;/strong&gt;&lt;/li&gt;
+                    &lt;li&gt;Improved datapack for the solo (not sell as product for now)&lt;/li&gt;
+                    &lt;li&gt;Priority support (but you need have minimum level in IT)&lt;/li&gt;
+                    &lt;li&gt;Have access to update/beta before everybody&lt;/li&gt;
+                &lt;/ul&gt;&lt;/p&gt;</description>
+        <author>alpha_one_x86@first-world.info (brule herman)</author>
+        <pubDate>Wed, 24 Oct 2013 23:13:58 +0100</pubDate>
+        <guid>http://catchchallenger.first-world.info/news/pre-order-is-open.html</guid>
+        <source url="http://catchchallenger.first-world.info/">http://catchchallenger.first-world.info</source>
+        </item>
 	</channel>
 </rss>

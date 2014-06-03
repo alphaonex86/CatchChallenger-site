@@ -24,5 +24,6 @@ function listFolder($folder)
 }
 $folder='datapack/';
 $arr=listFolder($folder);
+sort($arr);
 foreach($arr as $file)
     echo str_replace($folder,'',$file).' '.filemtime($file)."\n";

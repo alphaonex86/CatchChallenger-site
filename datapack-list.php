@@ -26,4 +26,4 @@ $folder='datapack/';
 $arr=listFolder($folder);
 sort($arr);
 foreach($arr as $file)
-    echo str_replace($folder,'',$file).' '.filemtime($file)."\n";
+    echo str_replace($folder,'',$file).' '.filemtime($file).' '.filesize($file)."\n";

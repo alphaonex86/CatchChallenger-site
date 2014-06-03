@@ -636,82 +636,90 @@ foreach($temp_maps as $map)
 					{
 						$map_descriptor.='<td><center>Industry<div style="width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:0px -32px;"></center></td><td>';
 
-						$map_descriptor.='<center><table class="item_list item_list_type_normal">
-						<tr class="item_list_title item_list_title_type_normal">
-							<th>Industry</th>
-							<th>Resources</th>
-							<th>Products</th>
-						</tr>';
-						$industry=$industries_meta[$step['industry']];
-						$map_descriptor.='<tr class="value">';
-						$map_descriptor.='<td>';
-						$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'industries/'.$step['industry'].'.html">#'.$step['industry'].'</a>';
-						$map_descriptor.='</td>';
-						$map_descriptor.='<td>';
-						foreach($industry['resources'] as $item=>$quantity)
-						{
-							if(isset($item_meta[$item]))
-							{
-								$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']).'.html';
-								$name=$item_meta[$item]['name'];
-								if($item_meta[$item]['image']!='')
-									$image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
-								else
-									$image='';
-								$map_descriptor.='<div style="float:left;text-align:center;">';
-								if($image!='')
-								{
-									if($link!='')
-										$map_descriptor.='<a href="'.$link.'">';
-									$map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />';
-									if($link!='')
-										$map_descriptor.='</a>';
-								}
-								if($link!='')
-									$map_descriptor.='<a href="'.$link.'">';
-								if($name!='')
-									$map_descriptor.=$name;
-								else
-									$map_descriptor.='Unknown item';
-								if($link!='')
-									$map_descriptor.='</a></div>';
-							}
-							else
-								$map_descriptor.='Unknown item';
-						}
-						$map_descriptor.='</td>';
-						$map_descriptor.='<td>';
-						foreach($industry['products'] as $item=>$quantity)
-						{
-							if(isset($item_meta[$item]))
-							{
-								$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']).'.html';
-								$name=$item_meta[$item]['name'];
-								if($item_meta[$item]['image']!='')
-									$image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
-								else
-									$image='';
-								$map_descriptor.='<div style="float:left;text-align:middle;">';
-								if($image!='')
-								{
-									if($link!='')
-										$map_descriptor.='<a href="'.$link.'">';
-									$map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />';
-									if($link!='')
-										$map_descriptor.='</a>';
-								}
-								if($link!='')
-									$map_descriptor.='<a href="'.$link.'">';
-								if($name!='')
-									$map_descriptor.=$name;
-								else
-									$map_descriptor.='Unknown item';
-								if($link!='')
-									$map_descriptor.='</a></div>';
-							}
-							else
-								$map_descriptor.='Unknown item';
-						}
+                        if(!isset($industries_meta[$step['industry']]))
+                        {
+                            $map_descriptor.='Industry '.$step['industry'].' not found for bot '.$bot_id.'!</td>';
+                            echo 'Industry '.$step['industry'].' not found for bot '.$bot_id.'!'."\n";
+                        }
+                        else
+                        {
+                            $map_descriptor.='<center><table class="item_list item_list_type_normal">
+                            <tr class="item_list_title item_list_title_type_normal">
+                                <th>Industry</th>
+                                <th>Resources</th>
+                                <th>Products</th>
+                            </tr>';
+                            $industry=$industries_meta[$step['industry']];
+                            $map_descriptor.='<tr class="value">';
+                            $map_descriptor.='<td>';
+                            $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'industries/'.$step['industry'].'.html">#'.$step['industry'].'</a>';
+                            $map_descriptor.='</td>';
+                            $map_descriptor.='<td>';
+                            foreach($industry['resources'] as $item=>$quantity)
+                            {
+                                if(isset($item_meta[$item]))
+                                {
+                                    $link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']).'.html';
+                                    $name=$item_meta[$item]['name'];
+                                    if($item_meta[$item]['image']!='')
+                                        $image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
+                                    else
+                                        $image='';
+                                    $map_descriptor.='<div style="float:left;text-align:center;">';
+                                    if($image!='')
+                                    {
+                                        if($link!='')
+                                            $map_descriptor.='<a href="'.$link.'">';
+                                        $map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />';
+                                        if($link!='')
+                                            $map_descriptor.='</a>';
+                                    }
+                                    if($link!='')
+                                        $map_descriptor.='<a href="'.$link.'">';
+                                    if($name!='')
+                                        $map_descriptor.=$name;
+                                    else
+                                        $map_descriptor.='Unknown item';
+                                    if($link!='')
+                                        $map_descriptor.='</a></div>';
+                                }
+                                else
+                                    $map_descriptor.='Unknown item';
+                            }
+                            $map_descriptor.='</td>';
+                            $map_descriptor.='<td>';
+                            foreach($industry['products'] as $item=>$quantity)
+                            {
+                                if(isset($item_meta[$item]))
+                                {
+                                    $link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']).'.html';
+                                    $name=$item_meta[$item]['name'];
+                                    if($item_meta[$item]['image']!='')
+                                        $image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
+                                    else
+                                        $image='';
+                                    $map_descriptor.='<div style="float:left;text-align:middle;">';
+                                    if($image!='')
+                                    {
+                                        if($link!='')
+                                            $map_descriptor.='<a href="'.$link.'">';
+                                        $map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />';
+                                        if($link!='')
+                                            $map_descriptor.='</a>';
+                                    }
+                                    if($link!='')
+                                        $map_descriptor.='<a href="'.$link.'">';
+                                    if($name!='')
+                                        $map_descriptor.=$name;
+                                    else
+                                        $map_descriptor.='Unknown item';
+                                    if($link!='')
+                                        $map_descriptor.='</a></div>';
+                                }
+                                else
+                                    $map_descriptor.='Unknown item';
+                            }
+                        }
 						$map_descriptor.='</td>';
 						$map_descriptor.='</tr>';
 						$map_descriptor.='<tr>

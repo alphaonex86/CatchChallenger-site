@@ -214,9 +214,9 @@ $items_to_quests_for_step=array();
 $xmlFightList=getDefinitionXmlList($datapack_path.'quests/');
 foreach($xmlFightList as $file)
 {
-	if(!preg_match('#([0-9]+)#is',$file))
+	if(!preg_match('#^([0-9]+)$#is',$file))
 		continue;
-	$id=preg_replace('#^.*([0-9]+).*$#is','$1',$file);
+	$id=preg_replace('#^([0-9]+)$#is','$1',$file);
 	if(isset($quests_meta[$id]))
 	{
 		echo 'duplicate id '.$id.' for the quests'."\n";

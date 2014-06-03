@@ -65,7 +65,7 @@ foreach($temp_maps as $map)
                     echo 'Dual same border detected '.$map."\n";
 			}
             else
-                echo 'No map property on '.$map."\n";
+                echo 'No border property on '.$map."\n";
 		}
 	}
 	preg_match_all('#<object[^>]+type="teleport( on [a-z]+)?".*</object>#isU',$content,$temp_text_list);
@@ -83,7 +83,7 @@ foreach($temp_maps as $map)
 			$tp[]=$border_map;
 		}
         else
-            echo 'No map property on '.$map."\n";
+            echo 'No map property for teleport on '.$map."\n";
 	}
 	preg_match_all('#<object[^>]+type="door".*</object>#isU',$content,$temp_text_list);
 	foreach($temp_text_list[0] as $door_text)
@@ -102,7 +102,7 @@ foreach($temp_maps as $map)
 				$doors[]=array('map'=>$door_map);
 			}
             else
-                echo 'No map property on '.$map."\n";
+                echo 'No map property for door on '.$map."\n";
 		}
 	}
 	preg_match_all('#<object[^>]+type="bot".*</object>#isU',$content,$temp_text_list);

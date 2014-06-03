@@ -4,15 +4,18 @@ if(!isset($datapackexplorergeneratorinclude))
 
 $item_group=array();
 //load the item group
-$content=file_get_contents($datapack_path.'items/groups.xml');
-preg_match_all('#<group id="([a-zA-Z0-9\\-]+)">(.*)</group>#isU',$content,$temp_text_list);
-foreach($temp_text_list[1] as $index=>$base_group_name)
+if(is_file($datapack_path.'items/groups.xml'))
 {
-	if(!preg_match('#<name( lang="en")?>.*</name>#isU',$temp_text_list[2][$index]))
-		continue;
-	$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$temp_text_list[2][$index]);
-    $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
-	$item_group[$base_group_name]=$name;
+    $content=file_get_contents($datapack_path.'items/groups.xml');
+    preg_match_all('#<group id="([a-zA-Z0-9\\-]+)">(.*)</group>#isU',$content,$temp_text_list);
+    foreach($temp_text_list[1] as $index=>$base_group_name)
+    {
+        if(!preg_match('#<name( lang="en")?>.*</name>#isU',$temp_text_list[2][$index]))
+            continue;
+        $name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$temp_text_list[2][$index]);
+        $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
+        $item_group[$base_group_name]=$name;
+    }
 }
 
 $item_meta=array();

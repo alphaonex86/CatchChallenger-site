@@ -2,6 +2,17 @@
 if(!isset($datapackexplorergeneratorinclude))
 	die('abort into generator skills'."\n");
 
+$only_one_level=true;
+foreach($skill_meta as $skill_id=>$skill)
+{
+    foreach($skill['level_list'] as $level=>$effect)
+    {
+        if(count($skill['level_list'])>1)
+            $only_one_level=false;
+    }
+}
+
+
 foreach($skill_meta as $skill_id=>$skill)
 {
 	if(!is_dir($datapack_explorer_local_path.'monsters/'))
@@ -172,9 +183,10 @@ $map_descriptor.='<table class="item_list item_list_type_normal">
 <tr class="item_list_title item_list_title_type_normal">
 	<th>Skill</th>
 	<th>Type</th>
-	<th>Endurance</th>
-	<th>Number of level</th>
-</tr>';
+	<th>Endurance</th>';
+if(!$only_one_level)
+	$map_descriptor.='<th>Number of level</th>';
+$map_descriptor.='</tr>';
 foreach($skill_meta as $skill_id=>$skill)
 {
 	if(count($skill['level_list'])>0)
@@ -189,12 +201,18 @@ foreach($skill_meta as $skill_id=>$skill)
 			$map_descriptor.='<td>'.$skill['level_list'][1]['endurance'].'</td>';
 		else
 			$map_descriptor.='<td>&nbsp;</td>';
-		$map_descriptor.='<td>'.count($skill['level_list']).'</td>';
+        if(!$only_one_level)
+            $map_descriptor.='<td>'.count($skill['level_list']).'</td>';
 		$map_descriptor.='</tr>';
 	}
 }
 $map_descriptor.='<tr>
-	<td colspan="4" class="item_list_endline item_list_title_type_normal"></td>
+	<td colspan="';
+if(!$only_one_level)
+    $map_descriptor.='4';
+else
+    $map_descriptor.='3';
+$map_descriptor.='" class="item_list_endline item_list_title_type_normal"></td>
 </tr>
 </table>';
 $content=$template;

@@ -363,7 +363,7 @@ foreach($bots_meta as $bot_id=>$bot)
 				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Industry</div>
 				<center><div style="width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:0px -32px;"></center>
 				<div class="value">';
-                if(!isset($industries_meta[$step['industry']]))
+                if(!isset($industrie_meta[$step['industry']]))
                 {
                     $map_descriptor.='Industry '.$step['industry'].' not found for bot '.$bot_id.'!</td>';
                     echo 'Industry '.$step['industry'].' not found for bot '.$bot_id.'!'."\n";
@@ -376,7 +376,7 @@ foreach($bots_meta as $bot_id=>$bot)
                         <th>Resources</th>
                         <th>Products</th>
                     </tr>';
-                    $industry=$industries_meta[$step['industry']];
+                    $industry=$industrie_meta[$step['industry']];
                     $map_descriptor.='<tr class="value">';
                     $map_descriptor.='<td>';
                     $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'industries/'.$step['industry'].'.html">#'.$step['industry'].'</a>';

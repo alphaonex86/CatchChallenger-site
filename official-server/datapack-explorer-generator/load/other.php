@@ -61,53 +61,6 @@ foreach($xmlFightList as $file)
 }
 ksort($fight_meta);
 
-$industries_meta=array();
-$xmlFightList=getXmlList($datapack_path.'industries/');
-foreach($xmlFightList as $file)
-{
-	$content=file_get_contents($datapack_path.'industries/'.$file);
-	preg_match_all('#<industrialrecipe id="[0-9]+".*</industrialrecipe>#isU',$content,$entry_list);
-	foreach($entry_list[0] as $entry)
-	{
-		if(!preg_match('#<industrialrecipe id="([0-9]+)".*</industrialrecipe>#isU',$entry))
-			continue;
-		$id=preg_replace('#^.*<industrialrecipe id="([0-9]+)".*</industrialrecipe>.*$#isU','$1',$entry);
-		if(isset($industries_meta[$id]))
-		{
-			echo 'duplicate id '.$id.' for the industries'."\n";
-			continue;
-		}
-		if(!preg_match('#time="([0-9]+)"#isU',$entry))
-			continue;
-		$time=preg_replace('#^.*time="([0-9]+)".*$#isU','$1',$entry);
-		if(!preg_match('#cycletobefull="([0-9]+)"#isU',$entry))
-			continue;
-		$cycletobefull=preg_replace('#^.*cycletobefull="([0-9]+)".*$#isU','$1',$entry);
-		$resources=array();
-		preg_match_all('#<resource id="([0-9]+)"[^>]*/>#isU',$entry,$monster_text_list);
-		foreach($monster_text_list[0] as $monster_text)
-		{
-			$item=preg_replace('#^.*<resource id="([0-9]+)"[^>]*/>.*$#isU','$1',$monster_text);
-            $quantity=1;
-            if(!preg_match('#quantity="([0-9]+)"#isU',$monster_text))
-              $quantity=preg_replace('#^.*quantity="([0-9]+)".*$#isU','$1',$monster_text);
-			$resources[$item]=$quantity;
-		}
-		$products=array();
-		preg_match_all('#<product id="([0-9]+)"[^>]*/>#isU',$entry,$monster_text_list);
-		foreach($monster_text_list[0] as $monster_text)
-		{
-			$item=preg_replace('#^.*<product id="([0-9]+)"[^>]*/>.*$#isU','$1',$monster_text);
-            $quantity=1;
-            if(!preg_match('#quantity="([0-9]+)"#isU',$monster_text))
-              $quantity=preg_replace('#^.*quantity="([0-9]+)".*$#isU','$1',$monster_text);
-			$products[$item]=$quantity;
-		}
-		$industries_meta[$id]=array('time'=>$time,'cycletobefull'=>$cycletobefull,'resources'=>$resources,'products'=>$products);
-	}
-}
-ksort($industries_meta);
-
 $start_meta=array();
 if(file_exists($datapack_path.'player/start.xml'))
 {
@@ -214,9 +167,10 @@ $items_to_quests_for_step=array();
 $xmlFightList=getDefinitionXmlList($datapack_path.'quests/');
 foreach($xmlFightList as $file)
 {
-	if(!preg_match('#^([0-9]+)$#is',$file))
+    $file_temp=preg_replace('#^([0-9]+)([^0-9].*)?$#isU','$1',$file);
+	if(!preg_match('#^([0-9]+)$#is',$file_temp))
 		continue;
-	$id=preg_replace('#^([0-9]+)$#is','$1',$file);
+	$id=preg_replace('#^([0-9]+)$#is','$1',$file_temp);
 	if(isset($quests_meta[$id]))
 	{
 		echo 'duplicate id '.$id.' for the quests'."\n";

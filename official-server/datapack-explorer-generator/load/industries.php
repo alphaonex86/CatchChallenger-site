@@ -49,7 +49,7 @@ if(is_dir($datapack_path.'industries/'))
 							continue;
 						$quantity=1;
 						$item=preg_replace('#^.*<resource[^>]*id="([0-9]+)".*$#isU','$1',$resource);
-						if(!preg_match('#<resource[^>]*quantity="([0-9]+)"#isU',$resource))
+						if(preg_match('#<resource[^>]*quantity="([0-9]+)"#isU',$resource))
 							$quantity=preg_replace('#^.*<resource[^>]*quantity="([0-9]+)".*$#isU','$1',$resource);
 						$item_consumed_by[$item][$id]=$quantity;
 						$resources[]=array('item'=>$item,'quantity'=>$quantity);
@@ -63,7 +63,7 @@ if(is_dir($datapack_path.'industries/'))
 							continue;
 						$quantity=1;
 						$item=preg_replace('#^.*<product[^>]*id="([0-9]+)".*$#isU','$1',$product);
-						if(!preg_match('#<product[^>]*quantity="([0-9]+)"#isU',$product))
+						if(preg_match('#<product[^>]*quantity="([0-9]+)"#isU',$product))
 							$quantity=preg_replace('#^.*<product[^>]*quantity="([0-9]+)".*$#isU','$1',$product);
 						$item_produced_by[$item][$id]=$quantity;
 						$products[]=array('item'=>$item,'quantity'=>$quantity);

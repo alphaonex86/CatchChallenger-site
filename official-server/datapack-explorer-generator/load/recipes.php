@@ -25,17 +25,24 @@ if(file_exists($datapack_path.'crafting/recipes.xml'))
 			continue;
 		$doItemId=preg_replace('#^.*<recipe[^>]*doItemId="([0-9]+)".*</recipe>.*$#isU','$1',$entry);
 		$material=array();
-		preg_match_all('#<material itemId="([0-9]+)" quantity="([0-9]+)" />#isU',$entry,$temp_material_list);
+		preg_match_all('#<material[^>]*>#isU',$entry,$temp_material_list);
 		foreach($temp_material_list[0] as $material_text)
 		{
-			$itemId=preg_replace('#^.*<material itemId="([0-9]+)".*$#isU','$1',$material_text);
+            if(!preg_match('# itemId="[0-9]+"#isU',$material_text))
+                continue;
+			$itemId=preg_replace('#^.* itemId="([0-9]+)".*$#isU','$1',$material_text);
 			$quantity=1;
 			if(preg_match('#<material[^>]+quantity="([0-9]+)"#isU',$material_text))
 				$quantity=preg_replace('#^.*<material[^>]+quantity="([0-9]+)".*$#isU','$1',$material_text);
 			$material[$itemId]=$quantity;
 		}
-		$crafting_meta[$id]=array('itemToLearn'=>$itemToLearn,'doItemId'=>$doItemId,'material'=>$material);
-		$item_to_crafting[$itemToLearn]=array('doItemId'=>$doItemId,'material'=>$material);
+        if(count($material)>0)
+        {
+            $crafting_meta[$id]=array('itemToLearn'=>$itemToLearn,'doItemId'=>$doItemId,'material'=>$material);
+            $item_to_crafting[$itemToLearn]=array('doItemId'=>$doItemId,'material'=>$material);
+        }
+        else
+            echo 'material list is empty for recipe '.$id."\n";
 	}
 }
 ksort($crafting_meta);

@@ -118,9 +118,13 @@ foreach($temp_maps as $map)
 				$bot_file=$map_folder.$bot_file;
 				if(!preg_match('#\\.xml$#',$bot_file))
 					$bot_file.='.xml';
-				$bot_file=preg_replace('#/[^/]+/\\.\\./#isU','/',$bot_file);
-				$bot_file=preg_replace('#^[^/]+/\\.\\./#isU','',$bot_file);
-				$bot_file=preg_replace("#[\n\r\t]+#is",'',$bot_file);
+                do
+                {
+                    $old_bot_file=$bot_file;
+                    $bot_file=preg_replace('#/[^/]+/\\.\\./#isU','/',$bot_file);
+                    $bot_file=preg_replace('#^[^/]+/\\.\\./#isU','',$bot_file);
+                    $bot_file=preg_replace("#[\n\r\t]+#is",'',$bot_file);
+                } while($old_bot_file!=$bot_file);
 				if(preg_match('#<property name="lookAt" value="(bottom|top|left|right)"/>#isU',$bot_text) && preg_match('#<property name="skin" value="([^"]+)"/>#isU',$bot_text))
 				{
 					$lookAt=preg_replace('#^.*<property name="lookAt" value="(bottom|top|left|right)"/>.*$#isU','$1',$bot_text);
@@ -130,7 +134,7 @@ foreach($temp_maps as $map)
 				}
 				else
 					$bots[]=array('file'=>$bot_file,'id'=>$bot_id);
-				$bots_file[$bot_file]=true;
+				$bots_file[$bot_file]=$map;
 			}
 		}
 	}

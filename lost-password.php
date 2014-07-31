@@ -110,7 +110,7 @@ function send_change_password($id)
 							{
 								if($data['password']==$_GET['oldpass'])
 								{
-									mysql_query('UPDATE `player` SET `password`=\''.hash("sha224",hex2bin(hash("sha224",$_POST['password']))).'\' WHERE `id`='.addslashes($_GET['id'])) or die(mysql_error());
+									mysql_query('UPDATE `player` SET `password`=\''.hash("sha224",$_POST['password']).'\' WHERE `id`='.addslashes($_GET['id'])) or die(mysql_error());
 									echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Password changed</b></span><br />';
 								}
 								else

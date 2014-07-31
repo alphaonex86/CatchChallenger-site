@@ -2,7 +2,7 @@
 if(!isset($datapackexplorergeneratorinclude))
 	die('abort into generator industries'."\n");
 
-foreach($industries_meta as $id=>$industry)
+foreach($industrie_meta as $id=>$industry)
 {
 	if(!is_dir($datapack_explorer_local_path.'industries/'))
 		mkdir($datapack_explorer_local_path.'industries/');
@@ -24,8 +24,10 @@ foreach($industries_meta as $id=>$industry)
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">Cycle to be full</div><div class="value">'.$industry['cycletobefull'].'</div></div>';
 
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">Resources</div><div class="value">';
-		foreach($industry['resources'] as $material=>$quantity)
+		foreach($industry['resources'] as $resources)
 		{
+            $material=$resources['item'];
+            $quantity=$resources['quantity'];
 			if(isset($item_meta[$material]))
 			{
 				$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$material]['name']).'.html" title="'.$item_meta[$material]['name'].'">';
@@ -44,8 +46,10 @@ foreach($industries_meta as $id=>$industry)
 		$map_descriptor.='</div></div>';
 
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">Products</div><div class="value">';
-		foreach($industry['products'] as $material=>$quantity)
+		foreach($industry['products'] as $products)
 		{
+            $material=$products['item'];
+            $quantity=$products['quantity'];
 			if(isset($item_meta[$material]))
 			{
 				$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$material]['name']).'.html" title="'.$item_meta[$material]['name'].'">';
@@ -79,15 +83,17 @@ $map_descriptor.='<table class="item_list item_list_type_normal">
 	<th>Resources</th>
 	<th>Products</th>
 </tr>';
-foreach($industries_meta as $id=>$industry)
+foreach($industrie_meta as $id=>$industry)
 {
 	$map_descriptor.='<tr class="value">';
 	$map_descriptor.='<td>';
 	$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'industries/'.$id.'.html">#'.$id.'</a>';
 	$map_descriptor.='</td>';
 	$map_descriptor.='<td><center>';
-	foreach($industry['resources'] as $item=>$quantity)
+	foreach($industry['resources'] as $resources)
 	{
+        $item=$resources['item'];
+        $quantity=$resources['quantity'];
 		if(isset($item_meta[$item]))
 		{
 			$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']).'.html';
@@ -110,17 +116,19 @@ foreach($industries_meta as $id=>$industry)
 			if($name!='')
 				$map_descriptor.=$name;
 			else
-				$map_descriptor.='Unknown item';
+				$map_descriptor.='Unknown resources name ('.$item.')';
 			if($link!='')
 				$map_descriptor.='</a></div>';
 		}
 		else
-			$map_descriptor.='Unknown item';
+			$map_descriptor.='Unknown resources ('.$item.')';
 	}
 	$map_descriptor.='</center></td>';
 	$map_descriptor.='<td><center>';
-	foreach($industry['products'] as $item=>$quantity)
+	foreach($industry['products'] as $products)
 	{
+        $item=$products['item'];
+        $quantity=$products['quantity'];
 		if(isset($item_meta[$item]))
 		{
 			$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']).'.html';
@@ -143,12 +151,12 @@ foreach($industries_meta as $id=>$industry)
 			if($name!='')
 				$map_descriptor.=$name;
 			else
-				$map_descriptor.='Unknown item';
+				$map_descriptor.='Unknown products name ('.$item.')';
 			if($link!='')
 				$map_descriptor.='</a></div>';
 		}
 		else
-			$map_descriptor.='Unknown item';
+			$map_descriptor.='Unknown products ('.$item.')';
 	}
 	$map_descriptor.='</center></td>';
 	$map_descriptor.='</tr>';

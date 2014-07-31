@@ -3,6 +3,7 @@ if(!isset($datapackexplorergeneratorinclude))
 	die('abort into load bots'."\n");
 
 $bots_meta=array();
+$bots_found_in=array();
 $fight_to_bot=array();
 $bots_name_count=array();
 foreach($bots_file as $file=>$value)
@@ -16,7 +17,7 @@ foreach($bots_file as $file=>$value)
             $id=preg_replace('#^.*<bot id="([0-9]+)">(.*)</bot>.*$#isU','$1',$bot_text);
             $bot_text=preg_replace('#^.*<bot id="([0-9]+)">(.*)</bot>.*$#isU','$2',$bot_text);
             if(isset($bots_meta[$id]))
-                echo 'bot with id '.$id.' is already found'."\n";
+                echo $file.': bot with id '.$id.' is already found into: '.$bots_found_in[$id]."\n";
             else
             {
                 $name='';
@@ -30,6 +31,7 @@ foreach($bots_file as $file=>$value)
                         $bots_name_count[$name]=1;
                 }
                 $bots_meta[$id]=array('name'=>$name,'onlytext'=>true,'step'=>array());
+                $bots_found_in[$id]=$file;
                 $temp_step_list=explode('<step',$bot_text);
                 foreach($temp_step_list as $step_text)
                 {
@@ -173,6 +175,6 @@ foreach($bots_file as $file=>$value)
         }
     }
     else
-        echo $datapack_path.'map/'.$file.' not found'."\n";
+        echo $datapack_path.'map/'.$file.' not found for the map: '.$value."\n";
 }
 ksort($bots_meta);

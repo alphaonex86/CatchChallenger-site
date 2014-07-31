@@ -20,12 +20,16 @@ if(file_exists($datapack_path.'monsters/type.xml'))
 		elseif(preg_match('#<name>([^<]+)</name>#isU',$entry))
 			$english_name=preg_replace('#^.*<name>([^<]+)</name>.*$#isU','$1',$entry);
         $english_name=str_replace('<![CDATA[','',str_replace(']]>','',$english_name));
-		preg_match_all('#<multiplicator number="([^"]+)" to="([^"]+)" />#isU',$entry,$multiplicator_list);
+		preg_match_all('#<multiplicator.*/>#isU',$entry,$multiplicator_list);
 		foreach($multiplicator_list[0] as $tempmultiplicator)
 		{
-			$number=(float)preg_replace('#^.*<multiplicator number="([^"]+)" to="([^"]+)" />.*$#isU','$1',$tempmultiplicator);
-			$to=preg_replace('#^.*<multiplicator number="([^"]+)" to="([^"]+)" />.*$#isU','$2',$tempmultiplicator);
-			$to_list=explode(';',$to);;
+            if(preg_match('# number="([^"]+)"#isU',$tempmultiplicator))
+                continue;
+            if(preg_match('# to="([^"]+)"#isU',$tempmultiplicator))
+                continue;
+            $number=(float)preg_replace('#^.* number="([^"]+)".*$#isU','$1',$tempmultiplicator);
+			$to=preg_replace('#^.* to="([^"]+)".*$#isU','$1',$tempmultiplicator);
+			$to_list=explode(';',$to);
 			foreach($to_list as $to)
 				$multiplicator[$to]=$number;
 		}

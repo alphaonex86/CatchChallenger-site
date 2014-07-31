@@ -122,7 +122,7 @@ foreach($temp_maps as $map)
 			$map_descriptor.='</ul></div></div>';
 		}
 	$map_descriptor.='</div>';
-	
+
 	if($maps_list[$map]['dropcount']>0)
 	{
 		$map_descriptor.='<table class="item_list item_list_type_'.$maps_list[$map]['type'].'">
@@ -297,7 +297,7 @@ foreach($temp_maps as $map)
 		</tr>
 		</table>';
 	}
-	if(isset($maps_list[$map]['bots']) && count($maps_list[$map]['bots'])>0)
+    if(isset($maps_list[$map]['bots']) && count($maps_list[$map]['bots'])>0)
 	{
 		$map_descriptor.='<center><table class="item_list item_list_type_normal">
 		<tr class="item_list_title item_list_title_type_normal">
@@ -636,10 +636,10 @@ foreach($temp_maps as $map)
 					{
 						$map_descriptor.='<td><center>Industry<div style="width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:0px -32px;"></center></td><td>';
 
-                        if(!isset($industries_meta[$step['industry']]))
+                        if(!isset($industrie_meta[$step['industry']]))
                         {
-                            $map_descriptor.='Industry '.$step['industry'].' not found for bot '.$bot_id.'!</td>';
-                            echo 'Industry '.$step['industry'].' not found for bot '.$bot_id.'!'."\n";
+                            $map_descriptor.='Industry '.$step['industry'].' not found for map '.$bot_id.'!</td>';
+                            echo 'Industry '.$step['industry'].' not found for map '.$bot_id.'!'."\n";
                         }
                         else
                         {
@@ -649,7 +649,7 @@ foreach($temp_maps as $map)
                                 <th>Resources</th>
                                 <th>Products</th>
                             </tr>';
-                            $industry=$industries_meta[$step['industry']];
+                            $industry=$industrie_meta[$step['industry']];
                             $map_descriptor.='<tr class="value">';
                             $map_descriptor.='<td>';
                             $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'industries/'.$step['industry'].'.html">#'.$step['industry'].'</a>';

@@ -309,7 +309,7 @@ foreach($item_meta as $id=>$item)
 		</tr>';
 		foreach($item_consumed_by[$id] as $industry_id=>$quantity)
 		{
-			if(isset($industries_meta[$industry_id]))
+			if(isset($industrie_meta[$industry_id]))
 			{
 				$map_descriptor.='<tr class="value">';
 				$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'industries/'.$industry_id.'.html">';
@@ -334,7 +334,7 @@ foreach($item_meta as $id=>$item)
 		</tr>';
 		foreach($item_produced_by[$id] as $industry_id=>$quantity)
 		{
-			if(isset($industries_meta[$industry_id]))
+			if(isset($industrie_meta[$industry_id]))
 			{
 				$map_descriptor.='<tr class="value">';
 				$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'industries/'.$industry_id.'.html">';

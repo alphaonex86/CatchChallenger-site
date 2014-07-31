@@ -116,9 +116,9 @@ foreach($start_meta as $entry)
 				$map_descriptor.='<li>';
 				$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item['id']]['name']).'.html" title="'.$item_meta[$item['id']]['name'].'">';
 				if($item_meta[$item['id']]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$item['id']]['image']))
-					$map_descriptor.='<li><img src="'.$base_datapack_site_path.'items/'.htmlspecialchars($item_meta[$item['id']]['image']).'" width="24" height="24" alt="'.htmlspecialchars($item_meta[$item['id']]['description']).'" title="'.htmlspecialchars($item_meta[$item['id']]['description']).'" />'.$quantity.htmlspecialchars($item_meta[$item['id']]['name']).'</li>';
+					$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.htmlspecialchars($item_meta[$item['id']]['image']).'" width="24" height="24" alt="'.htmlspecialchars($item_meta[$item['id']]['description']).'" title="'.htmlspecialchars($item_meta[$item['id']]['description']).'" />'.$quantity.htmlspecialchars($item_meta[$item['id']]['name']);
 				else
-					$map_descriptor.='<li>'.$quantity.htmlspecialchars($item_meta[$item['id']]['name']).'</li>';
+					$map_descriptor.=$quantity.htmlspecialchars($item_meta[$item['id']]['name']);
 				$map_descriptor.='</a>';
 				$map_descriptor.='</li>';
 			}

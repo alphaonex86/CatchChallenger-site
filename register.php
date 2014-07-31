@@ -304,14 +304,14 @@ if(file_exists('datapack/items/items.xml'))
 											echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;;"><b>Mailer error: '.$mail->ErrorInfo.', contact the admin at '.$ADMINISTRATOR_EMAIL.'</b></span><br />';
 										else
 										{
-											$mysql_return=mysql_query('INSERT INTO `account_register`(`login`,`password`,`email`,`key`,`date`) VALUES(\''.$login_hash.'\',\''.hash("sha224",hex2bin(hash("sha224",$_POST['password']))).'\',\''.addslashes($_POST['email']).'\',\''.addslashes($key).'\','.time().');') or die(mysql_error());
+											$mysql_return=mysql_query('INSERT INTO `account_register`(`login`,`password`,`email`,`key`,`date`) VALUES(\''.$login_hash.'\',\''.hash("sha224","sha224",$_POST['password']).'\',\''.addslashes($_POST['email']).'\',\''.addslashes($key).'\','.time().');') or die(mysql_error());
 											echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, check your email</b></span><br />';
 										}
 									}
 									else
 									{
 										send_mail($_POST['login'].' enable your account into '.$_SERVER['HTTP_HOST'],'Hello '.$_POST['login'].', to enable your account into http://'.$_SERVER['HTTP_HOST'].', click here: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?key='.$key.'&email='.$_POST['email'],$_POST['email'],'text/plain',$ADMINISTRATOR_EMAIL);
-										$mysql_return=mysql_query('INSERT INTO `account_register`(`login`,`password`,`email`,`key`,`date`) VALUES(\''.$login_hash.'\',\''.hash("sha224",hex2bin(hash("sha224",$_POST['password']))).'\',\''.addslashes($_POST['email']).'\',\''.addslashes($key).'\','.time().');') or die(mysql_error());
+										$mysql_return=mysql_query('INSERT INTO `account_register`(`login`,`password`,`email`,`key`,`date`) VALUES(\''.$login_hash.'\',\''.hash("sha224","sha224",$_POST['password']).'\',\''.addslashes($_POST['email']).'\',\''.addslashes($key).'\','.time().');') or die(mysql_error());
 										echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, check your email</b></span><br />';
 									}
 								}

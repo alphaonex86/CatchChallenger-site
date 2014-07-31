@@ -23,9 +23,9 @@ if(file_exists($datapack_path.'monsters/type.xml'))
 		preg_match_all('#<multiplicator.*/>#isU',$entry,$multiplicator_list);
 		foreach($multiplicator_list[0] as $tempmultiplicator)
 		{
-            if(preg_match('# number="([^"]+)"#isU',$tempmultiplicator))
+            if(!preg_match('# number="([^"]+)"#isU',$tempmultiplicator))
                 continue;
-            if(preg_match('# to="([^"]+)"#isU',$tempmultiplicator))
+            if(!preg_match('# to="([^"]+)"#isU',$tempmultiplicator))
                 continue;
             $number=(float)preg_replace('#^.* number="([^"]+)".*$#isU','$1',$tempmultiplicator);
 			$to=preg_replace('#^.* to="([^"]+)".*$#isU','$1',$tempmultiplicator);

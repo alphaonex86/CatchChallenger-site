@@ -12,7 +12,10 @@ foreach($temp_skills as $skill_file)
 	foreach($temp_text_list[0] as $entry)
 	{
 		if(!preg_match('#id="[0-9]+"#isU',$entry))
+        {
+            echo 'id not found';
 			continue;
+        }
 		$id=preg_replace('#^.*id="([0-9]+)".*$#isU','$1',$entry);
 		if(isset($skill_meta[$id]))
 		{
@@ -37,7 +40,10 @@ foreach($temp_skills as $skill_file)
 		foreach($temp_level_list[0] as $level_text)
 		{
 			if(!preg_match('#number="[0-9]+"#isU',$level_text))
+            {
+                echo 'The level for skill '.$id.' don\'t have number'."\n";
 				continue;
+            }
 			$number=preg_replace('#^.*number="([0-9]+)".*$#isU','$1',$level_text);
 			$endurance=40;
 			if(preg_match('#endurance="[0-9]+"#isU',$level_text))
@@ -57,11 +63,11 @@ foreach($temp_skills as $skill_file)
 			{
 				if(preg_match('#id="([0-9]+)"#isU',$buff))
 				{
-					$id=preg_replace('#^.*id="([0-9]+)".*$#isU','$1',$buff);
+					$buff_id=preg_replace('#^.*id="([0-9]+)".*$#isU','$1',$buff);
 					$success=100;
 					if(preg_match('#success="([0-9]+)%?"#isU',$buff))
 						$success=preg_replace('#^.*success="([0-9]+)%?".*$#isU','$1',$buff);
-					$buff_list[]=array('id'=>$id,'success'=>$success);
+					$buff_list[]=array('id'=>$buff_id,'success'=>$success);
 				}
 			}
 			$level_list[$number]=array('endurance'=>$endurance,'sp'=>$sp,'life_quantity'=>$life_quantity,'buff'=>$buff_list,'base_level_luck'=>$base_level_luck);

@@ -655,8 +655,10 @@ foreach($temp_maps as $map)
                             $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'industries/'.$step['industry'].'.html">#'.$step['industry'].'</a>';
                             $map_descriptor.='</td>';
                             $map_descriptor.='<td>';
-                            foreach($industry['resources'] as $item=>$quantity)
+                            foreach($industry['resources'] as $resources)
                             {
+                                $item=$resources['item'];
+                                $quantity=$resources['quantity'];
                                 if(isset($item_meta[$item]))
                                 {
                                     $link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']).'.html';
@@ -688,8 +690,10 @@ foreach($temp_maps as $map)
                             }
                             $map_descriptor.='</td>';
                             $map_descriptor.='<td>';
-                            foreach($industry['products'] as $item=>$quantity)
+                            foreach($industry['products'] as $products)
                             {
+                                $item=$products['item'];
+                                $quantity=$products['quantity'];
                                 if(isset($item_meta[$item]))
                                 {
                                     $link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']).'.html';

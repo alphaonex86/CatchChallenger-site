@@ -150,13 +150,13 @@ foreach($temp_monsters as $monster_file)
 		preg_match_all('#<evolution [^>]+/>#isU',$entry,$temp_text_list);
 		foreach($temp_text_list[0] as $attack_text)
 		{
-			if(!preg_match('#level="([0-9]+)"#isU',$attack_text) || !preg_match('#item="([0-9]+)"#isU',$attack_text))
+			if(!preg_match('#level="([0-9]+)"#isU',$attack_text) && !preg_match('#item="([0-9]+)"#isU',$attack_text))
 				continue;
 			if(!preg_match('#type="([^"]+)"#isU',$attack_text))
 				continue;
 			if(!preg_match('#evolveTo="([0-9]+)"#isU',$attack_text))
 				continue;
-            if(!preg_match('#level="([0-9]+)"#isU',$attack_text))
+            if(preg_match('#level="([0-9]+)"#isU',$attack_text))
                 $level=preg_replace('#^.*level="([0-9]+)".*$#isU','$1',$attack_text);
             else
                 $level=preg_replace('#^.*item="([0-9]+)".*$#isU','$1',$attack_text);

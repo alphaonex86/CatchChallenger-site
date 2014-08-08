@@ -106,7 +106,7 @@ function send_change_password($id)
 							{
 								if($data['password']==$_GET['oldpass'])
 								{
-									pg_query('UPDATE account SET password=\''.hash("sha224",$_POST['new_password']).'\' WHERE id='.addslashes($_GET['id'])) or die(pg_last_error());
+									pg_query('UPDATE account SET password=\''.hash("sha224",$_POST['new_password'].'AwjDvPIzfJPTTgHs').'\' WHERE id='.addslashes($_GET['id'])) or die(pg_last_error());
 									echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Password changed</b></span><br />';
 								}
 								else

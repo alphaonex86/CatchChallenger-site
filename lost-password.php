@@ -1,10 +1,12 @@
 <?php
 $is_up=true;
 require 'config.php';
-$mysql_link=@mysql_connect($mysql_host,$mysql_login,$mysql_pass,true);
-if($mysql_link===NULL)
-	$is_up=false;
-else if(!@mysql_select_db($mysql_db))
+
+if($postgres_host!='localhost')
+    $postgres_link = pg_connect('dbname='.$postgres_db.' user='.$postgres_login.' password='.$postgres_pass.' host='.$postgres_host);
+else
+    $postgres_link = pg_connect('dbname='.$postgres_db.' user='.$postgres_login.' password='.$postgres_pass);
+if($postgres_link===NULL)
 	$is_up=false;
 
 require_once 'libs/class.smtp.php';
@@ -35,11 +37,11 @@ function send_mail($title,$text,$to,$type,$from)
 function send_change_password($id)
 {
 	global $ADMINISTRATOR_EMAIL,$mail,$smtp_server;
-	$reply = mysql_query('SELECT * FROM `player` WHERE `id`='.addslashes($id)) or die(mysql_error());
-	if($data = mysql_fetch_array($reply))
+	$reply = pg_query('SELECT * FROM player WHERE id='.addslashes($id)) or die(pg_error());
+	if($data = pg_fetch_array($reply))
 	{
-		$reply_meta_data = mysql_query('SELECT * FROM `player_meta` WHERE `id`='.addslashes($id)) or die(mysql_error());
-		if($data_meta_data = mysql_fetch_array($reply_meta_data))
+		$reply_meta_data = pg_query('SELECT * FROM player_meta WHERE id='.addslashes($id)) or die(pg_error());
+		if($data_meta_data = pg_fetch_array($reply_meta_data))
 		{
 			if($smtp_server!='')
 			{
@@ -105,12 +107,12 @@ function send_change_password($id)
 					{
 						if(isset($_POST['new_password']))
 						{
-							$reply = mysql_query('SELECT * FROM `player` WHERE `id`='.addslashes($_GET['id'])) or die(mysql_error());
-							if($data = mysql_fetch_array($reply))
+							$reply = pg_query('SELECT * FROM player WHERE id='.addslashes($_GET['id'])) or die(pg_error());
+							if($data = pg_fetch_array($reply))
 							{
 								if($data['password']==$_GET['oldpass'])
 								{
-									mysql_query('UPDATE `player` SET `password`=\''.hash("sha224",$_POST['password']).'\' WHERE `id`='.addslashes($_GET['id'])) or die(mysql_error());
+									pg_query('UPDATE player SET password=\''.hash("sha224",$_POST['password']).'\' WHERE id='.addslashes($_GET['id'])) or die(pg_error());
 									echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Password changed</b></span><br />';
 								}
 								else
@@ -129,8 +131,8 @@ function send_change_password($id)
 					{
 						if(isset($_POST['login_or_email']))
 						{
-							$reply = mysql_query('SELECT * FROM `player_meta` WHERE `email`=\''.addslashes($_POST['login_or_email']).'\'') or die(mysql_error());
-							if($data = mysql_fetch_array($reply))
+							$reply = pg_query('SELECT * FROM player_meta WHERE email=\''.addslashes($_POST['login_or_email']).'\'') or die(pg_error());
+							if($data = pg_fetch_array($reply))
 							{
 								if(send_change_password($data['id']))
 									echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Email to change your password send, check your email</b></span><br />';
@@ -139,8 +141,8 @@ function send_change_password($id)
 							}
 							else
 							{
-								$reply = mysql_query('SELECT * FROM `player` WHERE `login`=\''.addslashes($_POST['login_or_email']).'\'') or die(mysql_error());
-								if($data = mysql_fetch_array($reply))
+								$reply = pg_query('SELECT * FROM player WHERE login=\''.addslashes($_POST['login_or_email']).'\'') or die(pg_error());
+								if($data = pg_fetch_array($reply))
 								{
 									if(send_change_password($data['id']))
 										echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Email to change your password send, check your email</b></span><br />';

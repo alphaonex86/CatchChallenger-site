@@ -2,10 +2,13 @@
 $is_up=true;
 require 'config.php';
 
-$mysql_link=@mysql_connect($mysql_host,$mysql_login,$mysql_pass,true);
-if($mysql_link===NULL)
+if($postgres_host!='localhost')
+    $postgres_link = pg_connect('dbname='.$postgres_db.' user='.$postgres_login.' password='.$postgres_pass.' host='.$postgres_host);
+else
+    $postgres_link = pg_connect('dbname='.$postgres_db.' user='.$postgres_login.' password='.$postgres_pass);
+if($postgres_link===NULL)
 	$is_up=false;
-else if(!@mysql_select_db($mysql_db))
+else if(!@pg_select_db($postgres_db))
 	$is_up=false;
 
 require_once 'libs/class.smtp.php';
@@ -281,15 +284,15 @@ if(file_exists('datapack/items/items.xml'))
 							echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Your email seam wrong</b></span><br />';
 						else
 						{
-							mysql_query('DELETE FROM `account_register` WHERE `date` < '.(time()-24*3600).';') or die(mysql_error());
+							pg_query('DELETE FROM account_register WHERE date < '.(time()-24*3600).';') or die(pg_error());
 							$login_hash=hash("sha224",hex2bin(hash("sha224",$_POST['login'])));
-							$reply = mysql_query('SELECT * FROM `account` WHERE `login`=\''.$login_hash.'\'') or die(mysql_error());
-							if($data = mysql_fetch_array($reply))
+							$reply = pg_query('SELECT * FROM account WHERE login=\''.$login_hash.'\'') or die(pg_error());
+							if($data = pg_fetch_array($reply))
 								echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Login already taken</b></span><br />';
 							else
 							{
-								$reply = mysql_query('SELECT * FROM `account_register` WHERE `login`=\''.$login_hash.'\'') or die(mysql_error());
-								if($data = mysql_fetch_array($reply))
+								$reply = pg_query('SELECT * FROM account_register WHERE login=\''.$login_hash.'\'') or die(pg_error());
+								if($data = pg_fetch_array($reply))
 									echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Login already taken (into register)</b></span><br />';
 								else
 								{
@@ -304,14 +307,14 @@ if(file_exists('datapack/items/items.xml'))
 											echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;;"><b>Mailer error: '.$mail->ErrorInfo.', contact the admin at '.$ADMINISTRATOR_EMAIL.'</b></span><br />';
 										else
 										{
-											$mysql_return=mysql_query('INSERT INTO `account_register`(`login`,`password`,`email`,`key`,`date`) VALUES(\''.$login_hash.'\',\''.hash("sha224","sha224",$_POST['password']).'\',\''.addslashes($_POST['email']).'\',\''.addslashes($key).'\','.time().');') or die(mysql_error());
+											$postgres_return=pg_query('INSERT INTO account_register(login,password,email,key,date) VALUES(\''.$login_hash.'\',\''.hash("sha224","sha224",$_POST['password']).'\',\''.addslashes($_POST['email']).'\',\''.addslashes($key).'\','.time().');') or die(pg_error());
 											echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, check your email</b></span><br />';
 										}
 									}
 									else
 									{
 										send_mail($_POST['login'].' enable your account into '.$_SERVER['HTTP_HOST'],'Hello '.$_POST['login'].', to enable your account into http://'.$_SERVER['HTTP_HOST'].', click here: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?key='.$key.'&email='.$_POST['email'],$_POST['email'],'text/plain',$ADMINISTRATOR_EMAIL);
-										$mysql_return=mysql_query('INSERT INTO `account_register`(`login`,`password`,`email`,`key`,`date`) VALUES(\''.$login_hash.'\',\''.hash("sha224","sha224",$_POST['password']).'\',\''.addslashes($_POST['email']).'\',\''.addslashes($key).'\','.time().');') or die(mysql_error());
+										$postgres_return=pg_query('INSERT INTO account_register(login,password,email,key,date) VALUES(\''.$login_hash.'\',\''.hash("sha224","sha224",$_POST['password']).'\',\''.addslashes($_POST['email']).'\',\''.addslashes($key).'\','.time().');') or die(pg_error());
 										echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, check your email</b></span><br />';
 									}
 								}
@@ -320,13 +323,13 @@ if(file_exists('datapack/items/items.xml'))
 					}
 					else if(isset($_GET['key']) && isset($_GET['email']))
 					{
-						$reply = mysql_query('SELECT * FROM `account_register` WHERE `email`=\''.addslashes($_GET['email']).'\'') or die(mysql_error());
-						if($data = mysql_fetch_array($reply))
+						$reply = pg_query('SELECT * FROM account_register WHERE email=\''.addslashes($_GET['email']).'\'') or die(pg_error());
+						if($data = pg_fetch_array($reply))
 						{
 							if($data['key']==$_GET['key'])
 							{
-								mysql_query('DELETE FROM `account_register` WHERE id='.$data['id']) or die(mysql_error());
-								mysql_query('INSERT INTO `account`(`login`,`password`,`date`,`email`) VALUES(\''.addslashes($data['login']).'\',\''.addslashes($data['password']).'\','.$data['date'].',\''.addslashes($data['email']).'\');') or die(mysql_error());
+								pg_query('DELETE FROM account_register WHERE id='.$data['id']) or die(pg_error());
+								pg_query('INSERT INTO account(login,password,date,email) VALUES(\''.addslashes($data['login']).'\',\''.addslashes($data['password']).'\','.$data['date'].',\''.addslashes($data['email']).'\');') or die(pg_error());
 								echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, thanks for your validation</b></span><br /><script type="text/JavaScript">'."\n";
 								echo '<!--'."\n";
 								echo 'setTimeout("location.href = \'/\';",1500);'."\n";

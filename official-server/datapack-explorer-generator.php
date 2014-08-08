@@ -1,13 +1,6 @@
 <?php
 $is_up=true;
 require '../config.php';
-$mysql_link=@mysql_connect($mysql_host,$mysql_login,$mysql_pass,true);
-if($mysql_link===NULL)
-	$is_up=false;
-else if(!@mysql_select_db($mysql_db))
-	$is_up=false;
-if(!$is_up)
-	exit;
 
 if(isset($_SERVER['SERVER_ADDR']) && isset($_SERVER['REMOTE_ADDR']))
     if($_SERVER['SERVER_ADDR']!=$_SERVER['REMOTE_ADDR'])

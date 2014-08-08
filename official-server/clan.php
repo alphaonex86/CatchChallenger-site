@@ -1,11 +1,12 @@
 <?php
 $is_up=true;
 require '../config.php';
-$mysql_link=@mysql_connect($mysql_host,$mysql_login,$mysql_pass,true);
-if($mysql_link===NULL)
-	$is_up=false;
-else if(!@mysql_select_db($mysql_db))
-	$is_up=false;
+if($postgres_host!='localhost')
+    $postgres_link = @pg_connect('dbname='.$postgres_db.' user='.$postgres_login.' password='.$postgres_pass.' host='.$postgres_host);
+else
+    $postgres_link = @pg_connect('dbname='.$postgres_db.' user='.$postgres_login.' password='.$postgres_pass);
+if($postgres_link===FALSE)
+    $is_up=false;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
@@ -71,9 +72,10 @@ else if(!@mysql_select_db($mysql_db))
 					echo '<td>Leader</td>';
 					echo '<td>City</td>';
 					echo '</tr>';
+                    $skin_list=array();
 					$index=1;
-					$reply = mysql_query('SELECT * FROM  `clan` LIMIT 0,30') or die(mysql_error());
-					while($data = mysql_fetch_array($reply))
+					$reply = pg_query('SELECT * FROM  clan LIMIT 30') or die(pg_last_error());
+					while($data = pg_fetch_array($reply))
 					{
 						echo '<tr>';
 						echo '<td>';
@@ -82,31 +84,41 @@ else if(!@mysql_select_db($mysql_db))
 						echo '<strong>'.htmlspecialchars($data['name']).'</strong></td>';
 						echo '<td>'.htmlspecialchars($data['cash']).'$</td>';
 						echo '<td>'.date('jS \of F Y',$data['date']).'</td>';
-						$reply_clan_count = mysql_query('SELECT COUNT(*) FROM `character` WHERE `clan`='.$data['id']) or die(mysql_error());
-						if($data_clan_count = mysql_fetch_array($reply_clan_count))
-							echo '<td><b>'.$data_clan_count['COUNT(*)'].'</b></td>';
+						$reply_clan_count = pg_query('SELECT COUNT(id) FROM character WHERE clan='.$data['id']) or die(pg_last_error());
+						if($data_clan_count = pg_fetch_array($reply_clan_count))
+							echo '<td><b>'.$data_clan_count['count'].'</b></td>';
 						else
 							echo '<td></td>';
 						echo '<td>';
 						$clan_players=array();
-						$reply_clan_players = mysql_query('SELECT `pseudo`,`skin`,`clan_leader` FROM `character` WHERE `clan`='.$data['id']) or die(mysql_error());
-						while($data_clan_players = mysql_fetch_array($reply_clan_players))
-							if($data_clan_players['clan_leader']!=0)
-							{
-								if(file_exists('../datapack/skin/fighter/'.htmlspecialchars($data_clan_players['skin']).'/trainer.png'))
-									$clan_players[]='<div style="width:16px;height:24px;background-image:url(\'../datapack/skin/fighter/'.htmlspecialchars($data_clan_players['skin']).'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;float:left;"></div>'.htmlspecialchars($data_clan_players['pseudo']);
-								elseif(file_exists('../datapack/skin/fighter/'.htmlspecialchars($data_clan_players['skin']).'/trainer.gif'))
-									$clan_players[]='<div style="width:16px;height:24px;background-image:url(\'../datapack/skin/fighter/'.htmlspecialchars($data_clan_players['skin']).'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;float:left;"></div>'.htmlspecialchars($data_clan_players['pseudo']);
-								else
-									$clan_players[]=htmlspecialchars($data_clan_players['pseudo']);
-							}
+						$reply_clan_players = pg_query('SELECT pseudo,skin,clan_leader FROM character WHERE clan='.$data['id'].' AND clan_leader=true') or die(pg_last_error());
+						while($data_clan_players = pg_fetch_array($reply_clan_players))
+                        {
+                            if(isset($skin_list[$data_clan_players['skin']]))
+                                $skin=$skin_list[$data_clan_players['skin']];
+                            else
+                            {
+                                $reply_skin = pg_query('SELECT skin FROM dictionary_skin WHERE id='.$data_clan_players['skin']) or die(pg_last_error());
+                                if($data_skin = pg_fetch_array($reply_skin))
+                                    $skin=$data_skin['skin'];
+                                else
+                                    $skin='default';
+                                $skin_list[$data_clan_players['skin']]=$skin;
+                            }
+                            if(file_exists('../datapack/skin/fighter/'.htmlspecialchars($skin).'/trainer.png'))
+                                $clan_players[]='<div style="width:16px;height:24px;background-image:url(\'../datapack/skin/fighter/'.htmlspecialchars($skin).'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;float:left;"></div>'.htmlspecialchars($data_clan_players['pseudo']);
+                            elseif(file_exists('../datapack/skin/fighter/'.htmlspecialchars($skin).'/trainer.gif'))
+                                $clan_players[]='<div style="width:16px;height:24px;background-image:url(\'../datapack/skin/fighter/'.htmlspecialchars($skin).'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;float:left;"></div>'.htmlspecialchars($data_clan_players['pseudo']);
+                            else
+                                $clan_players[]=htmlspecialchars($data_clan_players['pseudo']);
+                        }
 						echo implode(', ',$clan_players);
 						echo '</td>';
 						echo '<td>';
 						$city=array();
 						$city_text=array();
-						$reply_clan_city = mysql_query('SELECT * FROM `city` WHERE `clan`='.$data['id']) or die(mysql_error());
-						while($data_clan_city = mysql_fetch_array($reply_clan_city))
+						$reply_clan_city = pg_query('SELECT * FROM city WHERE clan='.$data['id']) or die(pg_last_error());
+						while($data_clan_city = pg_fetch_array($reply_clan_city))
 							$city[]=$data_clan_city['city'];
 						foreach($city as $entry)
 						{

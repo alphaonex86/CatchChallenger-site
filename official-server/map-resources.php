@@ -4,37 +4,43 @@ $factory_price_change=20;
 
 $is_up=true;
 require '../config.php';
-$mysql_link=@mysql_connect($mysql_host,$mysql_login,$mysql_pass,true);
-if($mysql_link===NULL)
-	$is_up=false;
-else if(!@mysql_select_db($mysql_db))
-	$is_up=false;
+$datapackexplorergeneratorinclude=true;
+require 'datapack-explorer-generator/function.php';
+if($postgres_host!='localhost')
+    $postgres_link = @pg_connect('dbname='.$postgres_db.' user='.$postgres_login.' password='.$postgres_pass.' host='.$postgres_host);
+else
+    $postgres_link = @pg_connect('dbname='.$postgres_db.' user='.$postgres_login.' password='.$postgres_pass);
+if($postgres_link===FALSE)
+    $is_up=false;
 
 $item_meta=array();
-if(file_exists('../datapack/items/items.xml'))
+$temp_items=getXmlList($datapack_path.'items/');
+foreach($temp_items as $item_file)
 {
-	$content=file_get_contents('../datapack/items/items.xml');
-	preg_match_all('#<item[^>]*>.*</item>#isU',$content,$entry_list);
-	foreach($entry_list[0] as $entry)
-	{
-		if(!preg_match('#<item[^>]*id="[0-9]+".*</item>#isU',$entry))
-			continue;
-		$id=preg_replace('#^.*<item[^>]*id="([0-9]+)".*</item>.*$#isU','$1',$entry);
-		$price=0;
-		if(preg_match('#<item[^>]*price="[0-9]+".*</item>#isU',$entry))
-			$price=preg_replace('#^.*<item[^>]*price="([0-9]+)".*</item>.*$#isU','$1',$entry);
-		if(preg_match('#<item[^>]*image="[^"]+".*</item>#isU',$entry))
-			$image=preg_replace('#^.*<item[^>]*image="([^"]+)".*</item>.*$#isU','$1',$entry);
-		else
-			$image='';
-		if(!preg_match('#<name( lang="en")?>.*</name>#isU',$entry))
-			continue;
-		$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
-		if(!preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
-			continue;
-		$description=preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry);
-		$item_meta[$id]=array('price'=>$price,'image'=>$image,'name'=>$name,'description'=>$description);
-	}
+    $content=file_get_contents('../datapack/items/'.$item_file);
+    preg_match_all('#<item[^>]*>.*</item>#isU',$content,$entry_list);
+    foreach($entry_list[0] as $entry)
+    {
+        if(!preg_match('#<item[^>]*id="[0-9]+".*</item>#isU',$entry))
+            continue;
+        $id=preg_replace('#^.*<item[^>]*id="([0-9]+)".*</item>.*$#isU','$1',$entry);
+        $price=0;
+        if(preg_match('#<item[^>]*price="[0-9]+".*</item>#isU',$entry))
+            $price=preg_replace('#^.*<item[^>]*price="([0-9]+)".*</item>.*$#isU','$1',$entry);
+        if(preg_match('#<item[^>]*image="[^"]+".*</item>#isU',$entry))
+            $image=preg_replace('#^.*<item[^>]*image="([^"]+)".*</item>.*$#isU','$1',$entry);
+        else
+            $image=$id.'.png';
+        $image=preg_replace('#[^/]+$#isU','',$item_file).$image;
+        if(!preg_match('#<name( lang="en")?>.*</name>#isU',$entry))
+            continue;
+        $name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
+        if(preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
+            $description=preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry);
+        else
+            $description='';
+        $item_meta[$id]=array('price'=>$price,'image'=>$image,'name'=>$name,'description'=>$description);
+    }
 }
 
 $industrie_meta=array();
@@ -75,7 +81,7 @@ if($handle = opendir('../datapack/industries/')) {
 						continue;
 					$quantity=1;
 					$item=preg_replace('#^.*<resource[^>]*id="([0-9]+)".*$#isU','$1',$resource);
-					if(!preg_match('#<resource[^>]*quantity="([0-9]+)"#isU',$resource))
+					if(preg_match('#<resource[^>]*quantity="([0-9]+)"#isU',$resource))
 						$quantity=preg_replace('#^.*<resource[^>]*quantity="([0-9]+)".*$#isU','$1',$resource);
 					$resources[]=array('item'=>$item,'quantity'=>$quantity);
 				}
@@ -88,7 +94,7 @@ if($handle = opendir('../datapack/industries/')) {
 						continue;
 					$quantity=1;
 					$item=preg_replace('#^.*<product[^>]*id="([0-9]+)".*$#isU','$1',$product);
-					if(!preg_match('#<product[^>]*quantity="([0-9]+)"#isU',$product))
+					if(preg_match('#<product[^>]*quantity="([0-9]+)"#isU',$product))
 						$quantity=preg_replace('#^.*<product[^>]*quantity="([0-9]+)".*$#isU','$1',$product);
 					$products[]=array('item'=>$item,'quantity'=>$quantity);
 				}
@@ -271,9 +277,11 @@ function industryStatusWithCurrentTime($industryStatus,$industry)
 					echo '<td></td>';
 					echo '<td>Player</td>';
 					echo '</tr>';
+                    $skin_list=array();
+                    $map_list=array();
 					$index=1;
-					$reply = mysql_query('SELECT * FROM  `plant` LIMIT 0,30') or die(mysql_error());
-					while($data = mysql_fetch_array($reply))
+					$reply = pg_query('SELECT * FROM plant LIMIT 30') or die(pg_last_error());
+					while($data = pg_fetch_array($reply))
 					{
 						if($data['plant_timestamps']>time())
 							continue;
@@ -291,9 +299,20 @@ function industryStatusWithCurrentTime($industryStatus,$industry)
 							echo '<div style="width:16px;height:32px;background-image:url(\'/datapack/plants/'.htmlspecialchars($data['plant']).'.gif\');background-repeat:no-repeat;background-position:-64px 0px;float:left;"></div>';
 						echo '</td></a>';
 						echo '<td>'.htmlspecialchars($item_meta[$plant_meta[$data['plant']]['itemUsed']]['name']).'</td>';
-						echo '<td><a href="/official-server/datapack-explorer/maps/'.str_replace('.tmx','.html',$data['map']).'">';
+                        if(isset($map_list[$data['map']]))
+                            $map=$map_list[$data['map']];
+                        else
+                        {
+                            $reply_map = pg_query('SELECT map FROM dictionary_map WHERE id='.$data['map']) or die(pg_last_error());
+                            if($data_map = pg_fetch_array($reply_map))
+                                $map=$data_map['map'];
+                            else
+                                $map='default';
+                            $map_list[$data['map']]=$map;
+                        }
+						echo '<td><a href="/official-server/datapack-explorer/maps/'.$map.'.html">';
 						$zone_text='';
-						$zone_meta='../datapack/map/'.str_replace('.tmx','.xml',$data['map']);
+						$zone_meta='../datapack/map/'.$map.'.xml';
 						if(file_exists($zone_meta))
 						{
 							$content=file_get_contents($zone_meta);
@@ -306,14 +325,25 @@ function industryStatusWithCurrentTime($industryStatus,$industry)
 							echo '<td></td><td></td>';
 						else
 						{
-							$reply_player = mysql_query('SELECT * FROM  `character` WHERE `id`='.$data['character']) or die(mysql_error());
-							if($data_player = mysql_fetch_array($reply_player))
+							$reply_player = pg_query('SELECT * FROM character WHERE id='.$data['character']) or die(pg_last_error());
+							if($data_player = pg_fetch_array($reply_player))
 							{
 								echo '<td>';
-								if(file_exists('../datapack/skin/fighter/'.$data_player['skin'].'/trainer.png'))
-									echo '<div style="width:16px;height:24px;background-image:url(\'../datapack/skin/fighter/'.htmlspecialchars($data_player['skin']).'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;float:left;"></div>';
-								elseif(file_exists('../datapack/skin/fighter/'.$data_player['skin'].'/trainer.gif'))
-									echo '<div style="width:16px;height:24px;background-image:url(\'../datapack/skin/fighter/'.htmlspecialchars($data_player['skin']).'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;float:left;"></div>';
+                                if(isset($skin_list[$data_player['skin']]))
+                                    $skin=$skin_list[$data_player['skin']];
+                                else
+                                {
+                                    $reply_skin = pg_query('SELECT skin FROM dictionary_skin WHERE id='.$data_player['skin']) or die(pg_last_error());
+                                    if($data_skin = pg_fetch_array($reply_skin))
+                                        $skin=$data_skin['skin'];
+                                    else
+                                        $skin='default';
+                                    $skin_list[$data_player['skin']]=$skin;
+                                }
+								if(file_exists('../datapack/skin/fighter/'.$skin.'/trainer.png'))
+									echo '<div style="width:16px;height:24px;background-image:url(\'../datapack/skin/fighter/'.htmlspecialchars($skin).'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;float:left;"></div>';
+								elseif(file_exists('../datapack/skin/fighter/'.$skin.'/trainer.gif'))
+									echo '<div style="width:16px;height:24px;background-image:url(\'../datapack/skin/fighter/'.htmlspecialchars($skin).'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;float:left;"></div>';
 								echo '</td><td>'.htmlspecialchars($data_player['pseudo']).'</td>';
 							}
 							else
@@ -336,8 +366,8 @@ function industryStatusWithCurrentTime($industryStatus,$industry)
 					$products_tot=array();
 					foreach($industrie_link_meta as $factory=>$industry)
 					{
-						$reply_factory = mysql_query('SELECT * FROM  `factory` WHERE `id`='.$factory) or die(mysql_error());
-						if($data_factory = mysql_fetch_array($reply_factory))
+						$reply_factory = pg_query('SELECT * FROM factory WHERE id='.$factory) or die(pg_last_error());
+						if($data_factory = pg_fetch_array($reply_factory))
 						{
 							$data_factory_resources=array();
 							$data_factory_resources_bin=explode(';',$data_factory['resources']);
@@ -421,7 +451,7 @@ function industryStatusWithCurrentTime($industryStatus,$industry)
 						if(array_key_exists($item,$item_meta))
 							echo htmlspecialchars($item_meta[$item]['name']);
 						else
-							echo 'unknown item ('.htmlspecialchars($item).')';
+							echo 'Unknown item ('.htmlspecialchars($item).')';
 						echo '</td></a>';
 						echo '<td>'.htmlspecialchars($infos['quantity_needed']).'</td>';
 						$average_price=(float)$infos['price_multiplied_by_quantity']/(float)$infos['quantity_needed'];
@@ -449,8 +479,8 @@ function industryStatusWithCurrentTime($industryStatus,$industry)
 					$resources_tot=array();
 					foreach($industrie_link_meta as $factory=>$industry)
 					{
-						$reply_factory = mysql_query('SELECT * FROM  `factory` WHERE `id`='.$factory) or die(mysql_error());
-						if($data_factory = mysql_fetch_array($reply_factory))
+						$reply_factory = pg_query('SELECT * FROM factory WHERE id='.$factory) or die(pg_last_error());
+						if($data_factory = pg_fetch_array($reply_factory))
 						{
 							$data_factory_resources=array();
 							$data_factory_resources_bin=explode(';',$data_factory['resources']);

@@ -1,11 +1,12 @@
 <?php
 $is_up=true;
 require '../config.php';
-$mysql_link=@mysql_connect($mysql_host,$mysql_login,$mysql_pass,true);
-if($mysql_link===NULL)
-	$is_up=false;
-else if(!@mysql_select_db($mysql_db))
-	$is_up=false;
+if($postgres_host!='localhost')
+    $postgres_link = @pg_connect('dbname='.$postgres_db.' user='.$postgres_login.' password='.$postgres_pass.' host='.$postgres_host);
+else
+    $postgres_link = @pg_connect('dbname='.$postgres_db.' user='.$postgres_login.' password='.$postgres_pass);
+if($postgres_link===FALSE)
+    $is_up=false;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
@@ -71,23 +72,35 @@ else if(!@mysql_select_db($mysql_db))
 					echo '<td></td>';
 					echo '<td>Clan</td>';
 					echo '</tr>';
+                    $skin_list=array();
 					$index=1;
-					$reply = mysql_query('SELECT * FROM  `character` LIMIT 0,30') or die(mysql_error());
-					while($data = mysql_fetch_array($reply))
+					$reply = pg_query('SELECT * FROM character LIMIT 30') or die(pg_last_error());
+					while($data = pg_fetch_array($reply))
 					{
 						echo '<tr><td>';
 						if($index<=3)
 							echo '<img src="/official-server/images/top-'.$index.'.png" alt="Top '.$index.'" title="Top '.$index.'" width="16" height="16" style="float:left" />';
-						if(file_exists('../datapack/skin/fighter/'.$data['skin'].'/trainer.png'))
-							echo '<div style="width:16px;height:24px;background-image:url(\'../datapack/skin/fighter/'.htmlspecialchars($data['skin']).'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;float:left;"></div>';
-						elseif(file_exists('../datapack/skin/fighter/'.$data['skin'].'/trainer.gif'))
-							echo '<div style="width:16px;height:24px;background-image:url(\'../datapack/skin/fighter/'.htmlspecialchars($data['skin']).'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;float:left;"></div>';
+                        if(isset($skin_list[$data['skin']]))
+                            $skin=$skin_list[$data['skin']];
+                        else
+                        {
+                            $reply_skin = pg_query('SELECT skin FROM dictionary_skin WHERE id='.$data['skin']) or die(pg_last_error());
+                            if($data_skin = pg_fetch_array($reply_skin))
+                                $skin=$data_skin['skin'];
+                            else
+                                $skin='default';
+                            $skin_list[$data['skin']]=$skin;
+                        }
+						if(file_exists('../datapack/skin/fighter/'.$skin.'/trainer.png'))
+							echo '<div style="width:16px;height:24px;background-image:url(\'../datapack/skin/fighter/'.htmlspecialchars($skin).'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;float:left;"></div>';
+						elseif(file_exists('../datapack/skin/fighter/'.$skin.'/trainer.gif'))
+							echo '<div style="width:16px;height:24px;background-image:url(\'../datapack/skin/fighter/'.htmlspecialchars($skin).'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;float:left;"></div>';
 						echo '</td><td>'.htmlspecialchars($data['pseudo']).'</td>';
 						echo '<td>'.date('jS \of F Y',$data['date']).'</td>';
-						$reply_clan = mysql_query('SELECT `name` FROM `clan` WHERE `id`='.$data['clan']) or die(mysql_error());
-						if($data_clan = mysql_fetch_array($reply_clan))
+						$reply_clan = pg_query('SELECT name FROM clan WHERE id='.$data['clan']) or die(pg_last_error());
+						if($data_clan = pg_fetch_array($reply_clan))
 						{
-							if($data['clan_leader']==1)
+							if($data['clan_leader']==true)
 								echo '<td><img src="/official-server/images/leader.png" alt="" width="16" height="16" alt="Clan leader" title="Clan leader" /></td><td>'.htmlspecialchars($data_clan['name']).'</td>';
 							else
 								echo '<td></td><td>'.htmlspecialchars($data_clan['name']).'</td>';

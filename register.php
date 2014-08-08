@@ -1,6 +1,8 @@
 <?php
 $is_up=true;
 require 'config.php';
+$datapackexplorergeneratorinclude=true;
+require 'official-server/datapack-explorer-generator/function.php';
 
 if($postgres_host!='localhost')
     $postgres_link = @pg_connect('dbname='.$postgres_db.' user='.$postgres_login.' password='.$postgres_pass.' host='.$postgres_host);
@@ -34,44 +36,6 @@ function send_mail($title,$text,$to,$type,$from)
 	return $return;
 }
 
-$monster_meta=array();
-if(file_exists('datapack/monsters/monster.xml'))
-{
-	$content=file_get_contents('datapack/monsters/monster.xml');
-	preg_match_all('#<monster id="[0-9]+".*</monster>#isU',$content,$entry_list);
-	foreach($entry_list[0] as $entry)
-	{
-		if(!preg_match('#<monster id="[0-9]+".*</monster>#isU',$entry))
-			continue;
-		$id=preg_replace('#^.*<monster id="([0-9]+)".*</monster>.*$#isU','$1',$entry);
-		if(!preg_match('#<name( lang="en")?>.*</name>#isU',$entry))
-			continue;
-		$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
-		if(!preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
-			continue;
-		$description=preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry);
-		$attack_list=array();
-		preg_match_all('#<attack[^>]+/>#isU',$entry,$attack_text_list);
-		foreach($attack_text_list[0] as $attack_text)
-		{
-			if(!preg_match('#<attack[^>]*id="[0-9]+"[^>]*>#isU',$attack_text))
-				continue;
-			$skill_id=preg_replace('#^.*<attack[^>]*id="([0-9]+)"[^>]*>.*$#isU','$1',$attack_text);
-			if(!preg_match('#<attack[^>]*level="[0-9]+"[^>]*>#isU',$attack_text))
-				continue;
-			$level=preg_replace('#^.*<attack[^>]*level="([0-9]+)"[^>]*>.*$#isU','$1',$attack_text);
-			if(preg_match('#<attack[^>]*attack_level="[0-9]+"[^>]*>#isU',$attack_text))
-				$attack_level=preg_replace('#^.*<attack[^>]*attack_level="([0-9]+)"[^>]*>.*$#isU','$1',$attack_text);
-			else
-				$attack_level='1';
-			if(!isset($attack_list[$level]))
-				$attack_list[$level]=array();
-			$attack_list[$level][]=array('id'=>$skill_id,'attack_level'=>$attack_level);
-		}
-		krsort($attack_list);
-		$monster_meta[$id]=array('name'=>$name,'description'=>$description,'attack_list'=>$attack_list);
-	}
-}
 $reputation_meta=array();
 if(file_exists('datapack/player/reputation.xml'))
 {
@@ -116,28 +80,74 @@ if(file_exists('datapack/player/reputation.xml'))
 		}
 	}
 }
-$item_meta=array();
-if(file_exists('datapack/items/items.xml'))
+$monster_meta=array();
+if(file_exists('datapack/monsters/monster.xml'))
 {
-	$content=file_get_contents('datapack/items/items.xml');
-	preg_match_all('#<item id="[0-9]+".*</item>#isU',$content,$entry_list);
-	foreach($entry_list[0] as $entry)
-	{
-		if(!preg_match('#<item id="[0-9]+".*</item>#isU',$entry))
-			continue;
-		$id=preg_replace('#^.*<item id="([0-9]+)".*</item>.*$#isU','$1',$entry);
-		if(preg_match('#<item id="[0-9]+"[^>]*image="[^"]+".*</item>#isU',$entry))
-			$image=preg_replace('#^.*<item id="[0-9]+"[^>]*image="([^"]+)".*</item>.*$#isU','$1',$entry);
-		else
-			$image='';
-		if(!preg_match('#<name( lang="en")?>.*</name>#isU',$entry))
-			continue;
-		$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
-		if(!preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
-			continue;
-		$description=preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry);
-		$item_meta[$id]=array('image'=>$image,'name'=>$name,'description'=>$description);
-	}
+    $content=file_get_contents('datapack/monsters/monster.xml');
+    preg_match_all('#<monster.*</monster>#isU',$content,$entry_list);
+    foreach($entry_list[0] as $entry)
+    {
+        if(!preg_match('#id="[0-9]+".*</monster>#isU',$entry))
+            continue;
+        $id=preg_replace('#^.*id="([0-9]+)".*</monster>.*$#isU','$1',$entry);
+        if(!preg_match('#<name( lang="en")?>.*</name>#isU',$entry))
+            continue;
+        $name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
+        if(preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
+            $description=preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry);
+        else
+            $description='';
+        $attack_list=array();
+        preg_match_all('#<attack[^>]+/>#isU',$entry,$attack_text_list);
+        foreach($attack_text_list[0] as $attack_text)
+        {
+            if(!preg_match('#<attack[^>]*id="[0-9]+"[^>]*>#isU',$attack_text))
+                continue;
+            $skill_id=preg_replace('#^.*<attack[^>]*id="([0-9]+)"[^>]*>.*$#isU','$1',$attack_text);
+            if(!preg_match('#<attack[^>]*level="[0-9]+"[^>]*>#isU',$attack_text))
+                continue;
+            $level=preg_replace('#^.*<attack[^>]*level="([0-9]+)"[^>]*>.*$#isU','$1',$attack_text);
+            if(preg_match('#<attack[^>]*attack_level="[0-9]+"[^>]*>#isU',$attack_text))
+                $attack_level=preg_replace('#^.*<attack[^>]*attack_level="([0-9]+)"[^>]*>.*$#isU','$1',$attack_text);
+            else
+                $attack_level='1';
+            if(!isset($attack_list[$level]))
+                $attack_list[$level]=array();
+            $attack_list[$level][]=array('id'=>$skill_id,'attack_level'=>$attack_level);
+        }
+        krsort($attack_list);
+        $monster_meta[$id]=array('name'=>$name,'description'=>$description,'attack_list'=>$attack_list);
+    }
+}
+
+$item_meta=array();
+$temp_items=getXmlList('datapack/items/');
+foreach($temp_items as $item_file)
+{
+    $content=file_get_contents('datapack/items/'.$item_file);
+    preg_match_all('#<item[^>]*>.*</item>#isU',$content,$entry_list);
+    foreach($entry_list[0] as $entry)
+    {
+        if(!preg_match('#<item[^>]*id="[0-9]+".*</item>#isU',$entry))
+            continue;
+        $id=preg_replace('#^.*<item[^>]*id="([0-9]+)".*</item>.*$#isU','$1',$entry);
+        $price=0;
+        if(preg_match('#<item[^>]*price="[0-9]+".*</item>#isU',$entry))
+            $price=preg_replace('#^.*<item[^>]*price="([0-9]+)".*</item>.*$#isU','$1',$entry);
+        if(preg_match('#<item[^>]*image="[^"]+".*</item>#isU',$entry))
+            $image=preg_replace('#^.*<item[^>]*image="([^"]+)".*</item>.*$#isU','$1',$entry);
+        else
+            $image=$id.'.png';
+        $image=preg_replace('#[^/]+$#isU','',$item_file).$image;
+        if(!preg_match('#<name( lang="en")?>.*</name>#isU',$entry))
+            continue;
+        $name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
+        if(preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
+            $description=preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry);
+        else
+            $description='';
+        $item_meta[$id]=array('price'=>$price,'image'=>$image,'name'=>$name,'description'=>$description);
+    }
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -283,7 +293,7 @@ if(file_exists('datapack/items/items.xml'))
 						else
 						{
 							pg_query('DELETE FROM account_register WHERE date < '.(time()-24*3600).';') or die(pg_last_error());
-							$login_hash=hash("sha224",hex2bin(hash("sha224",$_POST['login'])));
+							$login_hash=hash("sha224",hash("sha224",$_POST['login'],true));
 							$reply = pg_query('SELECT * FROM account WHERE login=\''.$login_hash.'\'') or die(pg_last_error());
 							if($data = pg_fetch_array($reply))
 								echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Login already taken</b></span><br />';
@@ -305,14 +315,14 @@ if(file_exists('datapack/items/items.xml'))
 											echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;;"><b>Mailer error: '.$mail->ErrorInfo.', contact the admin at '.$ADMINISTRATOR_EMAIL.'</b></span><br />';
 										else
 										{
-											$postgres_return=pg_query('INSERT INTO account_register(login,password,email,key,date) VALUES(\''.$login_hash.'\',\''.hash("sha224","sha224",$_POST['password']).'\',\''.addslashes($_POST['email']).'\',\''.addslashes($key).'\','.time().');') or die(pg_last_error());
+											$postgres_return=pg_query('INSERT INTO account_register(login,password,email,key,date) VALUES(\''.$login_hash.'\',\''.hash("sha224",$_POST['password']).'\',\''.addslashes($_POST['email']).'\',\''.addslashes($key).'\','.time().');') or die(pg_last_error());
 											echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, check your email</b></span><br />';
 										}
 									}
 									else
 									{
 										send_mail($_POST['login'].' enable your account into '.$_SERVER['HTTP_HOST'],'Hello '.$_POST['login'].', to enable your account into http://'.$_SERVER['HTTP_HOST'].', click here: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?key='.$key.'&email='.$_POST['email'],$_POST['email'],'text/plain',$ADMINISTRATOR_EMAIL);
-										$postgres_return=pg_query('INSERT INTO account_register(login,password,email,key,date) VALUES(\''.$login_hash.'\',\''.hash("sha224","sha224",$_POST['password']).'\',\''.addslashes($_POST['email']).'\',\''.addslashes($key).'\','.time().');') or die(pg_last_error());
+										$postgres_return=pg_query('INSERT INTO account_register(login,password,email,key,date) VALUES(\''.$login_hash.'\',\''.hash("sha224",$_POST['password']).'\',\''.addslashes($_POST['email']).'\',\''.addslashes($key).'\','.time().');') or die(pg_last_error());
 										echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, check your email</b></span><br />';
 									}
 								}
@@ -326,13 +336,18 @@ if(file_exists('datapack/items/items.xml'))
 						{
 							if($data['key']==$_GET['key'])
 							{
-								pg_query('DELETE FROM account_register WHERE id='.$data['id']) or die(pg_last_error());
-								pg_query('INSERT INTO account(login,password,date,email) VALUES(\''.addslashes($data['login']).'\',\''.addslashes($data['password']).'\','.$data['date'].',\''.addslashes($data['email']).'\');') or die(pg_last_error());
-								echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, thanks for your validation</b></span><br /><script type="text/JavaScript">'."\n";
-								echo '<!--'."\n";
-								echo 'setTimeout("location.href = \'/\';",1500);'."\n";
-								echo '-->'."\n";
-								echo '</script>'."\n";
+                                $reply_max_id = pg_query('SELECT * FROM account ORDER BY id DESC LIMIT 1') or die(pg_last_error());
+                                if($data_max_id = pg_fetch_array($reply_max_id))
+                                    $max_id=$data_max_id['id']+1;
+                                else
+                                    $max_id=1;
+                                pg_query('DELETE FROM account_register WHERE login=\''.$data['login'].'\'') or die(pg_last_error());
+                                pg_query('INSERT INTO account(id,login,password,date,email) VALUES('.$max_id.',\''.addslashes($data['login']).'\',\''.addslashes($data['password']).'\','.$data['date'].',\''.addslashes($data['email']).'\');') or die(pg_last_error());
+                                echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, thanks for your validation</b></span><br /><script type="text/JavaScript">'."\n";
+                                echo '<!--'."\n";
+                                echo 'setTimeout("location.href = \'/\';",1500);'."\n";
+                                echo '-->'."\n";
+                                echo '</script>'."\n";
 							}
 							else
 								echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Wrong key for the registration</b></span><br />';

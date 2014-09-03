@@ -2,6 +2,8 @@
 header('Content-type: text/plain');
 function listFolder($folder)
 {
+    if(preg_match('#(diff|pack)/?$#isU',$folder))
+        return array();
     if(!preg_match('#/$#',$folder))
         $folder.='/';
     $arr=array();

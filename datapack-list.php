@@ -28,5 +28,5 @@ sort($arr);
 foreach($arr as $file)
 {
     if($file!='datapack/datapack-list.txt')
-        echo str_replace($folder,'',$file).' '.filemtime($file).' '.filesize($file)."\n";
+        echo str_replace($folder,'',$file).' '.substr(hash_file('sha224',$file),0,8).' '.(int)ceil(filesize($file)/1000)."\n";
 }

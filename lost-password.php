@@ -135,7 +135,7 @@ function send_change_password($id)
 							}
 							else
 							{
-                                $login_hash=hash("sha224",hash("sha224",$_POST['login_or_email'],true));
+                                $login_hash=hash("sha224",hash("sha224",$_POST['login_or_email'].'RtR3bm9Z1DFMfAC3',true));
 								$reply = pg_query('SELECT * FROM account WHERE login=\''.addslashes($login_hash).'\'') or die(pg_last_error());
 								if($data = pg_fetch_array($reply))
 								{

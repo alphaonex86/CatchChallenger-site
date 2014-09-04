@@ -1,5 +1,4 @@
 <?php
-header('Content-type: text/plain');
 function listFolder($folder)
 {
     if(preg_match('#/diff/?$#isU',$folder) || preg_match('#^diff/?$#isU',$folder) || preg_match('#/pack/?$#isU',$folder) || preg_match('#^pack/?$#isU',$folder))
@@ -14,9 +13,11 @@ function listFolder($folder)
                 {
                     if(preg_match('#\\.(tmx|xml|tsx|js|png|jpg|gif|ogg|qml|qm|ts|txt)$#',$entry))
                     {
-                        if(preg_match('#^[0-9/a-z\\.\\- _]*[0-9a-z]\\.[a-z]{2,4}$#',$entry))
-                            $arr[]=$folder.$entry;
+                        if(!preg_match('#^[0-9/a-z\\.\\- _]*[0-9a-z]\\.[a-z]{2,4}$#',$entry))
+                            unlink($folder.$entry);
                     }
+                    else
+                        unlink($folder.$entry);
                 }
                 else if(is_dir($folder.$entry))
                     $arr=array_merge($arr,listFolder($folder.$entry.'/'));
@@ -26,11 +27,4 @@ function listFolder($folder)
     }
     return $arr;
 }
-$folder='datapack/';
-$arr=listFolder($folder);
-sort($arr);
-foreach($arr as $file)
-{
-    if($file!='datapack/datapack-list.txt')
-        echo str_replace($folder,'',$file).' '.substr(hash_file('sha224',$file),0,8).' '.(int)ceil(filesize($file)/1000)."\n";
-}
+$arr=listFolder('./');

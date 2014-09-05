@@ -8,18 +8,23 @@ function listFolder($folder)
         $folder.='/';
     $arr=array();
     if($handle = opendir($folder)) {
-        while(false !== ($entry = readdir($handle))) {
-            if($entry != '.' && $entry != '..') {
-                if(is_file($folder.$entry))
+        while(false !== ($entry = readdir($handle)))
+        {
+            if($entry != '.' && $entry != '..')
+            {
+                if(preg_match('#^[0-9/a-z\\.\\- _]+$#',$folder))
                 {
-                    if(preg_match('#\\.(tmx|xml|tsx|js|png|jpg|gif|ogg|qml|qm|ts|txt)$#',$entry))
+                    if(is_file($folder.$entry))
                     {
-                        if(preg_match('#^[0-9/a-z\\.\\- _]*[0-9a-z]\\.[a-z]{2,4}$#',$entry))
-                            $arr[]=$folder.$entry;
+                        if(preg_match('#\\.(tmx|xml|tsx|js|png|jpg|gif|ogg|qml|qm|ts|txt)$#',$entry))
+                        {
+                            if(preg_match('#^[0-9/a-z\\.\\- _]*[0-9a-z]\\.[a-z]{2,4}$#',$folder.$entry))
+                                $arr[]=$folder.$entry;
+                        }
                     }
+                    else if(is_dir($folder.$entry))
+                        $arr=array_merge($arr,listFolder($folder.$entry.'/'));
                 }
-                else if(is_dir($folder.$entry))
-                    $arr=array_merge($arr,listFolder($folder.$entry.'/'));
             }
         }
         closedir($handle);

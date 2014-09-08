@@ -1,6 +1,9 @@
 <?php
 $is_up=true;
-require '../config.php';
+if(file_exists('config.php'))
+    require 'config.php';
+else
+    require '../config.php';
 
 if(isset($_SERVER['SERVER_ADDR']) && isset($_SERVER['REMOTE_ADDR']))
     if($_SERVER['SERVER_ADDR']!=$_SERVER['REMOTE_ADDR'])

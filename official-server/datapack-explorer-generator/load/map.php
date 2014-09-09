@@ -16,6 +16,7 @@ $temp_maps=getTmxList($datapack_path.'map/');
 $duplicate_map_file_name=false;
 $duplicate_map_file_name_list=array();
 $maps_name_to_map=array();
+$item_to_map=array();
 foreach($temp_maps as $map)
 {
 	$width=0;
@@ -31,6 +32,7 @@ foreach($temp_maps as $map)
 	$tp=array();
 	$doors=array();
 	$bots=array();
+    $items=array();
 	$content=file_get_contents($datapack_path.'map/'.$map);
 	if(preg_match('#orientation="orthogonal" width="([0-9]+)" height="([0-9]+)" tilewidth="([0-9]+)" tileheight="([0-9]+)"#isU',$content))
 	{
@@ -105,19 +107,19 @@ foreach($temp_maps as $map)
                 echo 'No map property for door on '.$map."\n";
 		}
 	}
-	preg_match_all('#<object[^>]+type="bot".*</object>#isU',$content,$temp_text_list);
-	foreach($temp_text_list[0] as $bot_text)
-	{
-		if(preg_match('#type="bot"#isU',$bot_text))
-		{
-			if(preg_match('#<property name="id" value="([0-9]+)"/>#isU',$bot_text) && preg_match('#<property name="file" value="([^"]+)"/>#isU',$bot_text))
-			{
-				$bot_id=preg_replace('#^.*<property name="id" value="([0-9]+)"/>.*$#isU','$1',$bot_text);
-				$bot_id_to_map[$bot_id]=$map;
-				$bot_file=preg_replace('#^.*<property name="file" value="([^"]+)"/>.*$#isU','$1',$bot_text);
-				$bot_file=$map_folder.$bot_file;
-				if(!preg_match('#\\.xml$#',$bot_file))
-					$bot_file.='.xml';
+    preg_match_all('#<object[^>]+type="bot".*</object>#isU',$content,$temp_text_list);
+    foreach($temp_text_list[0] as $bot_text)
+    {
+        if(preg_match('#type="bot"#isU',$bot_text))
+        {
+            if(preg_match('#<property name="id" value="([0-9]+)"/>#isU',$bot_text) && preg_match('#<property name="file" value="([^"]+)"/>#isU',$bot_text))
+            {
+                $bot_id=preg_replace('#^.*<property name="id" value="([0-9]+)"/>.*$#isU','$1',$bot_text);
+                $bot_id_to_map[$bot_id]=$map;
+                $bot_file=preg_replace('#^.*<property name="file" value="([^"]+)"/>.*$#isU','$1',$bot_text);
+                $bot_file=$map_folder.$bot_file;
+                if(!preg_match('#\\.xml$#',$bot_file))
+                    $bot_file.='.xml';
                 do
                 {
                     $old_bot_file=$bot_file;
@@ -125,22 +127,40 @@ foreach($temp_maps as $map)
                     $bot_file=preg_replace('#^[^/]+/\\.\\./#isU','',$bot_file);
                     $bot_file=preg_replace("#[\n\r\t]+#is",'',$bot_file);
                 } while($old_bot_file!=$bot_file);
-				if(preg_match('#<property name="lookAt" value="(bottom|top|left|right)"/>#isU',$bot_text) && preg_match('#<property name="skin" value="([^"]+)"/>#isU',$bot_text))
-				{
-					$lookAt=preg_replace('#^.*<property name="lookAt" value="(bottom|top|left|right)"/>.*$#isU','$1',$bot_text);
-					$skin=preg_replace('#^.*<property name="skin" value="([^"]+)"/>.*$#isU','$1',$bot_text);
-					$bots[]=array('file'=>$bot_file,'id'=>$bot_id,'lookAt'=>$lookAt,'skin'=>$skin);
-					$bot_id_to_skin[$bot_id]=$skin;
-				}
-				else
-					$bots[]=array('file'=>$bot_file,'id'=>$bot_id);
-				$bots_file[$bot_file]=$map;
-			}
-		}
-	}
-	$grass=array();
-	$water=array();
-	$cave=array();
+                if(preg_match('#<property name="lookAt" value="(bottom|top|left|right)"/>#isU',$bot_text) && preg_match('#<property name="skin" value="([^"]+)"/>#isU',$bot_text))
+                {
+                    $lookAt=preg_replace('#^.*<property name="lookAt" value="(bottom|top|left|right)"/>.*$#isU','$1',$bot_text);
+                    $skin=preg_replace('#^.*<property name="skin" value="([^"]+)"/>.*$#isU','$1',$bot_text);
+                    $bots[]=array('file'=>$bot_file,'id'=>$bot_id,'lookAt'=>$lookAt,'skin'=>$skin);
+                    $bot_id_to_skin[$bot_id]=$skin;
+                }
+                else
+                    $bots[]=array('file'=>$bot_file,'id'=>$bot_id);
+                $bots_file[$bot_file]=$map;
+            }
+        }
+    }
+    preg_match_all('#<object[^>]+type="object".*</object>#isU',$content,$temp_text_list);
+    foreach($temp_text_list[0] as $bot_text)
+    {
+        if(preg_match('#type="object"#isU',$bot_text))
+        {
+            $visible=true;
+            if(preg_match('#<property name="item" value="([0-9]+)"/>#isU',$bot_text))
+            {
+                if(preg_match('#<property name="visible" value="false"/>#isU',$bot_text))
+                    $visible=false;
+                $item_id=preg_replace('#^.*<property name="item" value="([0-9]+)"/>.*$#isU','$1',$bot_text);
+                if(!isset($item_to_map[$item_id]))
+                    $item_to_map[$item_id]=array();
+                if(!in_array($map,$item_to_map[$item_id]))
+                    $item_to_map[$item_id][]=$map;
+                $items[]=array('item'=>$item_id,'visible'=>$visible);
+            }
+        }
+    }
+    $monsters_list=array();
+	$monsters=array();
 	$type='outdoor';
 	$name='Unknown name ('.$map.')';
 	$shortdescription='';
@@ -196,126 +216,62 @@ foreach($temp_maps as $map)
 		$zone=preg_replace("#[\n\r\t]+#is",'',$zone);
 		$shortdescription=preg_replace("#[\n\r\t]+#is",'',$shortdescription);
 		$description=preg_replace("#[\n\r\t]+#is",'',$description);
-		//grass
-		if(preg_match('#<grass>(.*)</grass>#isU',$content_meta_map) && preg_match('#<layer name="Grass"#isU',$content))
-		{
-			$grass_text=preg_replace('#^.*<grass>(.*)</grass>.*$#isU','$1',$content_meta_map);
-			preg_match_all('#<monster[^>]+/>#isU',$grass_text,$temp_text_list);
-			foreach($temp_text_list[0] as $grass_text_entry)
-			{
-				if(preg_match('#level="([0-9]+)"#isU',$grass_text_entry))
-				{
-					$minLevel=preg_replace('#^.*level="([0-9]+)".*$#isU','$1',$grass_text_entry);
-					$maxLevel=preg_replace('#^.*level="([0-9]+)".*$#isU','$1',$grass_text_entry);
-				}
-				elseif(preg_match('#minLevel="([0-9]+)"#isU',$grass_text_entry) && preg_match('maxLevel="([0-9]+)"#isU',$grass_text_entry))
-				{
-					$minLevel=preg_replace('#^.*minLevel="([0-9]+)".*$#isU','$1',$grass_text_entry);
-					$maxLevel=preg_replace('#^.*maxLevel="([0-9]+)".*$#isU','$1',$grass_text_entry);
-				}
-				else
-					continue;
-				if(preg_match('#luck="([0-9]+)"#isU',$grass_text_entry))
-					$luck=preg_replace('#^.*luck="([0-9]+)".*$#isU','$1',$grass_text_entry);
-				else
-					continue;
-				if(preg_match('#id="([0-9]+)"#isU',$grass_text_entry))
-					$id=preg_replace('#^.*id="([0-9]+)".*$#isU','$1',$grass_text_entry);
-				else
-					continue;
-				if(isset($monster_meta[$id]))
-				{
-					$grass[]=array('id'=>$id,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
-					if(!isset($monster_to_map[$id]))
-						$monster_to_map[$id]=array();
-					if(!isset($monster_to_map[$id]['grass']))
-						$monster_to_map[$id]['grass']=array();
-					$monster_to_map[$id]['grass'][]=array('map'=>$map,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
-					$dropcount+=count($monster_meta[$id]['drops']);
-				}
-			}
-		}
-		//water
-		if(preg_match('#<water>(.*)</water>#isU',$content_meta_map) && preg_match('#<layer name="Water"#isU',$content))
-		{
-			$grass_text=preg_replace('#^.*<water>(.*)</water>.*$#isU','$1',$content_meta_map);
-			preg_match_all('#<monster[^>]+/>#isU',$grass_text,$temp_text_list);
-			foreach($temp_text_list[0] as $grass_text_entry)
-			{
-				if(preg_match('#level="([0-9]+)"#isU',$grass_text_entry))
-				{
-					$minLevel=preg_replace('#^.*level="([0-9]+)".*$#isU','$1',$grass_text_entry);
-					$maxLevel=preg_replace('#^.*level="([0-9]+)".*$#isU','$1',$grass_text_entry);
-				}
-				elseif(preg_match('#minLevel="([0-9]+)"#isU',$grass_text_entry) && preg_match('maxLevel="([0-9]+)"#isU',$grass_text_entry))
-				{
-					$minLevel=preg_replace('#^.*minLevel="([0-9]+)".*$#isU','$1',$grass_text_entry);
-					$maxLevel=preg_replace('#^.*maxLevel="([0-9]+)".*$#isU','$1',$grass_text_entry);
-				}
-				else
-					continue;
-				if(preg_match('#luck="([0-9]+)"#isU',$grass_text_entry))
-					$luck=preg_replace('#^.*luck="([0-9]+)".*$#isU','$1',$grass_text_entry);
-				else
-					continue;
-				if(preg_match('#id="([0-9]+)"#isU',$grass_text_entry))
-					$id=preg_replace('#^.*id="([0-9]+)".*$#isU','$1',$grass_text_entry);
-				else
-					continue;
-				if(isset($monster_meta[$id]))
-				{
-					$water[]=array('id'=>$id,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
-					if(!isset($monster_to_map[$id]))
-						$monster_to_map[$id]=array();
-					if(!isset($monster_to_map[$id]['water']))
-						$monster_to_map[$id]['water']=array();
-					$monster_to_map[$id]['water'][]=array('map'=>$map,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
-					$dropcount+=count($monster_meta[$id]['drops']);
-				}
-			}
-		}
-		//cave
-		if(preg_match('#<cave>(.*)</cave>#isU',$content_meta_map))
-		{
-			$grass_text=preg_replace('#^.*<cave>(.*)</cave>.*$#isU','$1',$content_meta_map);
-			preg_match_all('#<monster[^>]+/>#isU',$grass_text,$temp_text_list);
-			foreach($temp_text_list[0] as $grass_text_entry)
-			{
-				if(preg_match('#level="([0-9]+)"#isU',$grass_text_entry))
-				{
-					$minLevel=preg_replace('#^.*level="([0-9]+)".*$#isU','$1',$grass_text_entry);
-					$maxLevel=preg_replace('#^.*level="([0-9]+)".*$#isU','$1',$grass_text_entry);
-				}
-				elseif(preg_match('#minLevel="([0-9]+)"#isU',$grass_text_entry) && preg_match('maxLevel="([0-9]+)"#isU',$grass_text_entry))
-				{
-					$minLevel=preg_replace('#^.*minLevel="([0-9]+)".*$#isU','$1',$grass_text_entry);
-					$maxLevel=preg_replace('#^.*maxLevel="([0-9]+)".*$#isU','$1',$grass_text_entry);
-				}
-				else
-					continue;
-				if(preg_match('#luck="([0-9]+)"#isU',$grass_text_entry))
-					$luck=preg_replace('#^.*luck="([0-9]+)".*$#isU','$1',$grass_text_entry);
-				else
-					continue;
-				if(preg_match('#id="([0-9]+)"#isU',$grass_text_entry))
-					$id=preg_replace('#^.*id="([0-9]+)".*$#isU','$1',$grass_text_entry);
-				else
-					continue;
-				if(isset($monster_meta[$id]))
-				{
-					$cave[]=array('id'=>$id,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
-					if(!isset($monster_to_map[$id]))
-						$monster_to_map[$id]=array();
-					if(!isset($monster_to_map[$id]['cave']))
-						$monster_to_map[$id]['cave']=array();
-					$monster_to_map[$id]['cave'][]=array('map'=>$map,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
-					$dropcount+=count($monster_meta[$id]['drops']);
-				}
-			}
-		}
+        foreach($layer_toSearch as $toSearch)
+        {
+            if(preg_match('#<'.preg_quote($toSearch).'>(.*)</'.preg_quote($toSearch).'>#isU',$content_meta_map))
+            {
+                $search=false;
+                if(isset($layer_meta[$toSearch]))
+                    $search=($layer_meta[$toSearch]['layer']=='' || preg_match('#<layer name="'.preg_quote($layer_meta[$toSearch]['layer']).'"#isU',$content));
+                else if(isset($layer_event[$toSearch]))
+                    $search=($layer_event[$toSearch]['layer']=='' || preg_match('#<layer name="'.preg_quote($layer_event[$toSearch]['layer']).'"#isU',$content));
+                if($search)
+                {
+                    $text=preg_replace('#^.*<'.preg_quote($toSearch).'>(.*)</'.preg_quote($toSearch).'>.*$#isU','$1',$content_meta_map);
+                    preg_match_all('#<monster[^>]+/>#isU',$text,$temp_text_list);
+                    foreach($temp_text_list[0] as $text_entry)
+                    {
+                        if(preg_match('#level="([0-9]+)"#isU',$text_entry))
+                        {
+                            $minLevel=preg_replace('#^.*level="([0-9]+)".*$#isU','$1',$text_entry);
+                            $maxLevel=preg_replace('#^.*level="([0-9]+)".*$#isU','$1',$text_entry);
+                        }
+                        elseif(preg_match('#minLevel="([0-9]+)"#isU',$text_entry) && preg_match('maxLevel="([0-9]+)"#isU',$text_entry))
+                        {
+                            $minLevel=preg_replace('#^.*minLevel="([0-9]+)".*$#isU','$1',$text_entry);
+                            $maxLevel=preg_replace('#^.*maxLevel="([0-9]+)".*$#isU','$1',$text_entry);
+                        }
+                        else
+                            continue;
+                        if(preg_match('#luck="([0-9]+)"#isU',$text_entry))
+                            $luck=preg_replace('#^.*luck="([0-9]+)".*$#isU','$1',$text_entry);
+                        else
+                            continue;
+                        if(preg_match('#id="([0-9]+)"#isU',$text_entry))
+                            $id=preg_replace('#^.*id="([0-9]+)".*$#isU','$1',$text_entry);
+                        else
+                            continue;
+                        if(isset($monster_meta[$id]))
+                        {
+                            if(!isset($monsters[$toSearch]))
+                                $monsters[$toSearch]=array();
+                            $monsters[$toSearch][]=array('id'=>$id,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
+                            if(!isset($monster_to_map[$id]))
+                                $monster_to_map[$id]=array();
+                            if(!isset($monster_to_map[$id][$toSearch]))
+                                $monster_to_map[$id][$toSearch]=array();
+                            $monster_to_map[$id][$toSearch][]=array('map'=>$map,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
+                            if(!in_array($id,$monsters_list))
+                                $monsters_list[]=$id;
+                            $dropcount+=count($monster_meta[$id]['drops']);
+                        }
+                    }
+                }
+            }
+        }
 	}
-	$maps_list[$map]=array('folder'=>$map_folder,'borders'=>$borders,'tp'=>$tp,'doors'=>$doors,'bots'=>$bots,'name'=>$name,'shortdescription'=>$shortdescription,'description'=>$description,'type'=>$type,'grass'=>$grass,'water'=>$water,'cave'=>$cave,
-	'width'=>$width,'height'=>$height,'pixelwidth'=>$pixelwidth,'pixelheight'=>$pixelheight,'dropcount'=>$dropcount,'zone'=>$zone
+	$maps_list[$map]=array('folder'=>$map_folder,'borders'=>$borders,'tp'=>$tp,'doors'=>$doors,'bots'=>$bots,'name'=>$name,'shortdescription'=>$shortdescription,'description'=>$description,'type'=>$type,'monsters'=>$monsters,'monsters_list'=>$monsters_list,
+	'width'=>$width,'height'=>$height,'pixelwidth'=>$pixelwidth,'pixelheight'=>$pixelheight,'dropcount'=>$dropcount,'zone'=>$zone,'items'=>$items,
 	);
 	if(!isset($zone_to_map[$zone]))
 		$zone_to_map[$zone]=array();

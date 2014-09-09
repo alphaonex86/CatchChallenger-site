@@ -350,53 +350,82 @@ foreach($item_meta as $id=>$item)
 		</table>';
 	}
 
-	if(isset($item_to_skill_of_monster[$id]))
-	{
-		$map_descriptor.='<table class="item_list item_list_type_normal">
-		<tr class="item_list_title item_list_title_type_normal">
-			<th colspan="3">Monster</th>
-			<th>Skill</th>
-			<th>Type</th>
-		</tr>';
-		foreach($item_to_skill_of_monster[$id] as $entry)
-		{
-			$map_descriptor.='<tr class="value">';
-			if(isset($monster_meta[$entry['monster']]))
-			{
-				$name=$monster_meta[$entry['monster']]['name'];
-				$link=$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($name).'.html';
-				$map_descriptor.='<td>';
-				if(file_exists($datapack_path.'monsters/'.$entry['monster'].'/small.png'))
-					$map_descriptor.='<div class="monstericon"><a href="'.$link.'"><img src="'.$base_datapack_site_path.'monsters/'.$entry['monster'].'/small.png" width="32" height="32" alt="'.$monster_meta[$entry['monster']]['name'].'" title="'.$monster_meta[$entry['monster']]['name'].'" /></a></div>';
-				else if(file_exists($datapack_path.'monsters/'.$entry['monster'].'/small.gif'))
-					$map_descriptor.='<div class="monstericon"><a href="'.$link.'"><img src="'.$base_datapack_site_path.'monsters/'.$entry['monster'].'/small.gif" width="32" height="32" alt="'.$monster_meta[$entry['monster']]['name'].'" title="'.$monster_meta[$entry['monster']]['name'].'" /></a></div>';
-				$map_descriptor.='</td>
-				<td><a href="'.$link.'">'.$name.'</a></td>';
-				$type_list=array();
-				foreach($monster_meta[$entry['monster']]['type'] as $type_monster)
-					if(isset($type_meta[$type_monster]))
-						$type_list[]='<span class="type_label type_label_'.$type_monster.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_monster.'.html">'.$type_meta[$type_monster]['english_name'].'</a></span>';
-				$map_descriptor.='<td><div class="type_label_list">'.implode(' ',$type_list).'</div></td>';
-			}
-			if(isset($skill_meta[$entry['id']]))
-			{
-				
-				$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'monsters/skills/'.text_operation_do_for_url($skill_meta[$entry['id']]['name']).'.html">'.$skill_meta[$entry['id']]['name'];
-				if($entry['attack_level']>1)
-					$map_descriptor.=' at level '.$entry['attack_level'];
-				$map_descriptor.='</a></td>';
-				if(isset($type_meta[$skill_meta[$entry['id']]['type']]))
-					$map_descriptor.='<td><span class="type_label type_label_'.$skill_meta[$entry['id']]['type'].'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$skill_meta[$entry['id']]['type'].'.html">'.$type_meta[$skill_meta[$entry['id']]['type']]['english_name'].'</a></span></td>';
-				else
-					$map_descriptor.='<td>&nbsp;</td>';
-			}
-			$map_descriptor.='</tr>';
-		}
-		$map_descriptor.='<tr>
-			<td colspan="5" class="item_list_endline item_list_title_type_normal"></td>
-		</tr>
-		</table>';
-	}
+    if(isset($item_to_skill_of_monster[$id]))
+    {
+        $map_descriptor.='<table class="item_list item_list_type_normal">
+        <tr class="item_list_title item_list_title_type_normal">
+            <th colspan="3">Monster</th>
+            <th>Skill</th>
+            <th>Type</th>
+        </tr>';
+        foreach($item_to_skill_of_monster[$id] as $entry)
+        {
+            $map_descriptor.='<tr class="value">';
+            if(isset($monster_meta[$entry['monster']]))
+            {
+                $name=$monster_meta[$entry['monster']]['name'];
+                $link=$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($name).'.html';
+                $map_descriptor.='<td>';
+                if(file_exists($datapack_path.'monsters/'.$entry['monster'].'/small.png'))
+                    $map_descriptor.='<div class="monstericon"><a href="'.$link.'"><img src="'.$base_datapack_site_path.'monsters/'.$entry['monster'].'/small.png" width="32" height="32" alt="'.$monster_meta[$entry['monster']]['name'].'" title="'.$monster_meta[$entry['monster']]['name'].'" /></a></div>';
+                else if(file_exists($datapack_path.'monsters/'.$entry['monster'].'/small.gif'))
+                    $map_descriptor.='<div class="monstericon"><a href="'.$link.'"><img src="'.$base_datapack_site_path.'monsters/'.$entry['monster'].'/small.gif" width="32" height="32" alt="'.$monster_meta[$entry['monster']]['name'].'" title="'.$monster_meta[$entry['monster']]['name'].'" /></a></div>';
+                $map_descriptor.='</td>
+                <td><a href="'.$link.'">'.$name.'</a></td>';
+                $type_list=array();
+                foreach($monster_meta[$entry['monster']]['type'] as $type_monster)
+                    if(isset($type_meta[$type_monster]))
+                        $type_list[]='<span class="type_label type_label_'.$type_monster.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_monster.'.html">'.$type_meta[$type_monster]['english_name'].'</a></span>';
+                $map_descriptor.='<td><div class="type_label_list">'.implode(' ',$type_list).'</div></td>';
+            }
+            if(isset($skill_meta[$entry['id']]))
+            {
+                
+                $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'monsters/skills/'.text_operation_do_for_url($skill_meta[$entry['id']]['name']).'.html">'.$skill_meta[$entry['id']]['name'];
+                if($entry['attack_level']>1)
+                    $map_descriptor.=' at level '.$entry['attack_level'];
+                $map_descriptor.='</a></td>';
+                if(isset($type_meta[$skill_meta[$entry['id']]['type']]))
+                    $map_descriptor.='<td><span class="type_label type_label_'.$skill_meta[$entry['id']]['type'].'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$skill_meta[$entry['id']]['type'].'.html">'.$type_meta[$skill_meta[$entry['id']]['type']]['english_name'].'</a></span></td>';
+                else
+                    $map_descriptor.='<td>&nbsp;</td>';
+            }
+            $map_descriptor.='</tr>';
+        }
+        $map_descriptor.='<tr>
+            <td colspan="5" class="item_list_endline item_list_title_type_normal"></td>
+        </tr>
+        </table>';
+    }
+
+    if(isset($item_to_map[$id]))
+    {
+        $map_descriptor.='<table class="item_list item_list_type_normal">
+        <tr class="item_list_title item_list_title_type_normal">
+            <th colspan="2">On the map</th>
+        </tr>';
+        foreach($item_to_map[$id] as $entry)
+        {
+            $map_descriptor.='<tr class="value">';
+                if(isset($maps_list[$entry]))
+                {
+                    if(isset($zone_meta[$maps_list[$entry]['zone']]))
+                    {
+                        $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'].'">'.$maps_list[$entry]['name'].'</a></td>';
+                        $map_descriptor.='<td>'.$zone_meta[$maps_list[$entry]['zone']]['name'].'</td>';
+                    }
+                    else
+                        $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'].'">'.$maps_list[$entry]['name'].'</a></td>';
+                }
+                else
+                    $map_descriptor.='<td>Unknown map</td><td>&nbsp;</td>';
+                $map_descriptor.='</tr>';
+        }
+        $map_descriptor.='<tr>
+            <td colspan="2" class="item_list_endline item_list_title_type_normal"></td>
+        </tr>
+        </table>';
+    }
 
     $fights_for_items_list=array();
     if(isset($item_to_fight[$id]))

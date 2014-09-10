@@ -12,16 +12,55 @@ if(is_dir($datapack_path.'industries/'))
 		while(false !== ($entry = readdir($handle))) {
 		if($entry != '.' && $entry != '..') {
 				$content=file_get_contents($datapack_path.'industries/'.$entry);
-				preg_match_all('#<link[^>]+/>#isU',$content,$entry_list);
-				foreach($entry_list[0] as $entry)
+                $new_content=array();
+                preg_match_all('#<link[^>]+/>#isU',$content,$entry_list);
+                $new_content=array_merge($new_content,$entry_list[0]);
+                preg_match_all('#<link[^>]+[^/]>.+</link>#isU',$content,$entry_list);
+                $new_content=array_merge($new_content,$entry_list[0]);
+				foreach($new_content as $entry)
 				{
-					if(!preg_match('#<link[^>]*industrialrecipe="([0-9]+)"[^>]*/>#isU',$entry))
+					if(!preg_match('# industrialrecipe="([0-9]+)"#isU',$entry))
 						continue;
-					if(!preg_match('#<link[^>]*industry="([0-9]+)"[^>]*/>#isU',$entry))
+					if(!preg_match('# industry="([0-9]+)"#isU',$entry))
 						continue;
-					$industry_id=preg_replace('#^.*<link[^>]*industrialrecipe="([0-9]+)"[^>]*/>.*$#isU','$1',$entry);
-					$factory_id=preg_replace('#^.*<link[^>]*industry="([0-9]+)"[^>]*/>.*$#isU','$1',$entry);
-					$industrie_link_meta[$factory_id]=$industry_id;
+					$industry_id=preg_replace('#^.* industrialrecipe="([0-9]+)".*$#isU','$1',$entry);
+					$factory_id=preg_replace('#^.* industry="([0-9]+)".*$#isU','$1',$entry);
+                    $requirements=array();
+                    preg_match_all('#<requirements>(.+)</requirements>#isU',$entry,$requirements_list);
+                    foreach($requirements_list[0] as $requirements_text)
+                    {
+                        preg_match_all('#<reputation([^>]+)/>#isU',$requirements_text,$requirements_entry_list);
+                        foreach($requirements_entry_list[0] as $requirements_entry_text)
+                        {
+                            if(!preg_match('# type="([^"]+)"#isU',$entry))
+                                continue;
+                            if(!preg_match('# level="([0-9]+)"#isU',$entry))
+                                continue;
+                            $type=preg_replace('#^.* type="([^"]+)".*$#isU','$1',$entry);
+                            $level=preg_replace('#^.* level="([0-9]+)".*$#isU','$1',$entry);
+                            $requirements[]=array('type'=>$type,'level'=>$level);
+                        }
+                    }
+                    $rewards=array();
+                    preg_match_all('#<rewards>(.+)</rewards>#isU',$entry,$rewards_list);
+                    foreach($rewards_list[0] as $rewards_text)
+                    {
+                        preg_match_all('#<reputation([^>]+)/>#isU',$rewards_text,$rewards_entry_list);
+                        foreach($rewards_entry_list[0] as $rewards_entry_text)
+                        {
+                            if(!preg_match('# type="([^"]+)"#isU',$entry))
+                                continue;
+                            if(!preg_match('# level="([0-9]+)"#isU',$entry))
+                                continue;
+                            $type=preg_replace('#^.* type="([^"]+)".*$#isU','$1',$entry);
+                            $level=preg_replace('#^.* level="([0-9]+)".*$#isU','$1',$entry);
+                            $rewards[]=array('type'=>$type,'level'=>$level);
+                        }
+                    }
+                    if(!isset($industrie_link_meta[$factory_id]))
+                        $industrie_link_meta[$factory_id]=array('industry_id'=>$industry_id,'requirements'=>$requirements,'rewards'=>$rewards);
+                    else
+                        echo 'industries link with industry="'.$factory_id.'" already found'."\n";
 				}
 				preg_match_all('#<industrialrecipe[^>]+>.*</industrialrecipe>#isU',$content,$entry_list);
 				foreach($entry_list[0] as $entry)

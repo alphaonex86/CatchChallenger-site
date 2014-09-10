@@ -121,6 +121,90 @@ foreach($item_meta as $id=>$item)
 			$map_descriptor.='</div></div>';
 		}
 
+        //shop
+        if(isset($item_to_shop[$id]))
+        {
+            $bot_list=array();
+            foreach($item_to_shop[$id] as $shop)
+                if(isset($shop_to_bot[$shop]))
+                    $bot_list=array_merge($bot_list,$shop_to_bot[$shop]);
+            if(count($bot_list)>0)
+            {
+                $map_descriptor.='<div class="subblock"><div class="valuetitle">Shop</div><div class="value">';
+                $map_descriptor.='<table class="item_list item_list_type_normal">
+                <tr class="item_list_title item_list_title_type_normal">
+                    <th colspan="4">Shop</th>
+                </tr>';
+
+                foreach($bot_list as $bot_id)
+                {
+                    $map_descriptor.='<tr class="value">';
+                    if(isset($bots_meta[$bot_id]))
+                    {
+                        $bot=$bots_meta[$bot_id];
+                        if($bot['name']=='')
+                            $final_url_name='bot-'.$bot_id;
+                        else if($bots_name_count[$bot['name']]==1)
+                            $final_url_name=$bot['name'];
+                        else
+                            $final_url_name=$bot_id.'-'.$bot['name'];
+                        if($bot['name']=='')
+                            $final_name='Bot #'.$bot_id;
+                        else
+                            $final_name=$bot['name'];
+                        $skin_found=true;
+                        if(isset($bot_id_to_skin[$bot_id]))
+                        {
+                            if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png'))
+                                $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></center></div></td>';
+                            elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.png'))
+                                $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></center></div></td>';
+                            elseif(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.gif'))
+                                $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></center></div></td>';
+                            elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.gif'))
+                                $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></center></div></td>';
+                            else
+                                $skin_found=false;
+                        }
+                        else
+                            $skin_found=false;
+                        $map_descriptor.='<td';
+                        if(!$skin_found)
+                            $map_descriptor.=' colspan="2"';
+                        $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url($final_url_name).'.html" title="'.$final_name.'">'.$final_name;
+                        if(isset($bot_id_to_map[$bot_id]))
+                        {
+                            $entry=$bot_id_to_map[$bot_id];
+                            if(isset($maps_list[$entry]))
+                            {
+                                if(isset($zone_meta[$maps_list[$entry]['zone']]))
+                                {
+                                    $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'].'">'.$maps_list[$entry]['name'].'</a></td>';
+                                    $map_descriptor.='<td>'.$zone_meta[$maps_list[$entry]['zone']]['name'].'</td>';
+                                }
+                                else
+                                    $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'].'">'.$maps_list[$entry]['name'].'</a></td>';
+                            }
+                            else
+                                $map_descriptor.='<td colspan="2">Unknown map</td>';
+                        }
+                        else
+                            $map_descriptor.='<td colspan="2">&nbsp;</td>';
+                        $map_descriptor.='</a></td>';
+                    }
+                    else
+                        $map_descriptor.='<td colspan="4"></td>';
+                    $map_descriptor.='</tr>';
+                }
+
+                $map_descriptor.='<tr>
+                    <td colspan="4" class="item_list_endline item_list_title_type_normal"></td>
+                </tr>
+                </table>';
+                $map_descriptor.='</div></div>';
+            }
+        }
+
 		if(isset($item_to_evolution[$id]) && count($item_to_evolution[$id])>0)
 		{
 			$count_evol=0;
@@ -418,7 +502,7 @@ foreach($item_meta as $id=>$item)
                         $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'].'">'.$maps_list[$entry]['name'].'</a></td>';
                 }
                 else
-                    $map_descriptor.='<td>Unknown map</td><td>&nbsp;</td>';
+                    $map_descriptor.='<td colspan="2">Unknown map</td>';
                 $map_descriptor.='</tr>';
         }
         $map_descriptor.='<tr>

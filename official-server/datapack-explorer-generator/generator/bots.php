@@ -51,17 +51,16 @@ foreach($bots_meta as $bot_id=>$bot)
 	$map_descriptor='';
 
 	$map_descriptor.='<div class="map item_details">';
+        if($bot['name']=='')
+            $final_url_name='bot-'.$bot_id;
+        else if($bots_name_count[$bot['name']]==1)
+            $final_url_name=$bot['name'];
+        else
+            $final_url_name=$bot_id.'-'.$bot['name'];
 		if($bot['name']=='')
-		{
-			$final_url_name='bot '.$bot_id;
 			$map_descriptor.='<div class="subblock"><h1>Bot #'.$bot_id.'</h1>';
-		}
 		else
 		{
-			if($bots_name_count[$bot['name']]==1)
-				$final_url_name=$bot['name'];
-			else
-				$final_url_name=$bot_id.'-'.$bot['name'];
 			$map_descriptor.='<div class="subblock"><h1>'.$bot['name'].'</h1>';
 			$map_descriptor.='<h2>Bot #'.$bot_id.'</h2>';
 		}
@@ -382,8 +381,10 @@ foreach($bots_meta as $bot_id=>$bot)
                     $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'industries/'.$step['industry'].'.html">#'.$step['industry'].'</a>';
                     $map_descriptor.='</td>';
                     $map_descriptor.='<td>';
-                    foreach($industry['resources'] as $item=>$quantity)
+                    foreach($industry['resources'] as $resources)
                     {
+                        $item=$resources['item'];
+                        $quantity=$resources['quantity'];
                         if(isset($item_meta[$item]))
                         {
                             $link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']).'.html';
@@ -415,8 +416,10 @@ foreach($bots_meta as $bot_id=>$bot)
                     }
                     $map_descriptor.='</td>';
                     $map_descriptor.='<td>';
-                    foreach($industry['products'] as $item=>$quantity)
+                    foreach($industry['products'] as $products)
                     {
+                        $item=$products['item'];
+                        $quantity=$products['quantity'];
                         if(isset($item_meta[$item]))
                         {
                             $link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']).'.html';
@@ -497,7 +500,7 @@ foreach($bots_by_zone as $zone=>$bot_id_list)
             $map_descriptor.='Unknown zone';
         $map_descriptor.='</th>
         </tr>';
-            $name_count_for_zone=array();
+        $name_count_for_zone=array();
         foreach($bot_id_list as $bot_id)
         {
             $bot=$bots_meta[$bot_id];
@@ -518,15 +521,9 @@ foreach($bots_by_zone as $zone=>$bot_id_list)
         {
             $bot=$bots_meta[$bot_id];
             if($bot['name']=='')
-            {
                 $final_name='Bot #'.$bot_id;
-                $final_url_name='bot '.$bot_id;
-            }
             elseif(count($name_count_for_zone[$bot['name']])==1)
-            {
                 $final_name=$bot['name'];
-                $final_url_name=$bot['name'];
-            }
             else
             {
                 if(isset($bot_id_to_map[$bot_id]))
@@ -538,8 +535,13 @@ foreach($bots_by_zone as $zone=>$bot_id_list)
                 }
                 else
                     $final_name=$bot['name'];
-                $final_url_name=$bot_id.'-'.$bot['name'];
             }
+            if($bot['name']=='')
+                $final_url_name='bot-'.$bot_id;
+            else if($bots_name_count[$bot['name']]==1)
+                $final_url_name=$bot['name'];
+            else
+                $final_url_name=$bot_id.'-'.$bot['name'];
             $map_descriptor.='<tr class="value">';
                 $skin_found=true;
                 if(isset($bot_id_to_skin[$bot_id]))

@@ -36,10 +36,42 @@ if(file_exists($datapack_path.'crafting/recipes.xml'))
 				$quantity=preg_replace('#^.*<material[^>]+quantity="([0-9]+)".*$#isU','$1',$material_text);
 			$material[$itemId]=$quantity;
 		}
+        $requirements=array();
+        preg_match_all('#<requirements>(.+)</requirements>#isU',$entry,$requirements_list);
+        foreach($requirements_list[0] as $requirements_text)
+        {
+            preg_match_all('#<reputation([^>]+)/>#isU',$requirements_text,$requirements_entry_list);
+            foreach($requirements_entry_list[0] as $requirements_entry_text)
+            {
+                if(!preg_match('# type="([^"]+)"#isU',$entry))
+                    continue;
+                if(!preg_match('# level="([0-9]+)"#isU',$entry))
+                    continue;
+                $type=preg_replace('#^.* type="([^"]+)".*$#isU','$1',$entry);
+                $level=preg_replace('#^.* level="([0-9]+)".*$#isU','$1',$entry);
+                $requirements[]=array('type'=>$type,'level'=>$level);
+            }
+        }
+        $rewards=array();
+        preg_match_all('#<rewards>(.+)</rewards>#isU',$entry,$rewards_list);
+        foreach($rewards_list[0] as $rewards_text)
+        {
+            preg_match_all('#<reputation([^>]+)/>#isU',$rewards_text,$rewards_entry_list);
+            foreach($rewards_entry_list[0] as $rewards_entry_text)
+            {
+                if(!preg_match('# type="([^"]+)"#isU',$entry))
+                    continue;
+                if(!preg_match('# level="([0-9]+)"#isU',$entry))
+                    continue;
+                $type=preg_replace('#^.* type="([^"]+)".*$#isU','$1',$entry);
+                $level=preg_replace('#^.* level="([0-9]+)".*$#isU','$1',$entry);
+                $rewards[]=array('type'=>$type,'level'=>$level);
+            }
+        }
         if(count($material)>0)
         {
-            $crafting_meta[$id]=array('itemToLearn'=>$itemToLearn,'doItemId'=>$doItemId,'material'=>$material);
-            $item_to_crafting[$itemToLearn]=array('doItemId'=>$doItemId,'material'=>$material);
+            $crafting_meta[$id]=array('itemToLearn'=>$itemToLearn,'doItemId'=>$doItemId,'material'=>$material,'requirements'=>$requirements,'rewards'=>$rewards);
+            $item_to_crafting[$itemToLearn]=array('doItemId'=>$doItemId,'material'=>$material,'requirements'=>$requirements,'rewards'=>$rewards);
         }
         else
             echo 'material list is empty for recipe '.$id."\n";

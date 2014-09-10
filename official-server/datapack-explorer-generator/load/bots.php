@@ -6,6 +6,8 @@ $bots_meta=array();
 $bots_found_in=array();
 $fight_to_bot=array();
 $bots_name_count=array();
+$industry_to_bot=array();
+$item_to_bot_shop=array();
 foreach($bots_file as $file=>$value)
 {
     if(is_file($datapack_path.'map/'.$file))
@@ -108,6 +110,9 @@ foreach($bots_file as $file=>$value)
                                         {
                                             $bots_meta[$id]['onlytext']=false;
                                             $bots_meta[$id]['step'][$step_id]=array('type'=>$step_type,'shop'=>$shop);
+                                            if(!isset($shop_to_bot[$shop]))
+                                                $shop_to_bot[$shop]=array();
+                                            $shop_to_bot[$shop][]=$id;
                                         }
                                         else
                                             echo 'shop: '.$shop.' not found for step with id '.$step_id.' for bot '.$id."\n";
@@ -156,6 +161,9 @@ foreach($bots_file as $file=>$value)
                                         {
                                             $bots_meta[$id]['onlytext']=false;
                                             $bots_meta[$id]['step'][$step_id]=array('type'=>$step_type,'industry'=>$industry);
+                                            if(!isset($industry_to_bot[$industrie_link_meta[$industry]['industry_id']]))
+                                                $industry_to_bot[$industrie_link_meta[$industry]['industry_id']]=array();
+                                            $industry_to_bot[$industrie_link_meta[$industry]['industry_id']][]=$id;
                                         }
                                         else
                                             echo 'industrie_link_meta: '.$industry.' not found for step with id '.$step_id.' for bot '.$id."\n";

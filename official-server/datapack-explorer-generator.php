@@ -29,6 +29,8 @@ $datapackexplorergeneratorinclude=true;
 require 'datapack-explorer-generator/function.php';
 
 $template=file_get_contents('template.html');
+if(preg_match('#/home/user/#isU',$_SERVER['PWD']))
+    $template=str_replace('stat.first-world.info','localhost',$template);
 
 require 'datapack-explorer-generator/load/items.php';
 require 'datapack-explorer-generator/load/type.php';

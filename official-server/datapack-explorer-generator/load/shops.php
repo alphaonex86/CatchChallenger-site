@@ -3,6 +3,7 @@ if(!isset($datapackexplorergeneratorinclude))
 	die('abort into load shop'."\n");
 
 $shop_meta=array();
+$item_to_shop=array();
 $xmlFightList=getXmlList($datapack_path.'shop/');
 foreach($xmlFightList as $file)
 {
@@ -29,6 +30,9 @@ foreach($xmlFightList as $file)
 					$products[$item]=$item_meta[$item]['price'];
 				else
 					$products[$item]=preg_replace('#^.* overridePrice="([0-9]+)".*$#isU','$1',$monster_text);
+                if(!isset($item_to_shop[$item]))
+                    $item_to_shop[$item]=array();
+                $item_to_shop[$item][]=$id;
 			}
 			else
 			{

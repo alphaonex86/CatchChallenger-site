@@ -119,6 +119,12 @@ foreach($bots_meta as $bot_id=>$bot)
 				$map_descriptor.='</div></div>';
 			}
 		}
+        if(isset($bot_start_to_quests[$bot_id]))
+        {
+            $map_descriptor.='<div class="subblock"><div class="valuetitle">Quest start</div><div class="value">';
+            $map_descriptor.=questList($bot_start_to_quests[$bot_id],false);
+            $map_descriptor.='</div></div>';
+        }
 		foreach($bot['step'] as $step_id=>$step)
 		{
 			if($step['type']=='text')

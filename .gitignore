@@ -7,5 +7,5 @@
 *Desktop*
 *build*
 *kate-swp
-datapack*
-*official-server/datapack-explorer*
+/datapack-*
+*official-server/datapack-explorer/*

@@ -164,6 +164,7 @@ $quests_meta=array();
 $monster_to_quests=array();
 $items_to_quests=array();
 $items_to_quests_for_step=array();
+$bot_start_to_quests=array();
 $xmlFightList=getDefinitionXmlList($datapack_path.'quests/');
 foreach($xmlFightList as $file)
 {
@@ -254,6 +255,13 @@ foreach($xmlFightList as $file)
 		}
         $tempbot=preg_replace("#[\n\r\t]+#is",'',$tempbot);
 		$steps[$id_step]=array('text'=>$text,'bot'=>$tempbot,'items'=>$items);
+        if($id_step==1)
+        {
+            if(!isset($bot_start_to_quests[$tempbot]))
+                $bot_start_to_quests[$tempbot]=array();
+            if(!in_array($id,$bot_start_to_quests[$tempbot]))
+                $bot_start_to_quests[$tempbot][]=$id;
+        }
 	}
 
 	$rewards=array();

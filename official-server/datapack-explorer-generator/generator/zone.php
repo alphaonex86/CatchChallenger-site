@@ -50,7 +50,9 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 		if(isset($zone_to_function[$zone]['zonecapture']))
 			$map_descriptor.='<tr class="value"><td><div style="float:left;width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-32px -16px;" title="Zone capture"></div>'.$zone_to_function[$zone]['zonecapture'].' bot(s) to capture the zone</td></tr>';
 		if(isset($zone_to_function[$zone]['industry']))
-			$map_descriptor.='<tr class="value"><td><div style="float:left;width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-32px -16px;" title="Industry"></div>'.$zone_to_function[$zone]['industry'].' industries</td></tr>';
+            $map_descriptor.='<tr class="value"><td><div style="float:left;width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-32px -16px;" title="Industry"></div>'.$zone_to_function[$zone]['industry'].' industries</td></tr>';
+        if(isset($zone_to_function[$zone]['quests']))
+            $map_descriptor.='<tr class="value"><td><div style="float:left;width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-16px 0px;" title="Quests"></div>'.$zone_to_function[$zone]['quests'].' quests to start</td></tr>';
 		$map_descriptor.='<tr>
 		<td class="item_list_endline item_list_title_type_outdoor"></td>
 		</tr></table></center><br style="clear:both;" />';
@@ -81,8 +83,10 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 		$map_descriptor.='<div style="float:left;width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-32px 0px;" title="Sell"></div>';
 	if(isset($zone_to_function[$zone]['zonecapture']))
 		$map_descriptor.='<div style="float:left;width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-32px -16px;" title="Zone capture"></div>';
-	if(isset($zone_to_function[$zone]['industry']))
-		$map_descriptor.='<div style="float:left;width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-32px -16px;" title="Industry"></div>';
+    if(isset($zone_to_function[$zone]['industry']))
+        $map_descriptor.='<div style="float:left;width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-32px -16px;" title="Industry"></div>';
+    if(isset($zone_to_function[$zone]['quests']))
+        $map_descriptor.='<div style="float:left;width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-16px 0px;" title="Quests"></div>';
 	$map_descriptor.='</th></tr>';
 	asort($map_by_zone);
 	foreach($map_by_zone as $map=>$name)
@@ -115,9 +119,12 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 		if(isset($map_to_function[$map]['zonecapture']))
 			for ($i = 1; $i <= $map_to_function[$map]['zonecapture']; $i++)
 				$map_descriptor.='<div style="float:left;width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-32px -16px;" title="Zone capture"></div>';
-		if(isset($map_to_function[$map]['industry']))
-			for ($i = 1; $i <= $map_to_function[$map]['industry']; $i++)
-				$map_descriptor.='<div style="float:left;width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-32px -16px;" title="Industry"></div>';
+        if(isset($map_to_function[$map]['industry']))
+            for ($i = 1; $i <= $map_to_function[$map]['industry']; $i++)
+                $map_descriptor.='<div style="float:left;width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-32px -16px;" title="Industry"></div>';
+        if(isset($map_to_function[$map]['quests']))
+            for ($i = 1; $i <= $map_to_function[$map]['quests']; $i++)
+                $map_descriptor.='<div style="float:left;width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-16px 0px;" title="Quests"></div>';
 		$map_descriptor.='</a></td></tr>';
 	}
 	$map_descriptor.='<tr>

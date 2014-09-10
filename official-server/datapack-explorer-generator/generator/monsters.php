@@ -466,12 +466,104 @@ foreach($monster_meta as $id=>$monster)
 			<th>Levels</th>
 			<th colspan="3">Rate</th>
 		</tr>';
-		if(isset($monster_to_map[$id]['grass']))
+
+
+        foreach($monster_to_map[$id] as $monsterType=>$monster_list)
+        {
+            $full_monsterType_name='Cave';
+            if(isset($layer_event[$monsterType]))
+            {
+                if($layer_event[$monsterType]['layer']!='')
+                    $full_monsterType_name=$layer_event[$monsterType]['layer'];
+                $monsterType_top=$layer_event[$monsterType]['monsterType'];
+                $full_monsterType_name_top='Cave';
+                if(isset($layer_meta[$monsterType_top]))
+                    if($layer_meta[$monsterType_top]['layer']!='')
+                        $full_monsterType_name_top=$layer_meta[$monsterType_top]['layer'];
+            }
+            elseif(isset($layer_meta[$monsterType]))
+            {
+                if($layer_meta[$monsterType]['layer']!='')
+                    $full_monsterType_name=$layer_meta[$monsterType]['layer'];
+                $monsterType_top=$monsterType;
+                $full_monsterType_name_top=$full_monsterType_name;
+            }
+            $map_descriptor.='<tr class="item_list_title_type_'.$resolved_type.'">
+                    <th colspan="7">';
+            $link='';
+            $name='';
+            $image='';
+            if(isset($layer_meta[$monsterType_top]['item']) && $item_meta[$layer_meta[$monsterType_top]['item']])
+            {
+                $link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$layer_meta[$monsterType_top]['item']]['name']).'.html';
+                $name=$item_meta[$layer_meta[$monsterType_top]['item']]['name'];
+                if($item_meta[$layer_meta[$monsterType_top]['item']]['image']!='')
+                    $image=$base_datapack_site_path.'/items/'.$item_meta[$layer_meta[$monsterType_top]['item']]['image'];
+                else
+                    $image='';
+                $map_descriptor.='<center><table><tr>';
+                
+                if($link!='')
+                    $map_descriptor.='<td><a href="'.$link.'">';
+                if($image!='')
+                    $map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />';
+                if($link!='')
+                    $map_descriptor.='</a></td>';
+
+                if($link!='')
+                    $map_descriptor.='<td><a href="'.$link.'">';
+                $map_descriptor.=$item_meta[$layer_meta[$monsterType_top]['item']]['name'];
+                if($link!='')
+                    $map_descriptor.='</a></td>';
+
+                $map_descriptor.='</tr></table></center>';
+            }
+            else
+                $map_descriptor.=$full_monsterType_name;
+            if(isset($layer_event[$monsterType]))
+            {
+                if($layer_event[$monsterType]['id']=='day' && $layer_event[$monsterType]['value']=='night')
+                    $map_descriptor.=' at night';
+                else
+                    $map_descriptor.=' condition '.$layer_event[$monsterType]['id'].' at '.$layer_event[$monsterType]['value'];
+            }
+            $map_descriptor.='</th>
+                </tr>';
+            foreach($monster_list as $monster_on_map)
+            {
+                $map_descriptor.='<tr class="value">';
+                if(isset($maps_list[$monster_on_map['map']]))
+                {
+                    if(isset($zone_meta[$maps_list[$monster_on_map['map']]['zone']]))
+                    {
+                        $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$monster_on_map['map']]['name'].'">'.$maps_list[$monster_on_map['map']]['name'].'</a></td>';
+                        $map_descriptor.='<td>'.$zone_meta[$maps_list[$monster_on_map['map']]['zone']]['name'].'</td>';
+                    }
+                    else
+                        $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$monster_on_map['map']]['name'].'">'.$maps_list[$monster_on_map['map']]['name'].'</a></td>';
+                }
+                else
+                    $map_descriptor.='<td colspan="2">Unknown map</td>';
+                $map_descriptor.='<td>';
+                $map_descriptor.='<img src="/images/datapack-explorer/'.$full_monsterType_name_top.'.png" alt="" class="locationimg">'.$full_monsterType_name_top;
+                $map_descriptor.='</td>
+                <td>';
+                if($monster_on_map['minLevel']==$monster_on_map['maxLevel'])
+                    $map_descriptor.=$monster_on_map['minLevel'];
+                else
+                    $map_descriptor.=$monster_on_map['minLevel'].'-'.$monster_on_map['maxLevel'];
+                $map_descriptor.='</td>';
+                $map_descriptor.='<td colspan="3">'.$monster_on_map['luck'].'%</td>
+                </tr>';
+            }
+        }
+
+		/*if(isset($monster_to_map[$id]))
 		{
 			$map_descriptor.='<tr class="item_list_title_type_'.$resolved_type.'">
 					<th colspan="7">Grass</th>
 				</tr>';
-			foreach($monster_to_map[$id]['grass'] as $monster_on_map)
+			foreach($monster_to_map[$id] as $monsterType=>$monster_list)
 			{
 				$map_descriptor.='<tr class="value">';
 					if(isset($maps_list[$monster_on_map['map']]))
@@ -496,53 +588,8 @@ foreach($monster_meta as $id=>$monster)
 					$map_descriptor.='<td colspan="3">'.$monster_on_map['luck'].'%</td>
 				</tr>';
 			}
-		}
-		if(isset($monster_to_map[$id]['water']))
-		{
-			$map_descriptor.='<tr class="item_list_title_type_'.$resolved_type.'">
-					<th colspan="7">Water</th>
-				</tr>';
-			foreach($monster_to_map[$id]['water'] as $monster_on_map)
-			{
-				$map_descriptor.='<tr class="value">';
-					if(isset($maps_list[$monster_on_map['map']]))
-						$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$monster_on_map['map']]['name'].'">'.$maps_list[$monster_on_map['map']]['name'].'</a></td>';
-					else
-						$map_descriptor.='<td>Unknown map</td><td>&nbsp;</td>';
-					$map_descriptor.='<td><img src="/images/datapack-explorer/water.png" alt="" class="locationimg">Water</td>
-					<td>';
-					if($monster_on_map['minLevel']==$monster_on_map['maxLevel'])
-						$map_descriptor.=$monster_on_map['minLevel'];
-					else
-						$map_descriptor.=$monster_on_map['minLevel'].'-'.$monster_on_map['maxLevel'];
-					$map_descriptor.='</td>';
-					$map_descriptor.='<td colspan="3">'.$monster_on_map['luck'].'%</td>
-				</tr>';
-			}
-		}
-		if(isset($monster_to_map[$id]['cave']))
-		{
-			$map_descriptor.='<tr class="item_list_title_type_'.$resolved_type.'">
-					<th colspan="7">Cave</th>
-				</tr>';
-			foreach($monster_to_map[$id]['cave'] as $monster_on_map)
-			{
-				$map_descriptor.='<tr class="value">';
-					if(isset($maps_list[$monster_on_map['map']]))
-						$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$monster_on_map['map']]['name'].'">'.$maps_list[$monster_on_map['map']]['name'].'</a></td>';
-					else
-						$map_descriptor.='<td>Unknown map</td><td>&nbsp;</td>';
-					$map_descriptor.='<td><img src="/images/datapack-explorer/cave.png" alt="" class="locationimg">Cave</td>
-					<td>';
-					if($monster_on_map['minLevel']==$monster_on_map['maxLevel'])
-						$map_descriptor.=$monster_on_map['minLevel'];
-					else
-						$map_descriptor.=$monster_on_map['minLevel'].'-'.$monster_on_map['maxLevel'];
-					$map_descriptor.='</td>';
-					$map_descriptor.='<td colspan="3">'.$monster_on_map['luck'].'%</td>
-				</tr>';
-			}
-		}
+		}*/
+
 		$map_descriptor.='<tr>
 			<td colspan="7" class="item_list_endline item_list_title_type_'.$resolved_type.'"></td>
 		</tr>

@@ -30,7 +30,7 @@ if(isset($map_generator) && $map_generator!='')
     if(is_executable('/usr/bin/mogrify'))
     {
         $before = microtime(true);
-        exec('/usr/bin/find ./ -name \'*.png\' -exec /usr/bin/mogrify -trim +repage {} \;');
+        exec('/usr/bin/find ./ -name \'*.png\' -exec /usr/bin/ionice -c 3 /usr/bin/nice -n 19 /usr/bin/mogrify -trim +repage {} \;');
         $after = microtime(true);
         echo 'Png trim and repage into '.(int)($after-$before)."s\n";
     }
@@ -41,7 +41,7 @@ if(isset($map_generator) && $map_generator!='')
         if(!isset($png_compress_zopfli_level))
             $png_compress_zopfli_level=100;
         $before = microtime(true);
-        exec('/usr/bin/find ./ -name \'*.png\' -exec '.$png_compress_zopfli.' --png --i'.$png_compress_zopfli_level.' {} \;');
+        exec('/usr/bin/find ./ -name \'*.png\' -exec /usr/bin/ionice -c 3 /usr/bin/nice -n 19 '.$png_compress_zopfli.' --png --i'.$png_compress_zopfli_level.' {} \;');
         exec('/usr/bin/find ./ -name \'*.png\' -and ! -name \'*.png.png\' -exec mv {}.png {} \;');
         $after = microtime(true);
         echo 'Png trim and repage into '.(int)($after-$before)."s\n";

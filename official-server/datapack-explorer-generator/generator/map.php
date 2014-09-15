@@ -27,13 +27,34 @@ if(isset($map_generator) && $map_generator!='')
 	echo 'cd '.$datapack_explorer_local_path.'maps/ && '.$map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/';
 	chdir($datapack_explorer_local_path.'maps/');
 	exec($map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/',$output,$return_var);
-	if(isset($png_compress) && $png_compress!='')
-	{
-		$before = microtime(true);
-		exec($png_compress);
-		$after = microtime(true);
-		echo 'Png compressed into '.(int)($after-$before)."s\n";
-	}
+    if(is_executable('/usr/bin/mogrify'))
+    {
+        $before = microtime(true);
+        exec('/usr/bin/find ./ -name \'*.png\' -exec /usr/bin/mogrify -trim +repage {} \;');
+        $after = microtime(true);
+        echo 'Png trim and repage into '.(int)($after-$before)."s\n";
+    }
+    else
+        echo 'no /usr/bin/mogrify found, install imagemagick';
+    if(is_executable($png_compress_zopfli))
+    {
+        if(!isset($png_compress_zopfli_level))
+            $png_compress_zopfli_level=100;
+        $before = microtime(true);
+        exec('/usr/bin/find ./ -name \'*.png\' -exec '.$png_compress_zopfli.' --png --i'.$png_compress_zopfli_level.' {} \;');
+        exec('/usr/bin/find ./ -name \'*.png\' -and ! -name \'*.png.png\' -exec mv {}.png {} \;');
+        $after = microtime(true);
+        echo 'Png trim and repage into '.(int)($after-$before)."s\n";
+    }
+    else
+        echo 'zopfli for png don\'t installed, prefed install it';
+    if(isset($png_compress) && $png_compress!='')
+    {
+        $before = microtime(true);
+        exec($png_compress);
+        $after = microtime(true);
+        echo 'Png compressed into '.(int)($after-$before)."s\n";
+    }
 	chdir($pwd);
 }
 

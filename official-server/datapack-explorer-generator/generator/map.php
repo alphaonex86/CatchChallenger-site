@@ -36,7 +36,7 @@ if(isset($map_generator) && $map_generator!='')
     }
     else
         echo 'no /usr/bin/mogrify found, install imagemagick';
-    if(is_executable($png_compress_zopfli))
+    if(isset($png_compress_zopfli) && is_executable($png_compress_zopfli))
     {
         if(!isset($png_compress_zopfli_level))
             $png_compress_zopfli_level=100;

@@ -49,7 +49,7 @@
 <?php
 $result_to_list=array('connectAllPlayer'=>'Connect all player','idle'=>'Players do nothing','move'=>'Players moving','chat'=>'Players chating');
 
-if($handle = opendir('results/'))
+if(is_dir('results/') && $handle = opendir('results/'))
 {
     while(false !== ($entry = readdir($handle)))
     {
@@ -114,7 +114,7 @@ if($handle = opendir('results/'))
 echo '<hr style="clear:both;" />';
 echo 'Failed to compil: <ul>';
 $number_of_failed=0;
-if($handle = opendir('failed/'))
+if(is_dir('failed/') && $handle = opendir('failed/'))
 {
     while(false !== ($entry = readdir($handle)))
     {

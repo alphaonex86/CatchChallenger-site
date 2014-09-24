@@ -23,7 +23,7 @@ if(!isset($_GET['platform']))
     die('Var platform not found');
 if(!isset($_GET['details']))
     die('Var details not found');
-if(!preg_match('#^[a-z0-9]+$#i',$_GET['platform']))
+if(!preg_match('#^[a-z0-9A-Z\- ]+$#i',$_GET['platform']))
     die('Var platform wrong');
 if(!preg_match('#^[a-z0-9A-Z]+$#i',$_GET['commit']))
     die('Var commit wrong');

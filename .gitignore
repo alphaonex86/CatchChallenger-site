@@ -9,3 +9,5 @@
 *kate-swp
 /datapack-*
 *official-server/datapack-explorer/*
+*benchmark-tracking/results*
+*benchmark-tracking/failed*

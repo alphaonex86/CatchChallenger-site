@@ -15,3 +15,5 @@ $datapack_explorer_local_path='datapack-explorer/';
 $smtp_server='';
 $smtp_login='';
 $smtp_password='';
+//change it:
+$benchmark_key='nyZqpuuV22LlrUA0';

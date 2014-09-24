@@ -229,3 +229,68 @@ margin: 0 auto;
 	background: linear-gradient(to bottom, rgba(254,255,255,1) 27%,rgba(221,221,221,1) 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#dddddd',GradientType=0 ); /* IE6-9 */
 }
+.labelDatapack
+{
+    width: 150px;
+    height: 23px;
+    border-radius: 5px;
+    margin:8px 5px;
+    border: solid 1px #CCC;
+    box-shadow: 0 0 5px #AAA;
+    background: rgb(254,255,255); /* Old browsers */
+    background: -moz-linear-gradient(top, rgba(254,255,255,1) 27%, rgba(221,221,221,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(27%,rgba(254,255,255,1)), color-stop(100%,rgba(221,221,221,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(254,255,255,1) 27%,rgba(221,221,221,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(254,255,255,1) 27%,rgba(221,221,221,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(254,255,255,1) 27%,rgba(221,221,221,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom, rgba(254,255,255,1) 27%,rgba(221,221,221,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#dddddd',GradientType=0 ); /* IE6-9 */
+    padding:7px 10px 0px 10px;
+    float:left;
+    vertical-align:middle;
+}
+
+.labelDatapackMap
+{
+    width:16px;
+    height:16px;
+    background-image:url('/official-server/images/flags.png');
+    background-repeat:no-repeat;
+    background-position:-32px -16px;
+    float:left;
+    margin-right:7px;
+}
+
+.labelDatapackBot
+{
+    width:16px;
+    height:16px;
+    background-image:url('/official-server/images/flags.png');
+    background-repeat:no-repeat;
+    background-position:-48px -16px;
+    float:left;
+    margin-right:7px;
+}
+
+.labelDatapackMonster
+{
+    width:16px;
+    height:16px;
+    background-image:url('/official-server/images/flags.png');
+    background-repeat:no-repeat;
+    background-position:-16px -16px;
+    float:left;
+    margin-right:7px;
+}
+
+.labelDatapackItem
+{
+    width:16px;
+    height:16px;
+    background-image:url('/official-server/images/flags.png');
+    background-repeat:no-repeat;
+    background-position:-32px 0px;
+    float:left;
+    margin-right:7px;
+}
+

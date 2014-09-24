@@ -55,7 +55,7 @@ if($handle = opendir('results/'))
     {
         if ($entry != '.' && $entry != '..' && is_dir('results/'.$entry))
         {
-            echo '<h2>'.$entry.'</h2>';
+            echo '<h2 style="clear:both;">'.$entry.'</h2>';
             if($handle2 = opendir('results/'.$entry.'/'))
             {
                 while(false !== ($entry2 = readdir($handle2)))

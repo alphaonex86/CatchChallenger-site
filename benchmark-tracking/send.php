@@ -90,7 +90,18 @@ else
         if(!isset($json_result[$key]))
             $json_result[$key]=array();
         if(!isset($json_result[$key][$_GET['commit']]))
-            $json_result[$key][$_GET['commit']]=$result;
+            $json_result[$key][$_GET['commit']]=array();
+        //for average with the || true
+        if($result>3000 || true/*for minimal value*/)
+        {
+            if(!in_array($result,$json_result[$key][$_GET['commit']]))
+                $json_result[$key][$_GET['commit']][]=$result;
+        }
+        else
+        {
+            if(count($json_result[$key][$_GET['commit']])<=0)
+                $json_result[$key][$_GET['commit']][]=$result;
+        }
     }
 
     filewrite($file,serialize($json_result));

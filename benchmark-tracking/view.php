@@ -71,7 +71,7 @@ if(is_dir('results/') && $handle = opendir('results/'))
                         }
                         if(isset($json_result))
                         {
-                            echo '<h3>'.$json_result['details'].'</h3>';
+                            echo '<h3 style="clear:both;">'.$json_result['details'].'</h3>';
                             foreach($result_to_list as $key=>$value)
                             {
                                 if(isset($json_result[$key]))
@@ -86,7 +86,21 @@ if(is_dir('results/') && $handle = opendir('results/'))
                                     $index=0;
                                     foreach($json_result[$key] as $commit=>$result)
                                     {
-                                        $arr[]='['.$index.', '.$result.', \''.substr($commit,0,10).'\']';
+                                        if(count($result)>0)
+                                        {
+                                            if(false)
+                                                $arr[]='['.$index.', '.array_sum($result)/count($result).', \''.substr($commit,0,10).'\']';
+                                            else
+                                            {
+                                                $lower_value=$result[0];
+                                                foreach($result as $temp_value)
+                                                    if($temp_value<$lower_value)
+                                                        $lower_value=$temp_value;
+                                                $arr[]='['.$index.', '.$lower_value.', \''.substr($commit,0,10).'\']';
+                                            }
+                                        }
+                                        else
+                                            $arr[]='['.$index.', 0, \''.substr($commit,0,10).'\']';
                                         $index++;
                                     }
                                     echo implode(', ',$arr);
@@ -94,6 +108,9 @@ if(is_dir('results/') && $handle = opendir('results/'))
                                     
                                     var plot1 = $.jqplot('chart<?php echo $random; ?>', [line1], {
                                         title: '<?php echo $value; ?>',
+                                        axes:{
+                                            yaxis: {min:0}
+                                        },
                                         seriesDefaults: {
                                             pointLabels: { show:true } 
                                         }

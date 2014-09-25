@@ -134,5 +134,5 @@ $content=$template;
 $content=str_replace('${TITLE}','Starter characters',$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
-$content=preg_replace("#[\r\n\t]+#isU",'',$content);
+$content=clean_html($content);
 filewrite($datapack_explorer_local_path.'start.html',$content);

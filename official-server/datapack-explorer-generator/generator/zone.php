@@ -134,6 +134,6 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 	$content=str_replace('${TITLE}',$zone_name,$content);
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
-	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
+	$content=clean_html($content);
 	filewrite($datapack_explorer_local_path.'zones/'.text_operation_do_for_url($zone_name).'.html',$content);
 }

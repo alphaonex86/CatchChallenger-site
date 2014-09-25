@@ -110,7 +110,7 @@ foreach($buff_meta as $buff_id=>$buff)
 	$content=str_replace('${TITLE}',$buff['name'],$content);
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
-	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
+	$content=clean_html($content);
 	filewrite($datapack_explorer_local_path.'monsters/buffs/'.text_operation_do_for_url($buff['name']).'.html',$content);
 }
 
@@ -139,5 +139,5 @@ $content=$template;
 $content=str_replace('${TITLE}','Buffs list',$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
-$content=preg_replace("#[\r\n\t]+#isU",'',$content);
+$content=clean_html($content);
 filewrite($datapack_explorer_local_path.'buffs.html',$content);

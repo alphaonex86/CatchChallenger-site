@@ -614,6 +614,6 @@ foreach($item_meta as $id=>$item)
 	$content=str_replace('${TITLE}',$item['name'],$content);
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
-	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
+	$content=clean_html($content);
 	filewrite($datapack_explorer_local_path.'items/'.text_operation_do_for_url($item['name']).'.html',$content);
 }

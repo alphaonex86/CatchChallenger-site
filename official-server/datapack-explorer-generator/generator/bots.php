@@ -477,7 +477,7 @@ foreach($bots_meta as $bot_id=>$bot)
 		$content=str_replace('${TITLE}',$bot['name'],$content);
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
-	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
+	$content=clean_html($content);
 	filewrite($datapack_explorer_local_path.'bots/'.text_operation_do_for_url($final_url_name).'.html',$content);
 }
 
@@ -582,5 +582,5 @@ $content=$template;
 $content=str_replace('${TITLE}','Bots list',$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
-$content=preg_replace("#[\r\n\t]+#isU",'',$content);
+$content=clean_html($content);
 filewrite($datapack_explorer_local_path.'bots.html',$content);

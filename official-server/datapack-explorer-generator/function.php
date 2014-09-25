@@ -41,6 +41,14 @@ function text_operation_lower_case($text)
 	return $text;
 }
 
+function clean_html($html)
+{
+    $html=preg_replace("#[\r\n\t]+#isU",'',$html);
+    $html=preg_replace("#[ ]{2,}#",'',$html);
+    $html=str_replace('> <','><',$html);
+    return $html;
+}
+
 function text_operation_clean_text($text,$minimum_word_length=4,$minimum_string_length=15,$maximum_string_length=64)
 {
 	$text=text_operation_lower_case($text);

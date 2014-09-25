@@ -168,7 +168,7 @@ foreach($type_meta as $type=>$type_content)
 	$content=str_replace('${TITLE}',$type_content['english_name'],$content);
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
-	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
+	$content=clean_html($content);
 	filewrite($datapack_explorer_local_path.'monsters/type-'.$type.'.html',$content);
 }
 
@@ -225,5 +225,5 @@ $content=$template;
 $content=str_replace('${TITLE}','Type list',$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
-$content=preg_replace("#[\r\n\t]+#isU",'',$content);
+$content=clean_html($content);
 filewrite($datapack_explorer_local_path.'types.html',$content);

@@ -79,15 +79,9 @@ foreach($industrie_meta as $id=>$industry)
                 {
                     $bot=$bots_meta[$bot_id];
                     if($bot['name']=='')
-                    {
                         $final_name='Bot #'.$bot_id;
-                        $final_url_name='bot '.$bot_id;
-                    }
                     else
-                    {
                         $final_name=$bot['name'];
-                        $final_url_name=$bot_id.'-'.$bot['name'];
-                    }
                     $skin_found=true;
                     if(isset($bot_id_to_skin[$bot_id]))
                     {
@@ -107,7 +101,13 @@ foreach($industrie_meta as $id=>$industry)
                     $map_descriptor.='<td';
                     if(!$skin_found)
                         $map_descriptor.=' colspan="2"';
-                    $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url($final_url_name).'.html" title="'.$final_name.'">'.$final_name;
+                    if($bots_meta[$bot_id]['name']=='')
+                        $link_bot=text_operation_do_for_url('bot '.$bot_id);
+                    else if($bots_name_count[$bots_meta[$bot_id]['name']]==1)
+                        $link_bot=text_operation_do_for_url($bots_meta[$bot_id]['name']);
+                    else
+                        $link_bot=text_operation_do_for_url($bot_id.'-'.$bots_meta[$bot_id]['name']);
+                    $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url($link_bot).'.html" title="'.$final_name.'">'.$final_name;
                     if(isset($bot_id_to_map[$bot_id]))
                     {
                         $entry=$bot_id_to_map[$bot_id];
@@ -165,7 +165,7 @@ foreach($industrie_meta as $id=>$industry)
 	$content=str_replace('${TITLE}','Industry #'.$id,$content);
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
-	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
+	$content=clean_html($content);
 	filewrite($datapack_explorer_local_path.'industries/'.$id.'.html',$content);
 }
 
@@ -290,7 +290,13 @@ foreach($industrie_meta as $id=>$industry)
             $map_descriptor.='<td';
             if(!$skin_found)
                 $map_descriptor.=' colspan="2"';
-            $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url($final_url_name).'.html" title="'.$final_name.'">'.$final_name;
+            if($bots_meta[$bot_id]['name']=='')
+                $link_bot=text_operation_do_for_url('bot '.$bot_id);
+            else if($bots_name_count[$bots_meta[$bot_id]['name']]==1)
+                $link_bot=text_operation_do_for_url($bots_meta[$bot_id]['name']);
+            else
+                $link_bot=text_operation_do_for_url($bot_id.'-'.$bots_meta[$bot_id]['name']);
+            $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url($link_bot).'.html" title="'.$final_name.'">'.$final_name;
             if(isset($bot_id_to_map[$bot_id]))
             {
                 $entry=$bot_id_to_map[$bot_id];
@@ -327,5 +333,5 @@ $content=$template;
 $content=str_replace('${TITLE}','Industries list',$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
-$content=preg_replace("#[\r\n\t]+#isU",'',$content);
+$content=clean_html($content);
 filewrite($datapack_explorer_local_path.'industries.html',$content);

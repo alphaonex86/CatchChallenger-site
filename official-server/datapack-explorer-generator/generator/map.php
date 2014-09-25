@@ -762,7 +762,7 @@ foreach($temp_maps as $map)
                                     $quantity=$resources['quantity'];
                                     if(isset($item_meta[$item]))
                                     {
-                                        $link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']).'.html';
+                                        $link_industry=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']).'.html';
                                         $name=$item_meta[$item]['name'];
                                         if($item_meta[$item]['image']!='')
                                             $image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
@@ -771,19 +771,19 @@ foreach($temp_maps as $map)
                                         $map_descriptor.='<div style="float:left;text-align:center;">';
                                         if($image!='')
                                         {
-                                            if($link!='')
-                                                $map_descriptor.='<a href="'.$link.'">';
+                                            if($link_industry!='')
+                                                $map_descriptor.='<a href="'.$link_industry.'">';
                                             $map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />';
-                                            if($link!='')
+                                            if($link_industry!='')
                                                 $map_descriptor.='</a>';
                                         }
-                                        if($link!='')
-                                            $map_descriptor.='<a href="'.$link.'">';
+                                        if($link_industry!='')
+                                            $map_descriptor.='<a href="'.$link_industry.'">';
                                         if($name!='')
                                             $map_descriptor.=$name;
                                         else
                                             $map_descriptor.='Unknown item';
-                                        if($link!='')
+                                        if($link_industry!='')
                                             $map_descriptor.='</a></div>';
                                     }
                                     else
@@ -797,7 +797,7 @@ foreach($temp_maps as $map)
                                     $quantity=$products['quantity'];
                                     if(isset($item_meta[$item]))
                                     {
-                                        $link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']).'.html';
+                                        $link_industry=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']).'.html';
                                         $name=$item_meta[$item]['name'];
                                         if($item_meta[$item]['image']!='')
                                             $image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
@@ -806,19 +806,19 @@ foreach($temp_maps as $map)
                                         $map_descriptor.='<div style="float:left;text-align:middle;">';
                                         if($image!='')
                                         {
-                                            if($link!='')
-                                                $map_descriptor.='<a href="'.$link.'">';
+                                            if($link_industry!='')
+                                                $map_descriptor.='<a href="'.$link_industry.'">';
                                             $map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />';
-                                            if($link!='')
+                                            if($link_industry!='')
                                                 $map_descriptor.='</a>';
                                         }
-                                        if($link!='')
-                                            $map_descriptor.='<a href="'.$link.'">';
+                                        if($link_industry!='')
+                                            $map_descriptor.='<a href="'.$link_industry.'">';
                                         if($name!='')
                                             $map_descriptor.=$name;
                                         else
                                             $map_descriptor.='Unknown item';
-                                        if($link!='')
+                                        if($link_industry!='')
                                             $map_descriptor.='</a></div>';
                                     }
                                     else
@@ -852,7 +852,7 @@ foreach($temp_maps as $map)
 	$content=str_replace('${TITLE}',$maps_list[$map]['name'],$content);
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
-	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
+	$content=clean_html($content);
 	filewrite($datapack_explorer_local_path.'maps/'.$map_html,$content);
 }
 
@@ -930,5 +930,5 @@ $content=$template;
 $content=str_replace('${TITLE}','Map list',$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
-$content=preg_replace("#[\r\n\t]+#isU",'',$content);
+$content=clean_html($content);
 filewrite($datapack_explorer_local_path.'maps.html',$content);

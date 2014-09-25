@@ -174,7 +174,7 @@ foreach($skill_meta as $skill_id=>$skill)
 	$content=str_replace('${TITLE}',$skill['name'],$content);
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
-	$content=preg_replace("#[\r\n\t]+#isU",'',$content);
+	$content=clean_html($content);
 	filewrite($datapack_explorer_local_path.'monsters/skills/'.text_operation_do_for_url($skill['name']).'.html',$content);
 }
 
@@ -219,5 +219,5 @@ $content=$template;
 $content=str_replace('${TITLE}','Skills list',$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
-$content=preg_replace("#[\r\n\t]+#isU",'',$content);
+$content=clean_html($content);
 filewrite($datapack_explorer_local_path.'skills.html',$content);

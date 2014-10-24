@@ -49,7 +49,7 @@ function clean_html($html)
     return $html;
 }
 
-function text_operation_clean_text($text,$minimum_word_length=4,$minimum_string_length=15,$maximum_string_length=64)
+function text_operation_clean_text($text,$minimum_word_length=0,$minimum_string_length=15,$maximum_string_length=64)
 {
 	$text=text_operation_lower_case($text);
 
@@ -97,7 +97,7 @@ function text_operation_clean_text($text,$minimum_word_length=4,$minimum_string_
 	return $text;
 }
 
-function text_operation_do_for_url($text,$minimum_word_length=4,$minimum_string_length=15,$maximum_string_length=64)
+function text_operation_do_for_url($text,$minimum_word_length=0,$minimum_string_length=15,$maximum_string_length=64)
 {
 	$text=text_operation_clean_text($text,$minimum_word_length,$minimum_string_length,$maximum_string_length);
 	$text=str_replace(' ','-',$text);

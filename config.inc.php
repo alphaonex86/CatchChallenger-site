@@ -17,3 +17,9 @@ $smtp_login='';
 $smtp_password='';
 //change it:
 $benchmark_key='nyZqpuuV22LlrUA0';
+$sales_email='';
+$admin_email='';
+
+$nxt_secretPhrase='';
+$nxt_seller='';
+$nxt_product_id='';

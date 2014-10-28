@@ -20,11 +20,10 @@ $mail->Port = 25;
 $mail->SMTPAuth = true;
 $mail->Username = $smtp_login;
 $mail->Password = $smtp_password;
-$mail->setFrom('alpha_one_x86@first-world.info', 'alpha_one_x86');
-$mail->addReplyTo('alpha_one_x86@first-world.info', 'alpha_one_x86');
+$mail->setFrom($admin_email, 'CatchChallenger');
+$mail->addReplyTo($admin_email, 'CatchChallenger');
 $mail->isHTML(false);
 
-$ADMINISTRATOR_EMAIL='alpha_one_x86@first-world.info';
 function send_mail($title,$text,$to,$type,$from)
 {
 	$headers = 'From: '.$from."\r\n";
@@ -36,7 +35,7 @@ function send_mail($title,$text,$to,$type,$from)
 
 function send_change_password($id)
 {
-	global $ADMINISTRATOR_EMAIL,$mail,$smtp_server;
+	global $admin_email,$mail,$smtp_server;
 	$reply = pg_query('SELECT * FROM account WHERE id='.addslashes($id)) or die(pg_last_error());
 	if($data = pg_fetch_array($reply))
 	{
@@ -49,7 +48,7 @@ function send_change_password($id)
         }
         else
         {
-            send_mail('Change your password on '.$_SERVER['HTTP_HOST'],'To change your password on http://'.$_SERVER['HTTP_HOST'].', click here: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?id='.$id.'&oldpass='.$data['password'],$data['email'],'text/plain',$ADMINISTRATOR_EMAIL);
+            send_mail('Change your password on '.$_SERVER['HTTP_HOST'],'To change your password on http://'.$_SERVER['HTTP_HOST'].', click here: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?id='.$id.'&oldpass='.$data['password'],$data['email'],'text/plain',$admin_email);
             return true;
         }
 	}

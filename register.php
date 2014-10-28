@@ -22,11 +22,10 @@ $mail->Port = 25;
 $mail->SMTPAuth = true;
 $mail->Username = $smtp_login;
 $mail->Password = $smtp_password;
-$mail->setFrom('alpha_one_x86@first-world.info', 'alpha_one_x86');
-$mail->addReplyTo('alpha_one_x86@first-world.info', 'alpha_one_x86');
+$mail->setFrom($admin_email, 'CatchChallenger');
+$mail->addReplyTo($admin_email, 'CatchChallenger');
 $mail->isHTML(false);
 
-$ADMINISTRATOR_EMAIL='alpha_one_x86@first-world.info';
 function send_mail($title,$text,$to,$type,$from)
 {
 	$headers = 'From: '.$from."\r\n";
@@ -312,7 +311,7 @@ foreach($temp_items as $item_file)
 										$mail->Body = 'Hello '.$_POST['login'].', to enable your account into http://'.$_SERVER['HTTP_HOST'].', click here: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?key='.$key.'&email='.$_POST['email'];
 
 										if (!$mail->send())
-											echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;;"><b>Mailer error: '.$mail->ErrorInfo.', contact the admin at '.$ADMINISTRATOR_EMAIL.'</b></span><br />';
+											echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;;"><b>Mailer error: '.$mail->ErrorInfo.', contact the admin at '.$admin_email.'</b></span><br />';
 										else
 										{
 											$postgres_return=pg_query('INSERT INTO account_register(login,password,email,key,date) VALUES(\''.$login_hash.'\',\''.hash("sha224",$_POST['password'].'AwjDvPIzfJPTTgHs').'\',\''.addslashes($_POST['email']).'\',\''.addslashes($key).'\','.time().');') or die(pg_last_error());
@@ -321,7 +320,7 @@ foreach($temp_items as $item_file)
 									}
 									else
 									{
-										send_mail($_POST['login'].' enable your account into '.$_SERVER['HTTP_HOST'],'Hello '.$_POST['login'].', to enable your account into http://'.$_SERVER['HTTP_HOST'].', click here: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?key='.$key.'&email='.$_POST['email'],$_POST['email'],'text/plain',$ADMINISTRATOR_EMAIL);
+										send_mail($_POST['login'].' enable your account into '.$_SERVER['HTTP_HOST'],'Hello '.$_POST['login'].', to enable your account into http://'.$_SERVER['HTTP_HOST'].', click here: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?key='.$key.'&email='.$_POST['email'],$_POST['email'],'text/plain',$admin_email);
 										$postgres_return=pg_query('INSERT INTO account_register(login,password,email,key,date) VALUES(\''.$login_hash.'\',\''.hash("sha224",$_POST['password'].'AwjDvPIzfJPTTgHs').'\',\''.addslashes($_POST['email']).'\',\''.addslashes($key).'\','.time().');') or die(pg_last_error());
 										echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, check your email</b></span><br />';
 									}

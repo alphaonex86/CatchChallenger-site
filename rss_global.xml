@@ -6,9 +6,35 @@
 <link>http://catchchallenger.first-world.info</link>
 <language>en</language>
 <title>CatchChallenger: Old scool MMORPG game (crafting, farming, fight, trading, ...)</title>
+        <item>
+        <title>This version 0.7 is the last beta.</title>
+        <link>http://catchchallenger.first-world.info/news/last-beta-version.html</link>
+        <description>This version 0.7 is the last beta.&lt;br /&gt;
+                Most work is done (include hight performance with epoll), the time is at the stabilisation. The security (mirror corruption detection, public key registration), ressources usages (bandwith, cpu/memory/db on server), anonymity, have been improved. The last feature for this release have been implemented like day/night cycle.&lt;br /&gt;
+                The game content into the datapack have been improved as the &lt;a href="/official-server/datapack-explorer.html"&gt;datapack explorer&lt;/a&gt; on the site. Objects on the maps, quests, ...&lt;br /&gt;
+                The infrastructure to host the project (multiple server and databases with replication into the world) is setup. Included &lt;a href="/benchmark-tracking/view.php"&gt;multiple benchmark server&lt;/a&gt; to track the performance regression over each git commit.&lt;br /&gt;
+                The project is commercial and professionnal, but remain open source. Then need fund to grow faster, the Ultimate version is sell in multiple way (bitcoin, nextcoin, paypal on multiple system).&lt;br /&gt;
+                The project need:
+                &lt;ul&gt;
+                    &lt;li&gt;&lt;strong&gt;Somebody to do the datapack&lt;/strong&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;strong&gt;A dev QtQuick2 (to do the fight and the map display)&lt;/strong&gt;&lt;/li&gt;
+                    &lt;li&gt;Customers, have the advantages:
+                    &lt;ul&gt;
+                        &lt;li&gt;Custom skin&lt;/li&gt;
+                        &lt;li&gt;More advanced client (solo + multi + more stats)&lt;/li&gt;
+                        &lt;li&gt;Improved datapack for the solo (not sell as product for now)&lt;/li&gt;
+                        &lt;li&gt;Priority support (but you need have minimum level in IT)&lt;/li&gt;
+                        &lt;li&gt;Have access to update/beta before everybody&lt;/li&gt;
+                    &lt;/ul&gt;&lt;/li&gt;
+                &lt;/ul&gt;</description>
+        <author>alpha_one_x86@first-world.info (brule herman)</author>
+        <pubDate>Tue, 28 Oct 2014 20:00:00 +0100</pubDate>
+        <guid>http://catchchallenger.first-world.info/news/last-beta-version.html</guid>
+        <source url="http://catchchallenger.first-world.info/">http://catchchallenger.first-world.info</source>
+        </item>
 		<item>
         <title>The last alpha version</title>
-        <link>http://amber/news/last-alpha-version.html</link>
+        <link>http://catchchallenger.first-world.info/news/last-alpha-version.html</link>
         <description>This version 0.4 is the last alpha version.&lt;br /&gt;
             Lot of work have been done is this version (day/night cycle, swim in water, more advanced datapack, better site, mirror to another server/datapack, ...)&lt;br /&gt;
             The project have more than 4MB of code, for 1500 commits on 3 years of life. The &lt;strong&gt;&lt;a href="../roadmap.html"&gt;roadmap is now public&lt;/a&gt;&lt;/strong&gt;.&lt;br /&gt;
@@ -28,7 +54,7 @@
             &lt;/ul&gt;</description>
         <author>alpha_one_x86@first-world.info (brule herman)</author>
         <pubDate>Tue, 27 May 2014 20:23:00 +0100</pubDate>
-        <guid>http://amber/news/last-alpha-version.html</guid>
+        <guid>http://catchchallenger.first-world.info/news/last-alpha-version.html</guid>
         <source url="http://catchchallenger.first-world.info/">http://catchchallenger.first-world.info</source>
         </item>
         <item>

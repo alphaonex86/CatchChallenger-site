@@ -84,6 +84,7 @@ if(is_dir('results/') && $handle = opendir('results/'))
                                     var line1 = [<?php
                                     $arr=array();
                                     $index=0;
+                                    $highter_value=0;
                                     foreach($json_result[$key] as $commit=>$result)
                                     {
                                         if(count($result)>0)
@@ -96,6 +97,8 @@ if(is_dir('results/') && $handle = opendir('results/'))
                                                 foreach($result as $temp_value)
                                                     if($temp_value<$lower_value)
                                                         $lower_value=$temp_value;
+                                                if($lower_value>$highter_value)
+                                                    $highter_value=$lower_value;
                                                 $arr[]='['.$index.', '.$lower_value.', \''.substr($commit,0,10).'\']';
                                             }
                                         }
@@ -109,7 +112,7 @@ if(is_dir('results/') && $handle = opendir('results/'))
                                     var plot1 = $.jqplot('chart<?php echo $random; ?>', [line1], {
                                         title: '<?php echo $value; ?>',
                                         axes:{
-                                            yaxis: {min:0}
+                                            yaxis: {min:0<?php if($highter_value<40) {echo ',max:40';} ?>}
                                         },
                                         seriesDefaults: {
                                             pointLabels: { show:true } 

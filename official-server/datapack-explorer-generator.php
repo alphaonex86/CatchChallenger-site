@@ -27,6 +27,8 @@ $automaticallygen.='</div>';
 $datapackexplorergeneratorinclude=true;
 
 require 'datapack-explorer-generator/function.php';
+require 'datapack-explorer-generator/functions/reputation.php';
+require 'datapack-explorer-generator/functions/quests.php';
 
 $template=file_get_contents('template.html');
 if(preg_match('#/home/user/#isU',$_SERVER['PWD']))

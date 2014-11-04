@@ -92,7 +92,7 @@ foreach($quests_meta as $id=>$quest)
 			}
             if(isset($quest['requirements']['reputation']))
                 foreach($quest['requirements']['reputation'] as $reputation)
-                    $map_descriptor.='Level '.$reputation['level'].' in '.$reputation['type'].'<br />';
+                    $map_descriptor.=reputationLevelToText($reputation['type'],$reputation['level']).'<br />';
             $map_descriptor.='</div></div>';
 		}
 		if(count($quest['steps'])>0)
@@ -309,9 +309,9 @@ foreach($quests_meta as $id=>$quest)
                 foreach($quest['rewards']['reputation'] as $reputation)
                 {
                     if($reputation['point']<0)
-                        $map_descriptor.='Less reputation in: '.$reputation['type'];
+                        $map_descriptor.='Less reputation in: '.reputationToText($reputation['type']);
                     else
-                        $map_descriptor.='More reputation in: '.$reputation['type'];
+                        $map_descriptor.='More reputation in: '.reputationToText($reputation['type']);
                 }
             if(isset($quest['rewards']['allow']))
                 foreach($quest['rewards']['allow'] as $allow)

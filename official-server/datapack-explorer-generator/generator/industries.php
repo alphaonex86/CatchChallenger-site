@@ -60,7 +60,7 @@ foreach($industrie_meta as $id=>$industry)
                 }
                 if(isset($industrie_link_meta[$id]['requirements']['reputation']))
                     foreach($industrie_link_meta[$id]['requirements']['reputation'] as $reputation)
-                        $map_descriptor.='Level '.$reputation['level'].' in '.$reputation['type'].'<br />';
+                        $map_descriptor.=reputationLevelToText($reputation['type'],$reputation['level']).'<br />';
                 $map_descriptor.='</div></div>';
             }
 

@@ -11,6 +11,10 @@ if(file_exists($datapack_path.'player/reputation.xml'))
 	{
 		if(!preg_match('#<reputation type="[a-z]+".*</reputation>#isU',$entry))
 			continue;
+        if(!preg_match('#<name( lang="en")?>.*</name>#isU',$entry))
+            continue;
+        $name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
+        $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
 		$type=preg_replace('#^.*<reputation type="([a-z]+)".*</reputation>.*$#isU','$1',$entry);
 		preg_match_all('#<level point="-?[0-9]+".*</level>#isU',$entry,$level_list);
 		$reputation_meta_list=array();
@@ -42,7 +46,7 @@ if(file_exists($datapack_path.'player/reputation.xml'))
 				$level_offset--;
 			}
 			unset($reputation_meta_list);
-			$reputation_meta[$type]=$reputation_meta_list_by_level;
+			$reputation_meta[$type]=array('name'=>$name,'level'=>$reputation_meta_list_by_level);
 			unset($reputation_meta_list_by_level);
 		}
 	}

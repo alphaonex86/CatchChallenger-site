@@ -58,6 +58,94 @@ foreach($item_meta as $id=>$item)
 				</table>';
 				$map_descriptor.='</div></div>';
 			}
+
+            if(count($plant_meta[$item_to_plant[$id]]['requirements'])>0)
+            {
+                $map_descriptor.='<div class="subblock"><div class="valuetitle">Requirements</div><div class="value">';
+                if(isset($plant_meta[$item_to_plant[$id]]['requirements']['quests']))
+                {
+                    foreach($plant_meta[$item_to_plant[$id]]['requirements']['quests'] as $quest_id)
+                    {
+                        $map_descriptor.='Quest: <a href="'.$base_datapack_explorer_site_path.'quests/'.$quest_id.'-'.text_operation_do_for_url($quests_meta[$quest_id]['name']).'.html" title="'.$quests_meta[$quest_id]['name'].'">';
+                        $map_descriptor.=$quests_meta[$quest_id]['name'];
+                        $map_descriptor.='</a><br />';
+                    }
+                }
+                if(isset($plant_meta[$item_to_plant[$id]]['requirements']['reputation']))
+                    foreach($plant_meta[$item_to_plant[$id]]['requirements']['reputation'] as $reputation)
+                        $map_descriptor.=reputationLevelToText($reputation['type'],$reputation['level']).'<br />';
+                $map_descriptor.='</div></div>';
+            }
+            if(count($plant_meta[$item_to_plant[$id]]['rewards'])>0)
+            {
+                $map_descriptor.='<div class="subblock"><div class="valuetitle">Rewards</div><div class="value">';
+                if(isset($plant_meta[$item_to_plant[$id]]['rewards']['items']))
+                {
+                    $map_descriptor.='<table class="item_list item_list_type_outdoor"><tr class="item_list_title item_list_title_type_outdoor">
+                    <th colspan="2">Item</th></tr>';
+                    foreach($plant_meta[$item_to_plant[$id]]['rewards']['items'] as $item)
+                    {
+                        $map_descriptor.='<tr class="value"><td>';
+                        if(isset($item_meta[$item['item']]))
+                        {
+                            $link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item['item']]['name']).'.html';
+                            $name=$item_meta[$item['item']]['name'];
+                            if($item_meta[$item['item']]['image']!='')
+                                $image=$base_datapack_site_path.'/items/'.$item_meta[$item['item']]['image'];
+                            else
+                                $image='';
+                        }
+                        else
+                        {
+                            $link='';
+                            $name='';
+                            $image='';
+                        }
+                        $quantity_text='';
+                        if($item['quantity']>1)
+                            $quantity_text=$item['quantity'].' ';
+                        
+                        if($image!='')
+                        {
+                            if($link!='')
+                                $map_descriptor.='<a href="'.$link.'">';
+                            $map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />';
+                            if($link!='')
+                                $map_descriptor.='</a>';
+                        }
+                        $map_descriptor.='</td><td>';
+                        if($link!='')
+                            $map_descriptor.='<a href="'.$link.'">';
+                        if($name!='')
+                            $map_descriptor.=$quantity_text.$name;
+                        else
+                            $map_descriptor.=$quantity_text.'Unknown item';
+                        if($link!='')
+                            $map_descriptor.='</a>';
+                        $map_descriptor.='</td></tr>';
+                    }
+                    $map_descriptor.='<tr>
+                    <td colspan="2" class="item_list_endline item_list_title_type_outdoor"></td>
+                    </tr></table>';
+                }
+                if(isset($plant_meta[$item_to_plant[$id]]['rewards']['reputation']))
+                    foreach($plant_meta[$item_to_plant[$id]]['rewards']['reputation'] as $reputation)
+                    {
+                        if($reputation['point']<0)
+                            $map_descriptor.='Less reputation in: '.reputationToText($reputation['type']);
+                        else
+                            $map_descriptor.='More reputation in: '.reputationToText($reputation['type']);
+                    }
+                if(isset($plant_meta[$item_to_plant[$id]]['rewards']['allow']))
+                    foreach($plant_meta[$item_to_plant[$id]]['rewards']['allow'] as $allow)
+                    {
+                        if($allow=='clan')
+                            $map_descriptor.='Able to create clan';
+                        else
+                            $map_descriptor.='Allow '.$allow;
+                    }
+                $map_descriptor.='</div></div>';
+            }
 		}
 		if(isset($item['effect']))
 		{

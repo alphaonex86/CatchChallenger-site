@@ -49,7 +49,9 @@ if(file_exists($datapack_path.'crafting/recipes.xml'))
                     continue;
                 $type=preg_replace('#^.* type="([^"]+)".*$#isU','$1',$entry);
                 $level=preg_replace('#^.* level="([0-9]+)".*$#isU','$1',$entry);
-                $requirements[]=array('type'=>$type,'level'=>$level);
+                if(!isset($requirements['reputation']))
+                    $requirements['reputation']=array();
+                $requirements['reputation'][]=array('type'=>$type,'level'=>$level);
             }
         }
         $rewards=array();
@@ -61,11 +63,13 @@ if(file_exists($datapack_path.'crafting/recipes.xml'))
             {
                 if(!preg_match('# type="([^"]+)"#isU',$entry))
                     continue;
-                if(!preg_match('# level="([0-9]+)"#isU',$entry))
+                if(!preg_match('# point="([0-9]+)"#isU',$entry))
                     continue;
                 $type=preg_replace('#^.* type="([^"]+)".*$#isU','$1',$entry);
-                $level=preg_replace('#^.* level="([0-9]+)".*$#isU','$1',$entry);
-                $rewards[]=array('type'=>$type,'level'=>$level);
+                $point=preg_replace('#^.* point="([0-9]+)".*$#isU','$1',$entry);
+                if(!isset($rewards['reputation']))
+                    $rewards['reputation']=array();
+                $rewards['reputation'][]=array('type'=>$type,'point'=>$point);
             }
         }
         if(count($material)>0)

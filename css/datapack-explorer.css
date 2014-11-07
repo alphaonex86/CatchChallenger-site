@@ -569,6 +569,12 @@
 	text-shadow: 2px 2px 2px rgba(150, 150, 150, 1);
 	text-align:center;
 }
+@media screen and (max-height: 600px)
+{
+    #automaticallygen {
+    display:none;
+    }
+}
 .very_effective
 {
 	background-color:#6BDD4B;

@@ -17,6 +17,7 @@ if($postgres_link===FALSE)
 		<meta name="description" content="Captured city on CatchChallenger list" />
 		<meta name="keywords" content="clan,catchchallenger,pokemon,minecraft,crafting,official server" />
 		<link rel="stylesheet" type="text/css" media="screen" href="/css/style.css" />
+        <meta name="viewport" content="width=device-width" />
 	</head>
 	<body>
 		<div id="container">

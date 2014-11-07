@@ -91,6 +91,7 @@ foreach($temp_items as $item_file)
 		<meta name="description" content="Market Catchchallenger list" />
 		<meta name="keywords" content="catchchallenger,pokemon,minecraft,crafting,official server" />
 		<link rel="stylesheet" type="text/css" media="screen" href="/css/style.css" />
+        <meta name="viewport" content="width=device-width" />
 	</head>
 	<body>
 		<div id="container">

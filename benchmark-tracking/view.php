@@ -9,6 +9,7 @@
 		<link rel="stylesheet" type="text/css" media="screen" href="/css/style.css" />
         <link rel="stylesheet" type="text/css" href="/css/jquery.jqplot.min.css" />
 		<link rel="alternate" type="application/atom+xml" href="/rss_global.xml" title="All news" />
+        <meta name="viewport" content="width=device-width" />
 
         <script type="text/javascript" src="/js/jquery.js"></script>
         <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="/js/excanvas.min.js"></script><![endif]-->
@@ -172,7 +173,7 @@ echo '</ul>';
 			</div>
 			<br />
 			<div id="footer">
-				<div id="copyright">CatchChallenger - <span style="color:#777;font-size:80%">Donate Bitcoin: </span><span style="color:#999;font-size:70%">1C4VLs16HX5YBoUeCLxEMJq8TpP24dcUJN</span> <span style="color:#777;font-size:80%">Nextcoin: </span><span style="color:#999;font-size:70%">15504326669229103049</span></div>
+				<div id="copyright">CatchChallenger - <span style="color:#777;font-size:80%">Donate Bitcoin: </span><span style="color:#999;font-size:70%">1C4VLs16HX5YBoUeCLxEMJq8TpP24dcUJN</span> <span style="color:#777;font-size:80%">Nextcoin: </span><span style="color:#999;font-size:70%">NXT-MY96-548U-A5V5-BSR7R</span></div>
 			</div>
 		</div>
 	</body>

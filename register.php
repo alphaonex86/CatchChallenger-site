@@ -158,6 +158,7 @@ foreach($temp_items as $item_file)
 		<meta name="description" content="Register catchchallenger account" />
 		<meta name="keywords" content="catchchallenger,pokemon,minecraft,crafting,official server" />
 		<link rel="stylesheet" type="text/css" media="screen" href="/css/style.css" />
+        <meta name="viewport" content="width=device-width" />
 	</head>
 	<body>
 		<div id="container">
@@ -500,7 +501,7 @@ foreach($temp_items as $item_file)
 			</div>
 			<br />
 			<div id="footer">
-				<div id="copyright">CatchChallenger - <span style="color:#777;font-size:80%">Donate Bitcoin: </span><span style="color:#999;font-size:70%">1C4VLs16HX5YBoUeCLxEMJq8TpP24dcUJN</span> <span style="color:#777;font-size:80%">Nextcoin: </span><span style="color:#999;font-size:70%">15504326669229103049</span></div>
+				<div id="copyright">CatchChallenger - <span style="color:#777;font-size:80%">Donate Bitcoin: </span><span style="color:#999;font-size:70%">1C4VLs16HX5YBoUeCLxEMJq8TpP24dcUJN</span> <span style="color:#777;font-size:80%">Nextcoin: </span><span style="color:#999;font-size:70%">NXT-MY96-548U-A5V5-BSR7R</span></div>
 			</div>
 		</div>
 <script type="text/javascript">

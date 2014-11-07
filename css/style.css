@@ -6,6 +6,7 @@ body {
 	margin: 0;
 	padding: 0;
 	background-color: #ffffff;
+	min-width:400px;
 }
 
 a:link {
@@ -29,20 +30,29 @@ a:active {
 }
 
 #container {
-	border: 0;
-	clear:both;
-	background-image: url("../images/back-left.png"), url("../images/back-right.png");
-	background-position: left top, right top;
-	background-repeat: repeat-y;
-	padding:0 67px;
-	display: block;
+    border: 0;
+    clear:both;
+    display: block;
 }
 
-#header  {
-	border: 0;
-	display: block;
-	padding:0;
-	margin:0 0 15px 0;
+@media screen and (min-width: 700px)
+{
+    #container {
+    background-image: url("../images/back-left.png"), url("../images/back-right.png");
+    background-position: left top, right top;
+    background-repeat: repeat-y;
+    padding:0 67px;
+    }
+}
+
+@media screen and (min-height: 600px)
+{
+    #header  {
+        border: 0;
+        display: block;
+        padding:0;
+        margin:0 0 15px 0;
+    }
 }
 
 #back_menu {
@@ -69,6 +79,27 @@ a:active {
 	border:0;
 	border-spacing:35px 0;
 	border-collapse:separate;
+}
+
+@media screen and (max-width: 650px)
+{
+    #back_menu table {
+    border-spacing:20px 0;
+    }
+}
+
+@media screen and (max-width: 550px)
+{
+    #back_menu table {
+    border-spacing:8px 0;
+    }
+}
+
+@media screen and (max-width: 480px)
+{
+    #back_menu table {
+    border-spacing:1px 0;
+    }
 }
 
 #back_menu tr {
@@ -143,6 +174,19 @@ a:active {
 	display: block;
 }
 
+@media screen and (max-width: 700px)
+{
+    #footer  {
+    display: none;
+    }
+}
+@media screen and (max-height: 430px)
+{
+    #footer  {
+    display: none;
+    }
+}
+
 #footer img {
 	float:left;
 	display:block;
@@ -185,12 +229,27 @@ img {
 
 #logo
 {
-	background-color: #028ccf;
-	background-image: url("../images/logo-text.png"), url("../images/header.png");
-	background-position: center center, left top;
-	background-repeat: no-repeat, repeat-x;
-	box-shadow:inset 0 0 10px #000000;
-	height:120px;
+    background-color: #028ccf;
+    background-image: url("../images/logo-text.png"), url("../images/header.png");
+    background-position: center center, left top;
+    background-repeat: no-repeat, repeat-x;
+    box-shadow:inset 0 0 10px #000000;
+    height:120px;
+}
+
+@media screen and (max-width: 800px)
+{
+    #logo
+    {
+        display:none;
+    }
+}
+@media screen and (max-height: 600px)
+{
+    #logo
+    {
+        display:none;
+    }
 }
 
 .hosting_important strong
@@ -209,6 +268,12 @@ img {
 .separation
 {
 margin: 0 auto;
+}
+@media screen and (max-width: 800px)
+{
+    .separation  {
+    display: none;
+    }
 }
 .screenshotblock
 {
@@ -306,4 +371,5 @@ margin: 0 auto;
     float:left;
     margin-right:7px;
 }
+
 

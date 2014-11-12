@@ -51,6 +51,7 @@ if(file_exists('../datapack/monsters/monster.xml'))
 		$monster_meta[$id]=array('name'=>$name,'description'=>$description,'attack_list'=>$attack_list);
 	}
 }
+ksort($monster_meta);
 
 $item_meta=array();
 $temp_items=getXmlList($datapack_path.'items/');
@@ -81,6 +82,7 @@ foreach($temp_items as $item_file)
 		$item_meta[$id]=array('price'=>$price,'image'=>$image,'name'=>$name,'description'=>$description);
 	}
 }
+ksort($item_meta);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
@@ -144,7 +146,7 @@ foreach($temp_items as $item_file)
 					echo '<td>Player</td>';
 					echo '<td>Price</td>';
 					echo '</tr>';
-					$reply = pg_query('SELECT * FROM item_market LIMIT 30') or die(pg_last_error());
+					$reply = pg_query('SELECT * FROM item_market ORDER BY item LIMIT 30') or die(pg_last_error());
 					while($data = pg_fetch_array($reply))
 					{
 						echo '<tr>';
@@ -204,7 +206,7 @@ foreach($temp_items as $item_file)
 					echo '<td>Player</td>';
 					echo '<td>Price</td>';
 					echo '</tr>';
-					$reply = pg_query('SELECT * FROM monster_market LIMIT 30') or die(pg_last_error());
+					$reply = pg_query('SELECT * FROM monster_market ORDER BY id LIMIT 30') or die(pg_last_error());
 					while($data = pg_fetch_array($reply))
 					{
 						echo '<tr>';

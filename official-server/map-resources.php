@@ -42,6 +42,7 @@ foreach($temp_items as $item_file)
         $item_meta[$id]=array('price'=>$price,'image'=>$image,'name'=>$name,'description'=>$description);
     }
 }
+ksort($item_meta);
 
 $industrie_meta=array();
 $industrie_link_meta=array();
@@ -104,6 +105,8 @@ if($handle = opendir('../datapack/industries/')) {
 	}
 	closedir($handle);
 }
+ksort($industrie_meta);
+ksort($industrie_link_meta);
 
 $plant_meta=array();
 if(file_exists('../datapack/plants/plants.xml'))
@@ -127,6 +130,7 @@ if(file_exists('../datapack/plants/plants.xml'))
 		$plant_meta[$id]=array('itemUsed'=>$itemUsed,'fruits'=>$fruits,'quantity'=>$quantity);
 	}
 }
+ksort($plant_meta);
 
 function getFactoryResourcePrice($quantityInStock,$resource,$industry)
 {
@@ -281,7 +285,7 @@ function industryStatusWithCurrentTime($industryStatus,$industry)
                     $skin_list=array();
                     $map_list=array();
 					$index=1;
-					$reply = pg_query('SELECT * FROM plant LIMIT 30') or die(pg_last_error());
+					$reply = pg_query('SELECT * FROM plant ORDER BY id LIMIT 30') or die(pg_last_error());
 					while($data = pg_fetch_array($reply))
 					{
 						if($data['plant_timestamps']>time())

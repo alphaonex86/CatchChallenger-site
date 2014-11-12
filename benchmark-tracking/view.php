@@ -50,6 +50,11 @@
 <?php
 $result_to_list=array('connectAllPlayer'=>'Connect all player','idle'=>'Players do nothing','move'=>'Players moving','chat'=>'Players chating');
 
+$average_values=array(
+    'external'=>array(),
+    'internal'=>array(),
+);
+
 if(is_dir('results/') && $handle = opendir('results/'))
 {
     while(false !== ($entry = readdir($handle)))
@@ -86,6 +91,8 @@ if(is_dir('results/') && $handle = opendir('results/'))
                                     $arr=array();
                                     $index=0;
                                     $highter_value=0;
+                                    $average_temp=(float)0;
+                                    $average_count=0;
                                     foreach($json_result[$key] as $commit=>$result)
                                     {
                                         if(count($result)>0)
@@ -101,6 +108,39 @@ if(is_dir('results/') && $handle = opendir('results/'))
                                                 if($lower_value>$highter_value)
                                                     $highter_value=$lower_value;
                                                 $arr[]='['.$index.', '.$lower_value.', \''.substr($commit,0,10).'\']';
+                                                $average_temp+=(float)$lower_value;
+                                                $average_count++;
+                                            }
+                                        }
+                                        else
+                                            $arr[]='['.$index.', 0, \''.substr($commit,0,10).'\']';
+                                        $index++;
+                                    }
+                                    if(preg_match('# external$#isU',$json_result['details']))
+                                        $type='external';
+                                    else
+                                        $type='internal';
+                                    $average_temp/=$average_count;
+                                    foreach($json_result[$key] as $commit=>$result)
+                                    {
+                                        if(count($result)>0)
+                                        {
+                                            if(false)
+                                                $arr[]='['.$index.', '.array_sum($result)/count($result).', \''.substr($commit,0,10).'\']';
+                                            else
+                                            {
+                                                $lower_value=$result[0];
+                                                foreach($result as $temp_value)
+                                                    if($temp_value<$lower_value)
+                                                        $lower_value=$temp_value;
+                                                if($lower_value>$highter_value)
+                                                    $highter_value=$lower_value;
+
+                                                if(!isset($average_values[$type][$value]))
+                                                    $average_values[$type][$value]=array();
+                                                if(!isset($average_values[$type][$value][$commit]))
+                                                    $average_values[$type][$value][$commit]=array();
+                                                $average_values[$type][$value][$commit][]=(float)$lower_value/$average_temp;
                                             }
                                         }
                                         else
@@ -113,7 +153,7 @@ if(is_dir('results/') && $handle = opendir('results/'))
                                     var plot1 = $.jqplot('chart<?php echo $random; ?>', [line1], {
                                         title: '<?php echo $value; ?>',
                                         axes:{
-                                            yaxis: {min:0<?php if($highter_value<40) {echo ',max:40';} ?>}
+                                            yaxis: {min:0<?php if($highter_value<100) {echo ',max:100';} ?>}
                                         },
                                         seriesDefaults: {
                                             pointLabels: { show:true } 
@@ -132,6 +172,50 @@ if(is_dir('results/') && $handle = opendir('results/'))
     }
     closedir($handle);
 }
+
+echo '<h2 style="clear:both;">Average</h2>';
+foreach($average_values as $details=>$result_to_list)
+{
+    echo '<h3 style="clear:both;">'.$details.'</h3>';
+    foreach($result_to_list as $key=>$values)
+    {
+
+        $random=rand(100000,999999);
+        ?>
+            <div id="chart<?php echo $random; ?>" style="width:400px;height:300px;float:left;"></div>
+            <script type="text/javascript">
+            $(document).ready(function(){
+            var line1 = [<?php
+            $arr=array();
+            $index=0;
+            $highter_value=0;
+            $average_temp=(float)0;
+            $average_count=0;
+            foreach($values as $commit=>$result)
+            {
+                $arr[]='['.$index.', '.(array_sum($result)/count($result)).', \''.substr($commit,0,10).'\']';
+                $index++;
+            }
+            echo implode(', ',$arr);
+            ?>];
+            
+            var plot1 = $.jqplot('chart<?php echo $random; ?>', [line1], {
+                series: [
+            {color: 'orange', highlightColors: 'rgb(255, 245, 185)'}
+        ],
+                title: '<?php echo $key; ?>',
+                axes:{
+                    yaxis: {min:0}
+                },
+                seriesDefaults: {
+                    pointLabels: { show:true } 
+                }
+            });
+            });
+            </script><?php
+    }
+}
+
 echo '<hr style="clear:both;" />';
 echo 'Failed to compil: <ul>';
 $number_of_failed=0;

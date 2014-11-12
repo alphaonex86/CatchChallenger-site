@@ -27,16 +27,26 @@ foreach($xmlFightList as $file)
 			if(isset($item_meta[$item]))
 			{
 				if(!preg_match('#^.* overridePrice="([0-9]+)".*$#isU',$monster_text))
-					$products[$item]=$item_meta[$item]['price'];
+					$price=$item_meta[$item]['price'];
 				else
-					$products[$item]=preg_replace('#^.* overridePrice="([0-9]+)".*$#isU','$1',$monster_text);
-                if(!isset($item_to_shop[$item]))
-                    $item_to_shop[$item]=array();
-                $item_to_shop[$item][]=$id;
+					$price=preg_replace('#^.* overridePrice="([0-9]+)".*$#isU','$1',$monster_text);
+                if($price!=0)
+                {
+                    $products[$item]=$price;
+                    if(!isset($item_to_shop[$item]))
+                        $item_to_shop[$item]=array();
+                    $item_to_shop[$item][]=$id;
+                }
+                else
+                {
+                    echo 'item with price 0 found '.$item.' for the shop'.$id."\n";
+                    continue;
+                }
+            
 			}
 			else
 			{
-				echo 'item not found '.$item.' for the shop'."\n";
+				echo 'item not found '.$item.' for the shop'.$id."\n";
 				continue;
 			}
 		}

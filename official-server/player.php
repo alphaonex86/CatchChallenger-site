@@ -75,7 +75,7 @@ if($postgres_link===FALSE)
 					echo '</tr>';
                     $skin_list=array();
 					$index=1;
-					$reply = pg_query('SELECT * FROM character LIMIT 30') or die(pg_last_error());
+					$reply = pg_query('SELECT * FROM character ORDER BY id LIMIT 30') or die(pg_last_error());
 					while($data = pg_fetch_array($reply))
 					{
 						echo '<tr><td>';

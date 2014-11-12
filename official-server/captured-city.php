@@ -67,11 +67,11 @@ if($postgres_link===FALSE)
 					echo '<td>City</td>';
 					echo '<td>Clan</td>';
 					echo '</tr>';
-					$reply = pg_query('SELECT * FROM  city LIMIT 30') or die(pg_last_error());
+					$reply = pg_query('SELECT * FROM  city ORDER BY city LIMIT 30') or die(pg_last_error());
 					while($data = pg_fetch_array($reply))
 					{
 						echo '<tr>';
-						$reply_clan = pg_query('SELECT name FROM clan WHERE id='.$data['clan']) or die(pg_last_error());
+						$reply_clan = pg_query('SELECT name FROM clan WHERE id='.$data['clan'].' ORDER BY id') or die(pg_last_error());
 						if($data_clan = pg_fetch_array($reply_clan))
 							echo '<td><img src="/official-server/images/flag.png" width="16" height="16" alt="" /></td>';
 						else
@@ -85,7 +85,7 @@ if($postgres_link===FALSE)
 								$zone_text=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$content);
 						}
 						echo '<td><strong>'.htmlspecialchars($zone_text).'</strong></td>';
-						$reply_clan = pg_query('SELECT name FROM clan WHERE id='.$data['clan']) or die(pg_last_error());
+						$reply_clan = pg_query('SELECT name FROM clan WHERE id='.$data['clan'].' ORDER BY name') or die(pg_last_error());
 						if($data_clan = pg_fetch_array($reply_clan))
 							echo '<td>'.htmlspecialchars($data_clan['name']).'</td>';
 						else

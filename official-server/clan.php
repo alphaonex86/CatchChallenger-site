@@ -75,7 +75,7 @@ if($postgres_link===FALSE)
 					echo '</tr>';
                     $skin_list=array();
 					$index=1;
-					$reply = pg_query('SELECT * FROM  clan LIMIT 30') or die(pg_last_error());
+					$reply = pg_query('SELECT * FROM  clan ORDER BY name LIMIT 30') or die(pg_last_error());
 					while($data = pg_fetch_array($reply))
 					{
 						echo '<tr>';
@@ -92,7 +92,7 @@ if($postgres_link===FALSE)
 							echo '<td></td>';
 						echo '<td>';
 						$clan_players=array();
-						$reply_clan_players = pg_query('SELECT pseudo,skin,clan_leader FROM character WHERE clan='.$data['id'].' AND clan_leader=true') or die(pg_last_error());
+						$reply_clan_players = pg_query('SELECT pseudo,skin,clan_leader FROM character WHERE clan='.$data['id'].' AND clan_leader=true ORDER BY id') or die(pg_last_error());
 						while($data_clan_players = pg_fetch_array($reply_clan_players))
                         {
                             if(isset($skin_list[$data_clan_players['skin']]))
@@ -118,7 +118,7 @@ if($postgres_link===FALSE)
 						echo '<td>';
 						$city=array();
 						$city_text=array();
-						$reply_clan_city = pg_query('SELECT * FROM city WHERE clan='.$data['id']) or die(pg_last_error());
+						$reply_clan_city = pg_query('SELECT * FROM city WHERE clan='.$data['id'].' ORDER BY city') or die(pg_last_error());
 						while($data_clan_city = pg_fetch_array($reply_clan_city))
 							$city[]=$data_clan_city['city'];
 						foreach($city as $entry)

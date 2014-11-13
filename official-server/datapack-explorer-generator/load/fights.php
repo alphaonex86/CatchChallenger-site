@@ -41,13 +41,14 @@ foreach($xmlFightList as $file)
 		$start=str_replace('<![CDATA[','',$start);
 		$win=str_replace('<![CDATA[','',$win);
 		$monsters=array();
-		preg_match_all('#<monster id="([0-9]+)" level="([0-9]+)" />#isU',$entry,$monster_text_list);
+		preg_match_all('#<monster .*/>#isU',$entry,$monster_text_list);
 		foreach($monster_text_list[0] as $monster_text)
 		{
-			$monster=preg_replace('#^.*<monster id="([0-9]+)" level="([0-9]+)" />.*$#isU','$1',$monster_text);
-			$level=preg_replace('#^.*<monster id="([0-9]+)" level="([0-9]+)" />.*$#isU','$2',$monster_text);
+			$monster=preg_replace('#^.*id="([0-9]+)".*$#isU','$1',$monster_text);
+			$level=preg_replace('#^.*level="([0-9]+)".*$#isU','$1',$monster_text);
 			$monsters[]=array('monster'=>$monster,'level'=>$level);
 		}
 		$fight_meta[$id]=array('start'=>$start,'win'=>$win,'cash'=>$cash,'monsters'=>$monsters,'items'=>$items);
 	}
 }
+ksort($fight_meta);

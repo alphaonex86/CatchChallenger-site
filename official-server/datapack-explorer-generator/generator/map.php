@@ -651,43 +651,7 @@ foreach($temp_maps as $map)
                                 }
 
                                 foreach($fight_meta[$step['fightid']]['monsters'] as $monster)
-                                {
-                                    if(isset($monster_meta[$monster['monster']]))
-                                    {
-                                        $monster_full=$monster_meta[$monster['monster']];
-                                        $map_descriptor.='<table class="item_list item_list_type_'.$monster_full['type'][0].' map_list">
-                                        <tr class="item_list_title item_list_title_type_'.$monster_full['type'][0].'">
-                                            <th>';
-                                        $map_descriptor.='</th>
-                                        </tr>';
-                                        $map_descriptor.='<tr class="value">';
-                                        $map_descriptor.='<td>';
-                                        $map_descriptor.='<table class="monsterforevolution">';
-                                        if(file_exists($datapack_path.'monsters/'.$monster['monster'].'/front.png'))
-                                            $map_descriptor.='<tr><td><center><a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_full['name']).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$monster['monster'].'/front.png" width="80" height="80" alt="'.$monster_full['name'].'" title="'.$monster_full['name'].'" /></a></center></td></tr>';
-                                        else if(file_exists($datapack_path.'monsters/'.$monster['monster'].'/front.gif'))
-                                            $map_descriptor.='<tr><td><center><a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_full['name']).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$monster['monster'].'/front.gif" width="80" height="80" alt="'.$monster_full['name'].'" title="'.$monster_full['name'].'" /></a></center></td></tr>';
-                                        $map_descriptor.='<tr><td class="evolution_name"><a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_full['name']).'.html">'.$monster_full['name'].'</a></td></tr>';
-                                        if($step['leader'])
-                                        {
-                                            $map_descriptor.='<tr><td>';
-                                            $type_list=array();
-                                            foreach($monster_meta[$monster['monster']]['type'] as $type)
-                                                if(isset($type_meta[$type]))
-                                                    $type_list[]='<span class="type_label type_label_'.$type.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_meta[$type]['english_name'].'</a></span>';
-                                            $map_descriptor.='<div class="type_label_list">'.implode(' ',$type_list).'</div></td></tr>';
-                                        }
-                                        $map_descriptor.='<tr><td>Level '.$monster['level'].'</td></tr>';
-                                        $map_descriptor.='</table>';
-                                        $map_descriptor.='</td>';
-                                        $map_descriptor.='</tr>';
-                                        $map_descriptor.='<tr>
-                                            <th class="item_list_endline item_list_title item_list_title_type_'.$monster_full['type'][0].'">';
-                                        $map_descriptor.='</th>
-                                        </tr>
-                                        </table>';
-                                    }
-                                }
+                                    $map_descriptor.=monsterAndLevelToDisplay($monster,$step['leader']);
                                 $map_descriptor.='<br style="clear:both;" />';
 
                                 $map_descriptor.='</td>';

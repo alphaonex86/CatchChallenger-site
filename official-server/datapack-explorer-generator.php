@@ -29,6 +29,7 @@ $datapackexplorergeneratorinclude=true;
 require 'datapack-explorer-generator/function.php';
 require 'datapack-explorer-generator/functions/reputation.php';
 require 'datapack-explorer-generator/functions/quests.php';
+require 'datapack-explorer-generator/functions/monsters.php';
 
 $template=file_get_contents('template.html');
 if(preg_match('#/home/user/#isU',$_SERVER['PWD']))

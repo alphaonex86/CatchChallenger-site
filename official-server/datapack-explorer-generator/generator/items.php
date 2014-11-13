@@ -607,16 +607,10 @@ foreach($item_meta as $id=>$item)
                     $fights_for_items_list[]=$bot;
     if(count($fights_for_items_list)>0)
     {
-        $max_monster=0;
-        foreach($fights_for_items_list as $bot)
-            foreach($bots_meta[$bot]['step'] as $step_id=>$step)
-                if($step['type']=='fight')
-                    if(count($fight_meta[$step['fightid']]['monsters'])>$max_monster)
-                        $max_monster=count($fight_meta[$step['fightid']]['monsters']);
         $map_descriptor.='<table class="item_list item_list_type_normal">
         <tr class="item_list_title item_list_title_type_normal">
             <th colspan="2">Fight</th>
-            <th colspan="'.$max_monster.'">Monster</th>
+            <th>Monster</th>
         </tr>';
         foreach($fights_for_items_list as $bot)
         {
@@ -671,29 +665,17 @@ foreach($item_meta as $id=>$item)
                     else
                         $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.'bots/'.$link.'.html" title="'.$bot['name'].'">'.$bot['name'].'</a></td>';
                     
-                    $count=0;
+                    $map_descriptor.='<td>';
                     foreach($fight_meta[$step['fightid']]['monsters'] as $monster)
-                    {
-                        if(isset($monster_meta[$monster['monster']]))
-                        {
-                            $map_descriptor.='<td>';
-                            $link=$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_meta[$monster['monster']]['name']).'.html';
-                            $map_descriptor.='<center><div class="monstericon"><a href="'.$link.'"><img src="'.$base_datapack_site_path.'monsters/'.$monster['monster'].'/small.gif" width="32" height="32" alt="'.$monster_meta[$monster['monster']]['name'].'" title="'.$monster_meta[$monster['monster']]['name'].'" /></a></div>';
-                            $map_descriptor.='<a href="'.$link.'">'.$monster_meta[$monster['monster']]['name'].'</a> level '.$monster['level'].'</center>';
-                            $map_descriptor.='</td>';
-                        }
-                        else
-                            $map_descriptor.='<td class="value">Unknown monster</td>';
-                        $count++;
-                    }
-                    if(count($fight_meta[$step['fightid']]['monsters'])<$max_monster)
-                        $map_descriptor.='<td colspan="'.($max_monster-count($fight_meta[$step['fightid']]['monsters'])).'">&nbsp;</td>';
+                        $map_descriptor.=monsterAndLevelToDisplay($monster,$step['leader']);
+
+                    $map_descriptor.='</td>';
                 }
                 $map_descriptor.='</tr>';
             }
         }
         $map_descriptor.='<tr>
-            <td colspan="'.(2+$max_monster).'" class="item_list_endline item_list_title_type_normal"></td>
+            <td colspan="3" class="item_list_endline item_list_title_type_normal"></td>
         </tr>
         </table>';
     }

@@ -83,6 +83,9 @@ foreach($temp_maps as $map)
 		$map_descriptor.='</div>';
 		if(file_exists($datapack_explorer_local_path.'maps/'.$map_image))
 		{
+            $size=getimagesize($datapack_explorer_local_path.'maps/'.$map_image);
+            $maps_list[$map]['pixelwidth']=$size[0];
+            $maps_list[$map]['pixelheight']=$size[1];
 			if($maps_list[$map]['pixelwidth']>1600 || $maps_list[$map]['pixelheight']>800)
 				$ratio=4;
 			elseif($maps_list[$map]['pixelwidth']>800 || $maps_list[$map]['pixelheight']>400)
@@ -207,9 +210,22 @@ foreach($temp_maps as $map)
                 $map_descriptor.='</td>';
                 $map_descriptor.='<td>Drop on ';
                 $monster_drops_html=array();
+                $luck_to_monster=array();
                 foreach($monster_list as $monster=>$content)
                     if(isset($monster_meta[$monster]))
-                        $monster_drops_html[]='<a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_meta[$monster]['name']).'.html" title="'.$monster_meta[$monster]['name'].'">'.$monster_meta[$monster]['name'].'</a> with luck of '.$content['luck'].'%';
+                    {
+                        if(!isset($luck_to_monster[$content['luck']]))
+                            $luck_to_monster[$content['luck']]=array();
+                        $luck_to_monster[$content['luck']][]=$monster;
+                    }
+                krsort($luck_to_monster);
+                foreach($luck_to_monster as $luck=>$content)
+                {
+                    $monster_html=array();
+                    foreach($content as $monster)
+                        $monster_html[]='<a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_meta[$monster]['name']).'.html" title="'.$monster_meta[$monster]['name'].'">'.$monster_meta[$monster]['name'].'</a>';
+                    $monster_drops_html[]=implode(', ',$monster_html).' with luck of '.$luck.'%';
+                }
                 $map_descriptor.=implode(', ',$monster_drops_html);
                 $map_descriptor.='</td>
                 </tr>';

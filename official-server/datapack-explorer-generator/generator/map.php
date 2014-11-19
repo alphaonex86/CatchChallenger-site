@@ -35,15 +35,6 @@ if(isset($map_generator) && $map_generator!='')
             //overview
             @unlink('overview.png');
             exec($map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/'.$start_meta[0]['map'].' overview.png --renderAll',$output,$return_var);
-            if(is_executable('/usr/bin/mogrify'))
-            {
-                $before = microtime(true);
-                exec('/usr/bin/ionice -c 3 /usr/bin/nice -n 19 /usr/bin/mogrify -trim +repage overview.png');
-                $after = microtime(true);
-                echo 'Png trim and repage into '.(int)($after-$before)."s\n";
-            }
-            else
-                echo 'no /usr/bin/mogrify found, install imagemagick';
             
             //preview
             if(is_executable('/usr/bin/convert'))

@@ -24,8 +24,45 @@ if(isset($map_generator) && $map_generator!='')
 {
 	$pwd=getcwd();
 	$return_var=0;
-	echo 'cd '.$datapack_explorer_local_path.'maps/ && '.$map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/';
+	//echo 'cd '.$datapack_explorer_local_path.'maps/ && '.$map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/';
 	chdir($datapack_explorer_local_path.'maps/');
+    
+    //all map preview
+    if(count($start_meta)>0)
+    {
+        if(isset($maps_list[$start_meta[0]['map']]))
+        {
+            //overview
+            @unlink('overview.png');
+            exec($map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/'.$start_meta[0]['map'].' overview.png --renderAll',$output,$return_var);
+            if(is_executable('/usr/bin/mogrify'))
+            {
+                $before = microtime(true);
+                exec('/usr/bin/ionice -c 3 /usr/bin/nice -n 19 /usr/bin/mogrify -trim +repage overview.png');
+                $after = microtime(true);
+                echo 'Png trim and repage into '.(int)($after-$before)."s\n";
+            }
+            else
+                echo 'no /usr/bin/mogrify found, install imagemagick';
+            
+            //preview
+            if(is_executable('/usr/bin/convert'))
+            {
+                $before = microtime(true);
+                exec('/usr/bin/ionice -c 3 /usr/bin/nice -n 19 /usr/bin/convert overview.png -resize 256x256 preview.png');
+                $after = microtime(true);
+                echo 'Preview generation '.(int)($after-$before)."s\n";
+            }
+            else
+                echo 'no /usr/bin/convert found, install imagemagick';
+        }
+        else
+            echo 'map for starter '.$start_meta[0]['map'].' missing';
+    }
+    else
+        echo 'starter to do overview map missing';
+
+    //single map preview
 	exec($map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/',$output,$return_var);
     if(is_executable('/usr/bin/mogrify'))
     {
@@ -36,6 +73,15 @@ if(isset($map_generator) && $map_generator!='')
     }
     else
         echo 'no /usr/bin/mogrify found, install imagemagick';
+
+    //compression for all png found!
+    if(isset($png_compress) && $png_compress!='')
+    {
+        $before = microtime(true);
+        exec($png_compress);
+        $after = microtime(true);
+        echo 'Png compressed into '.(int)($after-$before)."s\n";
+    }
     if(isset($png_compress_zopfli) && is_executable($png_compress_zopfli))
     {
         if(!isset($png_compress_zopfli_level))
@@ -48,13 +94,7 @@ if(isset($map_generator) && $map_generator!='')
     }
     else
         echo 'zopfli for png don\'t installed, prefed install it';
-    if(isset($png_compress) && $png_compress!='')
-    {
-        $before = microtime(true);
-        exec($png_compress);
-        $after = microtime(true);
-        echo 'Png compressed into '.(int)($after-$before)."s\n";
-    }
+
 	chdir($pwd);
 }
 
@@ -838,6 +878,23 @@ foreach($temp_maps as $map)
 
 $map_descriptor='';
 ksort($zone_to_map);
+
+if(file_exists($datapack_explorer_local_path.'maps/overview.png') && file_exists($datapack_explorer_local_path.'maps/preview.png'))
+{
+    $size=getimagesize($datapack_explorer_local_path.'maps/preview.png');
+    $maps_list[$map]['pixelwidth']=$size[0];
+    $maps_list[$map]['pixelheight']=$size[1];
+    if($maps_list[$map]['pixelwidth']>1600 || $maps_list[$map]['pixelheight']>800)
+        $ratio=4;
+    elseif($maps_list[$map]['pixelwidth']>800 || $maps_list[$map]['pixelheight']>400)
+        $ratio=2;
+    else
+        $ratio=1;
+    $map_descriptor.='<div class="value datapackscreenshot"><a href="'.$base_datapack_explorer_site_path.'maps/overview.png"><center><img src="'.$base_datapack_explorer_site_path.'maps/preview.png" alt="Map overview" title="Map overview" width="'.($maps_list[$map]['pixelwidth']/$ratio).'" height="'.($maps_list[$map]['pixelheight']/$ratio).'" />
+    <b>Size: '.round(filesize($datapack_explorer_local_path.'maps/overview.png')/1000000,1).'MB</b>
+    </center></a></div>';
+}
+
 foreach($zone_to_map as $zone=>$map_by_zone)
 {
 	if(isset($zone_meta[$zone]))

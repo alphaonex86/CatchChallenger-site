@@ -279,3 +279,4 @@ foreach($temp_maps as $map)
     $maps_name_to_map[$name]=$map;
 }
 ksort($map_short_path_to_name);
+ksort($zone_to_map);

@@ -483,6 +483,7 @@ foreach($bots_meta as $bot_id=>$bot)
 
 $map_descriptor='';
 
+$map_descriptor.='<!-- highest bot id: '.$highest_bot_id.' -->';
 foreach($bots_by_zone as $zone=>$bot_id_list)
 {
     if(count($bot_id_list))

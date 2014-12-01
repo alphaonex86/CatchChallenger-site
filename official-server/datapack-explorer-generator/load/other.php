@@ -309,3 +309,26 @@ foreach($xmlFightList as $file)
 	$quests_meta[$id]=array('name'=>$name,'repeatable'=>$repeatable,'steps'=>$steps,'rewards'=>$rewards,'requirements'=>$requirements,'bot'=>$bot);
 }
 ksort($quests_meta);
+
+$visualcategory_meta=array();
+$content=file_get_contents($datapack_path.'/map/visualcategory.xml');
+$entry_list=preg_split('#<category #isU',$content);
+foreach($entry_list as $entry)
+{
+    $color='#000000';
+    $alpha='255';
+    if(!preg_match('#id="[0-9a-zA-Z]+".*#isU',$entry))
+        continue;
+    $id=preg_replace('#^.*id="([0-9a-zA-Z]+)".*$#isU','$1',$entry);
+    if(isset($visualcategory_meta[$id]))
+    {
+        echo 'duplicate id '.$id.' for the visualcategory'."\n";
+        continue;
+    }
+    if(preg_match('#^[^>]* color="(.[0-9]+)"#isU',$entry))
+        $color=preg_replace('#^[^>]* color="(.[0-9]+)".*$#isU','$1',$entry);
+    if(preg_match('#^[^>]* alpha="([0-9]+)"#isU',$entry))
+        $alpha=preg_replace('#^[^>]* alpha="([0-9]+)".*$#isU','$1',$entry);
+    $visualcategory_meta[$id]=array('color'=>$color,'alpha'=>$alpha);
+}
+ksort($visualcategory_meta);

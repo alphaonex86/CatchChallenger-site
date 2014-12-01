@@ -231,15 +231,15 @@ foreach($temp_maps as $map)
                     preg_match_all('#<monster[^>]+/>#isU',$text,$temp_text_list);
                     foreach($temp_text_list[0] as $text_entry)
                     {
-                        if(preg_match('#level="([0-9]+)"#isU',$text_entry))
+                        if(preg_match('# level="([0-9]+)"#isU',$text_entry))
                         {
-                            $minLevel=preg_replace('#^.*level="([0-9]+)".*$#isU','$1',$text_entry);
-                            $maxLevel=preg_replace('#^.*level="([0-9]+)".*$#isU','$1',$text_entry);
+                            $minLevel=preg_replace('#^.* level="([0-9]+)".*$#isU','$1',$text_entry);
+                            $maxLevel=preg_replace('#^.* level="([0-9]+)".*$#isU','$1',$text_entry);
                         }
-                        elseif(preg_match('#minLevel="([0-9]+)"#isU',$text_entry) && preg_match('maxLevel="([0-9]+)"#isU',$text_entry))
+                        elseif(preg_match('# minLevel="([0-9]+)"#isU',$text_entry) && preg_match('# maxLevel="([0-9]+)"#isU',$text_entry))
                         {
-                            $minLevel=preg_replace('#^.*minLevel="([0-9]+)".*$#isU','$1',$text_entry);
-                            $maxLevel=preg_replace('#^.*maxLevel="([0-9]+)".*$#isU','$1',$text_entry);
+                            $minLevel=preg_replace('#^.* minLevel="([0-9]+)".*$#isU','$1',$text_entry);
+                            $maxLevel=preg_replace('#^.* maxLevel="([0-9]+)".*$#isU','$1',$text_entry);
                         }
                         else
                             continue;

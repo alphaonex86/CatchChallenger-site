@@ -8,6 +8,7 @@ $fight_to_bot=array();
 $bots_name_count=array();
 $industry_to_bot=array();
 $item_to_bot_shop=array();
+$highest_bot_id=0;
 foreach($bots_file as $file=>$value)
 {
     if(is_file($datapack_path.'map/'.$file))
@@ -32,6 +33,8 @@ foreach($bots_file as $file=>$value)
                     else
                         $bots_name_count[$name]=1;
                 }
+                if($highest_bot_id<$id)
+                    $highest_bot_id=$id;
                 $bots_meta[$id]=array('name'=>$name,'onlytext'=>true,'step'=>array());
                 $bots_found_in[$id]=$file;
                 $temp_step_list=explode('<step',$bot_text);

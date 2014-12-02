@@ -359,7 +359,7 @@ function industryStatusWithCurrentTime($industryStatus,$industry)
 					}
 					echo '</table>';
 					echo '</p>';
-					echo '<p class="text">Industries products on the map:<br />';
+					echo '<p class="text">Industries\'s products on the map:<br />';
 					echo '<table>';
 					echo '<tr class="tiers_img">';
 					echo '<td></td>';
@@ -472,7 +472,7 @@ function industryStatusWithCurrentTime($industryStatus,$industry)
 					}
 					echo '</table>';
 					echo '</p>';
-					echo '<p class="text">Industries resources on the map:<br />';
+					echo '<p class="text">Industries\'s resources on the map:<br />';
 					echo '<table>';
 					echo '<tr class="tiers_img">';
 					echo '<td></td>';

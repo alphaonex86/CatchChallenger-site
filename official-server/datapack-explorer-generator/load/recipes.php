@@ -4,6 +4,8 @@ if(!isset($datapackexplorergeneratorinclude))
 
 $crafting_meta=array();
 $item_to_crafting=array();
+$doItemId_to_crafting=array();
+$material_to_crafting=array();
 if(file_exists($datapack_path.'crafting/recipes.xml'))
 {
 	$content=file_get_contents($datapack_path.'crafting/recipes.xml');
@@ -35,6 +37,10 @@ if(file_exists($datapack_path.'crafting/recipes.xml'))
 			if(preg_match('#<material[^>]+quantity="([0-9]+)"#isU',$material_text))
 				$quantity=preg_replace('#^.*<material[^>]+quantity="([0-9]+)".*$#isU','$1',$material_text);
 			$material[$itemId]=$quantity;
+
+            if(!isset($material_to_crafting[$itemId]))
+                $material_to_crafting[$itemId]=array();
+            $material_to_crafting[$itemId][]=$itemToLearn;
 		}
         $requirements=array();
         preg_match_all('#<requirements>(.+)</requirements>#isU',$entry,$requirements_list);
@@ -75,7 +81,10 @@ if(file_exists($datapack_path.'crafting/recipes.xml'))
         if(count($material)>0)
         {
             $crafting_meta[$id]=array('itemToLearn'=>$itemToLearn,'doItemId'=>$doItemId,'material'=>$material,'requirements'=>$requirements,'rewards'=>$rewards);
-            $item_to_crafting[$itemToLearn]=array('doItemId'=>$doItemId,'material'=>$material,'requirements'=>$requirements,'rewards'=>$rewards);
+            $item_to_crafting[$itemToLearn]=array('doItemId'=>$doItemId,'material'=>$material,'requirements'=>$requirements,'rewards'=>$rewards,'crafting_id'=>$id);
+            if(!isset($doItemId_to_crafting[$doItemId]))
+                $doItemId_to_crafting[$doItemId]=array();
+            $doItemId_to_crafting[$doItemId][]=$itemToLearn;
         }
         else
             echo 'material list is empty for recipe '.$id."\n";

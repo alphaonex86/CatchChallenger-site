@@ -182,32 +182,64 @@ foreach($item_meta as $id=>$item)
 			$map_descriptor.='</ul></div></div>';
 		}
 
-		if(isset($item_to_crafting[$id]))
-		{
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Do the item</div><div class="value">';
-			$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item_to_crafting[$id]['doItemId']]['name']).'.html" title="'.$item_meta[$item_to_crafting[$id]['doItemId']]['name'].'">';
-				$map_descriptor.='<table><tr><td>';
-				if($item_meta[$item_to_crafting[$id]['doItemId']]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$item_to_crafting[$id]['doItemId']]['image']))
-					$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$item_to_crafting[$id]['doItemId']]['image'].'" width="24" height="24" alt="'.$item_meta[$item_to_crafting[$id]['doItemId']]['name'].'" title="'.$item_meta[$item_to_crafting[$id]['doItemId']]['name'].'" />';
-				$map_descriptor.='</td><td>'.$item_meta[$item_to_crafting[$id]['doItemId']]['name'].'</td></tr></table>';
-			$map_descriptor.='</a>';
-			$map_descriptor.='</div></div>';
+        if(isset($item_to_crafting[$id]))
+        {
+            $map_descriptor.='<div class="subblock"><div class="valuetitle">Do the item</div><div class="value">';
+            $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item_to_crafting[$id]['doItemId']]['name']).'.html" title="'.$item_meta[$item_to_crafting[$id]['doItemId']]['name'].'">';
+                $map_descriptor.='<table><tr><td>';
+                if($item_meta[$item_to_crafting[$id]['doItemId']]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$item_to_crafting[$id]['doItemId']]['image']))
+                    $map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$item_to_crafting[$id]['doItemId']]['image'].'" width="24" height="24" alt="'.$item_meta[$item_to_crafting[$id]['doItemId']]['name'].'" title="'.$item_meta[$item_to_crafting[$id]['doItemId']]['name'].'" />';
+                $map_descriptor.='</td><td>'.$item_meta[$item_to_crafting[$id]['doItemId']]['name'].'</td></tr></table>';
+            $map_descriptor.='</a>';
+            $map_descriptor.='</div></div>';
 
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Material</div><div class="value">';
-			foreach($item_to_crafting[$id]['material'] as $material=>$quantity)
-			{
-				$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$material]['name']).'.html" title="'.$item_meta[$material]['name'].'">';
-					$map_descriptor.='<table><tr><td>';
-					if($item_meta[$material]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
-						$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'].'" title="'.$item_meta[$material]['name'].'" />';
-					$map_descriptor.='</td><td>';
-				if($quantity>1)
-					$map_descriptor.=$quantity.'x ';
-				$map_descriptor.=$item_meta[$material]['name'].'</td></tr></table>';
-				$map_descriptor.='</a>';
-			}
-			$map_descriptor.='</div></div>';
-		}
+            $map_descriptor.='<div class="subblock"><div class="valuetitle">Material</div><div class="value">';
+            foreach($item_to_crafting[$id]['material'] as $material=>$quantity)
+            {
+                $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$material]['name']).'.html" title="'.$item_meta[$material]['name'].'">';
+                    $map_descriptor.='<table><tr><td>';
+                    if($item_meta[$material]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
+                        $map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'].'" title="'.$item_meta[$material]['name'].'" />';
+                    $map_descriptor.='</td><td>';
+                if($quantity>1)
+                    $map_descriptor.=$quantity.'x ';
+                $map_descriptor.=$item_meta[$material]['name'].'</td></tr></table>';
+                $map_descriptor.='</a>';
+            }
+            $map_descriptor.='</div></div>';
+        }
+
+        if(isset($doItemId_to_crafting[$id]))
+        {
+            $map_descriptor.='<div class="subblock"><div class="valuetitle">Product by crafting</div><div class="value">';
+            foreach($doItemId_to_crafting[$id] as $material)
+            {
+                $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$material]['name']).'.html" title="'.$item_meta[$material]['name'].'">';
+                    $map_descriptor.='<table><tr><td>';
+                    if($item_meta[$material]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
+                        $map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'].'" title="'.$item_meta[$material]['name'].'" />';
+                    $map_descriptor.='</td><td>';
+                $map_descriptor.=$item_meta[$material]['name'].'</td></tr></table>';
+                $map_descriptor.='</a>';
+            }
+            $map_descriptor.='</div></div>';
+        }
+
+        if(isset($material_to_crafting[$id]))
+        {
+            $map_descriptor.='<div class="subblock"><div class="valuetitle">Used into crafting</div><div class="value">';
+            foreach($material_to_crafting[$id] as $material)
+            {
+                $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$material]['name']).'.html" title="'.$item_meta[$material]['name'].'">';
+                    $map_descriptor.='<table><tr><td>';
+                    if($item_meta[$material]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
+                        $map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'].'" title="'.$item_meta[$material]['name'].'" />';
+                    $map_descriptor.='</td><td>';
+                $map_descriptor.=$item_meta[$material]['name'].'</td></tr></table>';
+                $map_descriptor.='</a>';
+            }
+            $map_descriptor.='</div></div>';
+        }
 
         //shop
         if(isset($item_to_shop[$id]))

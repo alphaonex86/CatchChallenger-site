@@ -129,7 +129,6 @@ else
             echo 'commit not found: '.$_GET['commit'];
     }
     ksort($json_result);
-    print_r($json_result);
 
     filewrite($file,serialize($json_result));
     filewrite($file_json,json_encode($json_result));

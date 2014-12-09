@@ -7,6 +7,54 @@
 <language>en</language>
 <title>CatchChallenger: Old scool MMORPG game (crafting, farming, fight, trading, ...)</title>
         <item>
+        <title>This version 1 is here</title>
+        <link>http://catchchallenger.first-world.info/news/version-1.html</link>
+        <description>
+            The version 1 is here, version 2 is planning with more technologies, innovations. Buy to funds it, I will start an Indiegogo campain.
+
+&lt;h2&gt;Short Summary&lt;/h2&gt;
+&lt;b&gt;I'm developer of Ultracopier/Supercopier&lt;/b&gt;, I work as system administrator, cluster management and developer for private sector. &lt;b&gt;I'm passionate by open source and technologies&lt;/b&gt;. My company is registred into bolivia under the number 197938029.&lt;br /&gt;
+In my general target is do professional quality software in open source sector. Specifically around CatchChallenger this allow &lt;b&gt;develop new technologies, theory and analysis&lt;/b&gt;. It's a pixel art and old school game. Our work is concentrated on the gameplay, creativity, performance and self hosting.&lt;br /&gt;
+The contributors will funds the project to pay professional to work on it and have large and great open source content.&lt;br /&gt;
+
+&lt;h2&gt;What We Need and What You Get&lt;/h2&gt;
+My &lt;a href="/roadmap.html"&gt;personal roadmap&lt;/a&gt; as professionnal IT developer should be done by more than 9 senior developer. 30K€ to cover the taxes and decent income by years by developers, mean: 810K€ for 3 years of developing.&lt;br /&gt;
+30K€ for a designer, 30K€ for a system administrator and 5K€ infrastructure cost, 10K€ for the music, 5K€ for a story writer. All of that's by years, on 3 years. Mean: 240K€.&lt;br /&gt;
+This is for middle price range worker, not the best worker (50% is eaten due to the taxes and other company fee). &lt;b&gt;Rounded by 239K€&lt;/b&gt; because I will assume the work of sysadmin and some developers, then I count only me + 4 developers + 2 artist + 1 in marketing, but if you give more the contracted team will be larger.  The version 1 is under GPL3, and all commit of this version 2 will be too under GPL3. &lt;b&gt;The version 1 have more than 5MB of code, 3 years of work&lt;/b&gt;.&lt;br /&gt;
+
+&lt;h2&gt;Actual work done&lt;/h2&gt;
+The game don't have realtime part. That's give advantage on 3G/wifi connexion or into the tiers world. You can play &lt;b&gt;Player vs Player, Team vs Team&lt;/b&gt;, your team can own city and clan hall. You have &lt;b&gt;fight, farming, explore, crafting, trading, commerce, management, competition&lt;/b&gt;... and you are free to play in your style. The orientation of self hosting, bot allowed, will stimulate the content creation by the community. The version 1 is very good grade anonymity, performance and security quality, and work perfectly over i2p with more than 5s of latency.&lt;br /&gt;
+It's 5MB of code created, then not so far of vlc, it's a large project. And a good base for other similar project. The datapack is totally independent, and can be easily interchanged, or exploited in other context.&lt;br /&gt;
+If the goal is not reach, the remaining funds will go to tiled editor, linux foundations and all OSS security project like grsecurity, libreSSL, ...&lt;br /&gt;
+
+&lt;h2&gt;The Impact&lt;/h2&gt;
+The funds raised will allow the creation of a &lt;b&gt;high quality software&lt;/b&gt;. As Ultracopier, the research/new technologies is under public domain for everybody, the code is open sources, and the art work is free to be used into other game. The protocol conception, analysis is useful for other protocol conception (like http2).&lt;br /&gt;
+
+&lt;h2&gt;Risks and Challenges&lt;/h2&gt;
+The main risk is to not respect the deadline of 3 years. I have already work and master this on professional part, but with complete developer team. The challenges is create new and better technologies to improve the bandwidth used, improve the client and be very more competitive than other MMORPG for cost. Offert to the world and used into other projects.&lt;br /&gt;
+Usage of xz, untrusted mirror (to anybody can mount mirror to help with the bandwith), help on that's. But remain other technologies like tree/list of server/database to make. The estimation of the time is based on version 1 progression.
+
+&lt;h2&gt;Other Ways You Can Help&lt;/h2&gt;
+Even if the funding is more important as this point, you can contribute by coding (mostly for the client part), talk about this open source project and their technologies.
+                The project need:
+                &lt;ul&gt;
+                    &lt;li&gt;&lt;strong&gt;Somebody to do the datapack&lt;/strong&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;strong&gt;A dev QtQuick2 (to do the fight and the map display)&lt;/strong&gt;&lt;/li&gt;
+                    &lt;li&gt;Customers, have the advantages:
+                    &lt;ul&gt;
+                        &lt;li&gt;Custom skin&lt;/li&gt;
+                        &lt;li&gt;More advanced client (solo + multi + more stats)&lt;/li&gt;
+                        &lt;li&gt;Priority support (but you need have minimum level in IT)&lt;/li&gt;
+                        &lt;li&gt;Have access to update/beta before everybody&lt;/li&gt;
+                    &lt;/ul&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+                </description>
+        <author>alpha_one_x86@first-world.info (brule herman)</author>
+        <pubDate>Tue, 9 Dec 2014 20:00:00 +0100</pubDate>
+        <guid>http://catchchallenger.first-world.info/news/version-1.html</guid>
+        <source url="http://catchchallenger.first-world.info/">http://catchchallenger.first-world.info</source>
+        </item>
+                <item>
         <title>This version 0.7 is the last beta.</title>
         <link>http://catchchallenger.first-world.info/news/last-beta-version.html</link>
         <description>This version 0.7 is the last beta.&lt;br /&gt;

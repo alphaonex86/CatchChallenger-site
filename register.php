@@ -292,7 +292,6 @@ foreach($temp_items as $item_file)
 							echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Your email seam wrong</b></span><br />';
 						else
 						{
-							pg_query('DELETE FROM account_register WHERE date < '.(time()-24*3600).';') or die(pg_last_error());
 							$login_hash=hash("sha224",hash("sha224",$_POST['login'].'RtR3bm9Z1DFMfAC3',true));
 							$reply = pg_query('SELECT * FROM account WHERE login=\''.$login_hash.'\'') or die(pg_last_error());
 							if($data = pg_fetch_array($reply))
@@ -511,4 +510,8 @@ var u=(("https:"==document.location.protocol)?"https":"http")+"://stat.first-wor
 })();
 </script>
 	</body>
-</html> 
+</html>
+<?php
+if($is_up)
+    pg_query('DELETE FROM account_register WHERE date < '.(time()-24*3600).';') or die(pg_last_error());
+?>

@@ -93,27 +93,27 @@ if(is_dir('results/') && $handle = opendir('results/'))
                                     $highter_value=0;
                                     $average_temp=(float)0;
                                     $average_count=0;
-                                    foreach($json_result[$key] as $commit=>$result)
+                                    foreach($json_result[$key] as $commit_date=>$result)
                                     {
-                                        if(count($result)>0)
+                                        if(count($result['result'])>0)
                                         {
                                             if(false)
-                                                $arr[]='['.$index.', '.array_sum($result)/count($result).', \''.substr($commit,0,10).'\']';
+                                                $arr[]='['.$index.', '.array_sum($result['result'])/count($result['result']).', \''.substr($result['commit'],0,10).'\']';
                                             else
                                             {
-                                                $lower_value=$result[0];
-                                                foreach($result as $temp_value)
+                                                $lower_value=$result['result'][0];
+                                                foreach($result['result'] as $temp_value)
                                                     if($temp_value<$lower_value)
                                                         $lower_value=$temp_value;
                                                 if($lower_value>$highter_value)
                                                     $highter_value=$lower_value;
-                                                $arr[]='['.$index.', '.$lower_value.', \''.substr($commit,0,10).'\']';
+                                                $arr[]='['.$index.', '.$lower_value.', \''.substr($result['commit'],0,10).'\']';
                                                 $average_temp+=(float)$lower_value;
                                                 $average_count++;
                                             }
                                         }
                                         else
-                                            $arr[]='['.$index.', 0, \''.substr($commit,0,10).'\']';
+                                            $arr[]='['.$index.', 0, \''.substr($result['commit'],0,10).'\']';
                                         $index++;
                                     }
                                     if(preg_match('# external$#isU',$json_result['details']))
@@ -121,16 +121,16 @@ if(is_dir('results/') && $handle = opendir('results/'))
                                     else
                                         $type='internal';
                                     $average_temp/=$average_count;
-                                    foreach($json_result[$key] as $commit=>$result)
+                                    foreach($json_result[$key] as $commit_date=>$result)
                                     {
-                                        if(count($result)>0)
+                                        if(count($result['result'])>0)
                                         {
                                             if(false)
-                                                $arr[]='['.$index.', '.array_sum($result)/count($result).', \''.substr($commit,0,10).'\']';
+                                                $arr[]='['.$index.', '.array_sum($result['result'])/count($result['result']).', \''.substr($result['commit'],0,10).'\']';
                                             else
                                             {
-                                                $lower_value=$result[0];
-                                                foreach($result as $temp_value)
+                                                $lower_value=$result['result'][0];
+                                                foreach($result['result'] as $temp_value)
                                                     if($temp_value<$lower_value)
                                                         $lower_value=$temp_value;
                                                 if($lower_value>$highter_value)
@@ -138,13 +138,14 @@ if(is_dir('results/') && $handle = opendir('results/'))
 
                                                 if(!isset($average_values[$type][$value]))
                                                     $average_values[$type][$value]=array();
-                                                if(!isset($average_values[$type][$value][$commit]))
-                                                    $average_values[$type][$value][$commit]=array();
-                                                $average_values[$type][$value][$commit][]=(float)$lower_value/$average_temp;
+                                                if(!isset($average_values[$type][$value][$commit_date]))
+                                                    $average_values[$type][$value][$commit_date]=array('commit'=>$result['commit'],'result'=>array());
+                                                $average_values[$type][$value][$commit_date]['result'][]=(float)$lower_value/$average_temp;
+                                                ksort($average_values[$type][$value]);
                                             }
                                         }
                                         else
-                                            $arr[]='['.$index.', 0, \''.substr($commit,0,10).'\']';
+                                            $arr[]='['.$index.', 0, \''.substr($result['commit'],0,10).'\']';
                                         $index++;
                                     }
                                     echo implode(', ',$arr);
@@ -179,7 +180,6 @@ foreach($average_values as $details=>$result_to_list)
     echo '<h3 style="clear:both;">'.$details.'</h3>';
     foreach($result_to_list as $key=>$values)
     {
-
         $random=rand(100000,999999);
         ?>
             <div id="chart<?php echo $random; ?>" style="width:400px;height:300px;float:left;"></div>
@@ -191,9 +191,9 @@ foreach($average_values as $details=>$result_to_list)
             $highter_value=0;
             $average_temp=(float)0;
             $average_count=0;
-            foreach($values as $commit=>$result)
+            foreach($values as $commit_date=>$result)
             {
-                $arr[]='['.$index.', '.(array_sum($result)/count($result)).', \''.substr($commit,0,10).'\']';
+                $arr[]='['.$index.', '.(array_sum($result['result'])/count($result['result'])).', \''.substr($result['commit'],0,10).'\']';
                 $index++;
             }
             echo implode(', ',$arr);

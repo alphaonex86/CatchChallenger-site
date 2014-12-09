@@ -30,6 +30,27 @@ if(!preg_match('#^[a-z0-9A-Z]+$#i',$_GET['commit']))
 if($benchmark_key!=$_GET['key'])
     die('Var key wrong');
 
+//get the commit order
+$asso=array();
+$asso_reverse=array();
+{
+    $pwd=getcwd();
+    
+    if(chdir($git_source_program)===TRUE)
+    {
+        exec('git pull origin master');
+        exec('git log --reverse --pretty=format:"%H" --date=short',$commit_list);
+        exec('git log --reverse --pretty=format:"%ct" --date=short',$date_list);
+        if(count($commit_list)==count($date_list))
+        {
+            $asso=array(array_combine($commit_list,$date_list))[0];
+            $asso_reverse=array(array_combine($date_list,$commit_list))[0];
+        }
+    }
+    
+    chdir($pwd);
+}
+
 if(isset($_GET['failed']))
 {
     if(!is_dir('failed/'))
@@ -87,22 +108,28 @@ else
         $json_result['details']=$_GET['details'];
     foreach($results as $key=>$result)
     {
-        if(!isset($json_result[$key]))
-            $json_result[$key]=array();
-        if(!isset($json_result[$key][$_GET['commit']]))
-            $json_result[$key][$_GET['commit']]=array();
-        //for average with the || true
-        if($result>3000 || true/*for minimal value*/)
+        if(isset($asso[$_GET['commit']]))
         {
-            if(!in_array($result,$json_result[$key][$_GET['commit']]))
-                $json_result[$key][$_GET['commit']][]=$result;
+            $commit_key=$asso[$_GET['commit']];
+            if(!isset($json_result[$key]))
+                $json_result[$key]=array();
+            if(!isset($json_result[$key][$commit_key]))
+                $json_result[$key][$commit_key]=array('commit'=>$_GET['commit'],'result'=>array());
+            //for average with the || true
+            if($result>3000 || true/*for minimal value*/)
+                $json_result[$key][$commit_key]['result'][]=$result;
+            else
+            {
+                if(count($json_result[$key][$commit_key])<=0)
+                    $json_result[$key][$commit_key]['result'][]=$result;
+            }
+            ksort($json_result[$key]);
         }
         else
-        {
-            if(count($json_result[$key][$_GET['commit']])<=0)
-                $json_result[$key][$_GET['commit']][]=$result;
-        }
+            echo 'commit not found: '.$_GET['commit'];
     }
+    ksort($json_result);
+    print_r($json_result);
 
     filewrite($file,serialize($json_result));
     filewrite($file_json,json_encode($json_result));

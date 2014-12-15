@@ -286,47 +286,50 @@ foreach($temp_items as $item_file)
 					{
 						if($_POST['login']=='')
 							echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Your login can\'t be empty</b></span><br />';
-						else if(!preg_match('#^[a-zA-Z0-9]{6,}$#',$_POST['password']))
-							echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Your password need be composed of upper and lower char and number. And need be more than 6 of lenght</b></span><br />';
-						else if(!preg_match('#^[a-z0-9\.\-_]+@[a-z0-9\.\-_]+\.[a-z]{2,4}$#',$_POST['email']))
-							echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Your email seam wrong</b></span><br />';
 						else
-						{
-							$login_hash=hash("sha224",hash("sha224",$_POST['login'].'RtR3bm9Z1DFMfAC3',true));
-							$reply = pg_query('SELECT * FROM account WHERE login=\''.$login_hash.'\'') or die(pg_last_error());
-							if($data = pg_fetch_array($reply))
-								echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Login already taken</b></span><br />';
-							else
-							{
-								$reply = pg_query('SELECT * FROM account_register WHERE login=\''.$login_hash.'\'') or die(pg_last_error());
-								if($data = pg_fetch_array($reply))
-									echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Login already taken (into register)</b></span><br />';
-								else
-								{
-									$key=rand(10000,99999);
-									if($smtp_server!='')
-									{
-										$mail->addAddress($_POST['email'], $_POST['login']);
-										$mail->Subject = $_POST['login'].' enable your account into '.$_SERVER['HTTP_HOST'];
-										$mail->Body = 'Hello '.$_POST['login'].', to enable your account into http://'.$_SERVER['HTTP_HOST'].', click here: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?key='.$key.'&email='.$_POST['email'];
+                        {
+                            if(!preg_match('#[a-z]#',$_POST['password']) || !preg_match('#[A-Z]#',$_POST['password']) || !preg_match('#[0-9]#',$_POST['password']) || strlen($_POST['password'])<6)
+                                echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Your password need be composed of upper and lower char and number. And need be more than 6 of lenght</b></span><br />';
+                            else if(!preg_match('#^[a-z0-9\.\-_]+@[a-z0-9\.\-_]+\.[a-z]{2,4}$#',$_POST['email']))
+                                echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Your email seam wrong</b></span><br />';
+                            else
+                            {
+                                $login_hash=hash("sha224",hash("sha224",$_POST['login'].'RtR3bm9Z1DFMfAC3',true));
+                                $reply = pg_query('SELECT * FROM account WHERE login=\''.$login_hash.'\'') or die(pg_last_error());
+                                if($data = pg_fetch_array($reply))
+                                    echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Login already taken</b></span><br />';
+                                else
+                                {
+                                    $reply = pg_query('SELECT * FROM account_register WHERE login=\''.$login_hash.'\'') or die(pg_last_error());
+                                    if($data = pg_fetch_array($reply))
+                                        echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Login already taken (into register)</b></span><br />';
+                                    else
+                                    {
+                                        $key=rand(10000,99999);
+                                        if($smtp_server!='')
+                                        {
+                                            $mail->addAddress($_POST['email'], $_POST['login']);
+                                            $mail->Subject = $_POST['login'].' enable your account into '.$_SERVER['HTTP_HOST'];
+                                            $mail->Body = 'Hello '.$_POST['login'].', to enable your account into http://'.$_SERVER['HTTP_HOST'].', click here: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?key='.$key.'&email='.$_POST['email'];
 
-										if (!$mail->send())
-											echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;;"><b>Mailer error: '.$mail->ErrorInfo.', contact the admin at '.$admin_email.'</b></span><br />';
-										else
-										{
-											$postgres_return=pg_query('INSERT INTO account_register(login,password,email,key,date) VALUES(\''.$login_hash.'\',\''.hash("sha224",$_POST['password'].'AwjDvPIzfJPTTgHs').'\',\''.addslashes($_POST['email']).'\',\''.addslashes($key).'\','.time().');') or die(pg_last_error());
-											echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, check your email</b></span><br />';
-										}
-									}
-									else
-									{
-										send_mail($_POST['login'].' enable your account into '.$_SERVER['HTTP_HOST'],'Hello '.$_POST['login'].', to enable your account into http://'.$_SERVER['HTTP_HOST'].', click here: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?key='.$key.'&email='.$_POST['email'],$_POST['email'],'text/plain',$admin_email);
-										$postgres_return=pg_query('INSERT INTO account_register(login,password,email,key,date) VALUES(\''.$login_hash.'\',\''.hash("sha224",$_POST['password'].'AwjDvPIzfJPTTgHs').'\',\''.addslashes($_POST['email']).'\',\''.addslashes($key).'\','.time().');') or die(pg_last_error());
-										echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, check your email</b></span><br />';
-									}
-								}
-							}
-						}
+                                            if (!$mail->send())
+                                                echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;;"><b>Mailer error: '.$mail->ErrorInfo.', contact the admin at '.$admin_email.'</b></span><br />';
+                                            else
+                                            {
+                                                $postgres_return=pg_query('INSERT INTO account_register(login,password,email,key,date) VALUES(\''.$login_hash.'\',\''.hash("sha224",$_POST['password'].'AwjDvPIzfJPTTgHs').'\',\''.addslashes($_POST['email']).'\',\''.addslashes($key).'\','.time().');') or die(pg_last_error());
+                                                echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, check your email</b></span><br />';
+                                            }
+                                        }
+                                        else
+                                        {
+                                            send_mail($_POST['login'].' enable your account into '.$_SERVER['HTTP_HOST'],'Hello '.$_POST['login'].', to enable your account into http://'.$_SERVER['HTTP_HOST'].', click here: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?key='.$key.'&email='.$_POST['email'],$_POST['email'],'text/plain',$admin_email);
+                                            $postgres_return=pg_query('INSERT INTO account_register(login,password,email,key,date) VALUES(\''.$login_hash.'\',\''.hash("sha224",$_POST['password'].'AwjDvPIzfJPTTgHs').'\',\''.addslashes($_POST['email']).'\',\''.addslashes($key).'\','.time().');') or die(pg_last_error());
+                                            echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, check your email</b></span><br />';
+                                        }
+                                    }
+                                }
+                            }
+                        }
 					}
 					else if(isset($_GET['key']) && isset($_GET['email']))
 					{

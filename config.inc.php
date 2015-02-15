@@ -24,3 +24,7 @@ $admin_email='';
 $nxt_secretPhrase='';
 $nxt_seller='';
 $nxt_product_id='';
+
+$wikivarsapp['apiURL']='http://localhost/mediawiki/api.php';
+$wikivarsapp['username']='admin';
+$wikivarsapp['password']='admin';

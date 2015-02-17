@@ -52,7 +52,13 @@ require 'datapack-explorer-generator/load/fights.php';
 require 'datapack-explorer-generator/load/bots.php';
 require 'datapack-explorer-generator/load/team.php';
 
-require 'datapack-explorer-generator/generator/wiki/pre.php';
+if(isset($wikivarsapp['apiURL']) && isset($wikivarsapp['username']) && isset($wikivarsapp['password']))
+{
+    require 'datapack-explorer-generator/generator/wiki/pre.php';
+    require 'datapack-explorer-generator/generator/wiki/map.php';
+    require 'datapack-explorer-generator/generator/wiki/post.php';    
+}
+
 require 'datapack-explorer-generator/generator/map.php';
 require 'datapack-explorer-generator/generator/buffs.php';
 require 'datapack-explorer-generator/generator/skills.php';
@@ -68,7 +74,6 @@ require 'datapack-explorer-generator/generator/bots.php';
 require 'datapack-explorer-generator/generator/zone.php';
 require 'datapack-explorer-generator/generator/plants.php';
 //require 'datapack-explorer-generator/generator/reputation.php';
-require 'datapack-explorer-generator/generator/wiki/post.php';
 
 //require 'datapack-explorer-generator/tools/map-fix-broken-links.php';
 //require 'datapack-explorer-generator/tools/rename-map-file-name.php';

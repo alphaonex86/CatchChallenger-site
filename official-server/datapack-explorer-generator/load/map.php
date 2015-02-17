@@ -17,6 +17,8 @@ $duplicate_map_file_name=false;
 $duplicate_map_file_name_list=array();
 $maps_name_to_map=array();
 $item_to_map=array();
+$duplicate_detection_name=array();
+$duplicate_detection_name_and_zone=array();
 foreach($temp_maps as $map)
 {
 	$width=0;
@@ -214,6 +216,14 @@ foreach($temp_maps as $map)
 		$type=preg_replace("#[\n\r\t]+#is",'',$type);
 		$name=preg_replace("#[\n\r\t]+#is",'',$name);
 		$zone=preg_replace("#[\n\r\t]+#is",'',$zone);
+        if(!isset($duplicate_detection_name[$name]))
+            $duplicate_detection_name[$name]=1;
+        else
+            $duplicate_detection_name[$name]++;
+        if(!isset($duplicate_detection_name_and_zone[$zone.'_'.$name]))
+            $duplicate_detection_name_and_zone[$zone.'_'.$name]=1;
+        else
+            $duplicate_detection_name_and_zone[$zone.'_'.$name]++;
 		$shortdescription=preg_replace("#[\n\r\t]+#is",'',$shortdescription);
 		$description=preg_replace("#[\n\r\t]+#is",'',$description);
         foreach($layer_toSearch as $toSearch)

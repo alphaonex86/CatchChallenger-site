@@ -4,6 +4,8 @@ if(!isset($datapackexplorergeneratorinclude))
 
 if(isset($wikivarsapp['apiURL']) && isset($wikivarsapp['username']) && isset($wikivarsapp['password']))
 {
+    if(!isset($wikivarsapp['generatefullpage']))
+        $wikivarsapp['generatefullpage']=false;
     //init
     session_start();
     $_SESSION['login_result']='';
@@ -116,14 +118,33 @@ if(isset($wikivarsapp['apiURL']) && isset($wikivarsapp['username']) && isset($wi
     curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
     $content=curl_exec($ch);
     if(!($resulttoken=unserialize($content)))
-        die($content);
+        die('Not able to unserialize:'.$content);
     if($resulttoken['tokens']['edittoken']=='')
         die('Edit token wrong');
     $finalwikitoken=$resulttoken['tokens']['edittoken'];
+
+    define('MEDIAWIKI',true);
+    define('CACHE_NONE',true);
+    require '../w2/LocalSettings.php';
+    if($wgDBtype!='mysql')
+        echo('Only mysql purge supported');
+    else
+    {
+        $wikidblink=mysql_connect($wgDBserver,$wgDBuser,$wgDBpassword,true);
+        if(!$wikidblink)
+            die('Mysql wiki: unable to connect');
+        else if(!mysql_select_db($wgDBname,$wikidblink))
+            die('Mysql wiki: unable to select the db');
+        else
+        {
+        }
+    }
 }
 
 function savewikipage($page,$content,$summary='')
 {
+    global $wikivarsapp;
+    global $finalwikitoken;
     /* edit page */
     if($summary!='')
         $postdata='action=edit&format=php&title='.urlencode($page).'&text='.urlencode($content).'&token='.urlencode($finalwikitoken).'&summary='.urlencode($summary);
@@ -131,6 +152,7 @@ function savewikipage($page,$content,$summary='')
         $postdata='action=edit&format=php&title='.urlencode($page).'&text='.urlencode($content).'&token='.urlencode($finalwikitoken);
     $ch=curl_init();
     curl_setopt_array($ch, $wikivarsapp['curloptions']);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:')); //Fixes the HTTP/1.1 417 Expectation Failed Bug
     curl_setopt($ch, CURLOPT_URL, $wikivarsapp['apiURL']);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
     $content=curl_exec($ch);

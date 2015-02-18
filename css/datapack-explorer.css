@@ -624,3 +624,26 @@
 	background-color:#aaa;
 	background-image:url('/official-server/images/genderbar/unknown.gif');
 }
+.flags
+{
+    float:left;
+    background-repeat:no-repeat;
+}
+.flags16
+{
+    width:16px;
+    height:16px;
+    background-image:url('/official-server/images/flags.png');
+}
+.flags32
+{
+    width:32px;
+    height:32px;
+    background-image:url('/official-server/images/flags-128.png');
+}
+.flags64
+{
+    width:64px;
+    height:64px;
+    background-image:url('/official-server/images/flags-256.png');
+}

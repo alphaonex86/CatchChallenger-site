@@ -34,6 +34,8 @@ require 'datapack-explorer-generator/functions/monsters.php';
 $template=file_get_contents('template.html');
 if(preg_match('#/home/user/#isU',$_SERVER['PWD']))
     $template=str_replace('stat.first-world.info','localhost',$template);
+if(isset($wikivarsapp['apiURL']) && isset($wikivarsapp['username']) && isset($wikivarsapp['password']))
+    require 'datapack-explorer-generator/generator/wiki/pre.php';
 
 require 'datapack-explorer-generator/load/items.php';
 require 'datapack-explorer-generator/load/type.php';
@@ -52,11 +54,14 @@ require 'datapack-explorer-generator/load/fights.php';
 require 'datapack-explorer-generator/load/bots.php';
 require 'datapack-explorer-generator/load/team.php';
 
+require 'datapack-explorer-generator/generator/map_preview.php';
+
 if(isset($wikivarsapp['apiURL']) && isset($wikivarsapp['username']) && isset($wikivarsapp['password']))
 {
-    require 'datapack-explorer-generator/generator/wiki/pre.php';
     require 'datapack-explorer-generator/generator/wiki/map.php';
-    require 'datapack-explorer-generator/generator/wiki/post.php';    
+    require 'datapack-explorer-generator/generator/wiki/post.php';
+    if($argc>1 && in_array($argv[1],array('wiki')))
+        die('Wiki only generated, leave');
 }
 
 require 'datapack-explorer-generator/generator/map.php';
@@ -77,3 +82,5 @@ require 'datapack-explorer-generator/generator/plants.php';
 
 //require 'datapack-explorer-generator/tools/map-fix-broken-links.php';
 //require 'datapack-explorer-generator/tools/rename-map-file-name.php';
+
+echo 'All is done';

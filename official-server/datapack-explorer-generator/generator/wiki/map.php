@@ -6,19 +6,6 @@ $map_to_function=array();
 $zone_to_function=array();
 $zone_to_bot_count=array();
 
-function map_to_wiki_name($map)
-{
-    global $maps_list,$duplicate_detection_name,$duplicate_detection_name_and_zone;
-    if(!isset($duplicate_detection_name[$maps_list[$map]['name']]) || !isset($duplicate_detection_name_and_zone[$maps_list[$map]['zone'].'_'.$maps_list[$map]['name']]))
-        return $maps_list[$map]['name'];
-    if($duplicate_detection_name[$maps_list[$map]['name']]==1)
-        return $maps_list[$map]['name'];
-    if($duplicate_detection_name_and_zone[$maps_list[$map]['zone'].'_'.$maps_list[$map]['name']]==1)
-        return $maps_list[$map]['zone'].'_'.$maps_list[$map]['name'];
-    $map=str_replace('.tmx','',$map);
-    return $map;
-}
-
 foreach($temp_maps as $map)
 {
 	$map_html=str_replace('.tmx','',$map);
@@ -61,7 +48,7 @@ foreach($temp_maps as $map)
 			$zone_name='Unknown zone';
 		else
 			$zone_name=$map['zone'];
-		$map_descriptor.='<div class="subblock"><div class="valuetitle">Zone</div><div class="value">[[Zones:'.text_operation_do_for_url($zone_name).'|';
+		$map_descriptor.='<div class="subblock"><div class="valuetitle">Zone</div><div class="value">[[Zones:'.$zone_name.'|';
 		$map_descriptor.=$zone_name.']]</div></div>'."\n";
 
 		if(count($maps_list[$map]['borders'])>0 || count($maps_list[$map]['doors'])>0 || count($maps_list[$map]['tp'])>0)
@@ -182,7 +169,7 @@ foreach($temp_maps as $map)
                 {
                     $monster_html=array();
                     foreach($content as $monster)
-                        $monster_html[]='[[Monsters:'.$monster_meta[$monster]['name'].']]';
+                        $monster_html[]='[[Monsters:'.$monster_meta[$monster]['name'].'|'.$monster_meta[$monster]['name'].']]';
                     $monster_drops_html[]=implode(', ',$monster_html).' with luck of '.$luck.'%';
                 }
                 $map_descriptor.=implode(', ',$monster_drops_html);
@@ -837,7 +824,7 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 		$zone_name=$zone;
 
 	$map_descriptor.='<table class="item_list item_list_type_outdoor map_list"><tr class="item_list_title item_list_title_type_outdoor">
-	<th>[[Zones:'.text_operation_do_for_url($zone_name).'|'.$zone_name.']]'."\n";
+	<th>[[Zones:'.$zone_name.'|'.$zone_name.']]'."\n";
 	$map_descriptor.='</th><th>'."\n";
 	if(isset($zone_to_function[$zone]['shop']))
 		$map_descriptor.='<div style="float:left;background-position:-32px 0px;" class="flags flags16" title="Shop"></div>'."\n";

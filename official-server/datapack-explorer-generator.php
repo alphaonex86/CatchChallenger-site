@@ -30,6 +30,7 @@ require 'datapack-explorer-generator/function.php';
 require 'datapack-explorer-generator/functions/reputation.php';
 require 'datapack-explorer-generator/functions/quests.php';
 require 'datapack-explorer-generator/functions/monsters.php';
+require 'datapack-explorer-generator/functions/maps.php';
 
 $template=file_get_contents('template.html');
 if(preg_match('#/home/user/#isU',$_SERVER['PWD']))
@@ -54,11 +55,14 @@ require 'datapack-explorer-generator/load/fights.php';
 require 'datapack-explorer-generator/load/bots.php';
 require 'datapack-explorer-generator/load/team.php';
 
-require 'datapack-explorer-generator/generator/map_preview.php';
+//require 'datapack-explorer-generator/generator/map_preview.php';
 
 if(isset($wikivarsapp['apiURL']) && isset($wikivarsapp['username']) && isset($wikivarsapp['password']))
 {
-    require 'datapack-explorer-generator/generator/wiki/map.php';
+    //require 'datapack-explorer-generator/generator/wiki/map.php';
+    //require 'datapack-explorer-generator/generator/wiki/items.php';
+    //require 'datapack-explorer-generator/generator/wiki/zone.php';
+    //require 'datapack-explorer-generator/generator/wiki/items-index.php';
     require 'datapack-explorer-generator/generator/wiki/post.php';
     if($argc>1 && in_array($argv[1],array('wiki')))
         die('Wiki only generated, leave'."\n");

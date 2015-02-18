@@ -1,7 +1,7 @@
 <?php
 function monsterAndLevelToDisplay($monster,$full=true,$wiki=false)
 {
-    global $monster_meta,$base_datapack_explorer_site_path,$datapack_path,$base_datapack_site_path,$type_meta;
+    global $monster_meta,$base_datapack_explorer_site_path,$datapack_path,$base_datapack_site_path,$type_meta,$base_datapack_site_http;
     $map_descriptor='';
     if(isset($monster_meta[$monster['monster']]))
     {
@@ -29,9 +29,9 @@ function monsterAndLevelToDisplay($monster,$full=true,$wiki=false)
             else
             {
                 if(file_exists($datapack_path.'monsters/'.$monster['monster'].'/front.png'))
-                    $map_descriptor.='<tr><td><center>[[Monsters:'.$monster_full['name'].'|<img src="'.$base_datapack_site_path.'monsters/'.$monster['monster'].'/front.png" width="80" height="80" alt="'.$monster_full['name'].'" title="'.$monster_full['name'].'" />]]</center></td></tr>';
+                    $map_descriptor.='<tr><td><center>[[Monsters:'.$monster_full['name'].'|<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$monster['monster'].'/front.png" width="80" height="80" alt="'.$monster_full['name'].'" title="'.$monster_full['name'].'" />]]</center></td></tr>';
                 else if(file_exists($datapack_path.'monsters/'.$monster['monster'].'/front.gif'))
-                    $map_descriptor.='<tr><td><center>[[Monsters:'.$monster_full['name'].'|<img src="'.$base_datapack_site_path.'monsters/'.$monster['monster'].'/front.gif" width="80" height="80" alt="'.$monster_full['name'].'" title="'.$monster_full['name'].'" />]]</center></td></tr>';
+                    $map_descriptor.='<tr><td><center>[[Monsters:'.$monster_full['name'].'|<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$monster['monster'].'/front.gif" width="80" height="80" alt="'.$monster_full['name'].'" title="'.$monster_full['name'].'" />]]</center></td></tr>';
                 $map_descriptor.='<tr><td class="evolution_name">[[Monsters:'.$monster_full['name'].'|'.$monster_full['name'].']]</td></tr>';
             }
 
@@ -64,9 +64,9 @@ function monsterAndLevelToDisplay($monster,$full=true,$wiki=false)
             else
             {
                 if(file_exists($datapack_path.'monsters/'.$monster['monster'].'/small.png'))
-                    $map_descriptor.='<td><center>[[Monsters:'.$monster_full['name'].'|<img src="'.$base_datapack_site_path.'monsters/'.$monster['monster'].'/small.png" width="32" height="32" alt="'.$monster_full['name'].'" title="'.$monster_full['name'].'" />]]</center></td>';
+                    $map_descriptor.='<td><center>[[Monsters:'.$monster_full['name'].'|<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$monster['monster'].'/small.png" width="32" height="32" alt="'.$monster_full['name'].'" title="'.$monster_full['name'].'" />]]</center></td>';
                 else if(file_exists($datapack_path.'monsters/'.$monster['monster'].'/small.gif'))
-                    $map_descriptor.='<td><center>[[Monsters:'.$monster_full['name'].'|<img src="'.$base_datapack_site_path.'monsters/'.$monster['monster'].'/small.gif" width="32" height="32" alt="'.$monster_full['name'].'" title="'.$monster_full['name'].'" />]]</center></td>';
+                    $map_descriptor.='<td><center>[[Monsters:'.$monster_full['name'].'|<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$monster['monster'].'/small.gif" width="32" height="32" alt="'.$monster_full['name'].'" title="'.$monster_full['name'].'" />]]</center></td>';
                 $map_descriptor.='<td class="evolution_name">[[Monsters:'.$monster_full['name'].'|'.$monster_full['name'].']]</td>';
             }
 

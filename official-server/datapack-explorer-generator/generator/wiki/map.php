@@ -50,7 +50,7 @@ foreach($temp_maps as $map)
 				$ratio=2;
 			else
 				$ratio=1;
-			$map_descriptor.='<div class="value mapscreenshot datapackscreenshot"><center>[['.$base_datapack_explorer_site_path.'maps/'.$map_image.' <img src="'.$base_datapack_explorer_site_path.'maps/'.$map_image.'" alt="Screenshot of '.$maps_list[$map]['name'].'" title="Screenshot of '.$maps_list[$map]['name'].'" width="'.($maps_list[$map]['pixelwidth']/$ratio).'" height="'.($maps_list[$map]['pixelheight']/$ratio).'" />]]</center></div>'."\n";
+			$map_descriptor.='<div class="value mapscreenshot datapackscreenshot"><center>[['.$base_datapack_site_http.$base_datapack_explorer_site_path.'maps/'.$map_image.' <img src="'.$base_datapack_site_http.$base_datapack_explorer_site_path.'maps/'.$map_image.'" alt="Screenshot of '.$maps_list[$map]['name'].'" title="Screenshot of '.$maps_list[$map]['name'].'" width="'.($maps_list[$map]['pixelwidth']/$ratio).'" height="'.($maps_list[$map]['pixelheight']/$ratio).'" />]]</center></div>'."\n";
 		}
 		if($maps_list[$map]['description']!='')
 			$map_descriptor.='<div class="subblock"><div class="valuetitle">Map description</div><div class="value">'.$maps_list[$map]['description'].'</div></div>'."\n";
@@ -135,10 +135,10 @@ foreach($temp_maps as $map)
 		{
             if(isset($item_meta[$item]))
             {
-                $link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']);
+                $link=$base_datapack_site_http.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']);
                 $name=$item_meta[$item]['name'];
                 if($item_meta[$item]['image']!='')
-                    $image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
+                    $image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
                 else
                     $image='';
                 $quantity_text='';
@@ -197,10 +197,10 @@ foreach($temp_maps as $map)
             $item=$item['item'];
             if(isset($item_meta[$item]))
             {
-                $link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']);
+                $link=$base_datapack_site_http.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']);
                 $name=$item_meta[$item]['name'];
                 if($item_meta[$item]['image']!='')
-                    $image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
+                    $image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
                 else
                     $image='';
                 $map_descriptor.='<tr class="value">
@@ -275,10 +275,10 @@ foreach($temp_maps as $map)
             $image='';
             if(isset($layer_meta[$monsterType_top]['item']) && $item_meta[$layer_meta[$monsterType_top]['item']])
             {
-                $link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$layer_meta[$monsterType_top]['item']]['name']);
+                $link=$base_datapack_site_http.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$layer_meta[$monsterType_top]['item']]['name']);
                 $name=$item_meta[$layer_meta[$monsterType_top]['item']]['name'];
                 if($item_meta[$layer_meta[$monsterType_top]['item']]['image']!='')
-                    $image=$base_datapack_site_path.'/items/'.$item_meta[$layer_meta[$monsterType_top]['item']]['image'];
+                    $image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item_meta[$layer_meta[$monsterType_top]['item']]['image'];
                 else
                     $image='';
                 $map_descriptor.='<center><table><tr>';
@@ -314,17 +314,17 @@ foreach($temp_maps as $map)
                 if(isset($monster_meta[$monster['id']]))
                 {
                     $name=$monster_meta[$monster['id']]['name'];
-                    $link=$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($name);
+                    $link=$base_datapack_site_http.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($name);
                     $map_descriptor.='<tr class="value">
                         <td>'."\n";
                         if(file_exists($datapack_path.'monsters/'.$monster['id'].'/small.png'))
-                            $map_descriptor.='<div class="monstericon">[[Monsters:'.$name.'|<img src="'.$base_datapack_site_path.'monsters/'.$monster['id'].'/small.png" width="32" height="32" alt="'.$name.'" title="'.$name.'" />]]</div>'."\n";
+                            $map_descriptor.='<div class="monstericon">[[Monsters:'.$name.'|<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$monster['id'].'/small.png" width="32" height="32" alt="'.$name.'" title="'.$name.'" />]]</div>'."\n";
                         else if(file_exists($datapack_path.'monsters/'.$monster['id'].'/small.gif'))
-                            $map_descriptor.='<div class="monstericon">[[Monsters:'.$name.'|<img src="'.$base_datapack_site_path.'monsters/'.$monster['id'].'/small.gif" width="32" height="32" alt="'.$name.'" title="'.$name.'" />]]</div>'."\n";
+                            $map_descriptor.='<div class="monstericon">[[Monsters:'.$name.'|<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$monster['id'].'/small.gif" width="32" height="32" alt="'.$name.'" title="'.$name.'" />]]</div>'."\n";
                         $map_descriptor.='</td>'."\n".'
                         <td>[[Monsters:'.$name.'|'.$name.']]</td>'."\n".'
                         <td>'."\n";
-                        $map_descriptor.='<img src="/images/datapack-explorer/'.$full_monsterType_name_top.'.png" alt="" class="locationimg">'.$full_monsterType_name_top;
+                        $map_descriptor.='<img src="'.$base_datapack_site_http.'/images/datapack-explorer/'.$full_monsterType_name_top.'.png" alt="" class="locationimg">'.$full_monsterType_name_top;
                         $map_descriptor.='</td>'."\n".'
                         <td>'."\n";
                         if($monster['minLevel']==$monster['maxLevel'])
@@ -411,13 +411,13 @@ foreach($temp_maps as $map)
 					if(isset($bot_id_to_skin[$bot_id]))
 					{
 						if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png'))
-							$map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
+							$map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
 						elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.png'))
-							$map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
+							$map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
 						elseif(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.gif'))
-							$map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
+							$map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
 						elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.gif'))
-							$map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
+							$map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
 						else
 							$have_skin=false;
 					}
@@ -469,13 +469,13 @@ foreach($temp_maps as $map)
                             if(isset($bot_id_to_skin[$bot_id]))
                             {
                                 if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png'))
-                                    $map_descriptor.='<td><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></td>'."\n";
+                                    $map_descriptor.='<td><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></td>'."\n";
                                 elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.png'))
-                                    $map_descriptor.='<td><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></td>'."\n";
+                                    $map_descriptor.='<td><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></td>'."\n";
                                 elseif(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.gif'))
-                                    $map_descriptor.='<td><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></td>'."\n";
+                                    $map_descriptor.='<td><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></td>'."\n";
                                 elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.gif'))
-                                    $map_descriptor.='<td><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></td>'."\n";
+                                    $map_descriptor.='<td><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></td>'."\n";
                                 else
                                     $have_skin=false;
                             }
@@ -506,10 +506,10 @@ foreach($temp_maps as $map)
                                     $map_descriptor.='<tr class="value">'."\n";
                                     if(isset($item_meta[$item]))
                                     {
-                                        $link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']);
+                                        $link=$base_datapack_site_http.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']);
                                         $name=$item_meta[$item]['name'];
                                         if($item_meta[$item]['image']!='')
-                                            $image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
+                                            $image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
                                         else
                                             $image='';
                                     }
@@ -561,13 +561,13 @@ foreach($temp_maps as $map)
                                     if(isset($bot_id_to_skin[$bot_id]))
                                     {
                                         if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/front.png'))
-                                            $map_descriptor.='<center><img src="'.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/front.png" width="80" height="80" alt="" /></center>'."\n";
+                                            $map_descriptor.='<center><img src="'.$base_datapack_site_http.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/front.png" width="80" height="80" alt="" /></center>'."\n";
                                         else if(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/front.png'))
-                                            $map_descriptor.='<center><img src="'.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/front.png" width="80" height="80" alt="" /></center>'."\n";
+                                            $map_descriptor.='<center><img src="'.$base_datapack_site_http.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/front.png" width="80" height="80" alt="" /></center>'."\n";
                                         elseif(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/front.gif'))
-                                            $map_descriptor.='<center><img src="'.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/front.gif" width="80" height="80" alt="" /></center>'."\n";
+                                            $map_descriptor.='<center><img src="'.$base_datapack_site_http.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/front.gif" width="80" height="80" alt="" /></center>'."\n";
                                         else if(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/front.gif'))
-                                            $map_descriptor.='<center><img src="'.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/front.gif" width="80" height="80" alt="" /></center>'."\n";
+                                            $map_descriptor.='<center><img src="'.$base_datapack_site_http.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/front.gif" width="80" height="80" alt="" /></center>'."\n";
                                     }
                                 }
                                 if($fight_meta[$step['fightid']]['cash']>0)
@@ -583,10 +583,10 @@ foreach($temp_maps as $map)
                                     {
                                         if(isset($item_meta[$item['item']]))
                                         {
-                                            $link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item['item']]['name']);
+                                            $link=$base_datapack_site_http.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item['item']]['name']);
                                             $name=$item_meta[$item['item']]['name'];
                                             if($item_meta[$item['item']]['image']!='')
-                                                $image=$base_datapack_site_path.'/items/'.$item_meta[$item['item']]['image'];
+                                                $image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item_meta[$item['item']]['image'];
                                             else
                                                 $image='';
                                         }
@@ -704,10 +704,10 @@ foreach($temp_maps as $map)
                                     $quantity=$resources['quantity'];
                                     if(isset($item_meta[$item]))
                                     {
-                                        $link_industry=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']);
+                                        $link_industry=$base_datapack_site_http.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']);
                                         $name=$item_meta[$item]['name'];
                                         if($item_meta[$item]['image']!='')
-                                            $image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
+                                            $image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
                                         else
                                             $image='';
                                         $map_descriptor.='<div style="float:left;text-align:center;">'."\n";
@@ -740,10 +740,10 @@ foreach($temp_maps as $map)
                                     $quantity=$products['quantity'];
                                     if(isset($item_meta[$item]))
                                     {
-                                        $link_industry=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']);
+                                        $link_industry=$base_datapack_site_http.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']);
                                         $name=$item_meta[$item]['name'];
                                         if($item_meta[$item]['image']!='')
-                                            $image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
+                                            $image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
                                         else
                                             $image='';
                                         $map_descriptor.='<div style="float:left;text-align:middle;">'."\n";
@@ -820,9 +820,11 @@ if(file_exists($datapack_explorer_local_path.'maps/overview.png') && file_exists
         $ratio=2;
     else
         $ratio=1;
-    $map_descriptor.='<div class="value datapackscreenshot"><center>[['.$base_datapack_explorer_site_path.'maps/overview.png <img src="'.$base_datapack_explorer_site_path.'maps/preview.png" alt="Map overview" title="Map overview" width="'.($maps_list[$map]['pixelwidth']/$ratio).'" height="'.($maps_list[$map]['pixelheight']/$ratio).'" />]]
+    $map_descriptor.='<div class="value datapackscreenshot"><center>[['.$base_datapack_site_http.$base_datapack_explorer_site_path.'maps/overview.png <img src="'.$base_datapack_site_http.$base_datapack_explorer_site_path.'maps/preview.png" alt="Map overview" title="Map overview" width="'.($maps_list[$map]['pixelwidth']/$ratio).'" height="'.($maps_list[$map]['pixelheight']/$ratio).'" />]]
     <b>Size: '.round(filesize($datapack_explorer_local_path.'maps/overview.png')/1000000,1).'MB</b>
     </center></div>';
+    savewikipage('Template:maps_preview',$map_descriptor);
+    $map_descriptor='';
 }
 
 foreach($zone_to_map as $zone=>$map_by_zone)
@@ -897,6 +899,7 @@ $map_descriptor='';
 
 if($wikivarsapp['generatefullpage'])
 {
-    $map_descriptor.='{{Template:maps_list}}';
+    $map_descriptor.='{{Template:maps_preview}}'."\n";
+    $map_descriptor.='{{Template:maps_list}}'."\n";
     savewikipage('Maps_list',$map_descriptor);
 }

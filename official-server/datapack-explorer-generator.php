@@ -61,7 +61,7 @@ if(isset($wikivarsapp['apiURL']) && isset($wikivarsapp['username']) && isset($wi
     require 'datapack-explorer-generator/generator/wiki/map.php';
     require 'datapack-explorer-generator/generator/wiki/post.php';
     if($argc>1 && in_array($argv[1],array('wiki')))
-        die('Wiki only generated, leave');
+        die('Wiki only generated, leave'."\n");
 }
 
 require 'datapack-explorer-generator/generator/map.php';
@@ -83,4 +83,4 @@ require 'datapack-explorer-generator/generator/plants.php';
 //require 'datapack-explorer-generator/tools/map-fix-broken-links.php';
 //require 'datapack-explorer-generator/tools/rename-map-file-name.php';
 
-echo 'All is done';
+echo 'All is done'."\n";

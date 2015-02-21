@@ -63,6 +63,8 @@ if(isset($wikivarsapp['apiURL']) && isset($wikivarsapp['username']) && isset($wi
     //require 'datapack-explorer-generator/generator/wiki/items.php';
     //require 'datapack-explorer-generator/generator/wiki/zone.php';
     //require 'datapack-explorer-generator/generator/wiki/items-index.php';
+    //require 'datapack-explorer-generator/generator/wiki/bots.php';
+    require 'datapack-explorer-generator/generator/wiki/monsters.php';
     require 'datapack-explorer-generator/generator/wiki/post.php';
     if($argc>1 && in_array($argv[1],array('wiki')))
         die('Wiki only generated, leave'."\n");

@@ -55,16 +55,24 @@ require 'datapack-explorer-generator/load/fights.php';
 require 'datapack-explorer-generator/load/bots.php';
 require 'datapack-explorer-generator/load/team.php';
 
-//require 'datapack-explorer-generator/generator/map_preview.php';
+require 'datapack-explorer-generator/generator/map_preview.php';
 
 if(isset($wikivarsapp['apiURL']) && isset($wikivarsapp['username']) && isset($wikivarsapp['password']))
 {
-    //require 'datapack-explorer-generator/generator/wiki/map.php';
-    //require 'datapack-explorer-generator/generator/wiki/items.php';
-    //require 'datapack-explorer-generator/generator/wiki/zone.php';
-    //require 'datapack-explorer-generator/generator/wiki/items-index.php';
-    //require 'datapack-explorer-generator/generator/wiki/bots.php';
+    require 'datapack-explorer-generator/generator/wiki/map.php';
+    require 'datapack-explorer-generator/generator/wiki/items.php';
+    require 'datapack-explorer-generator/generator/wiki/zone.php';
+    require 'datapack-explorer-generator/generator/wiki/items-index.php';
+    require 'datapack-explorer-generator/generator/wiki/bots.php';
     require 'datapack-explorer-generator/generator/wiki/monsters.php';
+    require 'datapack-explorer-generator/generator/wiki/buffs.php';
+    require 'datapack-explorer-generator/generator/wiki/crafting.php';
+    require 'datapack-explorer-generator/generator/wiki/plants.php';
+    require 'datapack-explorer-generator/generator/wiki/skills.php';
+    require 'datapack-explorer-generator/generator/wiki/types.php';
+    require 'datapack-explorer-generator/generator/wiki/start.php';
+    require 'datapack-explorer-generator/generator/wiki/quests.php';
+    require 'datapack-explorer-generator/generator/wiki/industries.php';
     require 'datapack-explorer-generator/generator/wiki/post.php';
     if($argc>1 && in_array($argv[1],array('wiki')))
         die('Wiki only generated, leave'."\n");

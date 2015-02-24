@@ -2,10 +2,6 @@
 if(!isset($datapackexplorergeneratorinclude))
 	die('abort into generator map'."\n");
 
-if(!is_dir($datapack_explorer_local_path.'zones/'))
-	if(!mkdir($datapack_explorer_local_path.'zones/'))
-		die('Unable to make: '.$datapack_explorer_local_path.'zone/');
-
 foreach($zone_to_map as $zone=>$map_by_zone)
 {
 	$map_descriptor='';

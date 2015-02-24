@@ -4,8 +4,6 @@ if(!isset($datapackexplorergeneratorinclude))
 
 foreach($item_meta as $id=>$item)
 {
-	if(!is_dir($datapack_explorer_local_path.'items/'))
-		mkdir($datapack_explorer_local_path.'items/');
 	$map_descriptor='';
 
     //shop

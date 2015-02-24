@@ -144,9 +144,9 @@ foreach($type_meta as $type=>$type_content)
 					$map_descriptor.='<tr class="value">
 						<td>';
 						if(file_exists($datapack_path.'monsters/'.$monster.'/small.png'))
-							$map_descriptor.='<div class="monstericon"><a href="'.$link.'"><img src="'.$base_datapack_site_path.'monsters/'.$monster.'/small.png" width="32" height="32" alt="'.$monster_meta[$monster]['name'].'" title="'.$monster_meta[$monster]['name'].'" /></a></div>';
+							$map_descriptor.='<div class="monstericon"><a href="'.$link.'"><img src="'.$base_datapack_site_path.'monsters/'.$monster.'/small.png" width="32" height="32" alt="'.$name.'" title="'.$name.'" /></a></div>';
 						else if(file_exists($datapack_path.'monsters/'.$monster.'/small.gif'))
-							$map_descriptor.='<div class="monstericon"><a href="'.$link.'"><img src="'.$base_datapack_site_path.'monsters/'.$monster.'/small.gif" width="32" height="32" alt="'.$monster_meta[$monster]['name'].'" title="'.$monster_meta[$monster]['name'].'" /></a></div>';
+							$map_descriptor.='<div class="monstericon"><a href="'.$link.'"><img src="'.$base_datapack_site_path.'monsters/'.$monster.'/small.gif" width="32" height="32" alt="'.$name.'" title="'.$name.'" /></a></div>';
 						$map_descriptor.='</td>
 						<td><a href="'.$link.'">'.$name.'</a></td>';
 						$type_list=array();
@@ -219,7 +219,6 @@ foreach($type_meta as $type=>$type_content)
 	}
 	$map_descriptor.='</tr>';
 }
-$map_descriptor.='</tr>';
 $map_descriptor.='</table>';
 $content=$template;
 $content=str_replace('${TITLE}','Type list',$content);

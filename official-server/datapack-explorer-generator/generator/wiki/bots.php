@@ -46,8 +46,6 @@ foreach($bots_meta as $bot_id=>$bot)
         else
         $bots_by_zone[''][]=$bot_id;
     }
-	if(!is_dir($datapack_explorer_local_path.'bots/'))
-		mkdir($datapack_explorer_local_path.'bots/');
 	$map_descriptor='';
 
 	$map_descriptor.='<div class="map item_details">'."\n";

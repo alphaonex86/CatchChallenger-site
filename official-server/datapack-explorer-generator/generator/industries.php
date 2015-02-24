@@ -107,7 +107,7 @@ foreach($industrie_meta as $id=>$industry)
                         $link_bot=text_operation_do_for_url($bots_meta[$bot_id]['name']);
                     else
                         $link_bot=text_operation_do_for_url($bot_id.'-'.$bots_meta[$bot_id]['name']);
-                    $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url($link_bot).'.html" title="'.$final_name.'">'.$final_name;
+                    $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url($link_bot).'.html" title="'.$final_name.'">'.$final_name.'</a></td>';
                     if(isset($bot_id_to_map[$bot_id]))
                     {
                         $entry=$bot_id_to_map[$bot_id];
@@ -126,7 +126,6 @@ foreach($industrie_meta as $id=>$industry)
                     }
                     else
                         $map_descriptor.='<td colspan="2">&nbsp;</td>';
-                    $map_descriptor.='</a></td>';
                 }
                 else
                     $map_descriptor.='<td colspan="4"></td>';
@@ -298,7 +297,7 @@ foreach($industrie_meta as $id=>$industry)
                     $link_bot=text_operation_do_for_url($bots_meta[$bot_id]['name']);
                 else
                     $link_bot=text_operation_do_for_url($bot_id.'-'.$bots_meta[$bot_id]['name']);
-                $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url($link_bot).'.html" title="'.$final_name.'">'.$final_name;
+                $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url($link_bot).'.html" title="'.$final_name.'">'.$final_name.'</a></td>';
                 if(isset($bot_id_to_map[$bot_id]))
                 {
                     $entry=$bot_id_to_map[$bot_id];
@@ -317,7 +316,6 @@ foreach($industrie_meta as $id=>$industry)
                 }
                 else
                     $map_descriptor.='<td colspan="2">&nbsp;</td>';
-                $map_descriptor.='</a></td>';
             }
             else
                 $map_descriptor.='<td colspan="4"></td>';

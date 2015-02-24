@@ -12,11 +12,7 @@ foreach($temp_maps as $map)
 	$map_image=str_replace('.tmx','.png',$map);
 	$map_folder='';
 	if(preg_match('#/#isU',$map))
-	{
 		$map_folder=preg_replace('#/[^/]+$#','',$map).'/';
-		if(!is_dir($datapack_explorer_local_path.'maps/'.$map_folder))
-			mkdir($datapack_explorer_local_path.'maps/'.$map_folder);
-	}
 	$map_descriptor='';
 
 	$map_descriptor.='<div class="map map_type_'.$maps_list[$map]['type'].'">'."\n";

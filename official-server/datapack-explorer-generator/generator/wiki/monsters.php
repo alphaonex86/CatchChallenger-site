@@ -18,8 +18,6 @@ foreach($monster_meta as $id=>$monster)
 			}
 		}
 	}
-	if(!is_dir($datapack_explorer_local_path.'monsters/'))
-		mkdir($datapack_explorer_local_path.'monsters/');
 	$map_descriptor='';
 
 	$effectiveness_list=array();

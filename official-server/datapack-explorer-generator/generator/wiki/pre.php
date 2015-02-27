@@ -157,14 +157,21 @@ function savewikipage($page,$content,$summary='')
     curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
     $content=curl_exec($ch);
     if(!($result=unserialize($content)))
+    {
+        debug_print_backtrace();
         die('Error to edit: '.$content.', postdata: '.$postdata);
+    }
     if(isset($result['error']) || !isset($result['edit']['result']) || $result['edit']['result']!='Success' || 
         (!isset($result['edit']['newtimestamp']) && !isset($result['edit']['nochange']))
         )
         if(isset($result['error']))
+        {
+            debug_print_backtrace();
             die('Error to edit: '.$result['error']['info'].', postdata: '.$postdata);
+        }
         else
         {
+            debug_print_backtrace();
             echo 'Error to edit: ';
             print_r($result);
             echo 'postdata: '.$postdata;

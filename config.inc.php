@@ -9,8 +9,8 @@ $base_datapack_site_path='/datapack/';
 $base_datapack_site_http='http://localhost';
 $datapack_path='../datapack/';
 $git_source_program='';//to have the commit order
-//$map_generator='/home/user/CatchChallenger/tools/build-map2pngGUI-Qt5-Debug/map2pngGUI';
-//$png_compress='/home/user/Desktop/CatchChallenger/tools/datapack-compressor/png-compress.sh';
+//$map_generator='/usr/bin/map2png';
+//$png_compress='/usr/bin/CatchChallenger/tools/datapack-compressor/png-compress.sh';
 //$png_compress_zopfli='';
 $png_compress_zopfli_level=100;
 $datapack_explorer_local_path='datapack-explorer/';
@@ -26,6 +26,36 @@ $nxt_secretPhrase='';
 $nxt_seller='';
 $nxt_product_id='';
 
+/* To add at mediawiki to enable:
+$wgAllowImageTag = true;
+$wgAllowExternalImages=true;
+$wgExtraNamespacesIndex=500;
+$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Items";
+$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Maps";
+$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Bots";
+$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Monsters";
+$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Industries";
+$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Zones";
+$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Quests";
+$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Buffs";
+$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Skills";
+$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Monsters type";
+And into skins/Vector.php:into parent::initPage() put:
+$out->addHeadItem( 'screen','<link rel="stylesheet" type="text/css" media="screen" href="/css/datapack-explorer.css" />');
+Code to add list to the main page:
+* [[Bots list]]
+* [[Buffs list]]
+* [[Crafting list]]
+* [[Industries list]]
+* [[Items list]]
+* [[Maps list]]
+* [[Monsters list]]
+* [[Monsters types]]
+* [[Plants list]]
+* [[Quests list]]
+* [[Skills list]]
+* [[Starters]]
+*/
 $wikivarsapp['apiURL']='http://localhost/mediawiki/api.php';
 $wikivarsapp['username']='admin';
 $wikivarsapp['password']='admin';

@@ -148,9 +148,9 @@ foreach($quests_meta as $id=>$quest)
                     else
                         $link=text_operation_do_for_url($bot_id.'-'.$bots_meta[$bot_id]['name']);
                     if($bot['name']=='')
-                        $map_descriptor.='>[[Bots:'.$link.'|Bot #'.$bot_id.']]'."\n";
+                        $map_descriptor.='>[[Bots:'.$link.'|Bot #'.$bot_id.']]</td>'."\n";
                     else
-                        $map_descriptor.='>[[Bots:'.$link.'|'.$bot['name'].']]'."\n";
+                        $map_descriptor.='>[[Bots:'.$link.'|'.$bot['name'].']]</td>'."\n";
                     if(isset($bot_id_to_map[$bot_id]))
                     {
                         $entry=$bot_id_to_map[$bot_id];
@@ -169,7 +169,6 @@ foreach($quests_meta as $id=>$quest)
                     }
                     else
                         $map_descriptor.='<td colspan="2">&nbsp;</td>'."\n";
-                    $map_descriptor.='</td>'."\n";
                     $map_descriptor.='</tr></table></center>'."\n";
                 }
 

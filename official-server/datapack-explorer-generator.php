@@ -9,6 +9,9 @@ if(isset($_SERVER['SERVER_ADDR']) && isset($_SERVER['REMOTE_ADDR']))
     if($_SERVER['SERVER_ADDR']!=$_SERVER['REMOTE_ADDR'])
         die('denied');
 
+if(!isset($argc) || $argc<1)
+    die('need be started by CLI');
+
 if(!isset($datapack_explorer_local_path))
 	die('$datapack_explorer_local_path not set');
 

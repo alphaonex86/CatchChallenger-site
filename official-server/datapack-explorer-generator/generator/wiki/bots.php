@@ -134,7 +134,7 @@ foreach($bots_meta as $bot_id=>$bot)
 			else if($step['type']=='shop')
 			{
 				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Shop</div>
-				<center><div style="width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-32px 0px;"></div></center>
+				<center><div style="background-position:-32px 0px;float:none;" class="flags flags16"></div></center>
 				<div class="value">'."\n";
 				$map_descriptor.='<center><table class="item_list item_list_type_normal">
 				<tr class="item_list_title item_list_title_type_normal">
@@ -198,7 +198,7 @@ foreach($bots_meta as $bot_id=>$bot)
 				if(isset($fight_meta[$step['fightid']]))
 				{
 					$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Fight</div>
-					<div style="width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:-16px -16px;">
+					<div style="background-position:-16px -16px;float:none;" class="flags flags16">
 					<div class="value">'."\n";
 					if($fight_meta[$step['fightid']]['cash']>0)
 						$map_descriptor.='Rewards: <b>'.$fight_meta[$step['fightid']]['cash'].'$</b><br />'."\n";
@@ -302,42 +302,42 @@ foreach($bots_meta as $bot_id=>$bot)
 			{
 				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Heal</div>
 				<div class="value">
-					<center><div style="width:128px;height:128px;background-image:url(\'/official-server/images/flags-512.png\');background-repeat:no-repeat;background-position:0px 0px;"></div></center>
+					<center><div style="background-position:0px 0px;float:none;" class="flags flags128"></div></center>
 				</div>'."\n";
 			}
 			else if($step['type']=='learn')
 			{
 				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Learn</div>
 				<div class="value">
-					<center><div style="width:128px;height:128px;background-image:url(\'/official-server/images/flags-512.png\');background-repeat:no-repeat;background-position:-384px 0px;"></div></center>
+					<center><div style="background-position:-384px 0px;float:none;" class="flags flags128"></div></center>
 				</div>'."\n";
 			}
 			else if($step['type']=='warehouse')
 			{
 				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Warehouse</div>
 				<div class="value">
-					<center><div style="width:128px;height:128px;background-image:url(\'/official-server/images/flags-512.png\');background-repeat:no-repeat;background-position:0px -128px;"></div></center>
+					<center><div style="background-position:0px -128px;float:none;" class="flags flags128"></div></center>
 				</div>'."\n";
 			}
 			else if($step['type']=='market')
 			{
 				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Market</div>
 				<div class="value">
-					<center><div style="width:128px;height:128px;background-image:url(\'/official-server/images/flags-512.png\');background-repeat:no-repeat;background-position:0px -128px;"></div></center>
+					<center><div style="background-position:0px -128px;float:none;" class="flags flags128"></div></center>
 				</div>'."\n";
 			}
 			else if($step['type']=='clan')
 			{
 				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Clan</div>
 				<div class="value">
-					<center><div style="width:128px;height:128px;background-image:url(\'/official-server/images/flags-512.png\');background-repeat:no-repeat;background-position:-384px -128px;"></div></center>
+					<center><div style="background-position:-384px -128px;float:none;" class="flags flags128"></div></center>
 				</div>'."\n";
 			}
 			else if($step['type']=='sell')
 			{
 				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Sell</div>
 				<div class="value">
-					<center><div style="width:128px;height:128px;background-image:url(\'/official-server/images/flags-512.png\');background-repeat:no-repeat;background-position:-256px 0px;"></div></center>
+					<center><div style="background-position:-256px 0px;float:none;" class="flags flags128"></div></center>
 				</div>'."\n";
 			}
 			else if($step['type']=='zonecapture')
@@ -349,13 +349,13 @@ foreach($bots_meta as $bot_id=>$bot)
 					$map_descriptor.=$zone_meta[$step['zone']]['name'];
 				else
 					$map_descriptor.='Unknown zone'."\n";
-				$map_descriptor.='<center><div style="width:128px;height:128px;background-image:url(\'/official-server/images/flags-512.png\');background-repeat:no-repeat;background-position:-256px -128px;"></div></center>
+				$map_descriptor.='<center><div style="background-position:-256px -128px;float:none;" class="flags flags128"></div></center>
 				</div>'."\n";
 			}
 			else if($step['type']=='industry')
 			{
 				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Industry</div>
-				<center><div style="width:16px;height:16px;background-image:url(\'/official-server/images/flags.png\');background-repeat:no-repeat;background-position:0px -32px;"></div></center>
+				<center><div style="background-position:0px -32px;float:none;" class="flags flags16"></div></center>
 				<div class="value">'."\n";
                 if(!isset($industrie_meta[$step['industry']]))
                 {
@@ -373,7 +373,7 @@ foreach($bots_meta as $bot_id=>$bot)
                     $industry=$industrie_meta[$step['industry']];
                     $map_descriptor.='<tr class="value">'."\n";
                     $map_descriptor.='<td>'."\n";
-                    $map_descriptor.='[[Industry:Industry '.$step['industry'].'|Industry '.$step['industry'].']]'."\n";
+                    $map_descriptor.='[[Industries:Industry '.$step['industry'].'|Industry '.$step['industry'].']]'."\n";
                     $map_descriptor.='</td>'."\n";
                     $map_descriptor.='<td>'."\n";
                     foreach($industry['resources'] as $resources)

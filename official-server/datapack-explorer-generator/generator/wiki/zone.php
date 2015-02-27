@@ -1,6 +1,6 @@
 <?php
 if(!isset($datapackexplorergeneratorinclude))
-	die('abort into generator map'."\n");
+	die('abort into generator map');
 
 foreach($zone_to_map as $zone=>$map_by_zone)
 {
@@ -9,7 +9,7 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 	if(isset($zone_meta[$zone]))
 		$zone_name=$zone_meta[$zone]['name'];
 	elseif($zone=='')
-		$zone_name='Unknown zone'."\n";
+		$zone_name='Unknown zone';
 	else
 		$zone_name=$zone;
 

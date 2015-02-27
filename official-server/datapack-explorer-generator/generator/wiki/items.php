@@ -26,16 +26,7 @@ foreach($item_meta as $id=>$item)
                 if(isset($bots_meta[$bot_id]))
                 {
                     $bot=$bots_meta[$bot_id];
-                    if($bot['name']=='')
-                        $final_url_name='bot-'.$bot_id;
-                    else if($bots_name_count[$bot['name']]==1)
-                        $final_url_name=$bot['name'];
-                    else
-                        $final_url_name=$bot_id.'-'.$bot['name'];
-                    if($bot['name']=='')
-                        $final_name='Bot #'.$bot_id;
-                    else
-                        $final_name=$bot['name'];
+
                     $skin_found=true;
                     if(isset($bot_id_to_skin[$bot_id]))
                     {
@@ -55,7 +46,18 @@ foreach($item_meta as $id=>$item)
                     $map_descriptor.='<td';
                     if(!$skin_found)
                         $map_descriptor.=' colspan="2"';
-                    $map_descriptor.='>[[Bots:'.$final_url_name.'|'.$final_url_name.']]</td>';
+
+                    if($bots_meta[$bot_id]['name']=='')
+                        $link=text_operation_do_for_url('bot '.$bot_id);
+                    else if($bots_name_count[$bots_meta[$bot_id]['name']]==1)
+                        $link=text_operation_do_for_url($bots_meta[$bot_id]['name']);
+                    else
+                        $link=text_operation_do_for_url($bot_id.'-'.$bots_meta[$bot_id]['name']);
+                    if($bot['name']=='')
+                        $map_descriptor.='>[[Bots:'.$link.'|Bot #'.$bot_id.']]</td>'."\n";
+                    else
+                        $map_descriptor.='>[[Bots:'.$link.'|'.$bot['name'].']]</td>'."\n";
+
                     if(isset($bot_id_to_map[$bot_id]))
                     {
                         $entry=$bot_id_to_map[$bot_id];
@@ -521,7 +523,7 @@ foreach($item_meta as $id=>$item)
 			if(isset($industrie_meta[$industry_id]))
 			{
 				$map_descriptor.='<tr class="value">'."\n";
-				$map_descriptor.='<td>[[Industry:Industry '.$industry_id.'|Industry '.$industry_id.']]</td>'."\n";
+				$map_descriptor.='<td>[[Industries:Industry '.$industry_id.'|Industry '.$industry_id.']]</td>'."\n";
 				$map_descriptor.='<td>'.$quantity.'</td>'."\n";
 				$map_descriptor.='</tr>'."\n";
 			}
@@ -545,7 +547,7 @@ foreach($item_meta as $id=>$item)
 			if(isset($industrie_meta[$industry_id]))
 			{
 				$map_descriptor.='<tr class="value">'."\n";
-				$map_descriptor.='<td>[[Industry:Industry '.$industry_id.'|Industry '.$industry_id.']]</td>'."\n";
+				$map_descriptor.='<td>[[Industries:Industry '.$industry_id.'|Industry '.$industry_id.']]</td>'."\n";
 				$map_descriptor.='<td>'.$quantity.'</td>'."\n";
 				$map_descriptor.='</tr>'."\n";
 			}

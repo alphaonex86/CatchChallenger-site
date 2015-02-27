@@ -678,7 +678,7 @@ foreach($temp_maps as $map)
                                 $industry=$industrie_meta[$step['industry']];
                                 $map_descriptor.='<tr class="value">'."\n";
                                 $map_descriptor.='<td>'."\n";
-                                $map_descriptor.='[[Industry:Industry '.$step['industry'].'|Industry '.$step['industry'].']]';
+                                $map_descriptor.='[[Industries:Industry '.$step['industry'].'|Industry '.$step['industry'].']]';
                                 $map_descriptor.='</td>'."\n";
                                 $map_descriptor.='<td>'."\n";
                                 foreach($industry['resources'] as $resources)

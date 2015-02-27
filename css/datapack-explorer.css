@@ -647,3 +647,9 @@
     height:64px;
     background-image:url('/official-server/images/flags-256.png');
 }
+.flags128
+{
+    width:128px;
+    height:128px;
+    background-image:url('/official-server/images/flags-512.png');
+}

@@ -9,8 +9,8 @@ foreach($start_meta as $entry)
 {
 	$map_descriptor.='
 	<fieldset>
-	<legend><h2><strong>'.htmlspecialchars($entry['name']).'</strong></h2></legend>
-	<b>'.htmlspecialchars($entry['description']).'</b><br />';
+	<legend><h2><strong>'.htmlspecialchars($entry['name'][$current_lang]).'</strong></h2></legend>
+	<b>'.htmlspecialchars($entry['description'][$current_lang]).'</b><br />';
 	$map_name='';
 	$zone_code='';
 	$map_meta='datapack/map/'.str_replace('.tmx','.xml',$entry['map']);
@@ -71,14 +71,14 @@ foreach($start_meta as $entry)
 		if(array_key_exists($monster['id'],$monster_meta))
 		{
 			$map_descriptor.='<li>';
-			$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_meta[$monster['id']]['name']).'.html">';
+			$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($monster_meta[$monster['id']]['name'][$current_lang]).'.html">';
 			if(file_exists($datapack_path.'monsters/'.$monster['id'].'/front.png'))
-				$map_descriptor.='<img src="'.$base_datapack_site_path.'monsters/'.$monster['id'].'/front.png" width="80" height="80" alt="'.htmlspecialchars($monster_meta[$monster['id']]['name']).'" title="'.htmlspecialchars($monster_meta[$monster['id']]['description']).'" /><br />';
+				$map_descriptor.='<img src="'.$base_datapack_site_path.'monsters/'.$monster['id'].'/front.png" width="80" height="80" alt="'.htmlspecialchars($monster_meta[$monster['id']]['name'][$current_lang]).'" title="'.htmlspecialchars($monster_meta[$monster['id']]['description'][$current_lang]).'" /><br />';
 			elseif(file_exists($datapack_path.'monsters/'.$monster['id'].'/front.gif'))
-				$map_descriptor.='<img src="'.$base_datapack_site_path.'monsters/'.$monster['id'].'/front.gif" width="80" height="80" alt="'.htmlspecialchars($monster_meta[$monster['id']]['name']).'" title="'.htmlspecialchars($monster_meta[$monster['id']]['description']).'" /><br />';
+				$map_descriptor.='<img src="'.$base_datapack_site_path.'monsters/'.$monster['id'].'/front.gif" width="80" height="80" alt="'.htmlspecialchars($monster_meta[$monster['id']]['name'][$current_lang]).'" title="'.htmlspecialchars($monster_meta[$monster['id']]['description'][$current_lang]).'" /><br />';
 			else
 				$map_descriptor.='No skin found!';
-			$map_descriptor.='<b>'.htmlspecialchars($monster_meta[$monster['id']]['name']).'</b> level <i>'.htmlspecialchars($monster['level']).'</i>';
+			$map_descriptor.='<b>'.htmlspecialchars($monster_meta[$monster['id']]['name'][$current_lang]).'</b> level <i>'.htmlspecialchars($monster['level']).'</i>';
 			$map_descriptor.='</a>';
 			$map_descriptor.='</li>';
 		}
@@ -114,11 +114,11 @@ foreach($start_meta as $entry)
 			if(array_key_exists($item['id'],$item_meta))
 			{
 				$map_descriptor.='<li>';
-				$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item['id']]['name']).'.html" title="'.$item_meta[$item['id']]['name'].'">';
+				$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item['id']]['name'][$current_lang]).'.html" title="'.$item_meta[$item['id']]['name'][$current_lang].'">';
 				if($item_meta[$item['id']]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$item['id']]['image']))
-					$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.htmlspecialchars($item_meta[$item['id']]['image']).'" width="24" height="24" alt="'.htmlspecialchars($item_meta[$item['id']]['description']).'" title="'.htmlspecialchars($item_meta[$item['id']]['description']).'" />'.$quantity.htmlspecialchars($item_meta[$item['id']]['name']);
+					$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.htmlspecialchars($item_meta[$item['id']]['image']).'" width="24" height="24" alt="'.htmlspecialchars($item_meta[$item['id']]['description'][$current_lang]).'" title="'.htmlspecialchars($item_meta[$item['id']]['description'][$current_lang]).'" />'.$quantity.htmlspecialchars($item_meta[$item['id']]['name'][$current_lang]);
 				else
-					$map_descriptor.=$quantity.htmlspecialchars($item_meta[$item['id']]['name']);
+					$map_descriptor.=$quantity.htmlspecialchars($item_meta[$item['id']]['name'][$current_lang]);
 				$map_descriptor.='</a>';
 				$map_descriptor.='</li>';
 			}

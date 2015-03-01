@@ -29,8 +29,8 @@ foreach($skill_meta as $skill_id=>$skill)
 		}
 	}
 	$map_descriptor.='<div class="map monster_type_'.$type.'">'."\n";
-		$map_descriptor.='<div class="subblock"><h1>'.$skill['name'].'</h1></div>'."\n";
-		$map_descriptor.='<div class="type_label_list"><span class="type_label type_label_'.$type.'">[[Monsters type:'.$type_meta[$type]['english_name'].'|'.$type_meta[$type]['english_name'].']]</span></div>'."\n";
+		$map_descriptor.='<div class="subblock"><h1>'.$skill['name'][$current_lang].'</h1></div>'."\n";
+		$map_descriptor.='<div class="type_label_list"><span class="type_label type_label_'.$type.'">[[Monsters type:'.$type_meta[$type]['name'][$current_lang].'|'.$type_meta[$type]['name'][$current_lang].']]</span></div>'."\n";
 		if(isset($effectiveness_list['2']) || isset($effectiveness_list['4']))
 		{
 			
@@ -39,11 +39,11 @@ foreach($skill_meta as $skill_id=>$skill)
 			if(isset($effectiveness_list['2']))
 				foreach($effectiveness_list['2'] as $type_effectiveness)
 					if(isset($type_meta[$type_effectiveness]))
-						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">2x: [[Monsters type:'.$type_meta[$type_effectiveness]['english_name'].'|'.$type_meta[$type_effectiveness]['english_name'].']]</span>'."\n";
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">2x: [[Monsters type:'.$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
 			if(isset($effectiveness_list['4']))
 				foreach($effectiveness_list['4'] as $type_effectiveness)
 					if(isset($type_meta[$type_effectiveness]))
-						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">4x: [[Monsters type:'.$type_meta[$type_effectiveness]['english_name'].'|'.$type_meta[$type_effectiveness]['english_name'].']]</span>'."\n";
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">4x: [[Monsters type:'.$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
 			$map_descriptor.=implode(' ',$type_list);
 			$map_descriptor.='</div></div>'."\n";
 		}
@@ -54,11 +54,11 @@ foreach($skill_meta as $skill_id=>$skill)
 			if(isset($effectiveness_list['0.25']))
 				foreach($effectiveness_list['0.25'] as $type_effectiveness)
 					if(isset($type_meta[$type_effectiveness]))
-						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">0.25x: [[Monsters type:'.$type_meta[$type_effectiveness]['english_name'].'|'.$type_meta[$type_effectiveness]['english_name'].']]</span>'."\n";
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">0.25x: [[Monsters type:'.$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
 			if(isset($effectiveness_list['0.5']))
 				foreach($effectiveness_list['0.5'] as $type_effectiveness)
 					if(isset($type_meta[$type_effectiveness]))
-						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">0.5x: [[Monsters type:'.$type_meta[$type_effectiveness]['english_name'].'|'.$type_meta[$type_effectiveness]['english_name'].']]</span>'."\n";
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">0.5x: [[Monsters type:'.$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
 			$map_descriptor.=implode(' ',$type_list);
 			$map_descriptor.='</div></div>'."\n";
 		}
@@ -68,7 +68,7 @@ foreach($skill_meta as $skill_id=>$skill)
 			$type_list=array();
 			foreach($effectiveness_list['0'] as $type_effectiveness)
 				if(isset($type_meta[$type_effectiveness]))
-					$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">[[Monsters type:'.$type_meta[$type_effectiveness]['english_name'].'|'.$type_meta[$type_effectiveness]['english_name'].']]</span>'."\n";
+					$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">[[Monsters type:'.$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
 			$map_descriptor.=implode(' ',$type_list);
 			$map_descriptor.='</div></div>'."\n";
 		}
@@ -99,7 +99,7 @@ foreach($skill_meta as $skill_id=>$skill)
 					else
 						$map_descriptor.='&nbsp;';
 					$map_descriptor.='</td>'."\n";
-					$map_descriptor.='<td>[[Buffs:'.$buff_meta[$buff_id]['name'].'|'.$buff_meta[$buff_id]['name'].']]</td>'."\n";
+					$map_descriptor.='<td>[[Buffs:'.$buff_meta[$buff_id]['name'][$current_lang].'|'.$buff_meta[$buff_id]['name'][$current_lang].']]</td>'."\n";
 					$map_descriptor.='<td>'.$buff['success'].'%</td>'."\n";
 					$map_descriptor.='</tr>'."\n";
 				}
@@ -135,7 +135,7 @@ foreach($skill_meta as $skill_id=>$skill)
 			{
 				if(isset($monster_meta[$monster]))
 				{
-					$name=$monster_meta[$monster]['name'];
+					$name=$monster_meta[$monster]['name'][$current_lang];
 					$link=$base_datapack_site_http.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($name).'.html';
 					$map_descriptor.='<tr class="value">
 						<td>'."\n";
@@ -148,7 +148,7 @@ foreach($skill_meta as $skill_id=>$skill)
 						$type_list=array();
 						foreach($monster_meta[$monster]['type'] as $type_monster)
 							if(isset($type_meta[$type_monster]))
-								$type_list[]='<span class="type_label type_label_'.$type_monster.'">[[Monsters type:'.$type_meta[$type_monster]['english_name'].'|'.$type_meta[$type_monster]['english_name'].']]</span>'."\n";
+								$type_list[]='<span class="type_label type_label_'.$type_monster.'">[[Monsters type:'.$type_meta[$type_monster]['name'][$current_lang].'|'.$type_meta[$type_monster]['name'][$current_lang].']]</span>'."\n";
 						$map_descriptor.='<td><div class="type_label_list">'.implode(' ',$type_list).'</div></td>'."\n";
 						if(count($skill_to_monster[$skill_id])>1)
 							$map_descriptor.='<td>'.$skill_level.'</td>'."\n";
@@ -168,12 +168,12 @@ foreach($skill_meta as $skill_id=>$skill)
         savewikipage('Template:skill_'.$skill_id.'_MONSTERS',$map_descriptor);$map_descriptor='';
 	}
 
-    if($wikivarsapp['generatefullpage'])
+    if($wikivars['generatefullpage'])
     {
         $map_descriptor.='{{Template:skill_'.$skill_id.'_HEADER}}'."\n";
         if(isset($skill_to_monster[$skill_id]) && count($skill_to_monster[$skill_id])>0)
             $map_descriptor.='{{Template:skill_'.$skill_id.'_MONSTERS}}'."\n";
-        savewikipage('Skills:'.$skill['name'],$map_descriptor);
+        savewikipage('Skills:'.$skill['name'][$current_lang],$map_descriptor);
     }
 }
 
@@ -191,9 +191,9 @@ foreach($skill_meta as $skill_id=>$skill)
 	if(count($skill['level_list'])>0)
 	{
 		$map_descriptor.='<tr class="value">'."\n";
-		$map_descriptor.='<td>[[Skills:'.$skill['name'].'|'.$skill['name'].']]</td>'."\n";
+		$map_descriptor.='<td>[[Skills:'.$skill['name'][$current_lang].'|'.$skill['name'][$current_lang].']]</td>'."\n";
 		if(isset($type_meta[$skill['type']]))
-			$map_descriptor.='<td><span class="type_label type_label_'.$skill['type'].'">[[Monsters type:'.$type_meta[$skill['type']]['english_name'].'|'.$type_meta[$skill['type']]['english_name'].']]</span></td>'."\n";
+			$map_descriptor.='<td><span class="type_label type_label_'.$skill['type'].'">[[Monsters type:'.$type_meta[$skill['type']]['name'][$current_lang].'|'.$type_meta[$skill['type']]['name'][$current_lang].']]</span></td>'."\n";
 		else
 			$map_descriptor.='<td>&nbsp;</td>'."\n";
 		if(isset($skill['level_list'][1]))
@@ -217,7 +217,7 @@ $map_descriptor.='" class="item_list_endline item_list_title_type_normal"></td>
 
 savewikipage('Template:skills_list',$map_descriptor);$map_descriptor='';
 
-if($wikivarsapp['generatefullpage'])
+if($wikivars['generatefullpage'])
 {
     $map_descriptor.='{{Template:skills_list}}'."\n";
     savewikipage('Skills_list',$map_descriptor);

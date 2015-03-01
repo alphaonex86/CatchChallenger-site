@@ -30,14 +30,14 @@ foreach($industrie_meta as $id=>$industry)
             $quantity=$resources['quantity'];
 			if(isset($item_meta[$material]))
 			{
-				$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$material]['name']).'.html" title="'.$item_meta[$material]['name'].'">';
+				$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$material]['name'][$current_lang]).'.html" title="'.$item_meta[$material]['name'][$current_lang].'">';
 				$map_descriptor.='<table><tr><td>';
 				if($item_meta[$material]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
-					$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'].'" title="'.$item_meta[$material]['name'].'" />';
+					$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'][$current_lang].'" title="'.$item_meta[$material]['name'][$current_lang].'" />';
 				$map_descriptor.='</td><td>';
 				if($quantity>1)
 					$map_descriptor.=$quantity.'x ';
-				$map_descriptor.=$item_meta[$material]['name'].'</td></tr></table>';
+				$map_descriptor.=$item_meta[$material]['name'][$current_lang].'</td></tr></table>';
 				$map_descriptor.='</a>';
 			}
 			else
@@ -53,8 +53,8 @@ foreach($industrie_meta as $id=>$industry)
                 {
                     foreach($industrie_link_meta[$id]['requirements']['quests'] as $quest_id)
                     {
-                        $map_descriptor.='Quest: <a href="'.$base_datapack_explorer_site_path.'quests/'.$quest_id.'-'.text_operation_do_for_url($quests_meta[$quest_id]['name']).'.html" title="'.$quests_meta[$quest_id]['name'].'">';
-                        $map_descriptor.=$quests_meta[$quest_id]['name'];
+                        $map_descriptor.='Quest: <a href="'.$base_datapack_explorer_site_path.'quests/'.$quest_id.'-'.text_operation_do_for_url($quests_meta[$quest_id]['name'][$current_lang]).'.html" title="'.$quests_meta[$quest_id]['name'][$current_lang].'">';
+                        $map_descriptor.=$quests_meta[$quest_id]['name'][$current_lang];
                         $map_descriptor.='</a><br />';
                     }
                 }
@@ -78,10 +78,10 @@ foreach($industrie_meta as $id=>$industry)
                 if(isset($bots_meta[$bot_id]))
                 {
                     $bot=$bots_meta[$bot_id];
-                    if($bot['name']=='')
+                    if($bot['name'][$current_lang]=='')
                         $final_name='Bot #'.$bot_id;
                     else
-                        $final_name=$bot['name'];
+                        $final_name=$bot['name'][$current_lang];
                     $skin_found=true;
                     if(isset($bot_id_to_skin[$bot_id]))
                     {
@@ -101,12 +101,12 @@ foreach($industrie_meta as $id=>$industry)
                     $map_descriptor.='<td';
                     if(!$skin_found)
                         $map_descriptor.=' colspan="2"';
-                    if($bots_meta[$bot_id]['name']=='')
+                    if($bots_meta[$bot_id]['name'][$current_lang]=='')
                         $link_bot=text_operation_do_for_url('bot '.$bot_id);
-                    else if($bots_name_count[$bots_meta[$bot_id]['name']]==1)
-                        $link_bot=text_operation_do_for_url($bots_meta[$bot_id]['name']);
+                    else if($bots_name_count[$current_lang][$bots_meta[$bot_id]['name'][$current_lang]]==1)
+                        $link_bot=text_operation_do_for_url($bots_meta[$bot_id]['name'][$current_lang]);
                     else
-                        $link_bot=text_operation_do_for_url($bot_id.'-'.$bots_meta[$bot_id]['name']);
+                        $link_bot=text_operation_do_for_url($bot_id.'-'.$bots_meta[$bot_id]['name'][$current_lang]);
                     $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url($link_bot).'.html" title="'.$final_name.'">'.$final_name.'</a></td>';
                     if(isset($bot_id_to_map[$bot_id]))
                     {
@@ -115,11 +115,11 @@ foreach($industrie_meta as $id=>$industry)
                         {
                             if(isset($zone_meta[$maps_list[$entry]['zone']]))
                             {
-                                $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'].'">'.$maps_list[$entry]['name'].'</a></td>';
-                                $map_descriptor.='<td>'.$zone_meta[$maps_list[$entry]['zone']]['name'].'</td>';
+                                $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
+                                $map_descriptor.='<td>'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].'</td>';
                             }
                             else
-                                $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'].'">'.$maps_list[$entry]['name'].'</a></td>';
+                                $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
                         }
                         else
                             $map_descriptor.='<td colspan="2">Unknown map</td>';
@@ -145,13 +145,13 @@ foreach($industrie_meta as $id=>$industry)
             $quantity=$products['quantity'];
 			if(isset($item_meta[$material]))
 			{
-				$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$material]['name']).'.html" title="'.$item_meta[$material]['name'].'">';
+				$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$material]['name'][$current_lang]).'.html" title="'.$item_meta[$material]['name'][$current_lang].'">';
 				if($item_meta[$material]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
-					$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'].'" title="'.$item_meta[$material]['name'].'" />';
+					$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'][$current_lang].'" title="'.$item_meta[$material]['name'][$current_lang].'" />';
 				$map_descriptor.='</td><td>';
 				if($quantity>1)
 					$map_descriptor.=$quantity.'x ';
-				$map_descriptor.=$item_meta[$material]['name'].'</td></tr></table>';
+				$map_descriptor.=$item_meta[$material]['name'][$current_lang].'</td></tr></table>';
 				$map_descriptor.='</a>';
 			}
 			else
@@ -190,8 +190,8 @@ foreach($industrie_meta as $id=>$industry)
         $quantity=$resources['quantity'];
 		if(isset($item_meta[$item]))
 		{
-			$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']).'.html';
-			$name=$item_meta[$item]['name'];
+			$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
+			$name=$item_meta[$item]['name'][$current_lang];
 			if($item_meta[$item]['image']!='')
 				$image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
 			else
@@ -225,8 +225,8 @@ foreach($industrie_meta as $id=>$industry)
         $quantity=$products['quantity'];
 		if(isset($item_meta[$item]))
 		{
-			$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name']).'.html';
-			$name=$item_meta[$item]['name'];
+			$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
+			$name=$item_meta[$item]['name'][$current_lang];
 			if($item_meta[$item]['image']!='')
 				$image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
 			else
@@ -262,16 +262,16 @@ foreach($industrie_meta as $id=>$industry)
             if(isset($bots_meta[$bot_id]))
             {
                 $bot=$bots_meta[$bot_id];
-                if($bot['name']=='')
+                if($bot['name'][$current_lang]=='')
                     $final_url_name='bot-'.$bot_id;
-                else if($bots_name_count[$bot['name']]==1)
-                    $final_url_name=$bot['name'];
+                else if($bots_name_count[$current_lang][$bot['name'][$current_lang]]==1)
+                    $final_url_name=$bot['name'][$current_lang];
                 else
-                    $final_url_name=$bot_id.'-'.$bot['name'];
-                if($bot['name']=='')
+                    $final_url_name=$bot_id.'-'.$bot['name'][$current_lang];
+                if($bot['name'][$current_lang]=='')
                     $final_name='Bot #'.$bot_id;
                 else
-                    $final_name=$bot['name'];
+                    $final_name=$bot['name'][$current_lang];
                 $skin_found=true;
                 if(isset($bot_id_to_skin[$bot_id]))
                 {
@@ -291,12 +291,12 @@ foreach($industrie_meta as $id=>$industry)
                 $map_descriptor.='<td';
                 if(!$skin_found)
                     $map_descriptor.=' colspan="2"';
-                if($bots_meta[$bot_id]['name']=='')
+                if($bots_meta[$bot_id]['name'][$current_lang]=='')
                     $link_bot=text_operation_do_for_url('bot '.$bot_id);
-                else if($bots_name_count[$bots_meta[$bot_id]['name']]==1)
-                    $link_bot=text_operation_do_for_url($bots_meta[$bot_id]['name']);
+                else if($bots_name_count[$current_lang][$bots_meta[$bot_id]['name'][$current_lang]]==1)
+                    $link_bot=text_operation_do_for_url($bots_meta[$bot_id]['name'][$current_lang]);
                 else
-                    $link_bot=text_operation_do_for_url($bot_id.'-'.$bots_meta[$bot_id]['name']);
+                    $link_bot=text_operation_do_for_url($bot_id.'-'.$bots_meta[$bot_id]['name'][$current_lang]);
                 $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url($link_bot).'.html" title="'.$final_name.'">'.$final_name.'</a></td>';
                 if(isset($bot_id_to_map[$bot_id]))
                 {
@@ -305,11 +305,11 @@ foreach($industrie_meta as $id=>$industry)
                     {
                         if(isset($zone_meta[$maps_list[$entry]['zone']]))
                         {
-                            $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'].'">'.$maps_list[$entry]['name'].'</a></td>';
-                            $map_descriptor.='<td>'.$zone_meta[$maps_list[$entry]['zone']]['name'].'</td>';
+                            $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
+                            $map_descriptor.='<td>'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].'</td>';
                         }
                         else
-                            $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'].'">'.$maps_list[$entry]['name'].'</a></td>';
+                            $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
                     }
                     else
                         $map_descriptor.='<td colspan="2">Unknown map</td>';

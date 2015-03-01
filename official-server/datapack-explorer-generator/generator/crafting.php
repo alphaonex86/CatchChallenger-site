@@ -15,9 +15,9 @@ foreach($crafting_meta as $id=>$crafting)
 {
 	if(isset($item_meta[$crafting['itemToLearn']]))
 	{
-		$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$crafting['itemToLearn']]['name']).'.html';
-		//$link=$base_datapack_explorer_site_path.'crafting/'.text_operation_do_for_url($item_meta[$crafting['itemToLearn']]['name']).'.html';
-		$name=$item_meta[$crafting['itemToLearn']]['name'];
+		$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$crafting['itemToLearn']]['name'][$current_lang]).'.html';
+		//$link=$base_datapack_explorer_site_path.'crafting/'.text_operation_do_for_url($item_meta[$crafting['itemToLearn']]['name'][$current_lang]).'.html';
+		$name=$item_meta[$crafting['itemToLearn']]['name'][$current_lang];
 		if($item_meta[$crafting['itemToLearn']]['image']!='')
 			$image=$base_datapack_site_path.'/items/'.$item_meta[$crafting['itemToLearn']]['image'];
 		else
@@ -47,24 +47,24 @@ foreach($crafting_meta as $id=>$crafting)
         $map_descriptor.='<td>';
         foreach($crafting['material'] as $material=>$quantity)
         {
-            $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$material]['name']).'.html" title="'.$item_meta[$material]['name'].'">';
+            $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$material]['name'][$current_lang]).'.html" title="'.$item_meta[$material]['name'][$current_lang].'">';
                 $map_descriptor.='<table><tr><td>';
                 if($item_meta[$material]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
-                    $map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'].'" title="'.$item_meta[$material]['name'].'" />';
+                    $map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'][$current_lang].'" title="'.$item_meta[$material]['name'][$current_lang].'" />';
                 $map_descriptor.='</td><td>';
             if($quantity>1)
                 $map_descriptor.=$quantity.'x ';
-            $map_descriptor.=$item_meta[$material]['name'].'</td></tr></table>';
+            $map_descriptor.=$item_meta[$material]['name'][$current_lang].'</td></tr></table>';
             $map_descriptor.='</a>';
         }
         $map_descriptor.='</td>';
 
         $map_descriptor.='<td>';
-        $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$crafting['doItemId']]['name']).'.html" title="'.$item_meta[$crafting['doItemId']]['name'].'">';
+        $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$crafting['doItemId']]['name'][$current_lang]).'.html" title="'.$item_meta[$crafting['doItemId']]['name'][$current_lang].'">';
             $map_descriptor.='<table><tr><td>';
             if($item_meta[$crafting['doItemId']]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$crafting['doItemId']]['image']))
-                $map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$crafting['doItemId']]['image'].'" width="24" height="24" alt="'.$item_meta[$crafting['doItemId']]['name'].'" title="'.$item_meta[$crafting['doItemId']]['name'].'" />';
-            $map_descriptor.='</td><td>'.$item_meta[$crafting['doItemId']]['name'].'</td></tr></table>';
+                $map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$crafting['doItemId']]['image'].'" width="24" height="24" alt="'.$item_meta[$crafting['doItemId']]['name'][$current_lang].'" title="'.$item_meta[$crafting['doItemId']]['name'][$current_lang].'" />';
+            $map_descriptor.='</td><td>'.$item_meta[$crafting['doItemId']]['name'][$current_lang].'</td></tr></table>';
         $map_descriptor.='</a>';
         $map_descriptor.='</td>';
 

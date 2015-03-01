@@ -16,7 +16,20 @@ foreach($xmlZoneList as $file)
 	$name=preg_replace('#^.*<name( lang="en")?>([^<]+)</name>.*$#isU','$2',$content);
     $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
 	$name=preg_replace("#[\n\t\r]+#is",'',$name);
-	$zone_meta[$code]=array('name'=>$name);
+    $name_in_other_lang=array('en'=>$name);
+    foreach($lang_to_load as $lang)
+    {
+        if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$content))
+        {
+            $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$content);
+            $temp_name=str_replace('<![CDATA[','',str_replace(']]>','',$temp_name));
+            $temp_name=preg_replace("#[\n\r\t]+#is",'',$temp_name);
+            $name_in_other_lang[$lang]=$temp_name;
+        }
+        else
+            $name_in_other_lang[$lang]=$name;
+    }
+	$zone_meta[$code]=array('name'=>$name_in_other_lang);
     $zone_name_to_code[$name]=$code;
 }
 ksort($zone_meta);
@@ -72,10 +85,36 @@ if(file_exists($datapack_path.'player/start.xml'))
 			continue;
 		$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
         $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
+        $name_in_other_lang=array('en'=>$name);
+        foreach($lang_to_load as $lang)
+        {
+            if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$entry))
+            {
+                $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$entry);
+                $temp_name=str_replace('<![CDATA[','',str_replace(']]>','',$temp_name));
+                $temp_name=preg_replace("#[\n\r\t]+#is",'',$temp_name);
+                $name_in_other_lang[$lang]=$temp_name;
+            }
+            else
+                $name_in_other_lang[$lang]=$name;
+        }
 		if(!preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
 			continue;
 		$description=text_operation_first_letter_upper(preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry));
         $description=str_replace('<![CDATA[','',str_replace(']]>','',$description));
+        $description_in_other_lang=array('en'=>$description);
+        foreach($lang_to_load as $lang)
+        {
+            if(preg_match('#<description lang="'.$lang.'">([^<]+)</description>#isU',$entry))
+            {
+                $temp_description=preg_replace('#^.*<description lang="'.$lang.'">([^<]+)</description>.*$#isU','$1',$entry);
+                $temp_description=str_replace('<![CDATA[','',str_replace(']]>','',$temp_description));
+                $temp_description=preg_replace("#[\n\r\t]+#is",'',$temp_description);
+                $description_in_other_lang[$lang]=$temp_description;
+            }
+            else
+                $description_in_other_lang[$lang]=$description;
+        }
 		if(!preg_match('#<map.*file="([^"]+)".*/>#isU',$entry))
 			continue;
 		if(!preg_match('#<map.*x="([0-9]+)".*/>#isU',$entry))
@@ -156,7 +195,7 @@ if(file_exists($datapack_path.'player/start.xml'))
 		
 		if(!preg_match('#\.tmx$#',$map))
 			$map=$map.'.tmx';
-		$start_meta[]=array('name'=>$name,'description'=>$description,'map'=>$map,'x'=>$x,'y'=>$y,'forcedskin'=>$forcedskin,'cash'=>$cash,'monsters'=>$monsters,'reputations'=>$reputations,'items'=>$items);
+		$start_meta[]=array('description'=>$description_in_other_lang,'map'=>$map,'x'=>$x,'y'=>$y,'forcedskin'=>$forcedskin,'cash'=>$cash,'monsters'=>$monsters,'reputations'=>$reputations,'items'=>$items,'name'=>$name_in_other_lang);
 	}
 }
 
@@ -190,6 +229,19 @@ foreach($xmlFightList as $file)
 	$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$content);
     $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
     $name=preg_replace("#[\n\r\t]+#is",'',$name);
+    $name_in_other_lang=array('en'=>$name);
+    foreach($lang_to_load as $lang)
+    {
+        if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$entry))
+        {
+            $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$entry);
+            $temp_name=str_replace('<![CDATA[','',str_replace(']]>','',$temp_name));
+            $temp_name=preg_replace("#[\n\r\t]+#is",'',$temp_name);
+            $name_in_other_lang[$lang]=$temp_name;
+        }
+        else
+            $name_in_other_lang[$lang]=$name;
+    }
 
 	$requirements=array();
 	preg_match_all('#<requirements.*</requirements>#isU',$content,$entry_list);
@@ -306,7 +358,7 @@ foreach($xmlFightList as $file)
 			$rewards['reputation'][]=array('type'=>$type,'point'=>$point);
 		}
 	}
-	$quests_meta[$id]=array('name'=>$name,'repeatable'=>$repeatable,'steps'=>$steps,'rewards'=>$rewards,'requirements'=>$requirements,'bot'=>$bot);
+	$quests_meta[$id]=array('repeatable'=>$repeatable,'steps'=>$steps,'rewards'=>$rewards,'requirements'=>$requirements,'bot'=>$bot,'name'=>$name_in_other_lang);
 }
 ksort($quests_meta);
 

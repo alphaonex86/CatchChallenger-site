@@ -12,9 +12,23 @@ if(is_file($datapack_path.'items/groups.xml'))
     {
         if(!preg_match('#<name( lang="en")?>.*</name>#isU',$temp_text_list[2][$index]))
             continue;
-        $name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$temp_text_list[2][$index]);
+        $entry=$temp_text_list[2][$index];
+        $name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
         $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
-        $item_group[$base_group_name]=$name;
+        $name_in_other_lang=array('en'=>$name);
+        foreach($lang_to_load as $lang)
+        {
+            if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$entry))
+            {
+                $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$entry);
+                $temp_name=str_replace('<![CDATA[','',str_replace(']]>','',$temp_name));
+                $temp_name=preg_replace("#[\n\r\t]+#is",'',$temp_name);
+                $name_in_other_lang[$lang]=$temp_name;
+            }
+            else
+                $name_in_other_lang[$lang]=$name;
+        }
+        $item_group[$base_group_name]=array('name'=>$name_in_other_lang);
     }
 }
 
@@ -60,22 +74,48 @@ foreach($temp_items as $item_file)
 			continue;
 		$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
         $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
+        $name_in_other_lang=array('en'=>$name);
+        foreach($lang_to_load as $lang)
+        {
+            if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$entry))
+            {
+                $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$entry);
+                $temp_name=str_replace('<![CDATA[','',str_replace(']]>','',$temp_name));
+                $temp_name=preg_replace("#[\n\r\t]+#is",'',$temp_name);
+                $name_in_other_lang[$lang]=$temp_name;
+            }
+            else
+                $name_in_other_lang[$lang]=$name;
+        }
 		if(preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
 			$description=text_operation_first_letter_upper(preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry));
 		else
 			$description='';
         $description=str_replace('<![CDATA[','',str_replace(']]>','',$description));
+        $description_in_other_lang=array('en'=>$description);
+        foreach($lang_to_load as $lang)
+        {
+            if(preg_match('#<description lang="'.$lang.'">([^<]+)</description>#isU',$entry))
+            {
+                $temp_description=preg_replace('#^.*<description lang="'.$lang.'">([^<]+)</description>.*$#isU','$1',$entry);
+                $temp_description=str_replace('<![CDATA[','',str_replace(']]>','',$temp_description));
+                $temp_description=preg_replace("#[\n\r\t]+#is",'',$temp_description);
+                $description_in_other_lang[$lang]=$temp_description;
+            }
+            else
+                $description_in_other_lang[$lang]=$description;
+        }
 		if(preg_match('#<trap[^>]+/>#isU',$entry))
 		{
 			$temp_text=preg_replace('#^.*(<trap[^>]+/>).*$#isU','$1',$entry);
 			if(preg_match('#bonus_rate="([0-9]+(\.[0-9]+)?)"#isU',$temp_text))
 			{
 				$bonus_rate=preg_replace('#^.*bonus_rate="([0-9]+(\.[0-9]+)?)".*$#isU','$1',$temp_text);
-				$item_meta[$id]=array('group'=>$group,'price'=>$price,'image'=>$image,'name'=>$name,'description'=>$description,'trap'=>$bonus_rate);
-				$item_to_trap[$id]=array('price'=>$price,'image'=>$image,'name'=>$name,'description'=>$description,'trap'=>$bonus_rate);
+				$item_meta[$id]=array('group'=>$group,'price'=>$price,'image'=>$image,'name'=>$name_in_other_lang,'description'=>$description_in_other_lang,'trap'=>$bonus_rate);
+				$item_to_trap[$id]=array('price'=>$price,'image'=>$image,'name'=>$name_in_other_lang,'description'=>$description_in_other_lang,'trap'=>$bonus_rate);
 			}
 			else
-				$item_meta[$id]=array('group'=>$group,'price'=>$price,'image'=>$image,'name'=>$name,'description'=>$description);
+				$item_meta[$id]=array('group'=>$group,'price'=>$price,'image'=>$image,'name'=>$name_in_other_lang,'description'=>$description_in_other_lang);
 		}
 		else if(preg_match('#<repel[^>]+/>#isU',$entry))
 		{
@@ -83,10 +123,10 @@ foreach($temp_items as $item_file)
 			if(preg_match('#step="([0-9]+(\.[0-9]+)?)"#isU',$temp_text))
 			{
 				$step=preg_replace('#^.*step="([0-9]+(\.[0-9]+)?)".*$#isU','$1',$temp_text);
-				$item_meta[$id]=array('group'=>$group,'price'=>$price,'image'=>$image,'name'=>$name,'description'=>$description,'repel'=>$step);
+				$item_meta[$id]=array('group'=>$group,'price'=>$price,'image'=>$image,'name'=>$name_in_other_lang,'description'=>$description_in_other_lang,'repel'=>$step);
 			}
 			else
-				$item_meta[$id]=array('group'=>$group,'price'=>$price,'image'=>$image,'name'=>$name,'description'=>$description);
+				$item_meta[$id]=array('group'=>$group,'price'=>$price,'image'=>$image,'name'=>$name_in_other_lang,'description'=>$description_in_other_lang);
 		}
 		else
 		{
@@ -111,12 +151,15 @@ foreach($temp_items as $item_file)
 			}
 			if(count($effect)>0)
 			{
-				$item_meta[$id]=array('group'=>$group,'price'=>$price,'image'=>$image,'name'=>$name,'description'=>$description,'effect'=>$effect);
+				$item_meta[$id]=array('group'=>$group,'price'=>$price,'image'=>$image,'name'=>$name_in_other_lang,'description'=>$description_in_other_lang,'effect'=>$effect);
 				$item_to_regeneration[$id]=$effect;
 			}
 			else
-				$item_meta[$id]=array('group'=>$group,'price'=>$price,'image'=>$image,'name'=>$name,'description'=>$description);
+				$item_meta[$id]=array('group'=>$group,'price'=>$price,'image'=>$image,'name'=>$name_in_other_lang,'description'=>$description_in_other_lang);
 		}
+        if($id==576)
+        {
+        }
 	}
 }
 ksort($item_meta);

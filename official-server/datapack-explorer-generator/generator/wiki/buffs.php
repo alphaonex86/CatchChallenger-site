@@ -7,7 +7,7 @@ foreach($buff_meta as $buff_id=>$buff)
 	$map_descriptor='';
 
 	$map_descriptor.='<div class="map monster_type_normal">'."\n";
-		$map_descriptor.='<div class="subblock"><h1>'.$buff['name'].'</h1></div>'."\n";
+		$map_descriptor.='<div class="subblock"><h1>'.$buff['name'][$current_lang].'</h1></div>'."\n";
 		foreach($buff['level_list'] as $level=>$effect)
 		{
 			$map_descriptor.='<div class="subblock"><div class="valuetitle">'."\n";
@@ -70,7 +70,7 @@ foreach($buff_meta as $buff_id=>$buff)
 			{
 				if(isset($monster_meta[$monster]))
 				{
-					$name=$monster_meta[$monster]['name'];
+					$name=$monster_meta[$monster]['name'][$current_lang];
 					$link=$base_datapack_site_http.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($name).'.html';
 					$map_descriptor.='<tr class="value">
 						<td>'."\n";
@@ -83,7 +83,7 @@ foreach($buff_meta as $buff_id=>$buff)
 						$type_list=array();
 						foreach($monster_meta[$monster]['type'] as $type_monster)
 							if(isset($type_meta[$type_monster]))
-								$type_list[]='<span class="type_label type_label_'.$type_monster.'">[[Monsters type:'.$type_meta[$type_monster]['english_name'].'|'.$type_meta[$type_monster]['english_name'].']]</span>'."\n";
+								$type_list[]='<span class="type_label type_label_'.$type_monster.'">[[Monsters type:'.$type_meta[$type_monster]['name'][$current_lang].'|'.$type_meta[$type_monster]['name'][$current_lang].']]</span>'."\n";
 						$map_descriptor.='<td><div class="type_label_list">'.implode(' ',$type_list).'</div></td>'."\n";
 						if(count($buff_to_monster[$buff_id])>1)
 							$map_descriptor.='<td>'.$buff_level.'</td>'."\n";
@@ -104,10 +104,10 @@ foreach($buff_meta as $buff_id=>$buff)
 
     savewikipage('Template:buffs_'.$buff_id,$map_descriptor);$map_descriptor='';
 
-    if($wikivarsapp['generatefullpage'])
+    if($wikivars['generatefullpage'])
     {
         $map_descriptor.='{{Template:buffs_'.$buff_id.'}}'."\n";
-        savewikipage('Buffs:'.$buff['name'],$map_descriptor);
+        savewikipage('Buffs:'.$buff['name'][$current_lang],$map_descriptor);
     }
 }
 
@@ -125,7 +125,7 @@ foreach($buff_meta as $buff_id=>$buff)
 	else
 		$map_descriptor.='&nbsp;';
 	$map_descriptor.='</td>'."\n";
-	$map_descriptor.='<td>[[Buffs:'.$buff['name'].'|'.$buff['name'].']]</td>'."\n";
+	$map_descriptor.='<td>[[Buffs:'.$buff['name'][$current_lang].'|'.$buff['name'][$current_lang].']]</td>'."\n";
 	$map_descriptor.='</tr>'."\n";
 }
 $map_descriptor.='<tr>
@@ -135,7 +135,7 @@ $map_descriptor.='<tr>
 
 savewikipage('Template:buffs_list',$map_descriptor);$map_descriptor='';
 
-if($wikivarsapp['generatefullpage'])
+if($wikivars['generatefullpage'])
 {
     $map_descriptor.='{{Template:buffs_list}}'."\n";
     savewikipage('Buffs_list',$map_descriptor);

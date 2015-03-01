@@ -26,37 +26,9 @@ $nxt_secretPhrase='';
 $nxt_seller='';
 $nxt_product_id='';
 
-/* To add at mediawiki to enable:
-$wgAllowImageTag = true;
-$wgAllowExternalImages=true;
-$wgExtraNamespacesIndex=500;
-$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Items";
-$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Maps";
-$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Bots";
-$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Monsters";
-$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Industries";
-$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Zones";
-$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Quests";
-$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Buffs";
-$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Skills";
-$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Monsters type";
-And into skins/Vector.php:into parent::initPage() put:
-$out->addHeadItem( 'screen','<link rel="stylesheet" type="text/css" media="screen" href="/css/datapack-explorer.css" />');
-Code to add list to the main page:
-* [[Bots list]]
-* [[Buffs list]]
-* [[Crafting list]]
-* [[Industries list]]
-* [[Items list]]
-* [[Maps list]]
-* [[Monsters list]]
-* [[Monsters types]]
-* [[Plants list]]
-* [[Quests list]]
-* [[Skills list]]
-* [[Starters]]
-*/
-$wikivarsapp['apiURL']='http://localhost/mediawiki/api.php';
-$wikivarsapp['username']='admin';
-$wikivarsapp['password']='admin';
-$wikivarsapp['generatefullpage']=false;
+//see doc/REAME-mediawiki.txt
+$wikivarsapp[0]['wikiFolder']='mediawiki';//resolv with: $base_datapack_site_http.'/'.$wikivarsapp[0]['wikiFolder'].'/api.php';
+$wikivarsapp[0]['username']='admin';
+$wikivarsapp[0]['password']='admin';
+$wikivarsapp[0]['lang']='en';
+$wikivarsapp[0]['generatefullpage']=false;

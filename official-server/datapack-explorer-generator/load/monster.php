@@ -94,18 +94,70 @@ foreach($temp_monsters as $monster_file)
 			continue;
 		$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
         $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
+        $name_in_other_lang=array('en'=>$name);
+        foreach($lang_to_load as $lang)
+        {
+            if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$entry))
+            {
+                $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$entry);
+                $temp_name=str_replace('<![CDATA[','',str_replace(']]>','',$temp_name));
+                $temp_name=preg_replace("#[\n\r\t]+#is",'',$temp_name);
+                $name_in_other_lang[$lang]=$temp_name;
+            }
+            else
+                $name_in_other_lang[$lang]=$name;
+        }
 		if(!preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
 			continue;
 		$description=text_operation_first_letter_upper(preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry));
         $description=str_replace('<![CDATA[','',str_replace(']]>','',$description));
+        $description_in_other_lang=array('en'=>$description);
+        foreach($lang_to_load as $lang)
+        {
+            if(preg_match('#<description lang="'.$lang.'">([^<]+)</description>#isU',$entry))
+            {
+                $temp_description=preg_replace('#^.*<description lang="'.$lang.'">([^<]+)</description>.*$#isU','$1',$entry);
+                $temp_description=str_replace('<![CDATA[','',str_replace(']]>','',$temp_description));
+                $temp_description=preg_replace("#[\n\r\t]+#is",'',$temp_description);
+                $description_in_other_lang[$lang]=$temp_description;
+            }
+            else
+                $description_in_other_lang[$lang]=$description;
+        }
 		$kind='';
 		if(preg_match('#<kind( lang="en")?>(.*)</kind>#isU',$entry))
 			$kind=preg_replace('#^.*<kind( lang="en")?>(.*)</kind>.*$#isU','$2',$entry);
         $kind=str_replace('<![CDATA[','',str_replace(']]>','',$kind));
+        $kind_in_other_lang=array('en'=>$kind);
+        foreach($lang_to_load as $lang)
+        {
+            if(preg_match('#<kind lang="'.$lang.'">([^<]+)</kind>#isU',$entry))
+            {
+                $temp_kind=preg_replace('#^.*<kind lang="'.$lang.'">([^<]+)</kind>.*$#isU','$1',$entry);
+                $temp_kind=str_replace('<![CDATA[','',str_replace(']]>','',$temp_kind));
+                $temp_kind=preg_replace("#[\n\r\t]+#is",'',$temp_kind);
+                $kind_in_other_lang[$lang]=$temp_kind;
+            }
+            else
+                $kind_in_other_lang[$lang]=$kind;
+        }
 		$habitat='';
 		if(preg_match('#<habitat( lang="en")?>(.*)</habitat>#isU',$entry))
 			$habitat=preg_replace('#^.*<habitat( lang="en")?>(.*)</habitat>.*$#isU','$2',$entry);
         $habitat=str_replace('<![CDATA[','',str_replace(']]>','',$habitat));
+        $habitat_in_other_lang=array('en'=>$habitat);
+        foreach($lang_to_load as $lang)
+        {
+            if(preg_match('#<habitat lang="'.$lang.'">([^<]+)</habitat>#isU',$entry))
+            {
+                $temp_habitat=preg_replace('#^.*<habitat lang="'.$lang.'">([^<]+)</habitat>.*$#isU','$1',$entry);
+                $temp_habitat=str_replace('<![CDATA[','',str_replace(']]>','',$temp_habitat));
+                $temp_habitat=preg_replace("#[\n\r\t]+#is",'',$temp_habitat);
+                $habitat_in_other_lang[$lang]=$temp_habitat;
+            }
+            else
+                $habitat_in_other_lang[$lang]=$habitat;
+        }
 		$attack_list=array();
 		$attack_list_byitem=array();
 		preg_match_all('#<attack[^>]+/>#isU',$entry,$temp_text_list);
@@ -201,8 +253,8 @@ foreach($temp_monsters as $monster_file)
 		}
 		ksort($attack_list);
 		ksort($attack_list_byitem);
-		$monster_meta[$id]=array('name'=>$name,'type'=>$type,'description'=>$description,'kind'=>$kind,'habitat'=>$habitat,'attack_list'=>$attack_list,'attack_list_byitem'=>$attack_list_byitem,'drops'=>$drops_list,'evolution_list'=>$evolution_list,'ratio_gender'=>$ratio_gender,'catch_rate'=>$catch_rate,
-		'height'=>$height,'weight'=>$weight,'egg_step'=>$egg_step,'hp'=>$hp,'attack'=>$attack,'defense'=>$defense,'special_attack'=>$special_attack,'special_defense'=>$special_defense,'speed'=>$speed,
+		$monster_meta[$id]=array('type'=>$type,'kind'=>$kind_in_other_lang,'habitat'=>$habitat_in_other_lang,'attack_list'=>$attack_list,'attack_list_byitem'=>$attack_list_byitem,'drops'=>$drops_list,'evolution_list'=>$evolution_list,'ratio_gender'=>$ratio_gender,'catch_rate'=>$catch_rate,
+		'height'=>$height,'weight'=>$weight,'egg_step'=>$egg_step,'hp'=>$hp,'attack'=>$attack,'defense'=>$defense,'special_attack'=>$special_attack,'special_defense'=>$special_defense,'speed'=>$speed,'name'=>$name_in_other_lang,'description'=>$description_in_other_lang
 		);
 	}
 }

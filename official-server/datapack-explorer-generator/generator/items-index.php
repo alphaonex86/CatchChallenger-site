@@ -8,7 +8,7 @@ $item_by_group=array();
 foreach($item_meta as $id=>$item)
 {
 	if($item['group']!='')
-		$group_name=$item_group[$item['group']];
+		$group_name=$item_group[$item['group']]['name'][$current_lang];
 	else if(isset($item_to_skill_of_monster[$id]))
 		$group_name='Learn';
 	else if(isset($item_to_crafting[$id]))
@@ -62,8 +62,8 @@ foreach($item_by_group as $group_name=>$item_meta_temp)
 			</tr>';
 			$item_count_list=1;
 		}
-		$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item['name']).'.html';
-		$name=$item['name'];
+		$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item['name'][$current_lang]).'.html';
+		$name=$item['name'][$current_lang];
 		if($item['image']!='' && file_exists($datapack_path.'items/'.$item['image']))
 			$image=$base_datapack_site_path.'/items/'.$item['image'];
 		else

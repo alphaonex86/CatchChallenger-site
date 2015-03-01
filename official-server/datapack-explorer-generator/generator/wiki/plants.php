@@ -11,8 +11,8 @@ $map_descriptor.='<table class="item_list item_list_type_normal">
 </tr>'."\n";
 foreach($plant_meta as $id=>$plant)
 {
-	$link=$base_datapack_site_http.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$plant['itemUsed']]['name']).'.html';
-	$name=$item_meta[$plant['itemUsed']]['name'];
+	$link=$base_datapack_site_http.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$plant['itemUsed']]['name'][$current_lang]).'.html';
+	$name=$item_meta[$plant['itemUsed']]['name'][$current_lang];
 	if($item_meta[$plant['itemUsed']]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$plant['itemUsed']]['image']))
 		$image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item_meta[$plant['itemUsed']]['image'];
 	else
@@ -53,7 +53,7 @@ $map_descriptor.='<tr>
 
 savewikipage('Template:plants_list',$map_descriptor);$map_descriptor='';
 
-if($wikivarsapp['generatefullpage'])
+if($wikivars['generatefullpage'])
 {
     $map_descriptor.='{{Template:plants_list}}'."\n";
     savewikipage('Plants_list',$map_descriptor);

@@ -33,10 +33,27 @@ foreach($bots_file as $file=>$value)
                     {
                         $name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$bot_text);
                         $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
-                        if(isset($bots_name_count[$name]))
-                            $bots_name_count[$name]++;
+                        if(isset($bots_name_count['en'][$name]))
+                            $bots_name_count['en'][$name]++;
                         else
-                            $bots_name_count[$name]=1;
+                            $bots_name_count['en'][$name]=1;
+                    }
+                    $name_in_other_lang=array('en'=>$name);
+                    foreach($lang_to_load as $lang)
+                    {
+                        if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$bot_text))
+                        {
+                            $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$bot_text);
+                            $temp_name=str_replace('<![CDATA[','',str_replace(']]>','',$temp_name));
+                            $temp_name=preg_replace("#[\n\r\t]+#is",'',$temp_name);
+                            $name_in_other_lang[$lang]=$temp_name;
+                        }
+                        else
+                            $name_in_other_lang[$lang]=$name;
+                        if(isset($bots_name_count[$lang][$name_in_other_lang[$lang]]))
+                            $bots_name_count[$lang][$name_in_other_lang[$lang]]++;
+                        else
+                            $bots_name_count[$lang][$name_in_other_lang[$lang]]=1;
                     }
                     $team='';
                     if(preg_match('#<bot [^>]*team="[^"]+"[^>]*>#isU',$botbal))
@@ -48,7 +65,7 @@ foreach($bots_file as $file=>$value)
                     }
                     if($highest_bot_id<$id)
                         $highest_bot_id=$id;
-                    $bots_meta[$id]=array('name'=>$name,'team'=>$team,'onlytext'=>true,'step'=>array());
+                    $bots_meta[$id]=array('name'=>$name_in_other_lang,'team'=>$team,'onlytext'=>true,'step'=>array());
                     $bots_found_in[$id]=$file;
                     $temp_step_list=explode('<step',$bot_text);
                     foreach($temp_step_list as $step_text)
@@ -66,9 +83,20 @@ foreach($bots_file as $file=>$value)
                                     if($step_type=='text')
                                     {
                                         $step_text=preg_replace('#^.*<text( lang="en")?>('.preg_quote('<![CDATA[').')?(.*)('.preg_quote(']]>').')?</text>.*$#isU','$3',$step_text);
-                                        $step_text=str_replace('<![CDATA[','',$step_text);
-                                        $step_text=str_replace(']]>','',$step_text);
-                                        $bots_meta[$id]['step'][$step_id]=array('type'=>$step_type,'text'=>$step_text);
+                                        $step_text=str_replace(']]>','',str_replace('<![CDATA[','',$step_text));
+                                        $step_text_in_other_lang=array('en'=>$step_text);
+                                        foreach($lang_to_load as $lang)
+                                        {
+                                            if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$entry))
+                                            {
+                                                $temp_step_text=preg_replace('#^.*<text lang="'.$lang.'">('.preg_quote('<![CDATA[').')?(.*)('.preg_quote(']]>').')?</text>.*$#isU','$3',$step_text);
+                                                $temp_step_text=str_replace(']]>','',str_replace('<![CDATA[','',$temp_step_text));
+                                                $step_text_in_other_lang[$lang]=$temp_step_text;
+                                            }
+                                            else
+                                                $step_text_in_other_lang[$lang]=$step_text;
+                                        }
+                                        $bots_meta[$id]['step'][$step_id]=array('type'=>$step_type,'text'=>$step_text_in_other_lang);
                                     }
                                     else if($step_type=='fight')
                                     {

@@ -22,7 +22,19 @@ if(file_exists($datapack_path.'map/team.xml'))
                 $name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$team_text);
                 $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
             }
-            $team_meta[$id]=array('name'=>$name,'tileid'=>$tileid);
+            $name_in_other_lang=array('en'=>$name);
+            foreach($lang_to_load as $lang)
+            {
+                if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$team_text))
+                {
+                    $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$team_text);
+                    $temp_name=str_replace('<![CDATA[','',str_replace(']]>','',$temp_name));
+                    $name_in_other_lang[$lang]=$temp_name;
+                }
+                else
+                    $name_in_other_lang[$lang]=$name;
+            }
+            $team_meta[$id]=array('tileid'=>$tileid,'name'=>$name_in_other_lang);
         }
     }
 }

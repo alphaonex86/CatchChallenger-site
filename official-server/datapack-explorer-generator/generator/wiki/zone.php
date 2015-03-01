@@ -7,7 +7,7 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 	$map_descriptor='';
 
 	if(isset($zone_meta[$zone]))
-		$zone_name=$zone_meta[$zone]['name'];
+		$zone_name=$zone_meta[$zone]['name'][$current_lang];
 	elseif($zone=='')
 		$zone_name='Unknown zone';
 	else
@@ -87,7 +87,7 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 	asort($map_by_zone);
 	foreach($map_by_zone as $map=>$name)
 	{
-		$map_descriptor.='<tr class="value"><td>[[Maps:'.map_to_wiki_name($map).'|'.$maps_list[$map]['name'].']]</td><td>'."\n";
+		$map_descriptor.='<tr class="value"><td>[[Maps:'.map_to_wiki_name($map).'|'.$maps_list[$map]['name'][$current_lang].']]</td><td>'."\n";
 		if(isset($map_to_function[$map]['shop']))
 			for ($i = 1; $i <= $map_to_function[$map]['shop']; $i++)
 				$map_descriptor.='<div style="float:left;background-position:-32px 0px;" class="flags flags16" title="Shop"></div>'."\n";
@@ -129,7 +129,7 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 
     savewikipage('Template:Zones/'.$zone_name,$map_descriptor);$map_descriptor='';
 
-    if($wikivarsapp['generatefullpage'])
+    if($wikivars['generatefullpage'])
     {
         $map_descriptor.='{{Template:Zones/'.$zone_name.'}}'."\n";
         savewikipage('Zones:'.$zone_name,$map_descriptor);

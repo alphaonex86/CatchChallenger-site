@@ -9,7 +9,7 @@ foreach($quests_meta as $id=>$quest)
 	$map_descriptor='';
 
 	$map_descriptor.='<div class="map item_details">'."\n";
-		$map_descriptor.='<div class="subblock"><h1>'.$quest['name'];
+		$map_descriptor.='<div class="subblock"><h1>'.$quest['name'][$current_lang];
 		if($quest['repeatable'])
 			$map_descriptor.=' (repeatable)';
 		else
@@ -25,22 +25,22 @@ foreach($quests_meta as $id=>$quest)
         {
             $map_descriptor.='<center><table class="item_list item_list_type_normal"><tr class="value">'."\n";
             $bot=$bots_meta[$bot_id];
-            if($bot['name']=='')
+            if($bot['name'][$current_lang]=='')
                 $final_url_name='bot-'.$bot_id;
-            else if($bots_name_count[$bot['name']]==1)
-                $final_url_name=$bot['name'];
+            else if($bots_name_count[$current_lang][$bot['name'][$current_lang]]==1)
+                $final_url_name=$bot['name'][$current_lang];
             else
-                $final_url_name=$bot_id.'-'.$bot['name'];
-            if($bot['name']=='')
+                $final_url_name=$bot_id.'-'.$bot['name'][$current_lang];
+            if($bot['name'][$current_lang]=='')
                 $final_name='Bot #'.$bot_id;
             else
-                $final_name=$bot['name'];
-            if($bots_meta[$bot_id]['name']=='')
+                $final_name=$bot['name'][$current_lang];
+            if($bots_meta[$bot_id]['name'][$current_lang]=='')
                 $link=text_operation_do_for_url('bot '.$bot_id);
-            else if($bots_name_count[$bots_meta[$bot_id]['name']]==1)
-                $link=text_operation_do_for_url($bots_meta[$bot_id]['name']);
+            else if($bots_name_count[$current_lang][$bots_meta[$bot_id]['name'][$current_lang]]==1)
+                $link=text_operation_do_for_url($bots_meta[$bot_id]['name'][$current_lang]);
             else
-                $link=text_operation_do_for_url($bot_id.'-'.$bots_meta[$bot_id]['name']);
+                $link=text_operation_do_for_url($bot_id.'-'.$bots_meta[$bot_id]['name'][$current_lang]);
             $skin_found=true;
             if(isset($bot_id_to_skin[$bot_id]))
             {
@@ -60,10 +60,10 @@ foreach($quests_meta as $id=>$quest)
             $map_descriptor.='<td';
             if(!$skin_found)
                 $map_descriptor.=' colspan="2"';
-            if($bot['name']=='')
+            if($bot['name'][$current_lang]=='')
                 $map_descriptor.='>[[Bots:'.$link.'|Bot #'.$bot_id.']]'."\n";
             else
-                $map_descriptor.='>[[Bots:'.$link.'|'.$bot['name'].']]'."\n";
+                $map_descriptor.='>[[Bots:'.$link.'|'.$bot['name'][$current_lang].']]'."\n";
             if(isset($bot_id_to_map[$bot_id]))
             {
                 $entry=$bot_id_to_map[$bot_id];
@@ -71,11 +71,11 @@ foreach($quests_meta as $id=>$quest)
                 {
                     if(isset($zone_meta[$maps_list[$entry]['zone']]))
                     {
-                        $map_descriptor.='<td>[[Maps:'.map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'].']]</td>'."\n";
-                        $map_descriptor.='<td>[[Zones:'.$zone_meta[$maps_list[$entry]['zone']]['name'].'|'.$zone_meta[$maps_list[$entry]['zone']]['name'].']]</td>'."\n";
+                        $map_descriptor.='<td>[[Maps:'.map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
+                        $map_descriptor.='<td>[[Zones:'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].'|'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].']]</td>'."\n";
                     }
                     else
-                        $map_descriptor.='<td colspan="2">[[Maps:'.map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'].']]</td>'."\n";
+                        $map_descriptor.='<td colspan="2">[[Maps:'.map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
                 }
                 else
                     $map_descriptor.='<td colspan="2">Unknown map</td>'."\n";
@@ -91,7 +91,7 @@ foreach($quests_meta as $id=>$quest)
             $map_descriptor.='<div class="subblock"><div class="valuetitle">Requirements</div><div class="value">'."\n";
 			if(isset($quest['requirements']['quests']))
 				foreach($quest['requirements']['quests'] as $quest_id)
-					$map_descriptor.='Quest: [[Quests:'.$quests_meta[$quest_id]['name'].'|'.$quests_meta[$quest_id]['name'].']]<br />'."\n";
+					$map_descriptor.='Quest: [[Quests:'.$quests_meta[$quest_id]['name'][$current_lang].'|'.$quests_meta[$quest_id]['name'][$current_lang].']]<br />'."\n";
             if(isset($quest['requirements']['reputation']))
                 foreach($quest['requirements']['reputation'] as $reputation)
                     $map_descriptor.=reputationLevelToText($reputation['type'],$reputation['level']).'<br />'."\n";
@@ -112,16 +112,16 @@ foreach($quests_meta as $id=>$quest)
                 {
                     $map_descriptor.='<center><table class="item_list item_list_type_normal"><tr class="value">'."\n";
                     $bot=$bots_meta[$bot_id];
-                    if($bot['name']=='')
+                    if($bot['name'][$current_lang]=='')
                         $final_url_name='bot-'.$bot_id;
-                    else if($bots_name_count[$bot['name']]==1)
-                        $final_url_name=$bot['name'];
+                    else if($bots_name_count[$current_lang][$bot['name'][$current_lang]]==1)
+                        $final_url_name=$bot['name'][$current_lang];
                     else
-                        $final_url_name=$bot_id.'-'.$bot['name'];
-                    if($bot['name']=='')
+                        $final_url_name=$bot_id.'-'.$bot['name'][$current_lang];
+                    if($bot['name'][$current_lang]=='')
                         $final_name='Bot #'.$bot_id;
                     else
-                        $final_name=$bot['name'];
+                        $final_name=$bot['name'][$current_lang];
                     $skin_found=true;
                     if(isset($bot_id_to_skin[$bot_id]))
                     {
@@ -141,16 +141,16 @@ foreach($quests_meta as $id=>$quest)
                     $map_descriptor.='<td';
                     if(!$skin_found)
                         $map_descriptor.=' colspan="2"';
-                    if($bots_meta[$bot_id]['name']=='')
+                    if($bots_meta[$bot_id]['name'][$current_lang]=='')
                         $link=text_operation_do_for_url('bot '.$bot_id);
-                    else if($bots_name_count[$bots_meta[$bot_id]['name']]==1)
-                        $link=text_operation_do_for_url($bots_meta[$bot_id]['name']);
+                    else if($bots_name_count[$current_lang][$bots_meta[$bot_id]['name'][$current_lang]]==1)
+                        $link=text_operation_do_for_url($bots_meta[$bot_id]['name'][$current_lang]);
                     else
-                        $link=text_operation_do_for_url($bot_id.'-'.$bots_meta[$bot_id]['name']);
-                    if($bot['name']=='')
+                        $link=text_operation_do_for_url($bot_id.'-'.$bots_meta[$bot_id]['name'][$current_lang]);
+                    if($bot['name'][$current_lang]=='')
                         $map_descriptor.='>[[Bots:'.$link.'|Bot #'.$bot_id.']]</td>'."\n";
                     else
-                        $map_descriptor.='>[[Bots:'.$link.'|'.$bot['name'].']]</td>'."\n";
+                        $map_descriptor.='>[[Bots:'.$link.'|'.$bot['name'][$current_lang].']]</td>'."\n";
                     if(isset($bot_id_to_map[$bot_id]))
                     {
                         $entry=$bot_id_to_map[$bot_id];
@@ -158,11 +158,11 @@ foreach($quests_meta as $id=>$quest)
                         {
                             if(isset($zone_meta[$maps_list[$entry]['zone']]))
                             {
-                                $map_descriptor.='<td>[[Maps:'.map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'].']]</td>'."\n";
-                                $map_descriptor.='<td>[[Zones:'.$zone_meta[$maps_list[$entry]['zone']]['name'].'|'.$zone_meta[$maps_list[$entry]['zone']]['name'].']]</td>'."\n";
+                                $map_descriptor.='<td>[[Maps:'.map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
+                                $map_descriptor.='<td>[[Zones:'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].'|'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].']]</td>'."\n";
                             }
                             else
-                                $map_descriptor.='<td colspan="2">[[Maps:'.map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'].']]</td>'."\n";
+                                $map_descriptor.='<td colspan="2">[[Maps:'.map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
                         }
                         else
                             $map_descriptor.='<td colspan="2">Unknown map</td>'."\n";
@@ -195,8 +195,8 @@ foreach($quests_meta as $id=>$quest)
 						$map_descriptor.='<tr class="value"><td>'."\n";
 						if(isset($item_meta[$item['item']]))
 						{
-							$link=$base_datapack_site_http.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item['item']]['name']).'.html';
-							$name=$item_meta[$item['item']]['name'];
+							$link=$base_datapack_site_http.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item['item']]['name'][$current_lang]).'.html';
+							$name=$item_meta[$item['item']]['name'][$current_lang];
 							if($item_meta[$item['item']]['image']!='')
 								$image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item_meta[$item['item']]['image'];
 							else
@@ -233,7 +233,7 @@ foreach($quests_meta as $id=>$quest)
 						{
 							if(isset($monster_meta[$item['monster']]))
 							{
-								$name=$monster_meta[$item['monster']]['name'];
+								$name=$monster_meta[$item['monster']]['name'][$current_lang];
 								$link=$base_datapack_site_http.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($name).'.html';
 								$map_descriptor.='<td>'."\n";
 								if(file_exists($datapack_path.'monsters/'.$item['monster'].'/small.png'))
@@ -277,8 +277,8 @@ foreach($quests_meta as $id=>$quest)
                     $map_descriptor.='<tr class="value"><td>'."\n";
                     if(isset($item_meta[$item['item']]))
                     {
-                        $link=$base_datapack_site_http.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item['item']]['name']).'.html';
-                        $name=$item_meta[$item['item']]['name'];
+                        $link=$base_datapack_site_http.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item['item']]['name'][$current_lang]).'.html';
+                        $name=$item_meta[$item['item']]['name'][$current_lang];
                         if($item_meta[$item['item']]['image']!='')
                             $image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item_meta[$item['item']]['image'];
                         else
@@ -337,7 +337,7 @@ foreach($quests_meta as $id=>$quest)
             savewikipage('Template:quest_'.$id.'_REWARDS',$map_descriptor);$map_descriptor='';
 		}
 
-    if($wikivarsapp['generatefullpage'])
+    if($wikivars['generatefullpage'])
     {
         $map_descriptor.='{{Template:quest_'.$id.'_HEADER}}'."\n";
         if(isset($bots_meta[$bot_id]))
@@ -348,7 +348,7 @@ foreach($quests_meta as $id=>$quest)
             $map_descriptor.='{{Template:quest_'.$id.'_STEPS}}'."\n";
         if(count($quest['rewards'])>0)
             $map_descriptor.='{{Template:quest_'.$id.'_REWARDS}}'."\n";
-        savewikipage('Quests:'.$id.'_'.$quest['name'],$map_descriptor);
+        savewikipage('Quests:'.$id.'_'.$quest['name'][$current_lang],$map_descriptor);
     }
 }
 
@@ -358,7 +358,7 @@ $map_descriptor.=questList(array_keys($quests_meta),true,true);
 
 savewikipage('Template:quests_list',$map_descriptor);$map_descriptor='';
 
-if($wikivarsapp['generatefullpage'])
+if($wikivars['generatefullpage'])
 {
     $map_descriptor.='{{Template:quests_list}}'."\n";
     savewikipage('Quests_list',$map_descriptor);

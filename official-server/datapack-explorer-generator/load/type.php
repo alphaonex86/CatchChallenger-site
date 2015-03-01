@@ -19,6 +19,17 @@ if(file_exists($datapack_path.'monsters/type.xml'))
 			$english_name=preg_replace('#^.*<name lang="en">([^<]+)</name>.*$#isU','$1',$entry);
 		elseif(preg_match('#<name>([^<]+)</name>#isU',$entry))
 			$english_name=preg_replace('#^.*<name>([^<]+)</name>.*$#isU','$1',$entry);
+        $name_in_other_lang=array('en'=>$name);
+        foreach($lang_to_load as $lang)
+        {
+            if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$entry))
+            {
+                $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$entry);
+                $name_in_other_lang[$lang]=$temp_name;
+            }
+            else
+                $name_in_other_lang[$lang]=$name;
+        }
         $english_name=str_replace('<![CDATA[','',str_replace(']]>','',$english_name));
 		preg_match_all('#<multiplicator.*/>#isU',$entry,$multiplicator_list);
 		foreach($multiplicator_list[0] as $tempmultiplicator)
@@ -33,6 +44,6 @@ if(file_exists($datapack_path.'monsters/type.xml'))
 			foreach($to_list as $to)
 				$multiplicator[$to]=$number;
 		}
-		$type_meta[$name]=array('english_name'=>$english_name,'multiplicator'=>$multiplicator);
+		$type_meta[$name]=array('multiplicator'=>$multiplicator,'name'=>$name_in_other_lang);
 	}
 }

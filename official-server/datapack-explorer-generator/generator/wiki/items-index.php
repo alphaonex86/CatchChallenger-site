@@ -8,7 +8,7 @@ $item_by_group=array();
 foreach($item_meta as $id=>$item)
 {
 	if($item['group']!='')
-		$group_name=$item_group[$item['group']];
+		$group_name=$item_group[$item['group']]['name'][$current_lang];
 	else if(isset($item_to_skill_of_monster[$id]))
 		$group_name='Learn'."\n";
 	else if(isset($item_to_crafting[$id]))
@@ -62,8 +62,8 @@ foreach($item_by_group as $group_name=>$item_meta_temp)
 			</tr>'."\n";
 			$item_count_list=1;
 		}
-		$link=$base_datapack_site_http.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item['name']).'.html'."\n";
-		$name=$item['name'];
+		$link=$base_datapack_site_http.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item['name'][$current_lang]).'.html'."\n";
+		$name=$item['name'][$current_lang];
 		if($item['image']!='' && file_exists($datapack_path.'items/'.$item['image']))
 			$image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item['image'];
 		else
@@ -104,7 +104,7 @@ foreach($item_by_group as $group_name=>$item_meta_temp)
 
 savewikipage('Template:Items_list',$map_descriptor);$map_descriptor='';
 
-if($wikivarsapp['generatefullpage'])
+if($wikivars['generatefullpage'])
 {
     $map_descriptor.='{{Template:Items_list}}'."\n";
     savewikipage('Items_list',$map_descriptor);

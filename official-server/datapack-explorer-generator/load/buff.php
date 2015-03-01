@@ -22,10 +22,36 @@ foreach($temp_buffs as $buff_file)
 			continue;
 		$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
         $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
+        $name_in_other_lang=array('en'=>$name);
+        foreach($lang_to_load as $lang)
+        {
+            if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$entry))
+            {
+                $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$entry);
+                $temp_name=str_replace('<![CDATA[','',str_replace(']]>','',$temp_name));
+                $temp_name=preg_replace("#[\n\r\t]+#is",'',$temp_name);
+                $name_in_other_lang[$lang]=$temp_name;
+            }
+            else
+                $name_in_other_lang[$lang]=$name;
+        }
         $description='';
 		if(preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
           $description=preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry);
         $description=str_replace('<![CDATA[','',str_replace(']]>','',$description));
+        $description_in_other_lang=array('en'=>$description);
+        foreach($lang_to_load as $lang)
+        {
+            if(preg_match('#<description lang="'.$lang.'">([^<]+)</description>#isU',$entry))
+            {
+                $temp_description=preg_replace('#^.*<description lang="'.$lang.'">([^<]+)</description>.*$#isU','$1',$entry);
+                $temp_description=str_replace('<![CDATA[','',str_replace(']]>','',$temp_description));
+                $temp_description=preg_replace("#[\n\r\t]+#is",'',$temp_description);
+                $description_in_other_lang[$lang]=$temp_description;
+            }
+            else
+                $description_in_other_lang[$lang]=$description;
+        }
 
 		$default_capture_bonus=1;
 		if(preg_match('#<effect[^>]+capture_bonus="([0-9]+(\.[0-9]+)?)"#isU',$entry))
@@ -89,7 +115,7 @@ foreach($temp_buffs as $buff_file)
 
 			$level_list[$number]=array('capture_bonus'=>$capture_bonus,'duration'=>$duration,'durationNumberOfTurn'=>$durationNumberOfTurn,'effect'=>$effect);
 		}
-		$buff_meta[$id]=array('name'=>$name,'level_list'=>$level_list);
+		$buff_meta[$id]=array('name'=>$name_in_other_lang,'description'=>$description_in_other_lang,'level_list'=>$level_list);
 	}
 }
 ksort($buff_meta);

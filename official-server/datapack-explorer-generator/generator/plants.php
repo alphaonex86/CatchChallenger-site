@@ -11,8 +11,8 @@ $map_descriptor.='<table class="item_list item_list_type_normal">
 </tr>';
 foreach($plant_meta as $id=>$plant)
 {
-	$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$plant['itemUsed']]['name']).'.html';
-	$name=$item_meta[$plant['itemUsed']]['name'];
+	$link=$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$plant['itemUsed']]['name'][$current_lang]).'.html';
+	$name=$item_meta[$plant['itemUsed']]['name'][$current_lang];
 	if($item_meta[$plant['itemUsed']]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$plant['itemUsed']]['image']))
 		$image=$base_datapack_site_path.'/items/'.$item_meta[$plant['itemUsed']]['image'];
 	else

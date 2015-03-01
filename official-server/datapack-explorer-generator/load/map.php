@@ -226,6 +226,45 @@ foreach($temp_maps as $map)
             $duplicate_detection_name_and_zone[$zone.'_'.$name]++;
 		$shortdescription=preg_replace("#[\n\r\t]+#is",'',$shortdescription);
 		$description=preg_replace("#[\n\r\t]+#is",'',$description);
+        $name_in_other_lang=array('en'=>$name);
+        foreach($lang_to_load as $lang)
+        {
+            if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$content_meta_map))
+            {
+                $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$content_meta_map);
+                $temp_name=str_replace('<![CDATA[','',str_replace(']]>','',$temp_name));
+                $temp_name=preg_replace("#[\n\r\t]+#is",'',$temp_name);
+                $name_in_other_lang[$lang]=$temp_name;
+            }
+            else
+                $name_in_other_lang[$lang]=$name;
+        }
+        $description_in_other_lang=array('en'=>$description);
+        foreach($lang_to_load as $lang)
+        {
+            if(preg_match('#<description lang="'.$lang.'">([^<]+)</description>#isU',$content_meta_map))
+            {
+                $temp_description=preg_replace('#^.*<description lang="'.$lang.'">([^<]+)</description>.*$#isU','$1',$content_meta_map);
+                $temp_description=str_replace('<![CDATA[','',str_replace(']]>','',$temp_description));
+                $temp_description=preg_replace("#[\n\r\t]+#is",'',$temp_description);
+                $description_in_other_lang[$lang]=$temp_description;
+            }
+            else
+                $description_in_other_lang[$lang]=$description;
+        }
+        $shortdescription_in_other_lang=array('en'=>$shortdescription);
+        foreach($lang_to_load as $lang)
+        {
+            if(preg_match('#<shortdescription lang="'.$lang.'">([^<]+)</shortdescription>#isU',$content_meta_map))
+            {
+                $temp_shortdescription=preg_replace('#^.*<shortdescription lang="'.$lang.'">([^<]+)</shortdescription>.*$#isU','$1',$content_meta_map);
+                $temp_shortdescription=str_replace('<![CDATA[','',str_replace(']]>','',$temp_shortdescription));
+                $temp_shortdescription=preg_replace("#[\n\r\t]+#is",'',$temp_shortdescription);
+                $shortdescription_in_other_lang[$lang]=$temp_shortdescription;
+            }
+            else
+                $shortdescription_in_other_lang[$lang]=$shortdescription;
+        }
         foreach($layer_toSearch as $toSearch)
         {
             if(preg_match('#<'.preg_quote($toSearch).'>(.*)</'.preg_quote($toSearch).'>#isU',$content_meta_map))
@@ -280,12 +319,12 @@ foreach($temp_maps as $map)
             }
         }
 	}
-	$maps_list[$map]=array('folder'=>$map_folder,'borders'=>$borders,'tp'=>$tp,'doors'=>$doors,'bots'=>$bots,'name'=>$name,'shortdescription'=>$shortdescription,'description'=>$description,'type'=>$type,'monsters'=>$monsters,'monsters_list'=>$monsters_list,
-	'width'=>$width,'height'=>$height,'pixelwidth'=>$pixelwidth,'pixelheight'=>$pixelheight,'dropcount'=>$dropcount,'zone'=>$zone,'items'=>$items,
+	$maps_list[$map]=array('folder'=>$map_folder,'borders'=>$borders,'tp'=>$tp,'doors'=>$doors,'bots'=>$bots,'type'=>$type,'monsters'=>$monsters,'monsters_list'=>$monsters_list,
+	'width'=>$width,'height'=>$height,'pixelwidth'=>$pixelwidth,'pixelheight'=>$pixelheight,'dropcount'=>$dropcount,'zone'=>$zone,'items'=>$items,'name'=>$name_in_other_lang,'shortdescription'=>$description_in_other_lang,'description'=>$name_in_other_lang
 	);
 	if(!isset($zone_to_map[$zone]))
 		$zone_to_map[$zone]=array();
-	$zone_to_map[$zone][$map]=$name;
+	$zone_to_map[$zone][$map]=$name_in_other_lang;
     $maps_name_to_map[$name]=$map;
 }
 ksort($map_short_path_to_name);

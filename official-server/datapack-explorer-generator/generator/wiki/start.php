@@ -8,8 +8,8 @@ $loadSkinPreview=array();
 foreach($start_meta as $entry)
 {
 	$map_descriptor.='
-	<h2><strong>'.htmlspecialchars($entry['name']).'</strong></h2>
-	<b>'.htmlspecialchars($entry['description']).'</b><br />'."\n";
+	<h2><strong>'.htmlspecialchars($entry['name'][$current_lang]).'</strong></h2>
+	<b>'.htmlspecialchars($entry['description'][$current_lang]).'</b><br />'."\n";
 	$map_name='';
 	$zone_code='';
 	$map_meta='datapack/map/'.str_replace('.tmx','.xml',$entry['map']);
@@ -71,14 +71,14 @@ foreach($start_meta as $entry)
 		if(array_key_exists($monster['id'],$monster_meta))
 		{
 			$map_descriptor.='<li>'."\n";
-			$map_descriptor.='[[Monsters:'.$monster_meta[$monster['id']]['name'].'|';
+			$map_descriptor.='[[Monsters:'.$monster_meta[$monster['id']]['name'][$current_lang].'|';
 			if(file_exists($datapack_path.'monsters/'.$monster['id'].'/front.png'))
-				$map_descriptor.='<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$monster['id'].'/front.png" width="80" height="80" alt="'.htmlspecialchars($monster_meta[$monster['id']]['name']).'" title="'.htmlspecialchars($monster_meta[$monster['id']]['description']).'" /><br />'."\n";
+				$map_descriptor.='<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$monster['id'].'/front.png" width="80" height="80" alt="'.htmlspecialchars($monster_meta[$monster['id']]['name'][$current_lang]).'" title="'.htmlspecialchars($monster_meta[$monster['id']]['description'][$current_lang]).'" /><br />'."\n";
 			elseif(file_exists($datapack_path.'monsters/'.$monster['id'].'/front.gif'))
-				$map_descriptor.='<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$monster['id'].'/front.gif" width="80" height="80" alt="'.htmlspecialchars($monster_meta[$monster['id']]['name']).'" title="'.htmlspecialchars($monster_meta[$monster['id']]['description']).'" /><br />'."\n";
+				$map_descriptor.='<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$monster['id'].'/front.gif" width="80" height="80" alt="'.htmlspecialchars($monster_meta[$monster['id']]['name'][$current_lang]).'" title="'.htmlspecialchars($monster_meta[$monster['id']]['description'][$current_lang]).'" /><br />'."\n";
 			else
 				$map_descriptor.='No skin found!';
-			$map_descriptor.='<b>'.htmlspecialchars($monster_meta[$monster['id']]['name']).'</b> level <i>'.htmlspecialchars($monster['level']).'</i>'."\n";
+			$map_descriptor.='<b>'.htmlspecialchars($monster_meta[$monster['id']]['name'][$current_lang]).'</b> level <i>'.htmlspecialchars($monster['level']).'</i>'."\n";
 			$map_descriptor.=']]'."\n";
 			$map_descriptor.='</li>'."\n";
 		}
@@ -118,11 +118,11 @@ foreach($start_meta as $entry)
 			if(array_key_exists($item['id'],$item_meta))
 			{
 				$map_descriptor.='<li>'."\n";
-				$map_descriptor.='[[Items:'.$item_meta[$item['id']]['name'].'|';
+				$map_descriptor.='[[Items:'.$item_meta[$item['id']]['name'][$current_lang].'|';
 				if($item_meta[$item['id']]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$item['id']]['image']))
-					$map_descriptor.='<img src="'.$base_datapack_site_http.$base_datapack_site_path.'items/'.htmlspecialchars($item_meta[$item['id']]['image']).'" width="24" height="24" alt="'.htmlspecialchars($item_meta[$item['id']]['description']).'" title="'.htmlspecialchars($item_meta[$item['id']]['description']).'" />'.$quantity.htmlspecialchars($item_meta[$item['id']]['name']);
+					$map_descriptor.='<img src="'.$base_datapack_site_http.$base_datapack_site_path.'items/'.htmlspecialchars($item_meta[$item['id']]['image']).'" width="24" height="24" alt="'.htmlspecialchars($item_meta[$item['id']]['description'][$current_lang]).'" title="'.htmlspecialchars($item_meta[$item['id']]['description'][$current_lang]).'" />'.$quantity.htmlspecialchars($item_meta[$item['id']]['name'][$current_lang]);
 				else
-					$map_descriptor.=$quantity.htmlspecialchars($item_meta[$item['id']]['name']);
+					$map_descriptor.=$quantity.htmlspecialchars($item_meta[$item['id']]['name'][$current_lang]);
 				$map_descriptor.=']]'."\n";
 				$map_descriptor.='</li>'."\n";
 			}
@@ -139,7 +139,7 @@ foreach($start_meta as $entry)
 $index=1;
 foreach($start_meta as $entry)
 {
-    if($wikivarsapp['generatefullpage'])
+    if($wikivars['generatefullpage'])
     {
         $map_descriptor.='{{Template:Starter_'.$index.'_HEADER}}'."\n";
         if(count($entry['reputations'])>0)

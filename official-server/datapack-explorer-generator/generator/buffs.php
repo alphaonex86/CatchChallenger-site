@@ -11,7 +11,7 @@ foreach($buff_meta as $buff_id=>$buff)
 	$map_descriptor='';
 
 	$map_descriptor.='<div class="map monster_type_normal">';
-		$map_descriptor.='<div class="subblock"><h1>'.$buff['name'].'</h1></div>';
+		$map_descriptor.='<div class="subblock"><h1>'.$buff['name'][$current_lang].'</h1></div>';
 		foreach($buff['level_list'] as $level=>$effect)
 		{
 			$map_descriptor.='<div class="subblock"><div class="valuetitle">';
@@ -74,7 +74,7 @@ foreach($buff_meta as $buff_id=>$buff)
 			{
 				if(isset($monster_meta[$monster]))
 				{
-					$name=$monster_meta[$monster]['name'];
+					$name=$monster_meta[$monster]['name'][$current_lang];
 					$link=$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($name).'.html';
 					$map_descriptor.='<tr class="value">
 						<td>';
@@ -87,7 +87,7 @@ foreach($buff_meta as $buff_id=>$buff)
 						$type_list=array();
 						foreach($monster_meta[$monster]['type'] as $type_monster)
 							if(isset($type_meta[$type_monster]))
-								$type_list[]='<span class="type_label type_label_'.$type_monster.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_monster.'.html">'.$type_meta[$type_monster]['english_name'].'</a></span>';
+								$type_list[]='<span class="type_label type_label_'.$type_monster.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_monster.'.html">'.$type_meta[$type_monster]['name'][$current_lang].'</a></span>';
 						$map_descriptor.='<td><div class="type_label_list">'.implode(' ',$type_list).'</div></td>';
 						if(count($buff_to_monster[$buff_id])>1)
 							$map_descriptor.='<td>'.$buff_level.'</td>';
@@ -107,11 +107,11 @@ foreach($buff_meta as $buff_id=>$buff)
 	}
 
 	$content=$template;
-	$content=str_replace('${TITLE}',$buff['name'],$content);
+	$content=str_replace('${TITLE}',$buff['name'][$current_lang],$content);
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=clean_html($content);
-	filewrite($datapack_explorer_local_path.'monsters/buffs/'.text_operation_do_for_url($buff['name']).'.html',$content);
+	filewrite($datapack_explorer_local_path.'monsters/buffs/'.text_operation_do_for_url($buff['name'][$current_lang]).'.html',$content);
 }
 
 $map_descriptor='';
@@ -128,7 +128,7 @@ foreach($buff_meta as $buff_id=>$buff)
 	else
 		$map_descriptor.='&nbsp;';
 	$map_descriptor.='</td>';
-	$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'monsters/buffs/'.text_operation_do_for_url($buff['name']).'.html">'.$buff['name'].'</a></td>';
+	$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'monsters/buffs/'.text_operation_do_for_url($buff['name'][$current_lang]).'.html">'.$buff['name'][$current_lang].'</a></td>';
 	$map_descriptor.='</tr>';
 }
 $map_descriptor.='<tr>

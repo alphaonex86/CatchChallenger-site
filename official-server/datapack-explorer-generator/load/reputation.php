@@ -15,6 +15,18 @@ if(file_exists($datapack_path.'player/reputation.xml'))
             continue;
         $name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
         $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
+        $name_in_other_lang=array('en'=>$name);
+        foreach($lang_to_load as $lang)
+        {
+            if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$entry))
+            {
+                $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$entry);
+                $temp_name=str_replace('<![CDATA[','',str_replace(']]>','',$temp_name));
+                $name_in_other_lang[$lang]=$temp_name;
+            }
+            else
+                $name_in_other_lang[$lang]=$name;
+        }
 		$type=preg_replace('#^.*<reputation type="([a-z]+)".*</reputation>.*$#isU','$1',$entry);
 		preg_match_all('#<level point="-?[0-9]+".*</level>#isU',$entry,$level_list);
 		$reputation_meta_list=array();
@@ -46,7 +58,7 @@ if(file_exists($datapack_path.'player/reputation.xml'))
 				$level_offset--;
 			}
 			unset($reputation_meta_list);
-			$reputation_meta[$type]=array('name'=>$name,'level'=>$reputation_meta_list_by_level);
+			$reputation_meta[$type]=array('level'=>$reputation_meta_list_by_level,'name'=>$name_in_other_lang);
 			unset($reputation_meta_list_by_level);
 		}
 	}

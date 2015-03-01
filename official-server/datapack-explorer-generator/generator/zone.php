@@ -11,7 +11,7 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 	$map_descriptor='';
 
 	if(isset($zone_meta[$zone]))
-		$zone_name=$zone_meta[$zone]['name'];
+		$zone_name=$zone_meta[$zone]['name'][$current_lang];
 	elseif($zone=='')
 		$zone_name='Unknown zone';
 	else

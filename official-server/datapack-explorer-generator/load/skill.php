@@ -35,6 +35,18 @@ foreach($temp_skills as $skill_file)
 			continue;
 		$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
         $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
+        $name_in_other_lang=array('en'=>$name);
+        foreach($lang_to_load as $lang)
+        {
+            if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$entry))
+            {
+                $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$entry);
+                $temp_name=str_replace('<![CDATA[','',str_replace(']]>','',$temp_name));
+                $name_in_other_lang[$lang]=$temp_name;
+            }
+            else
+                $name_in_other_lang[$lang]=$name;
+        }
 		$level_list=array();
 		preg_match_all('#<level.*</level>#isU',$entry,$temp_level_list);
 		foreach($temp_level_list[0] as $level_text)
@@ -72,7 +84,7 @@ foreach($temp_skills as $skill_file)
 			}
 			$level_list[$number]=array('endurance'=>$endurance,'sp'=>$sp,'life_quantity'=>$life_quantity,'buff'=>$buff_list,'base_level_luck'=>$base_level_luck);
 		}
-		$skill_meta[$id]=array('type'=>$type,'name'=>$name,'level_list'=>$level_list);
+		$skill_meta[$id]=array('type'=>$type,'level_list'=>$level_list,'name'=>$name_in_other_lang);
 	}
 }
 ksort($skill_meta);

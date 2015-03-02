@@ -31,12 +31,12 @@ foreach($industrie_meta as $id=>$industry)
 				$map_descriptor.='<table><tr><td>'."\n";
 				if($item_meta[$material]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
                 {
-                    $map_descriptor.='[[Items:'.$item_meta[$material]['name'][$current_lang].'|';
+                    $map_descriptor.='[['.$translation_list[$current_lang]['Items:'].$item_meta[$material]['name'][$current_lang].'|';
 					$map_descriptor.='<img src="'.$base_datapack_site_http.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'][$current_lang].'" title="'.$item_meta[$material]['name'][$current_lang].'" />';
                     $map_descriptor.=']]';
                 }
 				$map_descriptor.='</td><td>'."\n";
-                $map_descriptor.='[[Items:'.$item_meta[$material]['name'][$current_lang].'|';
+                $map_descriptor.='[['.$translation_list[$current_lang]['Items:'].$item_meta[$material]['name'][$current_lang].'|';
 				if($quantity>1)
 					$map_descriptor.=$quantity.'x ';
 				$map_descriptor.=$item_meta[$material]['name'][$current_lang].']]</td></tr></table>'."\n";
@@ -103,9 +103,9 @@ foreach($industrie_meta as $id=>$industry)
                     else
                         $link_bot=text_operation_do_for_url($bot_id.'-'.$bots_meta[$bot_id]['name'][$current_lang]);
                     if($bot['name'][$current_lang]=='')
-                        $map_descriptor.='>[[Bots:'.$link_bot.'|Bot #'.$bot_id.']]</td>'."\n";
+                        $map_descriptor.='>[['.$translation_list[$current_lang]['Bots:'].$link_bot.'|Bot #'.$bot_id.']]</td>'."\n";
                     else
-                        $map_descriptor.='>[[Bots:'.$link_bot.'|'.$bot['name'][$current_lang].']]</td>'."\n";
+                        $map_descriptor.='>[['.$translation_list[$current_lang]['Bots:'].$link_bot.'|'.$bot['name'][$current_lang].']]</td>'."\n";
                     if(isset($bot_id_to_map[$bot_id]))
                     {
                         $entry=$bot_id_to_map[$bot_id];
@@ -113,11 +113,11 @@ foreach($industrie_meta as $id=>$industry)
                         {
                             if(isset($zone_meta[$maps_list[$entry]['zone']]))
                             {
-                                $map_descriptor.='<td>[[Maps:'.map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
-                                $map_descriptor.='<td>[[Zones:'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].'|'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].']]</td>'."\n";
+                                $map_descriptor.='<td>[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
+                                $map_descriptor.='<td>[['.$translation_list[$current_lang]['Zones:'].$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].'|'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].']]</td>'."\n";
                             }
                             else
-                                $map_descriptor.='<td colspan="2">[[Maps:'.map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
+                                $map_descriptor.='<td colspan="2">[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
                         }
                         else
                             $map_descriptor.='<td colspan="2">Unknown map</td>'."\n";
@@ -146,12 +146,12 @@ foreach($industrie_meta as $id=>$industry)
                 $map_descriptor.='<table><tr><td>'."\n";
                 if($item_meta[$material]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
                 {
-                    $map_descriptor.='[[Items:'.$item_meta[$material]['name'][$current_lang].'|';
+                    $map_descriptor.='[['.$translation_list[$current_lang]['Items:'].$item_meta[$material]['name'][$current_lang].'|';
                     $map_descriptor.='<img src="'.$base_datapack_site_http.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'][$current_lang].'" title="'.$item_meta[$material]['name'][$current_lang].'" />';
                     $map_descriptor.=']]';
                 }
                 $map_descriptor.='</td><td>'."\n";
-                $map_descriptor.='[[Items:'.$item_meta[$material]['name'][$current_lang].'|';
+                $map_descriptor.='[['.$translation_list[$current_lang]['Items:'].$item_meta[$material]['name'][$current_lang].'|';
                 if($quantity>1)
                     $map_descriptor.=$quantity.'x ';
                 $map_descriptor.=$item_meta[$material]['name'][$current_lang].']]</td></tr></table>'."\n";
@@ -184,7 +184,7 @@ foreach($industrie_meta as $id=>$industry)
 {
 	$map_descriptor.='<tr class="value">'."\n";
 	$map_descriptor.='<td>'."\n";
-	$map_descriptor.='[[Industries:Industry '.$id.'|Industry '.$id.']]'."\n";
+	$map_descriptor.='[['.$translation_list[$current_lang]['Industries:'].'Industry '.$id.'|Industry '.$id.']]'."\n";
 	$map_descriptor.='</td>'."\n";
 	$map_descriptor.='<td><center>'."\n";
 	foreach($industry['resources'] as $resources)
@@ -193,7 +193,7 @@ foreach($industrie_meta as $id=>$industry)
         $quantity=$resources['quantity'];
 		if(isset($item_meta[$item]))
 		{
-			$link=$base_datapack_site_http.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
+			$link=$base_datapack_site_http.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
 			$name=$item_meta[$item]['name'][$current_lang];
 			if($item_meta[$item]['image']!='')
 				$image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
@@ -203,13 +203,13 @@ foreach($industrie_meta as $id=>$industry)
 			if($image!='')
 			{
 				if($link!='')
-					$map_descriptor.='[[Items:'.$name.'|';
+					$map_descriptor.='[['.$translation_list[$current_lang]['Items:'].$name.'|';
 				$map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />';
 				if($link!='')
 					$map_descriptor.=']]'."\n";
 			}
 			if($link!='')
-				$map_descriptor.='[[Items:'.$name.'|';
+				$map_descriptor.='[['.$translation_list[$current_lang]['Items:'].$name.'|';
 			if($name!='')
 				$map_descriptor.=$name;
 			else
@@ -228,7 +228,7 @@ foreach($industrie_meta as $id=>$industry)
         $quantity=$products['quantity'];
 		if(isset($item_meta[$item]))
 		{
-			$link=$base_datapack_site_http.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
+			$link=$base_datapack_site_http.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
 			$name=$item_meta[$item]['name'][$current_lang];
 			if($item_meta[$item]['image']!='')
 				$image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
@@ -238,13 +238,13 @@ foreach($industrie_meta as $id=>$industry)
 			if($image!='')
 			{
 				if($link!='')
-					$map_descriptor.='[[Items:'.$name.'|';
+					$map_descriptor.='[['.$translation_list[$current_lang]['Items:'].$name.'|';
 				$map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />';
 				if($link!='')
 					$map_descriptor.=']]'."\n";
 			}
 			if($link!='')
-				$map_descriptor.='[[Items:'.$name.'|';
+				$map_descriptor.='[['.$translation_list[$current_lang]['Items:'].$name.'|';
 			if($name!='')
 				$map_descriptor.=$name;
 			else
@@ -301,9 +301,9 @@ foreach($industrie_meta as $id=>$industry)
                 else
                     $link_bot=text_operation_do_for_url($bot_id.'-'.$bots_meta[$bot_id]['name'][$current_lang]);
                     if($bot['name'][$current_lang]=='')
-                        $map_descriptor.='>[[Bots:'.$link_bot.'|Bot #'.$bot_id.']]</td>'."\n";
+                        $map_descriptor.='>[['.$translation_list[$current_lang]['Bots:'].$link_bot.'|Bot #'.$bot_id.']]</td>'."\n";
                     else
-                        $map_descriptor.='>[[Bots:'.$link_bot.'|'.$bot['name'][$current_lang].']]</td>'."\n";
+                        $map_descriptor.='>[['.$translation_list[$current_lang]['Bots:'].$link_bot.'|'.$bot['name'][$current_lang].']]</td>'."\n";
                 if(isset($bot_id_to_map[$bot_id]))
                 {
                     $entry=$bot_id_to_map[$bot_id];
@@ -311,11 +311,11 @@ foreach($industrie_meta as $id=>$industry)
                     {
                         if(isset($zone_meta[$maps_list[$entry]['zone']]))
                         {
-                            $map_descriptor.='<td>[[Maps:'.map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
-                            $map_descriptor.='<td>[[Zones:'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].'|'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].']]</td>'."\n";
+                            $map_descriptor.='<td>[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
+                            $map_descriptor.='<td>[['.$translation_list[$current_lang]['Zones:'].$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].'|'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].']]</td>'."\n";
                         }
                         else
-                            $map_descriptor.='<td colspan="2">[[Maps:'.map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
+                            $map_descriptor.='<td colspan="2">[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
                     }
                     else
                         $map_descriptor.='<td colspan="2">Unknown map</td>'."\n";

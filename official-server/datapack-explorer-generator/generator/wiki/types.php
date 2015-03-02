@@ -22,7 +22,7 @@ foreach($type_meta as $type=>$type_content)
 	$map_descriptor.='<div class="map monster_type_'.$type.'">'."\n";
 		$map_descriptor.='<div class="subblock"><h1>'.$type_content['name'][$current_lang].'</h1></div>'."\n";
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">Type</div><div class="value">'."\n";
-		$map_descriptor.='<div class="type_label_list"><span class="type_label type_label_'.$type.'">[[Monsters type:'.$type_meta[$type]['name'][$current_lang].'|'.$type_meta[$type]['name'][$current_lang].']]</span></div></div></div>'."\n";
+		$map_descriptor.='<div class="type_label_list"><span class="type_label type_label_'.$type.'">[['.$translation_list[$current_lang]['Monsters type:'].$type_meta[$type]['name'][$current_lang].'|'.$type_meta[$type]['name'][$current_lang].']]</span></div></div></div>'."\n";
 		if(isset($effectiveness_list['4']) || isset($effectiveness_list['2']))
 		{
 			$map_descriptor.='<div class="subblock"><div class="valuetitle">Weak to</div><div class="value">'."\n";
@@ -30,11 +30,11 @@ foreach($type_meta as $type=>$type_content)
 			if(isset($effectiveness_list['2']))
 				foreach($effectiveness_list['2'] as $type_effectiveness)
 					if(isset($type_meta[$type_effectiveness]))
-						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">2x: [[Monsters type:'.$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">2x: [['.$translation_list[$current_lang]['Monsters type:'].$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
 			if(isset($effectiveness_list['4']))
 				foreach($effectiveness_list['4'] as $type_effectiveness)
 					if(isset($type_meta[$type_effectiveness]))
-						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">4x: [[Monsters type:'.$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">4x: [['.$translation_list[$current_lang]['Monsters type:'].$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
 			$map_descriptor.=implode(' ',$type_list);
 			$map_descriptor.='</div></div>'."\n";
 		}
@@ -45,11 +45,11 @@ foreach($type_meta as $type=>$type_content)
 			if(isset($effectiveness_list['0.25']))
 				foreach($effectiveness_list['0.25'] as $type_effectiveness)
 					if(isset($type_meta[$type_effectiveness]))
-						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">0.25x: [[Monsters type:'.$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">0.25x: [['.$translation_list[$current_lang]['Monsters type:'].$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
 			if(isset($effectiveness_list['0.5']))
 				foreach($effectiveness_list['0.5'] as $type_effectiveness)
 					if(isset($type_meta[$type_effectiveness]))
-						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">0.5x: [[Monsters type:'.$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">0.5x: [['.$translation_list[$current_lang]['Monsters type:'].$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
 			$map_descriptor.=implode(' ',$type_list);
 			$map_descriptor.='</div></div>'."\n";
 		}
@@ -59,7 +59,7 @@ foreach($type_meta as $type=>$type_content)
 			$type_list=array();
 			foreach($effectiveness_list['0'] as $type_effectiveness)
 				if(isset($type_meta[$type_effectiveness]))
-					$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">[[Monsters type:'.$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
+					$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">[['.$translation_list[$current_lang]['Monsters type:'].$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
 			$map_descriptor.=implode(' ',$type_list);
 			$map_descriptor.='</div></div>'."\n";
 		}
@@ -81,11 +81,11 @@ foreach($type_meta as $type=>$type_content)
 			if(isset($effectiveness_list['2']))
 				foreach($effectiveness_list['2'] as $type_effectiveness)
 					if(isset($type_meta[$type_effectiveness]))
-						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">2x: [[Monsters type:'.$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">2x: [['.$translation_list[$current_lang]['Monsters type:'].$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
 			if(isset($effectiveness_list['4']))
 				foreach($effectiveness_list['4'] as $type_effectiveness)
 					if(isset($type_meta[$type_effectiveness]))
-						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">4x: [[Monsters type:'.$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">4x: [['.$translation_list[$current_lang]['Monsters type:'].$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
 			$map_descriptor.=implode(' ',$type_list);
 			$map_descriptor.='</div></div>'."\n";
 		}
@@ -96,11 +96,11 @@ foreach($type_meta as $type=>$type_content)
 			if(isset($effectiveness_list['0.25']))
 				foreach($effectiveness_list['0.25'] as $type_effectiveness)
 					if(isset($type_meta[$type_effectiveness]))
-						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">0.25x: [[Monsters type:'.$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">0.25x: [['.$translation_list[$current_lang]['Monsters type:'].$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
 			if(isset($effectiveness_list['0.5']))
 				foreach($effectiveness_list['0.5'] as $type_effectiveness)
 					if(isset($type_meta[$type_effectiveness]))
-						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">0.5x: [[Monsters type:'.$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
+						$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">0.5x: [['.$translation_list[$current_lang]['Monsters type:'].$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
 			$map_descriptor.=implode(' ',$type_list);
 			$map_descriptor.='</div></div>'."\n";
 		}
@@ -110,7 +110,7 @@ foreach($type_meta as $type=>$type_content)
 			$type_list=array();
 			foreach($effectiveness_list['0'] as $type_effectiveness)
 				if(isset($type_meta[$type_effectiveness]))
-					$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">[[Monsters type:'.$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
+					$type_list[]='<span class="type_label type_label_'.$type_effectiveness.'">[['.$translation_list[$current_lang]['Monsters type:'].$type_meta[$type_effectiveness]['name'][$current_lang].'|'.$type_meta[$type_effectiveness]['name'][$current_lang].']]</span>'."\n";
 			$map_descriptor.=implode(' ',$type_list);
 			$map_descriptor.='</div></div>'."\n";
 		}
@@ -141,19 +141,19 @@ foreach($type_meta as $type=>$type_content)
 				if(isset($monster_meta[$monster]))
 				{
 					$name=$monster_meta[$monster]['name'][$current_lang];
-					$link=$base_datapack_site_http.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($name).'.html';
+					$link=$base_datapack_site_http.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
 					$map_descriptor.='<tr class="value">
 						<td>'."\n";
 						if(file_exists($datapack_path.'monsters/'.$monster.'/small.png'))
-							$map_descriptor.='<div class="monstericon">[[Monsters:'.$name.'|<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$monster.'/small.png" width="32" height="32" alt="'.$name.'" title="'.$name.'" />]]</div>'."\n";
+							$map_descriptor.='<div class="monstericon">[['.$translation_list[$current_lang]['Monsters:'].$name.'|<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$monster.'/small.png" width="32" height="32" alt="'.$name.'" title="'.$name.'" />]]</div>'."\n";
 						else if(file_exists($datapack_path.'monsters/'.$monster.'/small.gif'))
-							$map_descriptor.='<div class="monstericon">[[Monsters:'.$name.'|<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$monster.'/small.gif" width="32" height="32" alt="'.$name.'" title="'.$name.'" />]]</div>'."\n";
+							$map_descriptor.='<div class="monstericon">[['.$translation_list[$current_lang]['Monsters:'].$name.'|<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$monster.'/small.gif" width="32" height="32" alt="'.$name.'" title="'.$name.'" />]]</div>'."\n";
 						$map_descriptor.='</td>
-						<td>[[Monsters:'.$name.'|'.$name.']]</td>'."\n";
+						<td>[['.$translation_list[$current_lang]['Monsters:'].$name.'|'.$name.']]</td>'."\n";
 						$type_list=array();
 						foreach($monster_meta[$monster]['type'] as $type_monster)
 							if(isset($type_meta[$type_monster]))
-								$type_list[]='<span class="type_label type_label_'.$type_monster.'">[[Monsters type:'.$type_meta[$type_monster]['name'][$current_lang].'|'.$type_meta[$type_monster]['name'][$current_lang].']]</span>'."\n";
+								$type_list[]='<span class="type_label type_label_'.$type_monster.'">[['.$translation_list[$current_lang]['Monsters type:'].$type_meta[$type_monster]['name'][$current_lang].'|'.$type_meta[$type_monster]['name'][$current_lang].']]</span>'."\n";
 						$map_descriptor.='<td><div class="type_label_list">'.implode(' ',$type_list).'</div></td>'."\n";
 					$map_descriptor.='</tr>'."\n";
 				}
@@ -184,7 +184,7 @@ $map_descriptor.='<table class="item_list item_list_type_normal">
 foreach($type_meta as $type=>$type_content)
 {
 	$map_descriptor.='<tr class="value">'."\n";
-	$map_descriptor.='<td><div class="type_label_list"><span class="type_label type_label_'.$type.'">[[Monsters type:'.$type_meta[$type]['name'][$current_lang].'|'.$type_meta[$type]['name'][$current_lang].']]</span></div></td>'."\n";
+	$map_descriptor.='<td><div class="type_label_list"><span class="type_label type_label_'.$type.'">[['.$translation_list[$current_lang]['Monsters type:'].$type_meta[$type]['name'][$current_lang].'|'.$type_meta[$type]['name'][$current_lang].']]</span></div></td>'."\n";
 	$count=0;
 	if(isset($type_to_monster[$type]))
 		foreach($type_to_monster[$type] as $second_type=>$second_type_content)
@@ -203,10 +203,10 @@ $map_descriptor.='<table class="item_list item_list_type_normal">
 <tr class="item_list_title item_list_title_type_normal">
 	<th class="item_list_title_corner">Effective against</th>'."\n";
 foreach($type_meta as $type=>$type_content)
-	$map_descriptor.='<th><div class="type_label_list"><span class="type_label type_label_'.$type.'">[[Monsters type:'.$type_meta[$type]['name'][$current_lang].'|'.$type_meta[$type]['name'][$current_lang].']]</span></div></th>'."\n";
+	$map_descriptor.='<th><div class="type_label_list"><span class="type_label type_label_'.$type.'">[['.$translation_list[$current_lang]['Monsters type:'].$type_meta[$type]['name'][$current_lang].'|'.$type_meta[$type]['name'][$current_lang].']]</span></div></th>'."\n";
 foreach($type_meta as $type=>$type_content)
 {
-	$map_descriptor.='<tr class="value"><td class="item_list_title_left item_list_title_type_normal"><div class="type_label_list"><span class="type_label type_label_'.$type.'">[[Monsters type:'.$type_meta[$type]['name'][$current_lang].'|'.$type_meta[$type]['name'][$current_lang].']]</span></div></td>'."\n";
+	$map_descriptor.='<tr class="value"><td class="item_list_title_left item_list_title_type_normal"><div class="type_label_list"><span class="type_label type_label_'.$type.'">[['.$translation_list[$current_lang]['Monsters type:'].$type_meta[$type]['name'][$current_lang].'|'.$type_meta[$type]['name'][$current_lang].']]</span></div></td>'."\n";
 	foreach($type_meta as $type2=>$type_content2)
 	{
 		$effectiveness=(float)1.0;

@@ -87,7 +87,7 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 	asort($map_by_zone);
 	foreach($map_by_zone as $map=>$name)
 	{
-		$map_descriptor.='<tr class="value"><td>[[Maps:'.map_to_wiki_name($map).'|'.$maps_list[$map]['name'][$current_lang].']]</td><td>'."\n";
+		$map_descriptor.='<tr class="value"><td>[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($map).'|'.$maps_list[$map]['name'][$current_lang].']]</td><td>'."\n";
 		if(isset($map_to_function[$map]['shop']))
 			for ($i = 1; $i <= $map_to_function[$map]['shop']; $i++)
 				$map_descriptor.='<div style="float:left;background-position:-32px 0px;" class="flags flags16" title="Shop"></div>'."\n";

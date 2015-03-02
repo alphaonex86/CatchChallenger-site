@@ -4,8 +4,8 @@ if(!isset($datapackexplorergeneratorinclude))
 
 foreach($type_meta as $type=>$type_content)
 {
-	if(!is_dir($datapack_explorer_local_path.'monsters/'))
-		mkdir($datapack_explorer_local_path.'monsters/');
+	if(!is_dir($datapack_explorer_local_path.''.$translation_list[$current_lang]['monsters/']))
+		mkdir($datapack_explorer_local_path.''.$translation_list[$current_lang]['monsters/']);
 	$map_descriptor='';
 
 	$effectiveness_list=array();
@@ -140,7 +140,7 @@ foreach($type_meta as $type=>$type_content)
 				if(isset($monster_meta[$monster]))
 				{
 					$name=$monster_meta[$monster]['name'][$current_lang];
-					$link=$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($name).'.html';
+					$link=$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
 					$map_descriptor.='<tr class="value">
 						<td>';
 						if(file_exists($datapack_path.'monsters/'.$monster.'/small.png'))
@@ -225,4 +225,4 @@ $content=str_replace('${TITLE}','Type list',$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=clean_html($content);
-filewrite($datapack_explorer_local_path.'types.html',$content);
+filewrite($datapack_explorer_local_path.''.$translation_list[$current_lang]['types.html'],$content);

@@ -71,19 +71,19 @@ foreach($buff_meta as $buff_id=>$buff)
 				if(isset($monster_meta[$monster]))
 				{
 					$name=$monster_meta[$monster]['name'][$current_lang];
-					$link=$base_datapack_site_http.$base_datapack_explorer_site_path.'monsters/'.text_operation_do_for_url($name).'.html';
+					$link=$base_datapack_site_http.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
 					$map_descriptor.='<tr class="value">
 						<td>'."\n";
 						if(file_exists($datapack_path.'monsters/'.$monster.'/small.png'))
-							$map_descriptor.='<div class="monstericon">[[Monsters:'.$name.'|<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$monster.'/small.png" width="32" height="32" alt="'.$name.'" title="'.$name.'" />]]</div>'."\n";
+							$map_descriptor.='<div class="monstericon">[['.$translation_list[$current_lang]['Monsters:'].$name.'|<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$monster.'/small.png" width="32" height="32" alt="'.$name.'" title="'.$name.'" />]]</div>'."\n";
 						else if(file_exists($datapack_path.'monsters/'.$monster.'/small.gif'))
-							$map_descriptor.='<div class="monstericon">[[Monsters:'.$name.'|<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$monster.'/small.gif" width="32" height="32" alt="'.$name.'" title="'.$name.'" />]]</div>'."\n";
+							$map_descriptor.='<div class="monstericon">[['.$translation_list[$current_lang]['Monsters:'].$name.'|<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$monster.'/small.gif" width="32" height="32" alt="'.$name.'" title="'.$name.'" />]]</div>'."\n";
 						$map_descriptor.='</td>
-						<td>[[Monsters:'.$name.'|'.$name.']]</td>'."\n";
+						<td>[['.$translation_list[$current_lang]['Monsters:'].$name.'|'.$name.']]</td>'."\n";
 						$type_list=array();
 						foreach($monster_meta[$monster]['type'] as $type_monster)
 							if(isset($type_meta[$type_monster]))
-								$type_list[]='<span class="type_label type_label_'.$type_monster.'">[[Monsters type:'.$type_meta[$type_monster]['name'][$current_lang].'|'.$type_meta[$type_monster]['name'][$current_lang].']]</span>'."\n";
+								$type_list[]='<span class="type_label type_label_'.$type_monster.'">[['.$translation_list[$current_lang]['Monsters type:'].$type_meta[$type_monster]['name'][$current_lang].'|'.$type_meta[$type_monster]['name'][$current_lang].']]</span>'."\n";
 						$map_descriptor.='<td><div class="type_label_list">'.implode(' ',$type_list).'</div></td>'."\n";
 						if(count($buff_to_monster[$buff_id])>1)
 							$map_descriptor.='<td>'.$buff_level.'</td>'."\n";
@@ -125,7 +125,7 @@ foreach($buff_meta as $buff_id=>$buff)
 	else
 		$map_descriptor.='&nbsp;';
 	$map_descriptor.='</td>'."\n";
-	$map_descriptor.='<td>[[Buffs:'.$buff['name'][$current_lang].'|'.$buff['name'][$current_lang].']]</td>'."\n";
+	$map_descriptor.='<td>[['.$translation_list[$current_lang]['Buffs:'].$buff['name'][$current_lang].'|'.$buff['name'][$current_lang].']]</td>'."\n";
 	$map_descriptor.='</tr>'."\n";
 }
 $map_descriptor.='<tr>

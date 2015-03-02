@@ -1,0 +1,37 @@
+== Wiki configuration ==
+To add at mediawiki to enable:
+$wgAllowImageTag = true;
+$wgAllowExternalImages=true;
+$wgExtraNamespacesIndex=500;
+//see the translated name!
+$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Items";
+$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Maps";
+$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Bots";
+$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Monsters";
+$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Industries";
+$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Zones";
+$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Quests";
+$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Buffs";
+$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Skills";
+$wgExtraNamespaces[$wgExtraNamespacesIndex++] = "Monsters type";
+And into skins/Vector.php:into parent::initPage() put:
+$out->addHeadItem( 'screen','<link rel="stylesheet" type="text/css" media="screen" href="/css/datapack-explorer.css" />');
+
+== Wiki code ==
+Code to add list to the main page:
+//see the translated name!
+* [[Bots list]]
+* [[Buffs list]]
+* [[Crafting list]]
+* [[Industries list]]
+* [[Items list]]
+* [[Maps list]]
+* [[Monsters list]]
+* [[Monsters types]]
+* [[Plants list]]
+* [[Quests list]]
+* [[Skills list]]
+* [[Starters]]
+
+== Translated name ==
+All the translation is here: official-server/datapack-explorer-generator/translation/

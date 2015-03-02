@@ -11,7 +11,7 @@ $map_descriptor.='<table class="item_list item_list_type_normal">
 </tr>'."\n";
 foreach($plant_meta as $id=>$plant)
 {
-	$link=$base_datapack_site_http.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item_meta[$plant['itemUsed']]['name'][$current_lang]).'.html';
+	$link=$base_datapack_site_http.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$plant['itemUsed']]['name'][$current_lang]).'.html';
 	$name=$item_meta[$plant['itemUsed']]['name'][$current_lang];
 	if($item_meta[$plant['itemUsed']]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$plant['itemUsed']]['image']))
 		$image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item_meta[$plant['itemUsed']]['image'];
@@ -22,7 +22,7 @@ foreach($plant_meta as $id=>$plant)
 	if($image!='')
 	{
 		if($link!='')
-			$map_descriptor.='[[Items:'.$name.'|';
+			$map_descriptor.='[['.$translation_list[$current_lang]['Items:'].$name.'|';
 		$map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />';
 		if($link!='')
 			$map_descriptor.=']]'."\n";
@@ -30,7 +30,7 @@ foreach($plant_meta as $id=>$plant)
 	$map_descriptor.='</td>
 	<td>'."\n";
 	if($link!='')
-		$map_descriptor.='[[Items:'.$name.'|';
+		$map_descriptor.='[['.$translation_list[$current_lang]['Items:'].$name.'|';
 	if($name!='')
 		$map_descriptor.=$name;
 	else

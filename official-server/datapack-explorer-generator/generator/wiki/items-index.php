@@ -62,7 +62,7 @@ foreach($item_by_group as $group_name=>$item_meta_temp)
 			</tr>'."\n";
 			$item_count_list=1;
 		}
-		$link=$base_datapack_site_http.$base_datapack_explorer_site_path.'items/'.text_operation_do_for_url($item['name'][$current_lang]).'.html'."\n";
+		$link=$base_datapack_site_http.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item['name'][$current_lang]).'.html'."\n";
 		$name=$item['name'][$current_lang];
 		if($item['image']!='' && file_exists($datapack_path.'items/'.$item['image']))
 			$image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item['image'];
@@ -73,7 +73,7 @@ foreach($item_by_group as $group_name=>$item_meta_temp)
 		if($image!='')
 		{
 			if($link!='')
-				$map_descriptor.='[[Items:'.$name.'|';
+				$map_descriptor.='[['.$translation_list[$current_lang]['Items:'].$name.'|';
 			$map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />'."\n";
 			if($link!='')
 				$map_descriptor.=']]'."\n";
@@ -81,7 +81,7 @@ foreach($item_by_group as $group_name=>$item_meta_temp)
 		$map_descriptor.='</td>
 		<td>'."\n";
 		if($link!='')
-			$map_descriptor.='[[Items:'.$name.'|';
+			$map_descriptor.='[['.$translation_list[$current_lang]['Items:'].$name.'|';
 		if($name!='')
 			$map_descriptor.=$name;
 		else

@@ -4,8 +4,8 @@ if(!isset($datapackexplorergeneratorinclude))
 
 foreach($item_meta as $id=>$item)
 {
-	if(!is_dir($datapack_explorer_local_path.''.$translation_list[$current_lang]['items/']))
-		mkdir($datapack_explorer_local_path.''.$translation_list[$current_lang]['items/']);
+	if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['items/']))
+		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['items/']);
 	$map_descriptor='';
 
 	$map_descriptor.='<div class="map item_details">';
@@ -66,7 +66,7 @@ foreach($item_meta as $id=>$item)
                 {
                     foreach($plant_meta[$item_to_plant[$id]]['requirements']['quests'] as $quest_id)
                     {
-                        $map_descriptor.='Quest: <a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['quests/'].$quest_id.'-'.text_operation_do_for_url($quests_meta[$quest_id]['name'][$current_lang]).'.html" title="'.$quests_meta[$quest_id]['name'][$current_lang].'">';
+                        $map_descriptor.='Quest: <a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['quests/'].$quest_id.'-'.text_operation_do_for_url($quests_meta[$quest_id]['name'][$current_lang]).'.html" title="'.$quests_meta[$quest_id]['name'][$current_lang].'">';
                         $map_descriptor.=$quests_meta[$quest_id]['name'][$current_lang];
                         $map_descriptor.='</a><br />';
                     }
@@ -88,7 +88,7 @@ foreach($item_meta as $id=>$item)
                         $map_descriptor.='<tr class="value"><td>';
                         if(isset($item_meta[$item['item']]))
                         {
-                            $link=$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item['item']]['name'][$current_lang]).'.html';
+                            $link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item['item']]['name'][$current_lang]).'.html';
                             $name=$item_meta[$item['item']]['name'][$current_lang];
                             if($item_meta[$item['item']]['image']!='')
                                 $image=$base_datapack_site_path.'/items/'.$item_meta[$item['item']]['image'];
@@ -185,7 +185,7 @@ foreach($item_meta as $id=>$item)
         if(isset($item_to_crafting[$id]))
         {
             $map_descriptor.='<div class="subblock"><div class="valuetitle">Do the item</div><div class="value">';
-            $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item_to_crafting[$id]['doItemId']]['name'][$current_lang]).'.html" title="'.$item_meta[$item_to_crafting[$id]['doItemId']]['name'][$current_lang].'">';
+            $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item_to_crafting[$id]['doItemId']]['name'][$current_lang]).'.html" title="'.$item_meta[$item_to_crafting[$id]['doItemId']]['name'][$current_lang].'">';
                 $map_descriptor.='<table><tr><td>';
                 if($item_meta[$item_to_crafting[$id]['doItemId']]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$item_to_crafting[$id]['doItemId']]['image']))
                     $map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$item_to_crafting[$id]['doItemId']]['image'].'" width="24" height="24" alt="'.$item_meta[$item_to_crafting[$id]['doItemId']]['name'][$current_lang].'" title="'.$item_meta[$item_to_crafting[$id]['doItemId']]['name'][$current_lang].'" />';
@@ -196,7 +196,7 @@ foreach($item_meta as $id=>$item)
             $map_descriptor.='<div class="subblock"><div class="valuetitle">Material</div><div class="value">';
             foreach($item_to_crafting[$id]['material'] as $material=>$quantity)
             {
-                $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$material]['name'][$current_lang]).'.html" title="'.$item_meta[$material]['name'][$current_lang].'">';
+                $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$material]['name'][$current_lang]).'.html" title="'.$item_meta[$material]['name'][$current_lang].'">';
                     $map_descriptor.='<table><tr><td>';
                     if($item_meta[$material]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
                         $map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'][$current_lang].'" title="'.$item_meta[$material]['name'][$current_lang].'" />';
@@ -214,7 +214,7 @@ foreach($item_meta as $id=>$item)
             $map_descriptor.='<div class="subblock"><div class="valuetitle">Product by crafting</div><div class="value">';
             foreach($doItemId_to_crafting[$id] as $material)
             {
-                $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$material]['name'][$current_lang]).'.html" title="'.$item_meta[$material]['name'][$current_lang].'">';
+                $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$material]['name'][$current_lang]).'.html" title="'.$item_meta[$material]['name'][$current_lang].'">';
                     $map_descriptor.='<table><tr><td>';
                     if($item_meta[$material]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
                         $map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'][$current_lang].'" title="'.$item_meta[$material]['name'][$current_lang].'" />';
@@ -230,7 +230,7 @@ foreach($item_meta as $id=>$item)
             $map_descriptor.='<div class="subblock"><div class="valuetitle">Used into crafting</div><div class="value">';
             foreach($material_to_crafting[$id] as $material)
             {
-                $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$material]['name'][$current_lang]).'.html" title="'.$item_meta[$material]['name'][$current_lang].'">';
+                $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$material]['name'][$current_lang]).'.html" title="'.$item_meta[$material]['name'][$current_lang].'">';
                     $map_descriptor.='<table><tr><td>';
                     if($item_meta[$material]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
                         $map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'][$current_lang].'" title="'.$item_meta[$material]['name'][$current_lang].'" />';
@@ -291,7 +291,7 @@ foreach($item_meta as $id=>$item)
                         $map_descriptor.='<td';
                         if(!$skin_found)
                             $map_descriptor.=' colspan="2"';
-                        $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['bots/'].text_operation_do_for_url($final_url_name).'.html" title="'.$final_name.'">'.$final_name.'</a></td>';
+                        $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].text_operation_do_for_url($final_url_name).'.html" title="'.$final_name.'">'.$final_name.'</a></td>';
                         if(isset($bot_id_to_map[$bot_id]))
                         {
                             $entry=$bot_id_to_map[$bot_id];
@@ -299,11 +299,11 @@ foreach($item_meta as $id=>$item)
                             {
                                 if(isset($zone_meta[$maps_list[$entry]['zone']]))
                                 {
-                                    $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
+                                    $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
                                     $map_descriptor.='<td>'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].'</td>';
                                 }
                                 else
-                                    $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
+                                    $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
                             }
                             else
                                 $map_descriptor.='<td colspan="2">Unknown map</td>';
@@ -344,10 +344,10 @@ foreach($item_meta as $id=>$item)
 					$map_descriptor.='<td>';
 					$map_descriptor.='<table class="monsterforevolution">';
 					if(file_exists($datapack_path.'monsters/'.$evolution['from'].'/front.png'))
-						$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($monster_meta[$evolution['from']]['name'][$current_lang]).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$evolution['from'].'/front.png" width="80" height="80" alt="'.$monster_meta[$evolution['from']]['name'][$current_lang].'" title="'.$monster_meta[$evolution['from']]['name'][$current_lang].'" /></a></td></tr>';
+						$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($monster_meta[$evolution['from']]['name'][$current_lang]).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$evolution['from'].'/front.png" width="80" height="80" alt="'.$monster_meta[$evolution['from']]['name'][$current_lang].'" title="'.$monster_meta[$evolution['from']]['name'][$current_lang].'" /></a></td></tr>';
 					else if(file_exists($datapack_path.'monsters/'.$evolution['from'].'/front.gif'))
-						$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($monster_meta[$evolution['from']]['name'][$current_lang]).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$evolution['from'].'/front.gif" width="80" height="80" alt="'.$monster_meta[$evolution['from']]['name'][$current_lang].'" title="'.$monster_meta[$evolution['from']]['name'][$current_lang].'" /></a></td></tr>';
-					$map_descriptor.='<tr><td class="evolution_name"><a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($monster_meta[$evolution['from']]['name'][$current_lang]).'.html">'.$monster_meta[$evolution['from']]['name'][$current_lang].'</a></td></tr>';
+						$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($monster_meta[$evolution['from']]['name'][$current_lang]).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$evolution['from'].'/front.gif" width="80" height="80" alt="'.$monster_meta[$evolution['from']]['name'][$current_lang].'" title="'.$monster_meta[$evolution['from']]['name'][$current_lang].'" /></a></td></tr>';
+					$map_descriptor.='<tr><td class="evolution_name"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($monster_meta[$evolution['from']]['name'][$current_lang]).'.html">'.$monster_meta[$evolution['from']]['name'][$current_lang].'</a></td></tr>';
 					$map_descriptor.='</table>';
 					$map_descriptor.='</td>';
 					$map_descriptor.='</tr>';
@@ -361,10 +361,10 @@ foreach($item_meta as $id=>$item)
 					$map_descriptor.='<td>';
 					$map_descriptor.='<table class="monsterforevolution">';
 					if(file_exists($datapack_path.'monsters/'.$evolution['to'].'/front.png'))
-						$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($monster_meta[$evolution['to']]['name'][$current_lang]).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$evolution['to'].'/front.png" width="80" height="80" alt="'.$monster_meta[$evolution['to']]['name'][$current_lang].'" title="'.$monster_meta[$evolution['to']]['name'][$current_lang].'" /></a></td></tr>';
+						$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($monster_meta[$evolution['to']]['name'][$current_lang]).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$evolution['to'].'/front.png" width="80" height="80" alt="'.$monster_meta[$evolution['to']]['name'][$current_lang].'" title="'.$monster_meta[$evolution['to']]['name'][$current_lang].'" /></a></td></tr>';
 					else if(file_exists($datapack_path.'monsters/'.$evolution['to'].'/front.gif'))
-						$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($monster_meta[$evolution['to']]['name'][$current_lang]).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$evolution['to'].'/front.gif" width="80" height="80" alt="'.$monster_meta[$evolution['to']]['name'][$current_lang].'" title="'.$monster_meta[$evolution['to']]['name'][$current_lang].'" /></a></td></tr>';
-					$map_descriptor.='<tr><td class="evolution_name"><a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($monster_meta[$evolution['to']]['name'][$current_lang]).'.html">'.$monster_meta[$evolution['to']]['name'][$current_lang].'</a></td></tr>';
+						$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($monster_meta[$evolution['to']]['name'][$current_lang]).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$evolution['to'].'/front.gif" width="80" height="80" alt="'.$monster_meta[$evolution['to']]['name'][$current_lang].'" title="'.$monster_meta[$evolution['to']]['name'][$current_lang].'" /></a></td></tr>';
+					$map_descriptor.='<tr><td class="evolution_name"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($monster_meta[$evolution['to']]['name'][$current_lang]).'.html">'.$monster_meta[$evolution['to']]['name'][$current_lang].'</a></td></tr>';
 					$map_descriptor.='</table>';
 					$map_descriptor.='</td>';
 					$map_descriptor.='</tr>';
@@ -397,7 +397,7 @@ foreach($item_meta as $id=>$item)
 				else
 					$quantity_text=$item_to_monster_list['quantity_min'];
 				$name=$monster_meta[$item_to_monster_list['monster']]['name'][$current_lang];
-				$link=$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
+				$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
 				$map_descriptor.='<tr class="value">';
 				$map_descriptor.='<td>';
 				if(file_exists($datapack_path.'monsters/'.$item_to_monster_list['monster'].'/small.png'))
@@ -429,7 +429,7 @@ foreach($item_meta as $id=>$item)
 			if(isset($quests_meta[$quest_id]))
 			{
 				$map_descriptor.='<tr class="value">';
-				$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['quests/'].$quest_id.'-'.text_operation_do_for_url($quests_meta[$quest_id]['name'][$current_lang]).'.html" title="'.$quests_meta[$quest_id]['name'][$current_lang].'">';
+				$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['quests/'].$quest_id.'-'.text_operation_do_for_url($quests_meta[$quest_id]['name'][$current_lang]).'.html" title="'.$quests_meta[$quest_id]['name'][$current_lang].'">';
 				$map_descriptor.=$quests_meta[$quest_id]['name'][$current_lang];
 				$map_descriptor.='</a></td>';
 				$map_descriptor.='<td>'.$quantity.'</td>';
@@ -469,14 +469,14 @@ foreach($item_meta as $id=>$item)
 			if(isset($quests_meta[$items_to_quests_for_step_details['quest']]))
 			{
 				$map_descriptor.='<tr class="value">';
-				$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['quests/'].$items_to_quests_for_step_details['quest'].'-'.text_operation_do_for_url($quests_meta[$items_to_quests_for_step_details['quest']]['name'][$current_lang]).'.html" title="'.$quests_meta[$items_to_quests_for_step_details['quest']]['name'][$current_lang].'">';
+				$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['quests/'].$items_to_quests_for_step_details['quest'].'-'.text_operation_do_for_url($quests_meta[$items_to_quests_for_step_details['quest']]['name'][$current_lang]).'.html" title="'.$quests_meta[$items_to_quests_for_step_details['quest']]['name'][$current_lang].'">';
 				$map_descriptor.=$quests_meta[$items_to_quests_for_step_details['quest']]['name'][$current_lang];
 				$map_descriptor.='</a></td>';
 				$map_descriptor.='<td>'.$items_to_quests_for_step_details['quantity'].'</td>';
 				if(isset($items_to_quests_for_step_details['monster']) && isset($monster_meta[$items_to_quests_for_step_details['monster']]))
 				{
 					$name=$monster_meta[$items_to_quests_for_step_details['monster']]['name'][$current_lang];
-					$link=$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
+					$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
 					$map_descriptor.='<td>';
 					if(file_exists($datapack_path.'monsters/'.$items_to_quests_for_step_details['monster'].'/small.png'))
 						$map_descriptor.='<div class="monstericon"><a href="'.$link.'"><img src="'.$base_datapack_site_path.'monsters/'.$items_to_quests_for_step_details['monster'].'/small.png" width="32" height="32" alt="'.$monster_meta[$items_to_quests_for_step_details['monster']]['name'][$current_lang].'" title="'.$monster_meta[$items_to_quests_for_step_details['monster']]['name'][$current_lang].'" /></a></div>';
@@ -515,7 +515,7 @@ foreach($item_meta as $id=>$item)
 			if(isset($industrie_meta[$industry_id]))
 			{
 				$map_descriptor.='<tr class="value">';
-				$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['industries/'].$industry_id.'.html">';
+				$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['industries/'].$industry_id.'.html">';
 				$map_descriptor.='Industry #'.$industry_id;
 				$map_descriptor.='</a></td>';
 				$map_descriptor.='<td>'.$quantity.'</td>';
@@ -540,7 +540,7 @@ foreach($item_meta as $id=>$item)
 			if(isset($industrie_meta[$industry_id]))
 			{
 				$map_descriptor.='<tr class="value">';
-				$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['industries/'].$industry_id.'.html">';
+				$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['industries/'].$industry_id.'.html">';
 				$map_descriptor.='Industry #'.$industry_id;
 				$map_descriptor.='</a></td>';
 				$map_descriptor.='<td>'.$quantity.'</td>';
@@ -567,7 +567,7 @@ foreach($item_meta as $id=>$item)
             if(isset($monster_meta[$entry['monster']]))
             {
                 $name=$monster_meta[$entry['monster']]['name'][$current_lang];
-                $link=$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
+                $link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
                 $map_descriptor.='<td>';
                 if(file_exists($datapack_path.'monsters/'.$entry['monster'].'/small.png'))
                     $map_descriptor.='<div class="monstericon"><a href="'.$link.'"><img src="'.$base_datapack_site_path.'monsters/'.$entry['monster'].'/small.png" width="32" height="32" alt="'.$monster_meta[$entry['monster']]['name'][$current_lang].'" title="'.$monster_meta[$entry['monster']]['name'][$current_lang].'" /></a></div>';
@@ -614,11 +614,11 @@ foreach($item_meta as $id=>$item)
                 {
                     if(isset($zone_meta[$maps_list[$entry]['zone']]))
                     {
-                        $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
+                        $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
                         $map_descriptor.='<td>'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].'</td>';
                     }
                     else
-                        $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
+                        $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
                 }
                 else
                     $map_descriptor.='<td colspan="2">Unknown map</td>';
@@ -692,9 +692,9 @@ foreach($item_meta as $id=>$item)
                     if(!$have_skin)
                         $map_descriptor.=' colspan="2"';
                     if($bot['name'][$current_lang]=='')
-                        $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['bots/'].$link.'.html" title="Bot #'.$bot_id.'">Bot #'.$bot_id.'</a></td>';
+                        $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].$link.'.html" title="Bot #'.$bot_id.'">Bot #'.$bot_id.'</a></td>';
                     else
-                        $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['bots/'].$link.'.html" title="'.$bot['name'][$current_lang].'">'.$bot['name'][$current_lang].'</a></td>';
+                        $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].$link.'.html" title="'.$bot['name'][$current_lang].'">'.$bot['name'][$current_lang].'</a></td>';
                     
                     $map_descriptor.='<td>';
                     foreach($fight_meta[$step['fightid']]['monsters'] as $monster)
@@ -716,5 +716,5 @@ foreach($item_meta as $id=>$item)
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=clean_html($content);
-	filewrite($datapack_explorer_local_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item['name'][$current_lang]).'.html',$content);
+	filewrite($datapack_explorer_local_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item['name'][$current_lang]).'.html',$content);
 }

@@ -62,7 +62,7 @@ foreach($item_by_group as $group_name=>$item_meta_temp)
 			</tr>';
 			$item_count_list=1;
 		}
-		$link=$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item['name'][$current_lang]).'.html';
+		$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item['name'][$current_lang]).'.html';
 		$name=$item['name'][$current_lang];
 		if($item['image']!='' && file_exists($datapack_path.'items/'.$item['image']))
 			$image=$base_datapack_site_path.'/items/'.$item['image'];
@@ -103,8 +103,8 @@ foreach($item_by_group as $group_name=>$item_meta_temp)
 }
 
 $content=$template;
-$content=str_replace('${TITLE}','Items list',$content);
+$content=str_replace('${TITLE}',$translation_list[$current_lang]['Items list'],$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=clean_html($content);
-filewrite($datapack_explorer_local_path.''.$translation_list[$current_lang]['items.html'],$content);
+filewrite($datapack_explorer_local_path.$translation_list[$current_lang]['items.html'],$content);

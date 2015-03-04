@@ -141,7 +141,7 @@ foreach($type_meta as $type=>$type_content)
 				if(isset($monster_meta[$monster]))
 				{
 					$name=$monster_meta[$monster]['name'][$current_lang];
-					$link=$base_datapack_site_http.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
+					$link=$base_datapack_site_http.$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
 					$map_descriptor.='<tr class="value">
 						<td>'."\n";
 						if(file_exists($datapack_path.'monsters/'.$monster.'/small.png'))
@@ -171,7 +171,7 @@ foreach($type_meta as $type=>$type_content)
         $map_descriptor.='{{Template:Monsters_type_'.$type_content['name'][$current_lang].'_HEADER}}'."\n";
         if(isset($type_to_monster[$type]) && count($type_to_monster[$type])>0)
             $map_descriptor.='{{Template:Monsters_type_'.$type_content['name'][$current_lang].'_MONSTERS}}'."\n";
-        savewikipage('Monsters type:'.$type_content['name'][$current_lang],$map_descriptor);
+        savewikipage($translation_list[$current_lang]['Monsters type:'].$type_content['name'][$current_lang],$map_descriptor);
     }
 }
 
@@ -231,5 +231,5 @@ if($wikivars['generatefullpage'])
 {
     $map_descriptor.='{{Template:Monsters_types_list}}'."\n";
     $map_descriptor.='{{Template:Monsters_types_table}}'."\n";
-    savewikipage('Monsters types',$map_descriptor);
+    savewikipage($translation_list[$current_lang]['Monsters types'],$map_descriptor);
 }

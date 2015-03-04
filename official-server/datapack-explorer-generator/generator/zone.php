@@ -2,8 +2,8 @@
 if(!isset($datapackexplorergeneratorinclude))
 	die('abort into generator map'."\n");
 
-if(!is_dir($datapack_explorer_local_path.''.$translation_list[$current_lang]['zones/']))
-	if(!mkdir($datapack_explorer_local_path.''.$translation_list[$current_lang]['zones/']))
+if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['zones/']))
+	if(!mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['zones/']))
 		die('Unable to make: '.$datapack_explorer_local_path.'zone/');
 
 foreach($zone_to_map as $zone=>$map_by_zone)
@@ -91,7 +91,8 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 	asort($map_by_zone);
 	foreach($map_by_zone as $map=>$name)
 	{
-		$map_descriptor.='<tr class="value"><td><a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$map).'" title="'.$name.'">'.$name.'</a></td><td><a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$map).'" title="'.$name.'">';
+        $map_descriptor.='<tr class="value"><td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$map).'" title="'.$name[$current_lang].'">'.$name[$current_lang].'</a></td>';
+        $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$map).'" title="'.$name[$current_lang].'">';
 		if(isset($map_to_function[$map]['shop']))
 			for ($i = 1; $i <= $map_to_function[$map]['shop']; $i++)
 				$map_descriptor.='<div style="float:left;background-position:-32px 0px;" class="flags flags16" title="Shop"></div>';
@@ -135,5 +136,5 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=clean_html($content);
-	filewrite($datapack_explorer_local_path.''.$translation_list[$current_lang]['zones/'].text_operation_do_for_url($zone_name).'.html',$content);
+	filewrite($datapack_explorer_local_path.$translation_list[$current_lang]['zones/'].text_operation_do_for_url($zone_name).'.html',$content);
 }

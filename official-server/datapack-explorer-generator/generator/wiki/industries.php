@@ -7,7 +7,7 @@ foreach($industrie_meta as $id=>$industry)
 	$map_descriptor='';
 
 	$map_descriptor.='<div class="map item_details">'."\n";
-		$map_descriptor.='<div class="subblock"><h1>Industry #'.$id.'</h1>'."\n";
+		$map_descriptor.='<div class="subblock"><h1>'.str_replace('[id]',$id,$translation_list[$current_lang]['Industry [id]']).'</h1>'."\n";
 		$map_descriptor.='</div>'."\n";
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">Time to complet a cycle</div><div class="value">'."\n";
 		if($industry['time']<(60*2))
@@ -167,7 +167,7 @@ foreach($industrie_meta as $id=>$industry)
     if($wikivars['generatefullpage'])
     {
         $map_descriptor.='{{Template:industry_'.$id.'}}'."\n";
-        savewikipage('Industries:Industry '.$id,$map_descriptor);
+        savewikipage($translation_list[$current_lang]['Industries:'].str_replace('[id]',$id,$translation_list[$current_lang]['Industry [id]']),$map_descriptor);
     }
 }
 
@@ -184,7 +184,7 @@ foreach($industrie_meta as $id=>$industry)
 {
 	$map_descriptor.='<tr class="value">'."\n";
 	$map_descriptor.='<td>'."\n";
-	$map_descriptor.='[['.$translation_list[$current_lang]['Industries:'].'Industry '.$id.'|Industry '.$id.']]'."\n";
+	$map_descriptor.='[['.$translation_list[$current_lang]['Industries:'].str_replace('[id]',$id,$translation_list[$current_lang]['Industry [id]']).'|'.str_replace('[id]',$id,$translation_list[$current_lang]['Industry [id]']).']]'."\n";
 	$map_descriptor.='</td>'."\n";
 	$map_descriptor.='<td><center>'."\n";
 	foreach($industry['resources'] as $resources)
@@ -193,7 +193,7 @@ foreach($industrie_meta as $id=>$industry)
         $quantity=$resources['quantity'];
 		if(isset($item_meta[$item]))
 		{
-			$link=$base_datapack_site_http.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
+			$link=$base_datapack_site_http.$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
 			$name=$item_meta[$item]['name'][$current_lang];
 			if($item_meta[$item]['image']!='')
 				$image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
@@ -228,7 +228,7 @@ foreach($industrie_meta as $id=>$industry)
         $quantity=$products['quantity'];
 		if(isset($item_meta[$item]))
 		{
-			$link=$base_datapack_site_http.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
+			$link=$base_datapack_site_http.$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
 			$name=$item_meta[$item]['name'][$current_lang];
 			if($item_meta[$item]['image']!='')
 				$image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
@@ -342,5 +342,5 @@ savewikipage('Template:industries_list',$map_descriptor);$map_descriptor='';
 if($wikivars['generatefullpage'])
 {
     $map_descriptor.='{{Template:industries_list}}'."\n";
-    savewikipage('Industries_list',$map_descriptor);
+    savewikipage($translation_list[$current_lang]['Industries list'],$map_descriptor);
 }

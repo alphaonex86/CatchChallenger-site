@@ -30,11 +30,13 @@ $automaticallygen.='</div>';
 
 $datapackexplorergeneratorinclude=true;
 
+$time_start=microtime(true);
 require 'datapack-explorer-generator/function.php';
 require 'datapack-explorer-generator/functions/reputation.php';
 require 'datapack-explorer-generator/functions/quests.php';
 require 'datapack-explorer-generator/functions/monsters.php';
 require 'datapack-explorer-generator/functions/maps.php';
+require 'datapack-explorer-generator/translation/en.php';
 
 $template=file_get_contents('template.html');
 if(preg_match('#/home/user/#isU',$_SERVER['PWD']))
@@ -46,6 +48,7 @@ foreach($wikivarsapp as $wikivars)
     $temp_lang=$wikivars['lang'];
     if(!in_array($temp_lang,$lang_to_load))
     {
+        require 'datapack-explorer-generator/translation/'.$temp_lang.'.php';
         $lang_to_load[]=$temp_lang;
         foreach($translation_list['en'] as $original_text=>$translated_text)
             if(!isset($translation_list[$temp_lang][$original_text]))
@@ -69,54 +72,67 @@ require 'datapack-explorer-generator/load/map.php';
 require 'datapack-explorer-generator/load/fights.php';
 require 'datapack-explorer-generator/load/bots.php';
 require 'datapack-explorer-generator/load/team.php';
-
-require 'datapack-explorer-generator/generator/map_preview.php';
-
-if(count($wikivarsapp)>0)
-{
-    require 'datapack-explorer-generator/generator/wiki/pre.php';
-    foreach($wikivarsapp as $wikivars)
-    {
-        $current_lang=$wikivars['lang'];
-        require 'datapack-explorer-generator/generator/wiki/init.php';
-        require 'datapack-explorer-generator/generator/wiki/map.php';
-        require 'datapack-explorer-generator/generator/wiki/items.php';
-        require 'datapack-explorer-generator/generator/wiki/zone.php';
-        require 'datapack-explorer-generator/generator/wiki/items-index.php';
-        require 'datapack-explorer-generator/generator/wiki/bots.php';
-        require 'datapack-explorer-generator/generator/wiki/monsters.php';
-        require 'datapack-explorer-generator/generator/wiki/buffs.php';
-        require 'datapack-explorer-generator/generator/wiki/crafting.php';
-        require 'datapack-explorer-generator/generator/wiki/plants.php';
-        require 'datapack-explorer-generator/generator/wiki/skills.php';
-        require 'datapack-explorer-generator/generator/wiki/types.php';
-        require 'datapack-explorer-generator/generator/wiki/start.php';
-        require 'datapack-explorer-generator/generator/wiki/quests.php';
-        require 'datapack-explorer-generator/generator/wiki/industries.php';
-        require 'datapack-explorer-generator/generator/wiki/post.php';
-        echo 'Lang for the wiki '.$wikivars['wikiFolder'].':'.$current_lang."\n";
-    }
-    require 'datapack-explorer-generator/generator/wiki/close.php';
-    if($argc>1 && in_array($argv[1],array('wiki')))
-        die('Wiki only generated, leave'."\n");
-}
+echo 'Datapack loaded'."\n";
+echo 'Done into '.(microtime(true)-$time_start).'s'."\n";
 
 $current_lang='en';
-require 'datapack-explorer-generator/generator/map.php';
-require 'datapack-explorer-generator/generator/buffs.php';
-require 'datapack-explorer-generator/generator/skills.php';
-require 'datapack-explorer-generator/generator/monsters.php';
-require 'datapack-explorer-generator/generator/items.php';
-require 'datapack-explorer-generator/generator/items-index.php';
-require 'datapack-explorer-generator/generator/crafting.php';
-require 'datapack-explorer-generator/generator/industries.php';
-require 'datapack-explorer-generator/generator/start.php';
-require 'datapack-explorer-generator/generator/quests.php';
-require 'datapack-explorer-generator/generator/types.php';
-require 'datapack-explorer-generator/generator/bots.php';
-require 'datapack-explorer-generator/generator/zone.php';
-require 'datapack-explorer-generator/generator/plants.php';
-//require 'datapack-explorer-generator/generator/reputation.php';
+$time_start=microtime(true);
+require 'datapack-explorer-generator/generator/map_preview.php';
+echo 'Map preview done'."\n";
+echo 'Done into '.(microtime(true)-$time_start).'s'."\n";
+
+if($argc<=1 || in_array('wiki',$argv))
+    if(count($wikivarsapp)>0)
+    {
+        require 'datapack-explorer-generator/generator/wiki/pre.php';
+        foreach($wikivarsapp as $wikivars)
+        {
+            $time_start=microtime(true);
+            $current_lang=$wikivars['lang'];
+            require 'datapack-explorer-generator/generator/wiki/init.php';
+            require 'datapack-explorer-generator/generator/wiki/map.php';
+            require 'datapack-explorer-generator/generator/wiki/items.php';
+            require 'datapack-explorer-generator/generator/wiki/zone.php';
+            require 'datapack-explorer-generator/generator/wiki/items-index.php';
+            require 'datapack-explorer-generator/generator/wiki/bots.php';
+            require 'datapack-explorer-generator/generator/wiki/monsters.php';
+            require 'datapack-explorer-generator/generator/wiki/buffs.php';
+            require 'datapack-explorer-generator/generator/wiki/crafting.php';
+            require 'datapack-explorer-generator/generator/wiki/plants.php';
+            require 'datapack-explorer-generator/generator/wiki/skills.php';
+            require 'datapack-explorer-generator/generator/wiki/types.php';
+            require 'datapack-explorer-generator/generator/wiki/start.php';
+            require 'datapack-explorer-generator/generator/wiki/quests.php';
+            require 'datapack-explorer-generator/generator/wiki/industries.php';
+            require 'datapack-explorer-generator/generator/wiki/post.php';
+            echo 'Lang for the wiki '.$wikivars['wikiFolder'].':'.$current_lang."\n";
+            echo 'Done into '.(microtime(true)-$time_start).'s'."\n";
+        }
+        require 'datapack-explorer-generator/generator/wiki/close.php';
+    }
+
+if($argc<=1 || in_array('explorer',$argv))
+{
+    $time_start=microtime(true);
+    $current_lang='en';
+    require 'datapack-explorer-generator/generator/map.php';
+    require 'datapack-explorer-generator/generator/buffs.php';
+    require 'datapack-explorer-generator/generator/skills.php';
+    require 'datapack-explorer-generator/generator/monsters.php';
+    require 'datapack-explorer-generator/generator/items.php';
+    require 'datapack-explorer-generator/generator/items-index.php';
+    require 'datapack-explorer-generator/generator/crafting.php';
+    require 'datapack-explorer-generator/generator/industries.php';
+    require 'datapack-explorer-generator/generator/start.php';
+    require 'datapack-explorer-generator/generator/quests.php';
+    require 'datapack-explorer-generator/generator/types.php';
+    require 'datapack-explorer-generator/generator/bots.php';
+    require 'datapack-explorer-generator/generator/zone.php';
+    require 'datapack-explorer-generator/generator/plants.php';
+    //require 'datapack-explorer-generator/generator/reputation.php';
+    echo 'Explorer generation done '.(microtime(true)-$time_start).'s'."\n";
+    echo 'Done into '.(microtime(true)-$time_start).'s'."\n";
+}
 
 //require 'datapack-explorer-generator/tools/map-fix-broken-links.php';
 //require 'datapack-explorer-generator/tools/rename-map-file-name.php';

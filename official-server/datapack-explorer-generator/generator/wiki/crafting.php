@@ -15,7 +15,7 @@ foreach($crafting_meta as $id=>$crafting)
 {
 	if(isset($item_meta[$crafting['itemToLearn']]))
 	{
-		$link=$base_datapack_site_http.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$crafting['itemToLearn']]['name'][$current_lang]).'.html';
+		$link=$base_datapack_site_http.$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$crafting['itemToLearn']]['name'][$current_lang]).'.html';
 		//$link=$base_datapack_site_http.$base_datapack_explorer_site_path.'crafting/'.text_operation_do_for_url($item_meta[$crafting['itemToLearn']]['name'][$current_lang]).'.html';
 		$name=$item_meta[$crafting['itemToLearn']]['name'][$current_lang];
 		if($item_meta[$crafting['itemToLearn']]['image']!='')
@@ -81,5 +81,5 @@ savewikipage('Template:Crafting_list',$map_descriptor);$map_descriptor='';
 if($wikivars['generatefullpage'])
 {
     $map_descriptor.='{{Template:Crafting_list}}'."\n";
-    savewikipage('Crafting_list',$map_descriptor);
+    savewikipage($translation_list[$current_lang]['Crafting list'],$map_descriptor);
 }

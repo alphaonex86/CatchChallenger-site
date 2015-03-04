@@ -126,11 +126,9 @@ if($wgDBtype!='mysql')
     echo('Only mysql purge supported');
 else
 {
-    $wikidblink=mysql_connect($wgDBserver,$wgDBuser,$wgDBpassword,true);
+    $wikidblink=mysqli_connect($wgDBserver,$wgDBuser,$wgDBpassword,$wgDBname);
     if(!$wikidblink)
         die('Mysql wiki: unable to connect');
-    else if(!mysql_select_db($wgDBname,$wikidblink))
-        die('Mysql wiki: unable to select the db');
     else
     {
     }

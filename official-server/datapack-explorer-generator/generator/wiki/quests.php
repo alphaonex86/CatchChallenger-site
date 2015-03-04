@@ -195,7 +195,7 @@ foreach($quests_meta as $id=>$quest)
 						$map_descriptor.='<tr class="value"><td>'."\n";
 						if(isset($item_meta[$item['item']]))
 						{
-							$link=$base_datapack_site_http.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item['item']]['name'][$current_lang]).'.html';
+							$link=$base_datapack_site_http.$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item['item']]['name'][$current_lang]).'.html';
 							$name=$item_meta[$item['item']]['name'][$current_lang];
 							if($item_meta[$item['item']]['image']!='')
 								$image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item_meta[$item['item']]['image'];
@@ -234,7 +234,7 @@ foreach($quests_meta as $id=>$quest)
 							if(isset($monster_meta[$item['monster']]))
 							{
 								$name=$monster_meta[$item['monster']]['name'][$current_lang];
-								$link=$base_datapack_site_http.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
+								$link=$base_datapack_site_http.$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
 								$map_descriptor.='<td>'."\n";
 								if(file_exists($datapack_path.'monsters/'.$item['monster'].'/small.png'))
 									$map_descriptor.='<div class="monstericon">[[Monters:'.$name.'|<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$item['monster'].'/small.png" width="32" height="32" alt="'.$name.'" title="'.$name.'" />]]</div>'."\n";
@@ -277,7 +277,7 @@ foreach($quests_meta as $id=>$quest)
                     $map_descriptor.='<tr class="value"><td>'."\n";
                     if(isset($item_meta[$item['item']]))
                     {
-                        $link=$base_datapack_site_http.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item['item']]['name'][$current_lang]).'.html';
+                        $link=$base_datapack_site_http.$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item['item']]['name'][$current_lang]).'.html';
                         $name=$item_meta[$item['item']]['name'][$current_lang];
                         if($item_meta[$item['item']]['image']!='')
                             $image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item_meta[$item['item']]['image'];
@@ -348,7 +348,7 @@ foreach($quests_meta as $id=>$quest)
             $map_descriptor.='{{Template:quest_'.$id.'_STEPS}}'."\n";
         if(count($quest['rewards'])>0)
             $map_descriptor.='{{Template:quest_'.$id.'_REWARDS}}'."\n";
-        savewikipage('Quests:'.$id.'_'.$quest['name'][$current_lang],$map_descriptor);
+        savewikipage($translation_list[$current_lang]['Quests:'].$id.'_'.$quest['name'][$current_lang],$map_descriptor);
     }
 }
 
@@ -361,5 +361,5 @@ savewikipage('Template:quests_list',$map_descriptor);$map_descriptor='';
 if($wikivars['generatefullpage'])
 {
     $map_descriptor.='{{Template:quests_list}}'."\n";
-    savewikipage('Quests_list',$map_descriptor);
+    savewikipage($translation_list[$current_lang]['Quests list'],$map_descriptor);
 }

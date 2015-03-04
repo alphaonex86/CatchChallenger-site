@@ -136,7 +136,7 @@ foreach($skill_meta as $skill_id=>$skill)
 				if(isset($monster_meta[$monster]))
 				{
 					$name=$monster_meta[$monster]['name'][$current_lang];
-					$link=$base_datapack_site_http.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
+					$link=$base_datapack_site_http.$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
 					$map_descriptor.='<tr class="value">
 						<td>'."\n";
 						if(file_exists($datapack_path.'monsters/'.$monster.'/small.png'))
@@ -173,7 +173,7 @@ foreach($skill_meta as $skill_id=>$skill)
         $map_descriptor.='{{Template:skill_'.$skill_id.'_HEADER}}'."\n";
         if(isset($skill_to_monster[$skill_id]) && count($skill_to_monster[$skill_id])>0)
             $map_descriptor.='{{Template:skill_'.$skill_id.'_MONSTERS}}'."\n";
-        savewikipage('Skills:'.$skill['name'][$current_lang],$map_descriptor);
+        savewikipage($translation_list[$current_lang]['Skills:'].$skill['name'][$current_lang],$map_descriptor);
     }
 }
 
@@ -220,5 +220,5 @@ savewikipage('Template:skills_list',$map_descriptor);$map_descriptor='';
 if($wikivars['generatefullpage'])
 {
     $map_descriptor.='{{Template:skills_list}}'."\n";
-    savewikipage('Skills_list',$map_descriptor);
+    savewikipage($translation_list[$current_lang]['Skills list'],$map_descriptor);
 }

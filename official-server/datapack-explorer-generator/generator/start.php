@@ -71,7 +71,7 @@ foreach($start_meta as $entry)
 		if(array_key_exists($monster['id'],$monster_meta))
 		{
 			$map_descriptor.='<li>';
-			$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($monster_meta[$monster['id']]['name'][$current_lang]).'.html">';
+			$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($monster_meta[$monster['id']]['name'][$current_lang]).'.html">';
 			if(file_exists($datapack_path.'monsters/'.$monster['id'].'/front.png'))
 				$map_descriptor.='<img src="'.$base_datapack_site_path.'monsters/'.$monster['id'].'/front.png" width="80" height="80" alt="'.htmlspecialchars($monster_meta[$monster['id']]['name'][$current_lang]).'" title="'.htmlspecialchars($monster_meta[$monster['id']]['description'][$current_lang]).'" /><br />';
 			elseif(file_exists($datapack_path.'monsters/'.$monster['id'].'/front.gif'))
@@ -114,7 +114,7 @@ foreach($start_meta as $entry)
 			if(array_key_exists($item['id'],$item_meta))
 			{
 				$map_descriptor.='<li>';
-				$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item['id']]['name'][$current_lang]).'.html" title="'.$item_meta[$item['id']]['name'][$current_lang].'">';
+				$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item['id']]['name'][$current_lang]).'.html" title="'.$item_meta[$item['id']]['name'][$current_lang].'">';
 				if($item_meta[$item['id']]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$item['id']]['image']))
 					$map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.htmlspecialchars($item_meta[$item['id']]['image']).'" width="24" height="24" alt="'.htmlspecialchars($item_meta[$item['id']]['description'][$current_lang]).'" title="'.htmlspecialchars($item_meta[$item['id']]['description'][$current_lang]).'" />'.$quantity.htmlspecialchars($item_meta[$item['id']]['name'][$current_lang]);
 				else
@@ -131,8 +131,8 @@ foreach($start_meta as $entry)
 	$index++;
 }
 $content=$template;
-$content=str_replace('${TITLE}','Starter characters',$content);
+$content=str_replace('${TITLE}',$translation_list[$current_lang]['Starters'],$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=clean_html($content);
-filewrite($datapack_explorer_local_path.''.$translation_list[$current_lang]['start.html'],$content);
+filewrite($datapack_explorer_local_path.$translation_list[$current_lang]['start.html'],$content);

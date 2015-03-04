@@ -4,11 +4,11 @@ if(!isset($datapackexplorergeneratorinclude))
 
 if(isset($wikidblink))
 {
-    mysql_query('TRUNCATE `'.$wgDBprefix.'l10n_cache`;',$wikidblink) or die(mysql_error());
-    mysql_query('TRUNCATE `'.$wgDBprefix.'objectcache`;',$wikidblink) or die(mysql_error());
+    mysqli_query($wikidblink,'TRUNCATE `'.$wgDBprefix.'l10n_cache`;') or die(mysqli_error());
+    mysqli_query($wikidblink,'TRUNCATE `'.$wgDBprefix.'objectcache`;') or die(mysqli_error());
 }
 
-mysql_close($wikidblink);
+mysqli_close($wikidblink);
 unlink($wikivars['cookiefile']);
 
 

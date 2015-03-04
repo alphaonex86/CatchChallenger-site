@@ -2,9 +2,9 @@
 if(!isset($datapackexplorergeneratorinclude))
     die('abort into generator map preview'."\n");
 
-if(!is_dir($datapack_explorer_local_path.''.$translation_list[$current_lang]['maps/']))
-    if(!mkdir($datapack_explorer_local_path.''.$translation_list[$current_lang]['maps/']))
-        die('Unable to make: '.$datapack_explorer_local_path.''.$translation_list[$current_lang]['maps/']);
+if(!is_dir($datapack_explorer_local_path.'maps/'))
+    if(!mkdir($datapack_explorer_local_path.'maps/'))
+        die('Unable to make: '.$datapack_explorer_local_path.'maps/');
 
 foreach($temp_maps as $map)
 {
@@ -13,9 +13,9 @@ foreach($temp_maps as $map)
     if(preg_match('#/#isU',$map))
     {
         $map_folder=preg_replace('#/[^/]+$#','',$map).'/';
-        if(!is_dir($datapack_explorer_local_path.''.$translation_list[$current_lang]['maps/'].$map_folder))
-            if(!mkpath($datapack_explorer_local_path.''.$translation_list[$current_lang]['maps/'].$map_folder))
-                die('Unable to make: '.$datapack_explorer_local_path.''.$translation_list[$current_lang]['maps/'].$map_folder);
+        if(!is_dir($datapack_explorer_local_path.'maps/'.$map_folder))
+            if(!mkpath($datapack_explorer_local_path.'maps/'.$map_folder))
+                die('Unable to make: '.$datapack_explorer_local_path.'maps/'.$map_folder);
     }
 }
 
@@ -25,7 +25,7 @@ if(isset($map_generator) && $map_generator!='')
     $pwd=getcwd();
     $return_var=0;
     //echo 'cd '.$datapack_explorer_local_path.'maps/ && '.$map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/';
-    chdir($datapack_explorer_local_path.''.$translation_list[$current_lang]['maps/']);
+    chdir($datapack_explorer_local_path.'maps/');
     
     //all map preview
     if(count($start_meta)>0)

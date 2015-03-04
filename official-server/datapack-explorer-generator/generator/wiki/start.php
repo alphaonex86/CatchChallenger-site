@@ -149,4 +149,4 @@ foreach($start_meta as $entry)
     }
     $index++;
 }
-savewikipage('Starters',$map_descriptor);
+savewikipage($translation_list[$current_lang]['Starters'],$map_descriptor);

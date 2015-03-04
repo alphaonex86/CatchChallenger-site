@@ -4,8 +4,8 @@ if(!isset($datapackexplorergeneratorinclude))
 
 foreach($buff_meta as $buff_id=>$buff)
 {
-	if(!is_dir($datapack_explorer_local_path.''.$translation_list[$current_lang]['monsters/']))
-		mkdir($datapack_explorer_local_path.''.$translation_list[$current_lang]['monsters/']);
+	if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['monsters/']))
+		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['monsters/']);
 	if(!is_dir($datapack_explorer_local_path.'monsters/buffs/'))
 		mkdir($datapack_explorer_local_path.'monsters/buffs/');
 	$map_descriptor='';
@@ -17,38 +17,40 @@ foreach($buff_meta as $buff_id=>$buff)
 			$map_descriptor.='<div class="subblock"><div class="valuetitle">';
 			if(file_exists($datapack_path.'/monsters/buff/'.$buff_id.'.png'))
 				$map_descriptor.='<center><img src="'.$base_datapack_site_path.'monsters/buff/'.$buff_id.'.png" alt="" width="16" height="16" /></center>';
-			$map_descriptor.='Level '.$level.'</div><div class="value">';
+			if(count($buff['level_list'])>1)
+                $map_descriptor.=str_replace('[level]',$level,$translation_list[$current_lang]['Level [level]']);
+            $map_descriptor.='</div><div class="value">';
 			if($effect['capture_bonus']!=1)
-				$map_descriptor.='Capture bonus: '.$effect['capture_bonus'].'<br />';
+				$map_descriptor.=$translation_list[$current_lang]['Capture bonus: '].$effect['capture_bonus'].'<br />';
 			if($effect['duration']=='ThisFight')
-				$map_descriptor.='This buff is valid for this fight<br />';
+				$map_descriptor.=$translation_list[$current_lang]['This buff is only valid for this fight'].'<br />';
 			else if($effect['duration']=='Always')
-				$map_descriptor.='This buff is always valid<br />';
+				$map_descriptor.=$translation_list[$current_lang]['This buff is always valid'].'<br />';
 			else if($effect['duration']=='NumberOfTurn')
-				$map_descriptor.='This buff is valid during '.$effect['durationNumberOfTurn'].' turns<br />';
+				$map_descriptor.=str_replace('[turns]',$effect['durationNumberOfTurn'],$translation_list[$current_lang]['This buff is valid during [turns] turns']).'<br />';
 
-			if(count($effect['effect']['inFight'])>0)
-			{
-				$map_descriptor.='<div class="subblock"><div class="valuetitle">In fight</div><div class="value">';
-				if(isset($effect['effect']['inFight']['hp']))
-					$map_descriptor.='The hp change <b>'.$effect['effect']['inFight']['hp']['value'].'</b><br />';
-				if(isset($effect['effect']['inFight']['defense']))
-					$map_descriptor.='The defense change <b>'.$effect['effect']['inFight']['defense']['value'].'</b><br />';
-				if(isset($effect['effect']['inFight']['attack']))
-					$map_descriptor.='The attack change <b>'.$effect['effect']['inFight']['attack']['value'].'</b><br />';
-				$map_descriptor.='</div></div>';
-			}
-			if(count($effect['effect']['inWalk'])>0)
-			{
-				$map_descriptor.='<div class="subblock"><div class="valuetitle">In walk</div><div class="value">';
-				if(isset($effect['effect']['inWalk']['hp']))
-					$map_descriptor.='The hp change <b>'.$effect['effect']['inWalk']['hp']['value'].'</b> during <b>'.$effect['effect']['inWalk']['hp']['steps'].' steps</b><br />';
-				if(isset($effect['effect']['inWalk']['defense']))
-					$map_descriptor.='The defense change <b>'.$effect['effect']['inWalk']['defense']['value'].'</b> during <b>'.$effect['effect']['inWalk']['hp']['steps'].' steps</b><br />';
-				if(isset($effect['effect']['inWalk']['attack']))
-					$map_descriptor.='The attack change <b>'.$effect['effect']['inWalk']['attack']['value'].'</b> during <b>'.$effect['effect']['inWalk']['hp']['steps'].' steps</b><br />';
-				$map_descriptor.='</div></div>';
-			}
+            if(count($effect['effect']['inFight'])>0)
+            {
+                $map_descriptor.='<div class="subblock"><div class="valuetitle">In fight</div><div class="value">'."\n";
+                if(isset($effect['effect']['inFight']['hp']))
+                    $map_descriptor.=str_replace('[hp]',$effect['effect']['inFight']['hp']['value'],$translation_list[$current_lang]['The hp change of [hp]']).'<br />'."\n";
+                if(isset($effect['effect']['inFight']['defense']))
+                    $map_descriptor.=str_replace('[defense]',$effect['effect']['inFight']['defense']['value'],$translation_list[$current_lang]['The defense change of [defense]']).'<br />'."\n";
+                if(isset($effect['effect']['inFight']['attack']))
+                    $map_descriptor.=str_replace('[attack]',$effect['effect']['inFight']['attack']['value'],$translation_list[$current_lang]['The attack change of [attack]']).'<br />'."\n";
+                $map_descriptor.='</div></div>'."\n";
+            }
+            if(count($effect['effect']['inWalk'])>0)
+            {
+                $map_descriptor.='<div class="subblock"><div class="valuetitle">In walk</div><div class="value">'."\n";
+                if(isset($effect['effect']['inWalk']['hp']))
+                    $map_descriptor.=str_replace('[turns]',$effect['effect']['inWalk']['hp']['steps'],str_replace('[hp]',$effect['effect']['inWalk']['hp']['value'],$translation_list[$current_lang]['The hp change of <b>[hp]</b> during <b>[turns] steps</b>'])).'<br />'."\n";
+                if(isset($effect['effect']['inWalk']['defense']))
+                    $map_descriptor.=str_replace('[turns]',$effect['effect']['inWalk']['hp']['steps'],str_replace('[defense]',$effect['effect']['inWalk']['defense']['value'],$translation_list[$current_lang]['The defense change of <b>[defense]</b> during <b>[turns] steps</b>'])).'<br />'."\n";
+                if(isset($effect['effect']['inWalk']['attack']))
+                    $map_descriptor.=str_replace('[turns]',$effect['effect']['inWalk']['hp']['steps'],str_replace('[attack]',$effect['effect']['inWalk']['attack']['value'],$translation_list[$current_lang]['The attack change of <b>[attack]</b> during <b>[turns] steps</b>'])).'<br />'."\n";
+                $map_descriptor.='</div></div>'."\n";
+            }
 
 			$map_descriptor.='</div></div>';
 		}
@@ -58,16 +60,18 @@ foreach($buff_meta as $buff_id=>$buff)
 	{
 		$map_descriptor.='<table class="item_list item_list_type_normal">
 		<tr class="item_list_title item_list_title_type_normal">
-			<th colspan="2">Monster</th>
-			<th>Type</th>';
+			<th colspan="2">'.$translation_list[$current_lang]['Monster'].'</th>
+			<th>'.$translation_list[$current_lang]['Type'].'</th>';
 			if(count($buff_to_monster[$buff_id])>1)
-				$map_descriptor.='<th>Skill level</th>';
+				$map_descriptor.='<th>'.$translation_list[$current_lang]['Skill level'].'</th>';
 		$map_descriptor.='</tr>';
 		foreach($buff_to_monster[$buff_id] as $buff_level=>$monster_list_content)
 		{
 			if($buff_level_displayed!=$buff_level && count($buff_to_monster[$buff_id])>1)
 			{
-				$map_descriptor.='<tr class="item_list_title_type_normal"><th colspan="4">Level '.$buff_level.'</th></tr>';
+				$map_descriptor.='<tr class="item_list_title_type_normal"><th colspan="4">';
+                $map_descriptor.=str_replace('[level]',$buff_level,$translation_list[$current_lang]['Level [level]']);
+                $map_descriptor.='</th></tr>';
 				$buff_level_displayed=$buff_level;
 			}
 			foreach($monster_list_content as $monster)
@@ -75,7 +79,7 @@ foreach($buff_meta as $buff_id=>$buff)
 				if(isset($monster_meta[$monster]))
 				{
 					$name=$monster_meta[$monster]['name'][$current_lang];
-					$link=$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
+					$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
 					$map_descriptor.='<tr class="value">
 						<td>';
 						if(file_exists($datapack_path.'monsters/'.$monster.'/small.png'))
@@ -117,7 +121,7 @@ foreach($buff_meta as $buff_id=>$buff)
 $map_descriptor='';
 $map_descriptor.='<table class="item_list item_list_type_normal">
 <tr class="item_list_title item_list_title_type_normal">
-	<th colspan="2">Buff</th>
+	<th colspan="2">'.$translation_list[$current_lang]['Buff'].'</th>
 </tr>';
 foreach($buff_meta as $buff_id=>$buff)
 {
@@ -136,8 +140,8 @@ $map_descriptor.='<tr>
 </tr>
 </table>';
 $content=$template;
-$content=str_replace('${TITLE}','Buffs list',$content);
+$content=str_replace('${TITLE}',$translation_list[$current_lang]['Buffs list'],$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=clean_html($content);
-filewrite($datapack_explorer_local_path.''.$translation_list[$current_lang]['buffs.html'],$content);
+filewrite($datapack_explorer_local_path.$translation_list[$current_lang]['buffs.html'],$content);

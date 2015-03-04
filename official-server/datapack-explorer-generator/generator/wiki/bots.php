@@ -105,7 +105,7 @@ foreach($bots_meta as $bot_id=>$bot)
 		{
 			if(isset($maps_list[$bot_id_to_map[$bot_id]]))
 			{
-				$map_descriptor.='<div class="subblock"><div class="valuetitle">Map</div><div class="value">'."\n";
+				$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Map'].'</div><div class="value">'."\n";
 				if(isset($zone_meta[$maps_list[$bot_id_to_map[$bot_id]]['zone']]))
 				{
 					$map_descriptor.='[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($bot_id_to_map[$bot_id]).'|'.$maps_list[$bot_id_to_map[$bot_id]]['name'][$current_lang].']]'."\n";
@@ -119,7 +119,7 @@ foreach($bots_meta as $bot_id=>$bot)
 		}
         if(isset($bot_start_to_quests[$bot_id]))
         {
-            $map_descriptor.='<div class="subblock"><div class="valuetitle">Quest start</div><div class="value">'."\n";
+            $map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Quest start'].'</div><div class="value">'."\n";
             $map_descriptor.=questList($bot_start_to_quests[$bot_id],false);
             $map_descriptor.='</div></div>'."\n";
         }
@@ -127,13 +127,13 @@ foreach($bots_meta as $bot_id=>$bot)
 		{
 			if($step['type']=='text')
 			{
-				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Text</div><div class="value">'."\n";
+				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">'.$translation_list[$current_lang]['Text'].'</div><div class="value">'."\n";
 				$map_descriptor.=preg_replace('#a href="([0-9]+)#isU','a href="#step$1',$step['text'][$current_lang]);
 				$map_descriptor.='</div></div>'."\n";
 			}
 			else if($step['type']=='shop')
 			{
-				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Shop</div>
+				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">'.$translation_list[$current_lang]['Shop'].'</div>
 				<center><div style="background-position:-32px 0px;float:none;" class="flags flags16"></div></center>
 				<div class="value">'."\n";
 				$map_descriptor.='<center><table class="item_list item_list_type_normal">
@@ -148,7 +148,7 @@ foreach($bots_meta as $bot_id=>$bot)
 						$map_descriptor.='<tr class="value">'."\n";
 						if(isset($item_meta[$item]))
 						{
-							$link=$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html'."\n";
+							$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html'."\n";
 							$name=$item_meta[$item]['name'][$current_lang];
 							if($item_meta[$item]['image']!='')
 								$image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
@@ -197,7 +197,7 @@ foreach($bots_meta as $bot_id=>$bot)
 			{
 				if(isset($fight_meta[$step['fightid']]))
 				{
-					$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Fight</div>
+					$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">'.$translation_list[$current_lang]['Fight'].'</div>
 					<div style="background-position:-16px -16px;float:none;" class="flags flags16">
 					<div class="value">'."\n";
 					if($fight_meta[$step['fightid']]['cash']>0)
@@ -213,7 +213,7 @@ foreach($bots_meta as $bot_id=>$bot)
                         {
                             if(isset($item_meta[$item['item']]))
                             {
-                                $link=$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item['item']]['name'][$current_lang]).'.html'."\n";
+                                $link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item['item']]['name'][$current_lang]).'.html'."\n";
                                 $name=$item_meta[$item['item']]['name'][$current_lang];
                                 if($item_meta[$item['item']]['image']!='')
                                     $image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item_meta[$item['item']]['image'];
@@ -300,49 +300,49 @@ foreach($bots_meta as $bot_id=>$bot)
 			}
 			else if($step['type']=='heal')
 			{
-				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Heal</div>
+				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">'.$translation_list[$current_lang]['Heal'].'</div>
 				<div class="value">
 					<center><div style="background-position:0px 0px;float:none;" class="flags flags128"></div></center>
 				</div>'."\n";
 			}
 			else if($step['type']=='learn')
 			{
-				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Learn</div>
+				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">'.$translation_list[$current_lang]['Learn'].'</div>
 				<div class="value">
 					<center><div style="background-position:-384px 0px;float:none;" class="flags flags128"></div></center>
 				</div>'."\n";
 			}
 			else if($step['type']=='warehouse')
 			{
-				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Warehouse</div>
+				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">'.$translation_list[$current_lang]['Warehouse'].'</div>
 				<div class="value">
 					<center><div style="background-position:0px -128px;float:none;" class="flags flags128"></div></center>
 				</div>'."\n";
 			}
 			else if($step['type']=='market')
 			{
-				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Market</div>
+				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">'.$translation_list[$current_lang]['Market'].'</div>
 				<div class="value">
 					<center><div style="background-position:0px -128px;float:none;" class="flags flags128"></div></center>
 				</div>'."\n";
 			}
 			else if($step['type']=='clan')
 			{
-				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Clan</div>
+				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">'.$translation_list[$current_lang]['Clan'].'</div>
 				<div class="value">
 					<center><div style="background-position:-384px -128px;float:none;" class="flags flags128"></div></center>
 				</div>'."\n";
 			}
 			else if($step['type']=='sell')
 			{
-				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Sell</div>
+				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">'.$translation_list[$current_lang]['Sell'].'</div>
 				<div class="value">
 					<center><div style="background-position:-256px 0px;float:none;" class="flags flags128"></div></center>
 				</div>'."\n";
 			}
 			else if($step['type']=='zonecapture')
 			{
-				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Zone capture</div>
+				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">'.$translation_list[$current_lang]['Zone capture'].'</div>
 				<div class="value">
 					Zone: '."\n";
 				if(isset($zone_meta[$step['zone']]))
@@ -354,7 +354,7 @@ foreach($bots_meta as $bot_id=>$bot)
 			}
 			else if($step['type']=='industry')
 			{
-				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Industry</div>
+				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">'.$translation_list[$current_lang]['Industry'].'</div>
 				<center><div style="background-position:0px -32px;float:none;" class="flags flags16"></div></center>
 				<div class="value">'."\n";
                 if(!isset($industrie_meta[$step['industry']]))
@@ -382,7 +382,7 @@ foreach($bots_meta as $bot_id=>$bot)
                         $quantity=$resources['quantity'];
                         if(isset($item_meta[$item]))
                         {
-                            $link=$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html'."\n";
+                            $link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html'."\n";
                             $name=$item_meta[$item]['name'][$current_lang];
                             if($item_meta[$item]['image']!='')
                                 $image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
@@ -417,7 +417,7 @@ foreach($bots_meta as $bot_id=>$bot)
                         $quantity=$products['quantity'];
                         if(isset($item_meta[$item]))
                         {
-                            $link=$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html'."\n";
+                            $link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html'."\n";
                             $name=$item_meta[$item]['name'][$current_lang];
                             if($item_meta[$item]['image']!='')
                                 $image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
@@ -455,7 +455,7 @@ foreach($bots_meta as $bot_id=>$bot)
                 </div>'."\n";
 			}
 			else
-				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">Unknown type ('.$step['type'].')</div></div>'."\n";
+				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">'.$translation_list[$current_lang]['Unknown type'].' ('.$step['type'].')</div></div>'."\n";
 		}
 	$map_descriptor.='</div>'."\n";
 
@@ -471,7 +471,7 @@ foreach($bots_meta as $bot_id=>$bot)
     if($wikivars['generatefullpage'])
     {
         $map_descriptor.='{{Template:bot'.$bot_id.'}}'."\n";
-        savewikipage('Bots:'.$link,$map_descriptor);
+        savewikipage($translation_list[$current_lang]['Bots:'].$link,$map_descriptor);
     }
 }
 
@@ -590,5 +590,5 @@ savewikipage('Template:bots_list',$map_descriptor);$map_descriptor='';
 if($wikivars['generatefullpage'])
 {
     $map_descriptor.='{{Template:bots_list}}'."\n";
-    savewikipage('Bots_list',$map_descriptor);
+    savewikipage($translation_list[$current_lang]['Bots list'],$map_descriptor);
 }

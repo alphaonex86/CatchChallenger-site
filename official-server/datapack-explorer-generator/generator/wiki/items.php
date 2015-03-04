@@ -169,7 +169,7 @@ foreach($item_meta as $id=>$item)
                         $map_descriptor.='<tr class="value"><td>'."\n";
                         if(isset($item_meta[$item['item']]))
                         {
-                            $link=$base_datapack_site_http.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item['item']]['name'][$current_lang]).'.html'."\n";
+                            $link=$base_datapack_site_http.$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item['item']]['name'][$current_lang]).'.html'."\n";
                             $name=$item_meta[$item['item']]['name'][$current_lang];
                             if($item_meta[$item['item']]['image']!='')
                                 $image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item_meta[$item['item']]['image'];
@@ -404,7 +404,7 @@ foreach($item_meta as $id=>$item)
 				else
 					$quantity_text=$item_to_monster_list['quantity_min'];
 				$name=$monster_meta[$item_to_monster_list['monster']]['name'][$current_lang];
-				$link=$base_datapack_site_http.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html'."\n";
+				$link=$base_datapack_site_http.$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html'."\n";
 				$map_descriptor.='<tr class="value">'."\n";
 				$map_descriptor.='<td>'."\n";
 				if(file_exists($datapack_path.'monsters/'.$item_to_monster_list['monster'].'/small.png'))
@@ -483,7 +483,7 @@ foreach($item_meta as $id=>$item)
 				if(isset($items_to_quests_for_step_details['monster']) && isset($monster_meta[$items_to_quests_for_step_details['monster']]))
 				{
 					$name=$monster_meta[$items_to_quests_for_step_details['monster']]['name'][$current_lang];
-					$link=$base_datapack_site_http.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html'."\n";
+					$link=$base_datapack_site_http.$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html'."\n";
 					$map_descriptor.='<td>'."\n";
 					if(file_exists($datapack_path.'monsters/'.$items_to_quests_for_step_details['monster'].'/small.png'))
 						$map_descriptor.='<div class="monstericon">[['.$translation_list[$current_lang]['Monsters:'].$name.'|<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$items_to_quests_for_step_details['monster'].'/small.png" width="32" height="32" alt="'.$monster_meta[$items_to_quests_for_step_details['monster']]['name'][$current_lang].'" title="'.$monster_meta[$items_to_quests_for_step_details['monster']]['name'][$current_lang].'" />]]</div>'."\n";
@@ -573,7 +573,7 @@ foreach($item_meta as $id=>$item)
             if(isset($monster_meta[$entry['monster']]))
             {
                 $name=$monster_meta[$entry['monster']]['name'][$current_lang];
-                $link=$base_datapack_site_http.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html'."\n";
+                $link=$base_datapack_site_http.$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html'."\n";
                 $map_descriptor.='<td>'."\n";
                 if(file_exists($datapack_path.'monsters/'.$entry['monster'].'/small.png'))
                     $map_descriptor.='<div class="monstericon">[['.$translation_list[$current_lang]['Monsters:'].$name.'|<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$entry['monster'].'/small.png" width="32" height="32" alt="'.$name.'" title="'.$name.'" />]]</div>'."\n";
@@ -747,6 +747,6 @@ foreach($item_meta as $id=>$item)
             exit;
         }
 
-        savewikipage('Items:'.$item['name'][$current_lang],$map_descriptor);
+        savewikipage($translation_list[$current_lang]['Items:'].$item['name'][$current_lang],$map_descriptor);
     }
 }

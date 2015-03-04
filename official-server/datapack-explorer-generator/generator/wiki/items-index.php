@@ -62,7 +62,7 @@ foreach($item_by_group as $group_name=>$item_meta_temp)
 			</tr>'."\n";
 			$item_count_list=1;
 		}
-		$link=$base_datapack_site_http.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item['name'][$current_lang]).'.html'."\n";
+		$link=$base_datapack_site_http.$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item['name'][$current_lang]).'.html'."\n";
 		$name=$item['name'][$current_lang];
 		if($item['image']!='' && file_exists($datapack_path.'items/'.$item['image']))
 			$image=$base_datapack_site_http.$base_datapack_site_path.'/items/'.$item['image'];
@@ -107,5 +107,5 @@ savewikipage('Template:Items_list',$map_descriptor);$map_descriptor='';
 if($wikivars['generatefullpage'])
 {
     $map_descriptor.='{{Template:Items_list}}'."\n";
-    savewikipage('Items_list',$map_descriptor);
+    savewikipage($translation_list[$current_lang]['Items list'],$map_descriptor);
 }

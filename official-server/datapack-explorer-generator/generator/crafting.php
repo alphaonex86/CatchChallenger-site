@@ -15,7 +15,7 @@ foreach($crafting_meta as $id=>$crafting)
 {
 	if(isset($item_meta[$crafting['itemToLearn']]))
 	{
-		$link=$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$crafting['itemToLearn']]['name'][$current_lang]).'.html';
+		$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$crafting['itemToLearn']]['name'][$current_lang]).'.html';
 		//$link=$base_datapack_explorer_site_path.'crafting/'.text_operation_do_for_url($item_meta[$crafting['itemToLearn']]['name'][$current_lang]).'.html';
 		$name=$item_meta[$crafting['itemToLearn']]['name'][$current_lang];
 		if($item_meta[$crafting['itemToLearn']]['image']!='')
@@ -47,7 +47,7 @@ foreach($crafting_meta as $id=>$crafting)
         $map_descriptor.='<td>';
         foreach($crafting['material'] as $material=>$quantity)
         {
-            $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$material]['name'][$current_lang]).'.html" title="'.$item_meta[$material]['name'][$current_lang].'">';
+            $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$material]['name'][$current_lang]).'.html" title="'.$item_meta[$material]['name'][$current_lang].'">';
                 $map_descriptor.='<table><tr><td>';
                 if($item_meta[$material]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$material]['image']))
                     $map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$material]['image'].'" width="24" height="24" alt="'.$item_meta[$material]['name'][$current_lang].'" title="'.$item_meta[$material]['name'][$current_lang].'" />';
@@ -60,7 +60,7 @@ foreach($crafting_meta as $id=>$crafting)
         $map_descriptor.='</td>';
 
         $map_descriptor.='<td>';
-        $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.''.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$crafting['doItemId']]['name'][$current_lang]).'.html" title="'.$item_meta[$crafting['doItemId']]['name'][$current_lang].'">';
+        $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$crafting['doItemId']]['name'][$current_lang]).'.html" title="'.$item_meta[$crafting['doItemId']]['name'][$current_lang].'">';
             $map_descriptor.='<table><tr><td>';
             if($item_meta[$crafting['doItemId']]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$crafting['doItemId']]['image']))
                 $map_descriptor.='<img src="'.$base_datapack_site_path.'items/'.$item_meta[$crafting['doItemId']]['image'].'" width="24" height="24" alt="'.$item_meta[$crafting['doItemId']]['name'][$current_lang].'" title="'.$item_meta[$crafting['doItemId']]['name'][$current_lang].'" />';
@@ -80,8 +80,8 @@ $map_descriptor.='<tr>
 </tr>
 </table>';
 $content=$template;
-$content=str_replace('${TITLE}','Crafting list',$content);
+$content=str_replace('${TITLE}',$translation_list[$current_lang]['Crafting list'],$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=clean_html($content);
-filewrite($datapack_explorer_local_path.''.$translation_list[$current_lang]['crafting.html'],$content); 
+filewrite($datapack_explorer_local_path.$translation_list[$current_lang]['crafting.html'],$content); 

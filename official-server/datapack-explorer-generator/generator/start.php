@@ -32,7 +32,7 @@ foreach($start_meta as $entry)
 		}
 	}
 	if($map_name!='')
-		$map_descriptor.='Map: <i>'.htmlspecialchars($map_name).'</i><br />';
+		$map_descriptor.=$translation_list[$current_lang]['Map'].': <i>'.htmlspecialchars($map_name).'</i><br />';
 	$skin_count=0;
 	if ($handle = opendir($datapack_path.'skin/fighter/')) {
 		while (false !== ($inode = readdir($handle)))
@@ -45,7 +45,7 @@ foreach($start_meta as $entry)
 	}
 	if($skin_count>0)
 	{
-		$map_descriptor.='Skin: <div id="skin_preview_'.$index.'">';
+		$map_descriptor.=$translation_list[$current_lang]['Skin'].': <div id="skin_preview_'.$index.'">';
 		if ($handle = opendir($datapack_path.'skin/fighter/')) {
 			while (false !== ($inode = readdir($handle)))
 			{
@@ -65,8 +65,8 @@ foreach($start_meta as $entry)
 	else
 		$map_descriptor.='Skin: No skin found<br />';
 	if($entry['cash']>0)
-		$map_descriptor.='Cash: <i>'.htmlspecialchars($entry['cash']).'$</i><br />';
-	$map_descriptor.='Monster: <ul style="margin:0px;">';
+		$map_descriptor.=$translation_list[$current_lang]['Cash'].': <i>'.htmlspecialchars($entry['cash']).'$</i><br />';
+	$map_descriptor.=$translation_list[$current_lang]['Monster'].': <ul style="margin:0px;">';
 	foreach($entry['monsters'] as $monster)
 		if(array_key_exists($monster['id'],$monster_meta))
 		{
@@ -87,7 +87,7 @@ foreach($start_meta as $entry)
 	$map_descriptor.='</ul>';
 	if(count($entry['reputations'])>0)
 	{
-		$map_descriptor.='Reputations: <ul style="margin:0px;">';
+		$map_descriptor.=$translation_list[$current_lang]['Reputations'].': <ul style="margin:0px;">';
 		foreach($entry['reputations'] as $reputation)
 		{
 			if(array_key_exists($reputation['type'],$reputation_meta))
@@ -104,7 +104,7 @@ foreach($start_meta as $entry)
 	}
 	if(count($entry['items'])>0)
 	{
-		$map_descriptor.='Items: <ul style="margin:0px;">';
+		$map_descriptor.=$translation_list[$current_lang]['Items'].': <ul style="margin:0px;">';
 		foreach($entry['items'] as $item)
 		{
 			if($item['quantity']<=1)

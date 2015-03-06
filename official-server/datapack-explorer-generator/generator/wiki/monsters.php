@@ -44,37 +44,37 @@ foreach($monster_meta as $id=>$monster)
 		else if(file_exists($datapack_path.'monsters/'.$id.'/front.gif'))
 			$map_descriptor.='<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$id.'/front.gif" width="80" height="80" alt="'.$monster['name'][$current_lang].'" title="'.$monster['name'][$current_lang].'" />'."\n";
 		$map_descriptor.='</center></div>'."\n";
-		$map_descriptor.='<div class="subblock"><div class="valuetitle">Type</div><div class="value">'."\n";
+		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Type'].'</div><div class="value">'."\n";
 		$type_list=array();
 		foreach($monster['type'] as $type)
 			if(isset($type_meta[$type]))
 				$type_list[]='<span class="type_label type_label_'.$type.'">[['.$translation_list[$current_lang]['Monsters type:'].$type_meta[$type]['name'][$current_lang].'|'.$type_meta[$type]['name'][$current_lang].']]</span>'."\n";
 		$map_descriptor.='<div class="type_label_list">'.implode(' ',$type_list).'</div></div></div>'."\n";
-		$map_descriptor.='<div class="subblock"><div class="valuetitle">Gender ratio</div><div class="value">'."\n";
+		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Gender ratio'].'</div><div class="value">'."\n";
 		if($monster['ratio_gender']<0 || $monster['ratio_gender']>100)
 		{
 			$map_descriptor.='<center><table class="genderbar"><tr><td class="genderbarunknown" style="width:100%"></td></tr></table></center>'."\n";
-			$map_descriptor.='Unknown gender'."\n";
+			$map_descriptor.=$translation_list[$current_lang]['Unknown gender']."\n";
 		}
 		else
 		{
 			$map_descriptor.='<center><table class="genderbar"><tr><td class="genderbarmale" style="width:'.$monster['ratio_gender'].'%"></td><td class="genderbarfemale" style="width:'.(100-$monster['ratio_gender']).'%"></td></tr></table></center>'."\n";
-			$map_descriptor.=$monster['ratio_gender'].'% male, '.(100-$monster['ratio_gender']).'% female'."\n";
+			$map_descriptor.=$monster['ratio_gender'].'% '.$translation_list[$current_lang]['male'].', '.(100-$monster['ratio_gender']).'% '.$translation_list[$current_lang]['female']."\n";
 		}
 		$map_descriptor.='</div></div>'."\n";
 		if($monster['description'][$current_lang]!='')
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Description</div><div class="value">'.$monster['description'][$current_lang].'</div></div>'."\n";
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Description'].'</div><div class="value">'.$monster['description'][$current_lang].'</div></div>'."\n";
 		if($monster['kind'][$current_lang]!='')
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Kind</div><div class="value">'.$monster['kind'][$current_lang].'</div></div>'."\n";
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Kind'].'</div><div class="value">'.$monster['kind'][$current_lang].'</div></div>'."\n";
 		if($monster['habitat'][$current_lang]!='')
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Habitat</div><div class="value">'.$monster['habitat'][$current_lang].'</div></div>'."\n";
-		$map_descriptor.='<div class="subblock"><div class="valuetitle">Catch rate</div><div class="value">'.$monster['catch_rate'].'</div></div>'."\n";
-		$map_descriptor.='<div class="subblock"><div class="valuetitle">Egg step</div><div class="value">'.$monster['egg_step'].'</div></div>'."\n";
-		$map_descriptor.='<div class="subblock"><div class="valuetitle">Body</div><div class="value">Height: '.$monster['height'].'m, width: '.$monster['weight'].'kg</div></div>'."\n";
-		$map_descriptor.='<div class="subblock"><div class="valuetitle">Stat</div><div class="value">Hp: <i>'.$monster['hp'].'</i>, Attack: <i>'.$monster['attack'].'</i>, Defense: <i>'.$monster['defense'].'</i>, Special attack: <i>'.$monster['special_attack'].'</i>, Special defense: <i>'.$monster['special_defense'].'</i>, Speed: <i>'.$monster['speed'].'</i></div></div>'."\n";
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Habitat'].'</div><div class="value">'.$monster['habitat'][$current_lang].'</div></div>'."\n";
+		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Catch rate'].'</div><div class="value">'.$monster['catch_rate'].'</div></div>'."\n";
+		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Steps for hatching'].'</div><div class="value">'.$monster['egg_step'].'</div></div>'."\n";
+		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Body'].'</div><div class="value">'.$translation_list[$current_lang]['Height'].': '.$monster['height'].'m, '.$translation_list[$current_lang]['width'].': '.$monster['weight'].'kg</div></div>'."\n";
+		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Stat'].'</div><div class="value">'.$translation_list[$current_lang]['Hp'].': <i>'.$monster['hp'].'</i>, '.$translation_list[$current_lang]['Attack'].': <i>'.$monster['attack'].'</i>, '.$translation_list[$current_lang]['Defense'].': <i>'.$monster['defense'].'</i>, '.$translation_list[$current_lang]['Special attack'].': <i>'.$monster['special_attack'].'</i>, '.$translation_list[$current_lang]['Special defense'].': <i>'.$monster['special_defense'].'</i>, '.$translation_list[$current_lang]['Speed'].': <i>'.$monster['speed'].'</i></div></div>'."\n";
 		if(isset($effectiveness_list['4']) || isset($effectiveness_list['2']))
 		{
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Weak to</div><div class="value">'."\n";
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Weak to'].'</div><div class="value">'."\n";
 			$type_list=array();
 			if(isset($effectiveness_list['2']))
 				foreach($effectiveness_list['2'] as $type)
@@ -89,7 +89,7 @@ foreach($monster_meta as $id=>$monster)
 		}
 		if(isset($effectiveness_list['0.25']) || isset($effectiveness_list['0.5']))
 		{
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Resistant to</div><div class="value">'."\n";
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Resistant to'].'</div><div class="value">'."\n";
 			$type_list=array();
 			if(isset($effectiveness_list['0.25']))
 				foreach($effectiveness_list['0.25'] as $type)
@@ -104,7 +104,7 @@ foreach($monster_meta as $id=>$monster)
 		}
 		if(isset($effectiveness_list['0']))
 		{
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Immune to</div><div class="value">'."\n";
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Immune to'].'</div><div class="value">'."\n";
 			$type_list=array();
 			foreach($effectiveness_list['0'] as $type)
 				if(isset($type_meta[$type]))
@@ -120,8 +120,8 @@ foreach($monster_meta as $id=>$monster)
 	{
 		$map_descriptor.='<table class="item_list item_list_type_'.$resolved_type.'">
 		<tr class="item_list_title item_list_title_type_'.$resolved_type.'">
-			<th colspan="2">Item</th>
-			<th>Location</th>
+			<th colspan="2">'.$translation_list[$current_lang]['Item'].'</th>
+			<th>'.$translation_list[$current_lang]['Location'].'</th>
 		</tr>'."\n";
 		$drops=$monster['drops'];
 		foreach($drops as $drop)
@@ -163,7 +163,7 @@ foreach($monster_meta as $id=>$monster)
 				if($name!='')
 					$map_descriptor.=$quantity_text.$name;
 				else
-					$map_descriptor.=$quantity_text.'Unknown item';
+					$map_descriptor.=$quantity_text.$translation_list[$current_lang]['Unknown item'];
 				if($link!='')
 					$map_descriptor.=']]'."\n";
 				$map_descriptor.='</td>'."\n";
@@ -181,10 +181,10 @@ foreach($monster_meta as $id=>$monster)
 	{
 		$map_descriptor.='<table class="item_list item_list_type_'.$resolved_type.'">
 		<tr class="item_list_title item_list_title_type_'.$resolved_type.'">
-			<th>Level</th>
-			<th>Skill</th>
-			<th>Type</th>
-			<th>Endurance</th>
+			<th>'.$translation_list[$current_lang]['Level'].'</th>
+			<th>'.$translation_list[$current_lang]['Skill'].'</th>
+			<th>'.$translation_list[$current_lang]['Type'].'</th>
+			<th>'.$translation_list[$current_lang]['Endurance'].'</th>
 		</tr>'."\n";
 		$attack_list=$monster['attack_list'];
 		foreach($attack_list as $level=>$attack_at_level)
@@ -226,10 +226,10 @@ foreach($monster_meta as $id=>$monster)
 	{
 		$map_descriptor.='<table class="item_list item_list_type_'.$resolved_type.'">
 		<tr class="item_list_title item_list_title_type_'.$resolved_type.'">
-			<th colspan="2">Item</th>
-			<th>Skill</th>
-			<th>Type</th>
-			<th>Endurance</th>
+			<th colspan="2">'.$translation_list[$current_lang]['Item'].'</th>
+			<th>'.$translation_list[$current_lang]['Skill'].'</th>
+			<th>'.$translation_list[$current_lang]['Type'].'</th>
+			<th>'.$translation_list[$current_lang]['Endurance'].'</th>
 		</tr>'."\n";
 		$attack_list_byitem=$monster['attack_list_byitem'];
 		foreach($attack_list_byitem as $item=>$attack_at_level)
@@ -301,7 +301,7 @@ foreach($monster_meta as $id=>$monster)
 	if(isset($monster_to_quests[$id]))
 	{
 		$map_descriptor.='<table class="item_list item_list_type_outdoor"><tr class="item_list_title item_list_title_type_outdoor">'."\n";
-		$map_descriptor.='<th colspan="2">Item</th><th>Quests</th><th>Luck</th></tr>'."\n";
+		$map_descriptor.='<th colspan="2">'.$translation_list[$current_lang]['Item'].'</th><th>'.$translation_list[$current_lang]['Quests'].'</th><th>'.$translation_list[$current_lang]['Luck'].'</th></tr>'."\n";
 		foreach($monster_to_quests[$id] as $quests_monsters_details)
 		{
 			$map_descriptor.='<tr class="value"><td>'."\n";
@@ -358,7 +358,7 @@ foreach($monster_meta as $id=>$monster)
 		<tr class="item_list_title item_list_title_type_'.$resolved_type.'">
 			<th>'."\n";
 		if(isset($reverse_evolution[$id]))
-			$map_descriptor.='Evolve from'."\n";
+			$map_descriptor.=$translation_list[$current_lang]['Evolve from']."\n";
 		$map_descriptor.='</th>
 		</tr>'."\n";
 
@@ -375,23 +375,23 @@ foreach($monster_meta as $id=>$monster)
 					$map_descriptor.='<tr><td>[['.$translation_list[$current_lang]['Monsters:'].$monster_meta[$evolution['evolveFrom']]['name'][$current_lang].'|<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$evolution['evolveFrom'].'/front.gif" width="80" height="80" alt="'.$monster_meta[$evolution['evolveFrom']]['name'][$current_lang].'" title="'.$monster_meta[$evolution['evolveFrom']]['name'][$current_lang].'" />]]</td></tr>'."\n";
 				$map_descriptor.='<tr><td class="evolution_name">[['.$translation_list[$current_lang]['Monsters:'].$monster_meta[$evolution['evolveFrom']]['name'][$current_lang].'|'.$monster_meta[$evolution['evolveFrom']]['name'][$current_lang].']]</td></tr>'."\n";
 				if($evolution['type']=='level')
-					$map_descriptor.='<tr><td class="evolution_type">At level '.$evolution['level'].'</td></tr>'."\n";
+					$map_descriptor.='<tr><td class="evolution_type">'.$translation_list[$current_lang]['At level'].' '.$evolution['level'].'</td></tr>'."\n";
 				elseif($evolution['type']=='item')
 				{
 					if(isset($item_meta[$evolution['level']]))
 					{
 						$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$evolution['level']]['name'][$current_lang]).'.html'."\n";
 						$name=$item_meta[$evolution['level']]['name'][$current_lang];
-						$map_descriptor.='<tr><td class="evolution_type">Evolve with<br />[['.$translation_list[$current_lang]['Items:'].$name.'|';
+						$map_descriptor.='<tr><td class="evolution_type">'.$translation_list[$current_lang]['Evolve with'].'<br />[['.$translation_list[$current_lang]['Items:'].$name.'|';
 						if($item_meta[$evolution['level']]['image']!='')
 							$map_descriptor.='<img src="'.$base_datapack_site_http.$base_datapack_site_path.'items/'.$item_meta[$evolution['level']]['image'].'" alt="'.$name.'" title="'.$name.'" style="float:left;" />';
 						$map_descriptor.=$name.']]</td></tr>'."\n";
 					}
 					else
-						$map_descriptor.='<tr><td class="evolution_type">With unknown item</td></tr>'."\n";
+						$map_descriptor.='<tr><td class="evolution_type">'.$translation_list[$current_lang]['With unknown item'].'</td></tr>'."\n";
 				}
 				elseif($evolution['type']=='trade')
-					$map_descriptor.='<tr><td class="evolution_type">After trade</td></tr>'."\n";
+					$map_descriptor.='<tr><td class="evolution_type">'.$translation_list[$current_lang]['After trade'].'</td></tr>'."\n";
 				else
 					$map_descriptor.='<tr><td class="evolution_type">&nbsp;</td></tr>'."\n";
 			}
@@ -425,23 +425,23 @@ foreach($monster_meta as $id=>$monster)
 					$map_descriptor.='<tr><td>[['.$translation_list[$current_lang]['Monsters:'].$monster_meta[$evolution['evolveTo']]['name'][$current_lang].'|<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$evolution['evolveTo'].'/front.gif" width="80" height="80" alt="'.$monster_meta[$evolution['evolveTo']]['name'][$current_lang].'" title="'.$monster_meta[$evolution['evolveTo']]['name'][$current_lang].'" />]]</td></tr>'."\n";
 				$map_descriptor.='<tr><td class="evolution_name">[['.$translation_list[$current_lang]['Monsters:'].$monster_meta[$evolution['evolveTo']]['name'][$current_lang].'|'.$monster_meta[$evolution['evolveTo']]['name'][$current_lang].']]</td></tr>'."\n";
 				if($evolution['type']=='level')
-					$map_descriptor.='<tr><td class="evolution_type">At level '.$evolution['level'].'</td></tr>'."\n";
+					$map_descriptor.='<tr><td class="evolution_type">'.$translation_list[$current_lang]['At level'].' '.$evolution['level'].'</td></tr>'."\n";
 				elseif($evolution['type']=='item')
 				{
 					if(isset($item_meta[$evolution['level']]))
 					{
 						$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$evolution['level']]['name'][$current_lang]).'.html'."\n";
 						$name=$item_meta[$evolution['level']]['name'][$current_lang];
-						$map_descriptor.='<tr><td class="evolution_type">Evolve with<br />[['.$translation_list[$current_lang]['Items:'].$name.'|';
+						$map_descriptor.='<tr><td class="evolution_type">'.$translation_list[$current_lang]['Evolve with'].'<br />[['.$translation_list[$current_lang]['Items:'].$name.'|';
 						if($item_meta[$evolution['level']]['image']!='')
 							$map_descriptor.='<img src="'.$base_datapack_site_http.$base_datapack_site_path.'items/'.$item_meta[$evolution['level']]['image'].'" alt="'.$name.'" title="'.$name.'" style="float:left;" />';
 						$map_descriptor.=$name.']]</td></tr>'."\n";
 					}
 					else
-						$map_descriptor.='<tr><td class="evolution_type">With unknown item</td></tr>'."\n";
+						$map_descriptor.='<tr><td class="evolution_type">'.$translation_list[$current_lang]['With unknown item'].'</td></tr>'."\n";
 				}
 				elseif($evolution['type']=='trade')
-					$map_descriptor.='<tr><td class="evolution_type">After trade</td></tr>'."\n";
+					$map_descriptor.='<tr><td class="evolution_type">'.$translation_list[$current_lang]['After trade'].'</td></tr>'."\n";
 				else
 					$map_descriptor.='<tr><td class="evolution_type">&nbsp;</td></tr>'."\n";
 			}
@@ -464,10 +464,10 @@ foreach($monster_meta as $id=>$monster)
 	{
 		$map_descriptor.='<table class="item_list item_list_type_'.$resolved_type.'">
 		<tr class="item_list_title item_list_title_type_'.$resolved_type.'">
-			<th colspan="2">Map</th>
-			<th>Location</th>
-			<th>Levels</th>
-			<th colspan="3">Rate</th>
+			<th colspan="2">'.$translation_list[$current_lang]['Map'].'</th>
+			<th>'.$translation_list[$current_lang]['Location'].'</th>
+			<th>'.$translation_list[$current_lang]['Levels'].'</th>
+			<th colspan="3">'.$translation_list[$current_lang]['Rate'].'</th>
 		</tr>'."\n";
 
 
@@ -546,7 +546,7 @@ foreach($monster_meta as $id=>$monster)
                         $map_descriptor.='<td colspan="2">[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($monster_on_map['map']).'|'.$maps_list[$monster_on_map['map']]['name'][$current_lang].']]</td>'."\n";
                 }
                 else
-                    $map_descriptor.='<td colspan="2">Unknown map</td>'."\n";
+                    $map_descriptor.='<td colspan="2">'.$translation_list[$current_lang]['Unknown map'].'</td>'."\n";
                 $map_descriptor.='<td>'."\n";
                 $map_descriptor.='<img src="'.$base_datapack_site_http.'/images/datapack-explorer/'.$full_monsterType_name_top.'.png" alt="" class="locationimg">'.$full_monsterType_name_top;
                 $map_descriptor.='</td>

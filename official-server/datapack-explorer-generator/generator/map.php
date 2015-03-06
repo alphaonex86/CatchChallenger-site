@@ -39,7 +39,7 @@ foreach($temp_maps as $map)
 			$map_descriptor.='<div class="value mapscreenshot datapackscreenshot"><a href="'.$base_datapack_explorer_site_path.'maps/'.$map_image.'"><center><img src="'.$base_datapack_explorer_site_path.'maps/'.$map_image.'" alt="Screenshot of '.$maps_list[$map]['name'][$current_lang].'" title="Screenshot of '.$maps_list[$map]['name'][$current_lang].'" width="'.($maps_list[$map]['pixelwidth']/$ratio).'" height="'.($maps_list[$map]['pixelheight']/$ratio).'" /></center></a></div>';
 		}
 		if($maps_list[$map]['description'][$current_lang]!='')
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Map description</div><div class="value">'.$maps_list[$map]['description'][$current_lang].'</div></div>';
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Map description'].'</div><div class="value">'.$maps_list[$map]['description'][$current_lang].'</div></div>';
 
 		if(isset($zone_meta[$maps_list[$map]['zone']]))
 			$zone_name=$zone_meta[$maps_list[$map]['zone']]['name'][$current_lang];
@@ -47,22 +47,22 @@ foreach($temp_maps as $map)
 			$zone_name='Unknown zone';
 		else
 			$zone_name=$map['zone'];
-		$map_descriptor.='<div class="subblock"><div class="valuetitle">Zone</div><div class="value"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['zones/'].text_operation_do_for_url($zone_name).'.html" title="'.$zone_name.'">';
+		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Zone'].'</div><div class="value"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['zones/'].text_operation_do_for_url($zone_name).'.html" title="'.$zone_name.'">';
 		$map_descriptor.=$zone_name.'</a></div></div>';
 
 		if(count($maps_list[$map]['borders'])>0 || count($maps_list[$map]['doors'])>0 || count($maps_list[$map]['tp'])>0)
 		{
 			$duplicate=array();
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Linked locations</div><div class="value"><ul>';
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Linked locations'].'</div><div class="value"><ul>';
 			foreach($maps_list[$map]['borders'] as $bordertype=>$border)
 			{
 				if(!isset($duplicate[$border]))
 				{
 					$duplicate[$border]='';
 					if(isset($maps_list[$border]))
-						$map_descriptor.='<li>Border '.$bordertype.': <a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$border).'">'.$maps_list[$border]['name'][$current_lang].'</a></li>';
+						$map_descriptor.='<li>'.$translation_list[$current_lang]['Border '.$bordertype].': <a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$border).'">'.$maps_list[$border]['name'][$current_lang].'</a></li>';
 					else
-						$map_descriptor.='<li>Border '.$bordertype.': <span class="mapnotfound">'.$border.'</span></li>';
+						$map_descriptor.='<li>'.$translation_list[$current_lang]['Border '.$bordertype].': <span class="mapnotfound">'.$border.'</span></li>';
 				}
 			}
 			foreach($maps_list[$map]['doors'] as $door)
@@ -71,9 +71,9 @@ foreach($temp_maps as $map)
 				{
 					$duplicate[$door['map']]='';
 					if(isset($maps_list[$door['map']]))
-						$map_descriptor.='<li>Door: <a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$door['map']).'">'.$maps_list[$door['map']]['name'][$current_lang].'</a></li>';
+						$map_descriptor.='<li>'.$translation_list[$current_lang]['Door'].': <a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$door['map']).'">'.$maps_list[$door['map']]['name'][$current_lang].'</a></li>';
 					else
-						$map_descriptor.='<li>Door: <span class="mapnotfound">'.$door['map'].'</span></li>';
+						$map_descriptor.='<li>'.$translation_list[$current_lang]['Door'].': <span class="mapnotfound">'.$door['map'].'</span></li>';
 				}
 			}
 			foreach($maps_list[$map]['tp'] as $tp)
@@ -82,9 +82,9 @@ foreach($temp_maps as $map)
 				{
 					$duplicate[$tp]='';
 					if(isset($maps_list[$tp]))
-						$map_descriptor.='<li>Teleporter: <a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$tp).'">'.$maps_list[$tp]['name'][$current_lang].'</a></li>';
+						$map_descriptor.='<li>'.$translation_list[$current_lang]['Teleporter'].': <a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$tp).'">'.$maps_list[$tp]['name'][$current_lang].'</a></li>';
 					else
-						$map_descriptor.='<li>Teleporter: <span class="mapnotfound">'.$tp.'</span></li>';
+						$map_descriptor.='<li>'.$translation_list[$current_lang]['Teleporter'].': <span class="mapnotfound">'.$tp.'</span></li>';
 				}
 			}
 			$map_descriptor.='</ul></div></div>';
@@ -95,8 +95,8 @@ foreach($temp_maps as $map)
 	{
 		$map_descriptor.='<table class="item_list item_list_type_'.$maps_list[$map]['type'].'">
 		<tr class="item_list_title item_list_title_type_'.$maps_list[$map]['type'].'">
-			<th colspan="2">Item</th>
-			<th>Location</th>
+			<th colspan="2">'.$translation_list[$current_lang]['Item'].'</th>
+			<th>'.$translation_list[$current_lang]['Location'].'</th>
 		</tr>';
         $droplist=array();
 		$monster_list=$maps_list[$map]['monsters_list'];
@@ -148,11 +148,11 @@ foreach($temp_maps as $map)
                 if($name!='')
                     $map_descriptor.=$quantity_text.$name;
                 else
-                    $map_descriptor.=$quantity_text.'Unknown item';
+                    $map_descriptor.=$quantity_text.$translation_list[$current_lang]['Unknown item'];
                 if($link!='')
                     $map_descriptor.='</a>';
                 $map_descriptor.='</td>';
-                $map_descriptor.='<td>Drop on ';
+                $map_descriptor.='<td>'.$translation_list[$current_lang]['Drop on '];
                 $monster_drops_html=array();
                 $luck_to_monster=array();
                 foreach($monster_list as $monster=>$content)
@@ -205,14 +205,14 @@ foreach($temp_maps as $map)
                 if($name!='')
                     $map_descriptor.=$name;
                 else
-                    $map_descriptor.='Unknown item';
+                    $map_descriptor.=$translation_list[$current_lang]['Unknown ite'].'m';
                 if($link!='')
                     $map_descriptor.='</a>';
                 $map_descriptor.='</td>';
                 if($visible)
-                    $map_descriptor.='<td>On the map</td>';
+                    $map_descriptor.='<td>'.$translation_list[$current_lang]['On the map'].'</td>';
                 else
-                    $map_descriptor.='<td>Hidden on the map</td>';
+                    $map_descriptor.='<td>'.$translation_list[$current_lang]['Hidden on the map'].'</td>';
                 $map_descriptor.='</tr>';
             }
         }
@@ -227,10 +227,10 @@ foreach($temp_maps as $map)
 	{
 		$map_descriptor.='<table class="item_list item_list_type_'.$maps_list[$map]['type'].'">
 		<tr class="item_list_title item_list_title_type_'.$maps_list[$map]['type'].'">
-			<th colspan="2">Monster</th>
-			<th>Location</th>
-			<th>Levels</th>
-			<th colspan="3">Rate</th>
+			<th colspan="2">'.$translation_list[$current_lang]['Monster'].'</th>
+			<th>'.$translation_list[$current_lang]['Location'].'</th>
+			<th>'.$translation_list[$current_lang]['Levels'].'</th>
+			<th colspan="3">'.$translation_list[$current_lang]['Rate'].'</th>
 		</tr>';
         foreach($maps_list[$map]['monsters'] as $monsterType=>$monster_list)
         {
@@ -330,9 +330,9 @@ foreach($temp_maps as $map)
 	{
 		$map_descriptor.='<center><table class="item_list item_list_type_'.$maps_list[$map]['type'].'">
 		<tr class="item_list_title item_list_title_type_'.$maps_list[$map]['type'].'">
-			<th colspan="2">Bot</th>
-			<th>Type</th>
-			<th>Content</th>
+			<th colspan="2">'.$translation_list[$current_lang]['Bot'].'</th>
+			<th>'.$translation_list[$current_lang]['Type'].'</th>
+			<th>'.$translation_list[$current_lang]['Content'].'</th>
 		</tr>';
 		foreach($maps_list[$map]['bots'] as $bot_on_map)
 		{
@@ -415,10 +415,10 @@ foreach($temp_maps as $map)
 					else
 						$map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].$link.'.html" title="'.$bot['name'][$current_lang].'">'.$bot['name'][$current_lang].'</a></td>';
                     if(!isset($bot_start_to_quests[$bot_id]))
-                        $map_descriptor.='<td>Text only</td>';
+                        $map_descriptor.='<td>'.$translation_list[$current_lang]['Text only'].'</td>';
                     else
                     {
-                        $map_descriptor.='<td><center>Quests
+                        $map_descriptor.='<td><center>'.$translation_list[$current_lang]['Quests'].'
                         <div style="background-position:-32px 0px;" class="flags flags32"></div></center></td>';
                     }
 					$map_descriptor.='</tr>';
@@ -478,8 +478,8 @@ foreach($temp_maps as $map)
                             $map_descriptor.='<td><center>Shop<div style="background-position:-32px 0px;" class="flags flags16"></div></center></td><td>';
                             $map_descriptor.='<center><table class="item_list item_list_type_'.$maps_list[$map]['type'].'">
                             <tr class="item_list_title item_list_title_type_'.$maps_list[$map]['type'].'">
-                                <th colspan="2">Item</th>
-                                <th>Price</th>
+                                <th colspan="2">'.$translation_list[$current_lang]['Item'].'</th>
+                                <th>'.$translation_list[$current_lang]['Price'].'</th>
                             </tr>';
                             foreach($shop_meta[$step['shop']]['products'] as $item=>$price)
                             {
@@ -518,7 +518,7 @@ foreach($temp_maps as $map)
                                     if($name!='')
                                         $map_descriptor.=$name;
                                     else
-                                        $map_descriptor.='Unknown item';
+                                        $map_descriptor.=$translation_list[$current_lang]['Unknown item'];
                                     if($link!='')
                                         $map_descriptor.='</a>';
                                     $map_descriptor.='</td>';
@@ -536,10 +536,10 @@ foreach($temp_maps as $map)
                         {
                             if(isset($fight_meta[$step['fightid']]))
                             {
-                                $map_descriptor.='<td><center>Fight<div style="background-position:-16px -16px;" class="flags flags16"></div></center></td><td>';
+                                $map_descriptor.='<td><center>'.$translation_list[$current_lang]['Fight'].'<div style="background-position:-16px -16px;" class="flags flags16"></div></center></td><td>';
                                 if($step['leader'])
                                 {
-                                    $map_descriptor.='<b>Leader</b><br />';
+                                    $map_descriptor.='<b>'.$translation_list[$current_lang]['Leader'].'</b><br />';
                                     if(isset($bot_id_to_skin[$bot_id]))
                                     {
                                         if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/front.png'))
@@ -553,13 +553,13 @@ foreach($temp_maps as $map)
                                     }
                                 }
                                 if($fight_meta[$step['fightid']]['cash']>0)
-                                    $map_descriptor.='Rewards: <b>'.$fight_meta[$step['fightid']]['cash'].'$</b><br />';
+                                    $map_descriptor.=$translation_list[$current_lang]['Rewards'].': <b>'.$fight_meta[$step['fightid']]['cash'].'$</b><br />';
 
                                 if(count($fight_meta[$step['fightid']]['items'])>0)
                                 {
                                     $map_descriptor.='<center><table class="item_list item_list_type_'.$maps_list[$map]['type'].'">
                                     <tr class="item_list_title item_list_title_type_'.$maps_list[$map]['type'].'">
-                                        <th colspan="2">Item</th>
+                                        <th colspan="2">'.$translation_list[$current_lang]['Item'].'</th>
                                     </tr>';
                                     foreach($fight_meta[$step['fightid']]['items'] as $item)
                                     {
@@ -598,7 +598,7 @@ foreach($temp_maps as $map)
                                             if($name!='')
                                                 $map_descriptor.=$quantity_text.$name;
                                             else
-                                                $map_descriptor.=$quantity_text.'Unknown item';
+                                                $map_descriptor.=$quantity_text.$translation_list[$current_lang]['Unknown item'];
                                             if($link!='')
                                                 $map_descriptor.='</a>';
                                             $map_descriptor.='</td>';
@@ -619,47 +619,47 @@ foreach($temp_maps as $map)
                         }
                         else if($step['type']=='heal')
                         {
-                            $map_descriptor.='<td><center>Heal</center></td>
+                            $map_descriptor.='<td><center>'.$translation_list[$current_lang]['Heal'].'</center></td>
                             <td><center><div style="background-position:0px 0px;" class="flags flags64"></div></center></td>';
                         }
                         else if($step['type']=='learn')
                         {
-                            $map_descriptor.='<td><center>Learn</center></td>
+                            $map_descriptor.='<td><center>'.$translation_list[$current_lang]['Learn'].'</center></td>
                             <td><center><div style="background-position:-192px 0px;" class="flags flags64"></div></center></td>';
                         }
                         else if($step['type']=='warehouse')
                         {
-                            $map_descriptor.='<td><center>Warehouse</center></td>
+                            $map_descriptor.='<td><center>'.$translation_list[$current_lang]['Warehouse'].'</center></td>
                             <td><center><div style="background-position:0px -64px;" class="flags flags64"></div></center></td>';
                         }
                         else if($step['type']=='market')
                         {
-                            $map_descriptor.='<td><center>Market</center></td>
+                            $map_descriptor.='<td><center>'.$translation_list[$current_lang]['Market'].'</center></td>
                             <td><center><div style="background-position:0px -64px;" class="flags flags64"></div></center></td>';
                         }
                         else if($step['type']=='quests' && isset($bot_start_to_quests[$bot_id]))
                         {
-                            $map_descriptor.='<td><center>Quests</center></td>
+                            $map_descriptor.='<td><center>'.$translation_list[$current_lang]['Quests'].'</center></td>
                             <td><center><div style="background-position:-32px 0px;" class="flags flags32"></div></center></td>';
                         }
                         else if($step['type']=='clan')
                         {
-                            $map_descriptor.='<td><center>Clan</center></td>
+                            $map_descriptor.='<td><center>'.$translation_list[$current_lang]['Clan'].'</center></td>
                             <td><center><div style="background-position:-192px -64px;" class="flags flags64"></div></center></td>';
                         }
                         else if($step['type']=='sell')
                         {
-                            $map_descriptor.='<td><center>Sell</center></td>
+                            $map_descriptor.='<td><center>'.$translation_list[$current_lang]['Sell'].'</center></td>
                             <td><center><div style="background-position:-128px 0px;" class="flags flags64"></div></center></td>';
                         }
                         else if($step['type']=='zonecapture')
                         {
-                            $map_descriptor.='<td><center>Zone capture</center></td>
+                            $map_descriptor.='<td><center>'.$translation_list[$current_lang]['Zone capture'].'</center></td>
                             <td><center><div style="background-position:-128px -64px;" class="flags flags64"></div></center></td>';
                         }
                         else if($step['type']=='industry')
                         {
-                            $map_descriptor.='<td><center>Industry<div style="background-position:0px -32px;" class="flags flags16"></div></center></td><td>';
+                            $map_descriptor.='<td><center>'.$translation_list[$current_lang]['Industry'].'<div style="background-position:0px -32px;" class="flags flags16"></div></center></td><td>';
 
                             if(!isset($industrie_meta[$step['industry']]))
                             {
@@ -670,9 +670,9 @@ foreach($temp_maps as $map)
                             {
                                 $map_descriptor.='<center><table class="item_list item_list_type_'.$maps_list[$map]['type'].'">
                                 <tr class="item_list_title item_list_title_type_'.$maps_list[$map]['type'].'">
-                                    <th>Industry</th>
-                                    <th>Resources</th>
-                                    <th>Products</th>
+                                    <th>'.$translation_list[$current_lang]['Industry'].'</th>
+                                    <th>'.$translation_list[$current_lang]['Resources'].'</th>
+                                    <th>'.$translation_list[$current_lang]['Products'].'</th>
                                 </tr>';
                                 $industry=$industrie_meta[$step['industry']];
                                 $map_descriptor.='<tr class="value">';
@@ -706,13 +706,13 @@ foreach($temp_maps as $map)
                                         if($name!='')
                                             $map_descriptor.=$name;
                                         else
-                                            $map_descriptor.='Unknown item';
+                                            $map_descriptor.=$translation_list[$current_lang]['Unknown item'];
                                         if($link_industry!='')
                                             $map_descriptor.='</a>';
                                         $map_descriptor.='</div>';
                                     }
                                     else
-                                        $map_descriptor.='Unknown item';
+                                        $map_descriptor.=$translation_list[$current_lang]['Unknown item'];
                                 }
                                 $map_descriptor.='</td>';
                                 $map_descriptor.='<td>';
@@ -742,13 +742,13 @@ foreach($temp_maps as $map)
                                         if($name!='')
                                             $map_descriptor.=$name;
                                         else
-                                            $map_descriptor.='Unknown item';
+                                            $map_descriptor.=$translation_list[$current_lang]['Unknown item'];
                                         if($link_industry!='')
                                             $map_descriptor.='</a>';
                                         $map_descriptor.='</div>';
                                     }
                                     else
-                                        $map_descriptor.='Unknown item';
+                                        $map_descriptor.=$translation_list[$current_lang]['Unknown item'];
                                 }
                             }
                             $map_descriptor.='</td>';
@@ -761,7 +761,7 @@ foreach($temp_maps as $map)
                             $map_descriptor.='</td>';
                         }
                         else
-                            $map_descriptor.='<td>'.$step['type'].'</td><td>Unknown type ('.$step['type'].')</td>';
+                            $map_descriptor.='<td>'.$step['type'].'</td><td>'.$translation_list[$current_lang]['Unknown type'].' ('.$step['type'].')</td>';
                         if($step['type']!='text')
                             $map_descriptor.='</tr>';
                     }
@@ -797,7 +797,7 @@ if(file_exists($datapack_explorer_local_path.'maps/overview.png') && file_exists
     else
         $ratio=1;
     $map_descriptor.='<div class="value datapackscreenshot"><a href="'.$base_datapack_explorer_site_path.'maps/overview.png"><center><img src="'.$base_datapack_explorer_site_path.'maps/preview.png" alt="Map overview" title="Map overview" width="'.($maps_list[$map]['pixelwidth']/$ratio).'" height="'.($maps_list[$map]['pixelheight']/$ratio).'" />
-    <b>Size: '.round(filesize($datapack_explorer_local_path.'maps/overview.png')/1000000,1).'MB</b>
+    <b>'.$translation_list[$current_lang]['Size'].': '.round(filesize($datapack_explorer_local_path.'maps/overview.png')/1000000,1).$translation_list[$current_lang]['MB'].'</b>
     </center></a></div>';
 }
 
@@ -806,7 +806,7 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 	if(isset($zone_meta[$zone]))
 		$zone_name=$zone_meta[$zone]['name'][$current_lang];
 	elseif($zone=='')
-		$zone_name='Unknown zone';
+		$zone_name=$translation_list[$current_lang]['Unknown zone'];
 	else
 		$zone_name=$zone;
 
@@ -871,7 +871,7 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 	</tr></table>';
 }
 $content=$template;
-$content=str_replace('${TITLE}',$translation_list[$current_lang]['Map list'],$content);
+$content=str_replace('${TITLE}',$translation_list[$current_lang]['Maps list'],$content);
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=clean_html($content);

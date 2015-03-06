@@ -138,8 +138,8 @@ foreach($bots_meta as $bot_id=>$bot)
 				<div class="value">'."\n";
 				$map_descriptor.='<center><table class="item_list item_list_type_normal">
 				<tr class="item_list_title item_list_title_type_normal">
-					<th colspan="2">Item</th>
-					<th>Price</th>
+					<th colspan="2">'.$translation_list[$current_lang]['Item'].'</th>
+					<th>'.$translation_list[$current_lang]['Price'].'</th>
 				</tr>'."\n";
 				foreach($shop_meta[$step['shop']]['products'] as $item=>$price)
 				{
@@ -201,13 +201,13 @@ foreach($bots_meta as $bot_id=>$bot)
 					<div style="background-position:-16px -16px;float:none;" class="flags flags16">
 					<div class="value">'."\n";
 					if($fight_meta[$step['fightid']]['cash']>0)
-						$map_descriptor.='Rewards: <b>'.$fight_meta[$step['fightid']]['cash'].'$</b><br />'."\n";
+						$map_descriptor.=$translation_list[$current_lang]['Rewards'].': <b>'.$fight_meta[$step['fightid']]['cash'].'$</b><br />'."\n";
 
                     if(count($fight_meta[$step['fightid']]['items'])>0)
                     {
                         $map_descriptor.='<center><table class="item_list item_list_type_normal">
                         <tr class="item_list_title item_list_title_type_normal">
-                            <th colspan="2">Item</th>
+                            <th colspan="2">'.$translation_list[$current_lang]['Item'].'</th>
                         </tr>'."\n";
                         foreach($fight_meta[$step['fightid']]['items'] as $item)
                         {
@@ -246,7 +246,7 @@ foreach($bots_meta as $bot_id=>$bot)
                                 if($name!='')
                                     $map_descriptor.=$quantity_text.$name;
                                 else
-                                    $map_descriptor.=$quantity_text.'Unknown item';
+                                    $map_descriptor.=$quantity_text.$translation_list[$current_lang]['Unknown item'];
                                 if($link!='')
                                     $map_descriptor.=']]'."\n";
                                 $map_descriptor.='</td>'."\n";
@@ -366,9 +366,9 @@ foreach($bots_meta as $bot_id=>$bot)
                 {
                     $map_descriptor.='<center><table class="item_list item_list_type_normal">
                     <tr class="item_list_title item_list_title_type_normal">
-                        <th>Industry</th>
-                        <th>Resources</th>
-                        <th>Products</th>
+                        <th>'.$translation_list[$current_lang]['Industry'].'</th>
+                        <th>'.$translation_list[$current_lang]['Resources'].'</th>
+                        <th>'.$translation_list[$current_lang]['Products'].'</th>
                     </tr>'."\n";
                     $industry=$industrie_meta[$step['industry']];
                     $map_descriptor.='<tr class="value">'."\n";
@@ -402,7 +402,7 @@ foreach($bots_meta as $bot_id=>$bot)
                             if($name!='')
                                 $map_descriptor.=$name;
                             else
-                                $map_descriptor.='Unknown item';
+                                $map_descriptor.=$translation_list[$current_lang]['Unknown item'];
                             if($link!='')
                                 $map_descriptor.=']]</div>'."\n";
                         }
@@ -437,12 +437,12 @@ foreach($bots_meta as $bot_id=>$bot)
                             if($name!='')
                                 $map_descriptor.=$name;
                             else
-                                $map_descriptor.='Unknown item'."\n";
+                                $map_descriptor.=$translation_list[$current_lang]['Unknown item'];
                             if($link!='')
                                 $map_descriptor.=']]</div>'."\n";
                         }
                         else
-                            $map_descriptor.='Unknown item'."\n";
+                            $map_descriptor.=$translation_list[$current_lang]['Unknown item'];
                     }
                     $map_descriptor.='</td>'."\n";
                     $map_descriptor.='</tr>'."\n";
@@ -500,7 +500,7 @@ foreach($bots_by_zone as $zone=>$bot_id_list)
             }
         }
         else
-            $map_descriptor.='Unknown zone'."\n";
+            $map_descriptor.=$translation_list[$current_lang]['Unknown zone'];
         $map_descriptor.='</th>
         </tr>'."\n";
         $name_count_for_zone=array();

@@ -31,7 +31,7 @@ foreach($start_meta as $entry)
 		}
 	}
 	if($map_name!='')
-		$map_descriptor.='Map: <i>'.htmlspecialchars($map_name).'</i><br />'."\n";
+		$map_descriptor.=$translation_list[$current_lang]['Map'].': <i>'.htmlspecialchars($map_name).'</i><br />'."\n";
 	$skin_count=0;
 	if ($handle = opendir($datapack_path.'skin/fighter/')) {
 		while (false !== ($inode = readdir($handle)))
@@ -44,7 +44,7 @@ foreach($start_meta as $entry)
 	}
 	if($skin_count>0)
 	{
-		$map_descriptor.='Skin: <div id="skin_preview_'.$index.'">'."\n";
+		$map_descriptor.=$translation_list[$current_lang]['Skin'].': <div id="skin_preview_'.$index.'">'."\n";
 		if ($handle = opendir($datapack_path.'skin/fighter/')) {
 			while (false !== ($inode = readdir($handle)))
 			{
@@ -64,8 +64,8 @@ foreach($start_meta as $entry)
 	else
 		$map_descriptor.='Skin: No skin found<br />'."\n";
 	if($entry['cash']>0)
-		$map_descriptor.='Cash: <i>'.htmlspecialchars($entry['cash']).'$</i><br />'."\n";
-	$map_descriptor.='Monster: <ul style="margin:0px;">'."\n";
+		$map_descriptor.=$translation_list[$current_lang]['Cash'].': <i>'.htmlspecialchars($entry['cash']).'$</i><br />'."\n";
+	$map_descriptor.=$translation_list[$current_lang]['Monster'].': <ul style="margin:0px;">'."\n";
 	foreach($entry['monsters'] as $monster)
     {
 		if(array_key_exists($monster['id'],$monster_meta))
@@ -90,7 +90,7 @@ foreach($start_meta as $entry)
 
 	if(count($entry['reputations'])>0)
 	{
-		$map_descriptor.='Reputations: <ul style="margin:0px;">'."\n";
+		$map_descriptor.=$translation_list[$current_lang]['Reputations'].': <ul style="margin:0px;">'."\n";
 		foreach($entry['reputations'] as $reputation)
 		{
 			if(array_key_exists($reputation['type'],$reputation_meta))
@@ -108,7 +108,7 @@ foreach($start_meta as $entry)
 	}
 	if(count($entry['items'])>0)
 	{
-		$map_descriptor.='Items: <ul style="margin:0px;">'."\n";
+		$map_descriptor.=$translation_list[$current_lang]['Items'].': <ul style="margin:0px;">'."\n";
 		foreach($entry['items'] as $item)
 		{
 			if($item['quantity']<=1)

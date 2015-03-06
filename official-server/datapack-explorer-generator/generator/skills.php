@@ -38,7 +38,7 @@ foreach($skill_meta as $skill_id=>$skill)
 		if(isset($effectiveness_list['2']) || isset($effectiveness_list['4']))
 		{
 			
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Effective against</div><div class="value">';
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Effective against'].'</div><div class="value">';
 			$type_list=array();
 			if(isset($effectiveness_list['2']))
 				foreach($effectiveness_list['2'] as $type_effectiveness)
@@ -53,7 +53,7 @@ foreach($skill_meta as $skill_id=>$skill)
 		}
 		if(isset($effectiveness_list['0.25']) || isset($effectiveness_list['0.5']))
 		{
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Not effective against</div><div class="value">';
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Not effective against'].'</div><div class="value">';
 			$type_list=array();
 			if(isset($effectiveness_list['0.25']))
 				foreach($effectiveness_list['0.25'] as $type_effectiveness)
@@ -68,7 +68,7 @@ foreach($skill_meta as $skill_id=>$skill)
 		}
 		if(isset($effectiveness_list['0']))
 		{
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Useless against</div><div class="value">';
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Useless against'].'</div><div class="value">';
 			$type_list=array();
 			foreach($effectiveness_list['0'] as $type_effectiveness)
 				if(isset($type_meta[$type_effectiveness]))
@@ -78,21 +78,21 @@ foreach($skill_meta as $skill_id=>$skill)
 		}
 		foreach($skill['level_list'] as $level=>$effect)
 		{
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Level '.$level.'</div><div class="value">';
-			$map_descriptor.='Endurance: '.$effect['endurance'].'<br />';
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Level'].' '.$level.'</div><div class="value">';
+			$map_descriptor.=$translation_list[$current_lang]['Endurance'].': '.$effect['endurance'].'<br />';
 			if($effect['sp']!='0')
-				$map_descriptor.='Skill point/SP (to learn): '.$effect['sp'].'<br />';
+				$map_descriptor.=$translation_list[$current_lang]['Skill point (SP) to learn'].': '.$effect['sp'].'<br />';
 			else
-				$map_descriptor.='You can\'t learn this skill<br />';
+				$map_descriptor.=$translation_list[$current_lang]['You can\'t learn this skill'].'<br />';
 			if($effect['life_quantity']!='0' || $effect['life_quantity']!='0%')
 				$map_descriptor.='Life quantity: '.$effect['life_quantity'].'<br />';
 			if(count($effect['buff'])>0)
 			{
-				$map_descriptor.='Add buff:';
+				$map_descriptor.=$translation_list[$current_lang]['Add buff:'];
 				$map_descriptor.='<center><table class="item_list item_list_type_'.$type.'">
 				<tr class="item_list_title item_list_title_type_'.$type.'">
-					<th colspan="2">Buff</th>
-					<th>Success</th>
+					<th colspan="2">'.$translation_list[$current_lang]['Buff'].'</th>
+					<th>'.$translation_list[$current_lang]['Success'].'</th>
 				</tr>';
 				foreach($effect['buff'] as $buff)
 				{
@@ -113,7 +113,7 @@ foreach($skill_meta as $skill_id=>$skill)
 				</table></center>';
 			}
 			if($effect['base_level_luck']!='100')
-				$map_descriptor.='Luck: '.$effect['base_level_luck'].'%<br />';
+				$map_descriptor.=$translation_list[$current_lang]['Luck:'].' '.$effect['base_level_luck'].'%<br />';
 			$map_descriptor.='</div></div>';
 		}
 	$map_descriptor.='</div>';
@@ -122,16 +122,16 @@ foreach($skill_meta as $skill_id=>$skill)
 	{
 		$map_descriptor.='<table class="item_list item_list_type_'.$type.'">
 		<tr class="item_list_title item_list_title_type_'.$type.'">
-			<th colspan="2">Monster</th>
-			<th>Type</th>';
+			<th colspan="2">'.$translation_list[$current_lang]['Monster'].'</th>
+			<th>'.$translation_list[$current_lang]['Type'].'</th>';
 			if(count($skill_to_monster[$skill_id])>1)
-				$map_descriptor.='<th>Skill level</th>';
+				$map_descriptor.='<th>'.$translation_list[$current_lang]['Skill level'].'</th>';
 		$map_descriptor.='</tr>';
 		foreach($skill_to_monster[$skill_id] as $skill_level=>$monster_list_content)
 		{
 			if($skill_level_displayed!=$skill_level && count($skill_to_monster[$skill_id])>1)
 			{
-				$map_descriptor.='<tr class="item_list_title_type_'.$type.'"><th colspan="4">Level '.$skill_level.'</th></tr>';
+				$map_descriptor.='<tr class="item_list_title_type_'.$type.'"><th colspan="4">'.$translation_list[$current_lang]['Level'].' '.$skill_level.'</th></tr>';
 				$skill_level_displayed=$skill_level;
 			}
 			foreach($monster_list_content as $monster)
@@ -181,11 +181,11 @@ foreach($skill_meta as $skill_id=>$skill)
 $map_descriptor='';
 $map_descriptor.='<table class="item_list item_list_type_normal">
 <tr class="item_list_title item_list_title_type_normal">
-	<th>Skill</th>
-	<th>Type</th>
-	<th>Endurance</th>';
+	<th>'.$translation_list[$current_lang]['Skill'].'</th>
+	<th>'.$translation_list[$current_lang]['Type'].'</th>
+	<th>'.$translation_list[$current_lang]['Endurance'].'</th>';
 if(!$only_one_level)
-	$map_descriptor.='<th>Number of level</th>';
+	$map_descriptor.='<th>'.$translation_list[$current_lang]['Number of level'].'</th>';
 $map_descriptor.='</tr>';
 foreach($skill_meta as $skill_id=>$skill)
 {

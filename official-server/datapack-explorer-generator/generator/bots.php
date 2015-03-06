@@ -205,13 +205,13 @@ foreach($bots_meta as $bot_id=>$bot)
 					<center><div style="background-position:-16px -16px;" class="flags flags16"></div></center>
 					<div class="value">';
 					if($fight_meta[$step['fightid']]['cash']>0)
-						$map_descriptor.='Rewards: <b>'.$fight_meta[$step['fightid']]['cash'].'$</b><br />';
+						$map_descriptor.=$translation_list[$current_lang]['Rewards'].': <b>'.$fight_meta[$step['fightid']]['cash'].'$</b><br />';
 
                     if(count($fight_meta[$step['fightid']]['items'])>0)
                     {
                         $map_descriptor.='<center><table class="item_list item_list_type_normal">
                         <tr class="item_list_title item_list_title_type_normal">
-                            <th colspan="2">Item</th>
+                            <th colspan="2">'.$translation_list[$current_lang]['Item'].'</th>
                         </tr>';
                         foreach($fight_meta[$step['fightid']]['items'] as $item)
                         {

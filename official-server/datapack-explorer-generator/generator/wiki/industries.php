@@ -9,19 +9,19 @@ foreach($industrie_meta as $id=>$industry)
 	$map_descriptor.='<div class="map item_details">'."\n";
 		$map_descriptor.='<div class="subblock"><h1>'.str_replace('[id]',$id,$translation_list[$current_lang]['Industry [id]']).'</h1>'."\n";
 		$map_descriptor.='</div>'."\n";
-		$map_descriptor.='<div class="subblock"><div class="valuetitle">Time to complet a cycle</div><div class="value">'."\n";
+		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Time to complet a cycle'].'</div><div class="value">'."\n";
 		if($industry['time']<(60*2))
-			$map_descriptor.=$industry['time'].'s';
+			$map_descriptor.=$industry['time'].$translation_list[$current_lang]['s'];
 		elseif($industry['time']<(60*60*2))
-			$map_descriptor.=($industry['time']/60).'mins';
+			$map_descriptor.=($industry['time']/60).$translation_list[$current_lang]['mins'];
 		elseif($industry['time']<(60*60*24*2))
-			$map_descriptor.=($industry['time']/(60*60)).'hours';
+			$map_descriptor.=($industry['time']/(60*60)).$translation_list[$current_lang]['hours'];
 		else
-			$map_descriptor.=($industry['time']/(60*60*24)).'days';
+			$map_descriptor.=($industry['time']/(60*60*24)).$translation_list[$current_lang]['days'];
 		$map_descriptor.='</div></div>'."\n";
-		$map_descriptor.='<div class="subblock"><div class="valuetitle">Cycle to be full</div><div class="value">'.$industry['cycletobefull'].'</div></div>'."\n";
+		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Cycle to be full'].'</div><div class="value">'.$industry['cycletobefull'].'</div></div>'."\n";
 
-		$map_descriptor.='<div class="subblock"><div class="valuetitle">Resources</div><div class="value">'."\n";
+		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Resources'].'</div><div class="value">'."\n";
 		foreach($industry['resources'] as $resources)
 		{
             $material=$resources['item'];
@@ -49,10 +49,10 @@ foreach($industrie_meta as $id=>$industry)
         if(isset($industrie_link_meta[$id]))
             if(count($industrie_link_meta[$id]['requirements'])>0)
             {
-                $map_descriptor.='<div class="subblock"><div class="valuetitle">Requirements</div><div class="value">'."\n";
+                $map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Requirements'].'</div><div class="value">'."\n";
                 if(isset($industrie_link_meta[$id]['requirements']['quests']))
                     foreach($industrie_link_meta[$id]['requirements']['quests'] as $quest_id)
-                        $map_descriptor.='Quest: [['.$quest_id.'_'.$quests_meta[$quest_id]['name'][$current_lang].'|'.$quests_meta[$quest_id]['name'][$current_lang].']]<br />'."\n";
+                        $map_descriptor.=$translation_list[$current_lang]['Quest:'].' [['.$quest_id.'_'.$quests_meta[$quest_id]['name'][$current_lang].'|'.$quests_meta[$quest_id]['name'][$current_lang].']]<br />'."\n";
                 if(isset($industrie_link_meta[$id]['requirements']['reputation']))
                     foreach($industrie_link_meta[$id]['requirements']['reputation'] as $reputation)
                         $map_descriptor.=reputationLevelToText($reputation['type'],$reputation['level']).'<br />'."\n";
@@ -61,11 +61,11 @@ foreach($industrie_meta as $id=>$industry)
 
         if(isset($industry_to_bot[$id]))
         {
-            $map_descriptor.='<div class="subblock"><div class="valuetitle">Location</div><div class="value">'."\n";
+            $map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Location'].'</div><div class="value">'."\n";
             $map_descriptor.='<table class="item_list item_list_type_normal map_list">
                     <tr class="item_list_title item_list_title_type_normal">
-                        <th colspan="2">Bot</th>
-                        <th colspan="2">Map</th>
+                        <th colspan="2">'.$translation_list[$current_lang]['Bot'].'</th>
+                        <th colspan="2">'.$translation_list[$current_lang]['Map'].'</th>
                         </tr>'."\n";
             foreach($industry_to_bot[$id] as $bot_id)
             {
@@ -120,7 +120,7 @@ foreach($industrie_meta as $id=>$industry)
                                 $map_descriptor.='<td colspan="2">[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
                         }
                         else
-                            $map_descriptor.='<td colspan="2">Unknown map</td>'."\n";
+                            $map_descriptor.='<td colspan="2">'.$translation_list[$current_lang]['Unknown map'].'</td>'."\n";
                     }
                     else
                         $map_descriptor.='<td colspan="2">&nbsp;</td>'."\n";
@@ -136,7 +136,7 @@ foreach($industrie_meta as $id=>$industry)
             $map_descriptor.='</div></div>'."\n";
         }
 
-		$map_descriptor.='<div class="subblock"><div class="valuetitle">Products</div><div class="value">'."\n";
+		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Products'].'</div><div class="value">'."\n";
 		foreach($industry['products'] as $products)
 		{
             $material=$products['item'];
@@ -175,10 +175,10 @@ $map_descriptor='';
 
 $map_descriptor.='<table class="item_list item_list_type_normal">
 <tr class="item_list_title item_list_title_type_normal">
-	<th>Industry</th>
-	<th>Resources</th>
-	<th>Products</th>
-    <th>Location</th>
+	<th>'.$translation_list[$current_lang]['Industry'].'</th>
+	<th>'.$translation_list[$current_lang]['Resources'].'</th>
+	<th>'.$translation_list[$current_lang]['Products'].'</th>
+    <th>'.$translation_list[$current_lang]['Location'].'</th>
 </tr>'."\n";
 foreach($industrie_meta as $id=>$industry)
 {
@@ -318,7 +318,7 @@ foreach($industrie_meta as $id=>$industry)
                             $map_descriptor.='<td colspan="2">[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
                     }
                     else
-                        $map_descriptor.='<td colspan="2">Unknown map</td>'."\n";
+                        $map_descriptor.='<td colspan="2">'.$translation_list[$current_lang]['Unknown map'].'</td>'."\n";
                 }
                 else
                     $map_descriptor.='<td colspan="2">&nbsp;</td>'."\n";

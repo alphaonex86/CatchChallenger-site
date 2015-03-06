@@ -31,7 +31,7 @@ foreach($buff_meta as $buff_id=>$buff)
 
             if(count($effect['effect']['inFight'])>0)
             {
-                $map_descriptor.='<div class="subblock"><div class="valuetitle">In fight</div><div class="value">'."\n";
+                $map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['In fight'].'</div><div class="value">'."\n";
                 if(isset($effect['effect']['inFight']['hp']))
                     $map_descriptor.=str_replace('[hp]',$effect['effect']['inFight']['hp']['value'],$translation_list[$current_lang]['The hp change of [hp]']).'<br />'."\n";
                 if(isset($effect['effect']['inFight']['defense']))
@@ -42,7 +42,7 @@ foreach($buff_meta as $buff_id=>$buff)
             }
             if(count($effect['effect']['inWalk'])>0)
             {
-                $map_descriptor.='<div class="subblock"><div class="valuetitle">In walk</div><div class="value">'."\n";
+                $map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['In walk'].'</div><div class="value">'."\n";
                 if(isset($effect['effect']['inWalk']['hp']))
                     $map_descriptor.=str_replace('[turns]',$effect['effect']['inWalk']['hp']['steps'],str_replace('[hp]',$effect['effect']['inWalk']['hp']['value'],$translation_list[$current_lang]['The hp change of <b>[hp]</b> during <b>[turns] steps</b>'])).'<br />'."\n";
                 if(isset($effect['effect']['inWalk']['defense']))

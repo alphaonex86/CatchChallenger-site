@@ -6,10 +6,10 @@ $map_descriptor='';
 
 $map_descriptor.='<table class="item_list item_list_type_normal">
 <tr class="item_list_title item_list_title_type_normal">
-	<th colspan="2">Item</th>
-<th>Material</th>
-<th>Product</th>
-	<th>Price</th>
+	<th colspan="2">'.$translation_list[$current_lang]['Item'].'</th>
+    <th>'.$translation_list[$current_lang]['Material'].'</th>
+    <th>'.$translation_list[$current_lang]['Product'].'</th>
+	<th>'.$translation_list[$current_lang]['Price'].'</th>
 </tr>'."\n";
 foreach($crafting_meta as $id=>$crafting)
 {
@@ -69,7 +69,7 @@ foreach($crafting_meta as $id=>$crafting)
 		$map_descriptor.='</tr>'."\n";
 	}
 	else
-		$map_descriptor.='<tr class="value"><td colspan="3">Item to learn missing: '.$crafting['itemToLearn'].'</td></tr>'."\n";
+		$map_descriptor.='<tr class="value"><td colspan="3">'.$translation_list[$current_lang]['Item to learn missing:'].' '.$crafting['itemToLearn'].'</td></tr>'."\n";
 }
 $map_descriptor.='<tr>
 	<td colspan="5" class="item_list_endline item_list_title_type_normal"></td>

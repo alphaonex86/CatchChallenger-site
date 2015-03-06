@@ -21,11 +21,11 @@ foreach($type_meta as $type=>$type_content)
 	}
 	$map_descriptor.='<div class="map monster_type_'.$type.'">'."\n";
 		$map_descriptor.='<div class="subblock"><h1>'.$type_content['name'][$current_lang].'</h1></div>'."\n";
-		$map_descriptor.='<div class="subblock"><div class="valuetitle">Type</div><div class="value">'."\n";
+		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Type'].'</div><div class="value">'."\n";
 		$map_descriptor.='<div class="type_label_list"><span class="type_label type_label_'.$type.'">[['.$translation_list[$current_lang]['Monsters type:'].$type_meta[$type]['name'][$current_lang].'|'.$type_meta[$type]['name'][$current_lang].']]</span></div></div></div>'."\n";
 		if(isset($effectiveness_list['4']) || isset($effectiveness_list['2']))
 		{
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Weak to</div><div class="value">'."\n";
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Weak to'].'</div><div class="value">'."\n";
 			$type_list=array();
 			if(isset($effectiveness_list['2']))
 				foreach($effectiveness_list['2'] as $type_effectiveness)
@@ -40,7 +40,7 @@ foreach($type_meta as $type=>$type_content)
 		}
 		if(isset($effectiveness_list['0.25']) || isset($effectiveness_list['0.5']))
 		{
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Resistant to</div><div class="value">'."\n";
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Resistant to'].'</div><div class="value">'."\n";
 			$type_list=array();
 			if(isset($effectiveness_list['0.25']))
 				foreach($effectiveness_list['0.25'] as $type_effectiveness)
@@ -55,7 +55,7 @@ foreach($type_meta as $type=>$type_content)
 		}
 		if(isset($effectiveness_list['0']))
 		{
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Immune to</div><div class="value">'."\n";
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Immune to'].'</div><div class="value">'."\n";
 			$type_list=array();
 			foreach($effectiveness_list['0'] as $type_effectiveness)
 				if(isset($type_meta[$type_effectiveness]))
@@ -76,7 +76,7 @@ foreach($type_meta as $type=>$type_content)
 		if(isset($effectiveness_list['2']) || isset($effectiveness_list['4']))
 		{
 			
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Effective against</div><div class="value">'."\n";
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Effective against'].'</div><div class="value">'."\n";
 			$type_list=array();
 			if(isset($effectiveness_list['2']))
 				foreach($effectiveness_list['2'] as $type_effectiveness)
@@ -91,7 +91,7 @@ foreach($type_meta as $type=>$type_content)
 		}
 		if(isset($effectiveness_list['0.25']) || isset($effectiveness_list['0.5']))
 		{
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Not effective against</div><div class="value">'."\n";
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Not effective against'].'</div><div class="value">'."\n";
 			$type_list=array();
 			if(isset($effectiveness_list['0.25']))
 				foreach($effectiveness_list['0.25'] as $type_effectiveness)
@@ -106,7 +106,7 @@ foreach($type_meta as $type=>$type_content)
 		}
 		if(isset($effectiveness_list['0']))
 		{
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Useless against</div><div class="value">'."\n";
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Useless against'].'</div><div class="value">'."\n";
 			$type_list=array();
 			foreach($effectiveness_list['0'] as $type_effectiveness)
 				if(isset($type_meta[$type_effectiveness]))
@@ -123,8 +123,8 @@ foreach($type_meta as $type=>$type_content)
 	{
 		$map_descriptor.='<table class="item_list item_list_type_'.$type.'">
 		<tr class="item_list_title item_list_title_type_'.$type.'">
-			<th colspan="2">Monster</th>
-			<th>Type</th>
+			<th colspan="2">'.$translation_list[$current_lang]['Monster'].'</th>
+			<th>'.$translation_list[$current_lang]['Type'].'</th>
 		</tr>'."\n";
 		foreach($type_to_monster[$type] as $second_type=>$second_type_content)
 		{
@@ -178,8 +178,8 @@ foreach($type_meta as $type=>$type_content)
 $map_descriptor='';
 $map_descriptor.='<table class="item_list item_list_type_normal">
 <tr class="item_list_title item_list_title_type_normal">
-	<th>Type</th>
-	<th>Monster with this type</th>
+	<th>'.$translation_list[$current_lang]['Type'].'</th>
+	<th>'.$translation_list[$current_lang]['Monster'].'</th>
 </tr>'."\n";
 foreach($type_meta as $type=>$type_content)
 {

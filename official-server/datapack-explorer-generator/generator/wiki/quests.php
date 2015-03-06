@@ -11,9 +11,9 @@ foreach($quests_meta as $id=>$quest)
 	$map_descriptor.='<div class="map item_details">'."\n";
 		$map_descriptor.='<div class="subblock"><h1>'.$quest['name'][$current_lang];
 		if($quest['repeatable'])
-			$map_descriptor.=' (repeatable)';
+			$map_descriptor.=' ('.$translation_list[$current_lang]['repeatable'].')';
 		else
-			$map_descriptor.=' (one time)';
+			$map_descriptor.=' ('.$translation_list[$current_lang]['one time'].')';
 		$map_descriptor.='</h1>'."\n";
 		$map_descriptor.='<h2>#'.$id.'</h2>'."\n";
         $map_descriptor.='</div>'."\n";
@@ -78,7 +78,7 @@ foreach($quests_meta as $id=>$quest)
                         $map_descriptor.='<td colspan="2">[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
                 }
                 else
-                    $map_descriptor.='<td colspan="2">Unknown map</td>'."\n";
+                    $map_descriptor.='<td colspan="2">'.$translation_list[$current_lang]['Unknown map'].'</td>'."\n";
             }
             else
                 $map_descriptor.='<td colspan="2">&nbsp;</td>'."\n";
@@ -88,7 +88,7 @@ foreach($quests_meta as $id=>$quest)
 
 		if(count($quest['requirements'])>0)
 		{
-            $map_descriptor.='<div class="subblock"><div class="valuetitle">Requirements</div><div class="value">'."\n";
+            $map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Requirements'].'</div><div class="value">'."\n";
 			if(isset($quest['requirements']['quests']))
 				foreach($quest['requirements']['quests'] as $quest_id)
 					$map_descriptor.='Quest: [['.$translation_list[$current_lang]['Quests:'].$quests_meta[$quest_id]['name'][$current_lang].'|'.$quests_meta[$quest_id]['name'][$current_lang].']]<br />'."\n";
@@ -102,7 +102,7 @@ foreach($quests_meta as $id=>$quest)
 		{
 			foreach($quest['steps'] as $id_step=>$step)
 			{
-				$map_descriptor.='<div class="subblock"><div class="valuetitle">Step #'.$id_step;
+				$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Step'].' #'.$id_step;
 
                 if(isset($step))
                     $bot_id=$step['bot'];
@@ -165,7 +165,7 @@ foreach($quests_meta as $id=>$quest)
                                 $map_descriptor.='<td colspan="2">[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
                         }
                         else
-                            $map_descriptor.='<td colspan="2">Unknown map</td>'."\n";
+                            $map_descriptor.='<td colspan="2">'.$translation_list[$current_lang]['Unknown map'].'</td>'."\n";
                     }
                     else
                         $map_descriptor.='<td colspan="2">&nbsp;</td>'."\n";
@@ -187,9 +187,9 @@ foreach($quests_meta as $id=>$quest)
 					}
 					$map_descriptor.='<table class="item_list item_list_type_outdoor"><tr class="item_list_title item_list_title_type_outdoor">'."\n";
 					if($show_full)
-						$map_descriptor.='<th colspan="2">Item</th><th colspan="2">Monster</th><th>Luck</th></tr>'."\n";
+						$map_descriptor.='<th colspan="2">'.$translation_list[$current_lang]['Item'].'</th><th colspan="2">'.$translation_list[$current_lang]['Monster'].'</th><th>'.$translation_list[$current_lang]['Luck'].'</th></tr>'."\n";
 					else
-						$map_descriptor.='<th colspan="2">Item</th></tr>'."\n";
+						$map_descriptor.='<th colspan="2">'.$translation_list[$current_lang]['Item'].'</th></tr>'."\n";
 					foreach($step['items'] as $item)
 					{
 						$map_descriptor.='<tr class="value"><td>'."\n";
@@ -225,7 +225,7 @@ foreach($quests_meta as $id=>$quest)
 						if($name!='')
 							$map_descriptor.=$quantity_text.$name;
 						else
-							$map_descriptor.=$quantity_text.'Unknown item';
+							$map_descriptor.=$quantity_text.$translation_list[$current_lang]['Unknown item'];
 						if($link!='')
 							$map_descriptor.=']]'."\n";
 						$map_descriptor.='</td>'."\n";
@@ -267,11 +267,11 @@ foreach($quests_meta as $id=>$quest)
 		}
 		if(count($quest['rewards'])>0)
 		{
-            $map_descriptor.='<div class="subblock"><div class="valuetitle">Rewards</div><div class="value">'."\n";
+            $map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Rewards'].'</div><div class="value">'."\n";
             if(isset($quest['rewards']['items']))
             {
                 $map_descriptor.='<table class="item_list item_list_type_outdoor"><tr class="item_list_title item_list_title_type_outdoor">
-                <th colspan="2">Item</th></tr>'."\n";
+                <th colspan="2">'.$translation_list[$current_lang]['Item'].'</th></tr>'."\n";
                 foreach($quest['rewards']['items'] as $item)
                 {
                     $map_descriptor.='<tr class="value"><td>'."\n";
@@ -321,17 +321,17 @@ foreach($quests_meta as $id=>$quest)
                 foreach($quest['rewards']['reputation'] as $reputation)
                 {
                     if($reputation['point']<0)
-                        $map_descriptor.='Less reputation in: '.reputationToText($reputation['type']);
+                        $map_descriptor.=$translation_list[$current_lang]['Less reputation in:'].' '.reputationToText($reputation['type']);
                     else
-                        $map_descriptor.='More reputation in: '.reputationToText($reputation['type']);
+                        $map_descriptor.=$translation_list[$current_lang]['More reputation in:'].' '.reputationToText($reputation['type']);
                 }
             if(isset($quest['rewards']['allow']))
                 foreach($quest['rewards']['allow'] as $allow)
                 {
                     if($allow=='clan')
-                        $map_descriptor.='Able to create clan';
+                        $map_descriptor.=$translation_list[$current_lang]['Able to create clan'];
                     else
-                        $map_descriptor.='Allow '.$allow;
+                        $map_descriptor.=$translation_list[$current_lang]['Allow'].' '.$allow;
                 }
             $map_descriptor.='</div></div>'."\n";
             savewikipage('Template:quest_'.$id.'_REWARDS',$map_descriptor);$map_descriptor='';

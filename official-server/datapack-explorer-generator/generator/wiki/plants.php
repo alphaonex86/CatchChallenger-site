@@ -5,9 +5,9 @@ if(!isset($datapackexplorergeneratorinclude))
 $map_descriptor='';
 $map_descriptor.='<table class="item_list item_list_type_normal">
 <tr class="item_list_title item_list_title_type_normal">
-	<th colspan="2">Plant</th>
-	<th colspan="2">Time to grow</th>
-	<th>Fruits produced</th>
+	<th colspan="2">'.$translation_list[$current_lang]['Plant'].'</th>
+	<th colspan="2">'.$translation_list[$current_lang]['Time to grow'].'</th>
+	<th>'.$translation_list[$current_lang]['Fruits produced'].'</th>
 </tr>'."\n";
 foreach($plant_meta as $id=>$plant)
 {
@@ -34,7 +34,7 @@ foreach($plant_meta as $id=>$plant)
 	if($name!='')
 		$map_descriptor.=$name;
 	else
-		$map_descriptor.='Unknown item';
+		$map_descriptor.=$translation_list[$current_lang]['Unknown item'];
 	if($link!='')
 		$map_descriptor.=']]'."\n";
 	$map_descriptor.='</td>'."\n";
@@ -42,7 +42,7 @@ foreach($plant_meta as $id=>$plant)
 	if(file_exists($datapack_path.'plants/'.$id.'.png'))
 		$map_descriptor.='<img src="'.$base_datapack_site_http.$base_datapack_site_path.'plants/'.$id.'.png" width="80" height="32" alt="'.$name.'" title="'.$name.'" />'."\n";
 	$map_descriptor.='</td>'."\n";
-	$map_descriptor.='<td><b>'.($plant['fruits']/60).'</b> minutes</td>'."\n";
+	$map_descriptor.='<td><b>'.($plant['fruits']/60).'</b> '.$translation_list[$current_lang]['minutes'].'</td>'."\n";
 	$map_descriptor.='<td>'.$plant['quantity'].'</td>'."\n";
 	$map_descriptor.='</tr>'."\n";
 }

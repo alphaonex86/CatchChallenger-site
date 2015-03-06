@@ -33,8 +33,8 @@ foreach($item_by_group as $group_name=>$item_meta_temp)
 		<th colspan="3">'.$group_name.'</th>
 	</tr>
 	<tr class="item_list_title item_list_title_type_normal">
-		<th colspan="2">Item</th>
-		<th>Price</th>
+		<th colspan="2">'.$translation_list[$current_lang]['Item'].'</th>
+		<th>'.$translation_list[$current_lang]['Price'].'</th>
 	</tr>';
 	$max=15;
 	if(count($item_meta_temp)>$max)
@@ -57,8 +57,8 @@ foreach($item_by_group as $group_name=>$item_meta_temp)
 				<th colspan="3">'.$group_name.'</th>
 			</tr>
 			<tr class="item_list_title item_list_title_type_normal">
-				<th colspan="2">Item</th>
-				<th>Price</th>
+        <th colspan="2">'.$translation_list[$current_lang]['Item'].'</th>
+        <th>'.$translation_list[$current_lang]['Price'].'</th>
 			</tr>';
 			$item_count_list=1;
 		}
@@ -85,7 +85,7 @@ foreach($item_by_group as $group_name=>$item_meta_temp)
 		if($name!='')
 			$map_descriptor.=$name;
 		else
-			$map_descriptor.='Unknown item';
+			$map_descriptor.=$translation_list[$current_lang]['Unknown item'];
 		if($link!='')
 			$map_descriptor.='</a>';
 		$map_descriptor.='</td>';

@@ -17,7 +17,7 @@ foreach($item_meta as $id=>$item)
         {
             $map_descriptor.='<table class="item_list item_list_type_normal">
             <tr class="item_list_title item_list_title_type_normal">
-                <th colspan="4">Shop</th>
+                <th colspan="4">'.$translation_list[$current_lang]['Shop'].'</th>
             </tr>'."\n";
 
             foreach($bot_list as $bot_id)
@@ -72,7 +72,7 @@ foreach($item_meta as $id=>$item)
                                 $map_descriptor.='<td colspan="2">[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($entry).'|'.map_to_wiki_name($entry).']]</td>'."\n";
                         }
                         else
-                            $map_descriptor.='<td colspan="2">Unknown map</td>'."\n";
+                            $map_descriptor.='<td colspan="2">'.$translation_list[$current_lang]['Unknown map'].'</td>'."\n";
                     }
                     else
                         $map_descriptor.='<td colspan="2">&nbsp;</td>'."\n";
@@ -101,15 +101,15 @@ foreach($item_meta as $id=>$item)
 			$map_descriptor.='<img src="'.$base_datapack_site_http.$base_datapack_site_path.'items/'.$item['image'].'" width="24" height="24" alt="'.$item['name'][$current_lang].'" title="'.$item['name'][$current_lang].'" />'."\n";
 		$map_descriptor.='</center></div>'."\n";
 		if($item['price']>0)
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Price</div><div class="value">'.$item['price'].'$</div></div>'."\n";
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Price'].'</div><div class="value">'.$item['price'].'$</div></div>'."\n";
 		else
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Price</div><div class="value">Can\'t be sold</div></div>'."\n";
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Price'].'</div><div class="value">'.$translation_list[$current_lang]['Can\'t be sold'].'</div></div>'."\n";
 		if($item['description'][$current_lang]!='')
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Description</div><div class="value">'.$item['description'][$current_lang].'</div></div>'."\n";
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Description'].'</div><div class="value">'.$item['description'][$current_lang].'</div></div>'."\n";
 		if(isset($item['trap']))
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Trap</div><div class="value">Bonus rate: '.$item['trap'].'x</div></div>'."\n";
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Trap'].'</div><div class="value">'.$translation_list[$current_lang]['Bonus rate:'].' '.$item['trap'].'x</div></div>'."\n";
 		if(isset($item['repel']))
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Repel</div><div class="value">Repel the monsters during '.$item['repel'].' steps</div></div>'."\n";
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Repel'].'</div><div class="value">Repel the monsters during '.$item['repel'].' steps</div></div>'."\n";
 		if(isset($item_to_plant[$id]) && isset($plant_meta[$item_to_plant[$id]]))
 		{
 			$image='';
@@ -119,15 +119,15 @@ foreach($item_meta as $id=>$item)
 				$image.=$base_datapack_site_http.$base_datapack_site_path.'plants/'.htmlspecialchars($item_to_plant[$id]).'.gif'."\n";
 			if($image!='')
 			{
-				$map_descriptor.='<div class="subblock"><div class="valuetitle">Plant</div><div class="value">'."\n";
+				$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Plant'].'</div><div class="value">'."\n";
 				$map_descriptor.='After <b>'.($plant_meta[$item_to_plant[$id]]['fruits']/60).'</b> minutes you will have <b>'.$plant_meta[$item_to_plant[$id]]['quantity'].'</b> fruits'."\n";
 				$map_descriptor.='<table class="item_list item_list_type_normal">
 				<tr class="item_list_title item_list_title_type_normal">
-					<th>Seed</th>
-					<th>Sprouted</th>
-					<th>Taller</th>
-					<th>Flowering</th>
-					<th>Fruits</th>
+					<th>'.$translation_list[$current_lang]['Seed'].'</th>
+					<th>'.$translation_list[$current_lang]['Sprouted'].'</th>
+					<th>'.$translation_list[$current_lang]['Taller'].'</th>
+					<th>'.$translation_list[$current_lang]['Flowering'].'</th>
+					<th>'.$translation_list[$current_lang]['Fruits'].'</th>
 				</tr><tr class="value">'."\n";
 				$map_descriptor.='<td><center><div style="width:16px;height:32px;background-image:url(\''.$image.'\');background-repeat:no-repeat;background-position:0px 0px;"></div></center></td>'."\n";
 				$map_descriptor.='<td><center><div style="width:16px;height:32px;background-image:url(\''.$image.'\');background-repeat:no-repeat;background-position:-16px 0px;"></div></center></td>'."\n";
@@ -143,12 +143,12 @@ foreach($item_meta as $id=>$item)
 
             if(count($plant_meta[$item_to_plant[$id]]['requirements'])>0)
             {
-                $map_descriptor.='<div class="subblock"><div class="valuetitle">Requirements</div><div class="value">'."\n";
+                $map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Requirements'].'</div><div class="value">'."\n";
                 if(isset($plant_meta[$item_to_plant[$id]]['requirements']['quests']))
                 {
                     foreach($plant_meta[$item_to_plant[$id]]['requirements']['quests'] as $quest_id)
                     {
-                        $map_descriptor.='Quest: [['.$translation_list[$current_lang]['Quests:'].$quest_id.' '.$quests_meta[$quest_id]['name'][$current_lang].'|'.$quests_meta[$quest_id]['name'][$current_lang].']]'."\n";
+                        $map_descriptor.=$translation_list[$current_lang]['Quest'].': [['.$translation_list[$current_lang]['Quests:'].$quest_id.' '.$quests_meta[$quest_id]['name'][$current_lang].'|'.$quests_meta[$quest_id]['name'][$current_lang].']]'."\n";
                         $map_descriptor.='<br />'."\n";
                     }
                 }
@@ -159,11 +159,11 @@ foreach($item_meta as $id=>$item)
             }
             if(count($plant_meta[$item_to_plant[$id]]['rewards'])>0)
             {
-                $map_descriptor.='<div class="subblock"><div class="valuetitle">Rewards</div><div class="value">'."\n";
+                $map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Rewards'].'</div><div class="value">'."\n";
                 if(isset($plant_meta[$item_to_plant[$id]]['rewards']['items']))
                 {
                     $map_descriptor.='<table class="item_list item_list_type_outdoor"><tr class="item_list_title item_list_title_type_outdoor">
-                    <th colspan="2">Item</th></tr>'."\n";
+                    <th colspan="2">'.$translation_list[$current_lang]['Item'].'</th></tr>'."\n";
                     foreach($plant_meta[$item_to_plant[$id]]['rewards']['items'] as $item)
                     {
                         $map_descriptor.='<tr class="value"><td>'."\n";
@@ -200,7 +200,7 @@ foreach($item_meta as $id=>$item)
                         if($name!='')
                             $map_descriptor.=$quantity_text.$name;
                         else
-                            $map_descriptor.=$quantity_text.'Unknown item'."\n";
+                            $map_descriptor.=$quantity_text.$translation_list[$current_lang]['Unknown item']."\n";
                         if($link!='')
                             $map_descriptor.=']]'."\n";
                         $map_descriptor.='</td></tr>'."\n";
@@ -213,39 +213,39 @@ foreach($item_meta as $id=>$item)
                     foreach($plant_meta[$item_to_plant[$id]]['rewards']['reputation'] as $reputation)
                     {
                         if($reputation['point']<0)
-                            $map_descriptor.='Less reputation in: '.reputationToText($reputation['type']);
+                            $map_descriptor.=$translation_list[$current_lang]['Less reputation in:'].' '.reputationToText($reputation['type']);
                         else
-                            $map_descriptor.='More reputation in: '.reputationToText($reputation['type']);
+                            $map_descriptor.=$translation_list[$current_lang]['More reputation in:'].' '.reputationToText($reputation['type']);
                     }
                 if(isset($plant_meta[$item_to_plant[$id]]['rewards']['allow']))
                     foreach($plant_meta[$item_to_plant[$id]]['rewards']['allow'] as $allow)
                     {
                         if($allow=='clan')
-                            $map_descriptor.='Able to create clan'."\n";
+                            $map_descriptor.=$translation_list[$current_lang]['Able to create clan']."\n";
                         else
-                            $map_descriptor.='Allow '.$allow;
+                            $map_descriptor.=$translation_list[$current_lang]['Allow'].' '.$allow;
                     }
                 $map_descriptor.='</div></div>'."\n";
             }
 		}
 		if(isset($item['effect']))
 		{
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Effect</div><div class="value"><ul>'."\n";
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Effect'].'</div><div class="value"><ul>'."\n";
 			if(isset($item['effect']['regeneration']))
 			{
 				if($item['effect']['regeneration']=='all')
-					$map_descriptor.='<li>Regenerate all the hp</li>'."\n";
+					$map_descriptor.='<li>'.$translation_list[$current_lang]['Regenerate all the hp'].'</li>'."\n";
 				else
 					$map_descriptor.='<li>Regenerate '.$item['effect']['regeneration'].' hp</li>'."\n";
 			}
 			if(isset($item['effect']['buff']))
 			{
 				if($item['effect']['buff']=='all')
-					$map_descriptor.='<li>Remove all debuff</li>'."\n";
+					$map_descriptor.='<li>'.$translation_list[$current_lang]['Remove all the buff and debuff'].'</li>'."\n";
 				else
 				{
 					$buff_id=$item['effect']['buff'];
-					$map_descriptor.='<li>Remove the debuff:'."\n";
+					$map_descriptor.='<li>'.$translation_list[$current_lang]['Remove the buff:']."\n";
 					$map_descriptor.='<center><table><td>'."\n";
 					if(file_exists($datapack_path.'/monsters/buff/'.$buff_id.'.png'))
 						$map_descriptor.='<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/buff/'.$buff_id.'.png" alt="" width="16" height="16" />'."\n";
@@ -253,7 +253,7 @@ foreach($item_meta as $id=>$item)
 						$map_descriptor.='&nbsp;'."\n";
 					$map_descriptor.='</td>'."\n";
 					if(isset($buff_meta[$buff_id]))
-						$map_descriptor.='<td>Unknown buff</td>'."\n";
+						$map_descriptor.='<td>'.$translation_list[$current_lang]['Unknown buff'].'</td>'."\n";
 					else
 						$map_descriptor.='<td>[['.$translation_list[$current_lang]['Buffs:'].$buff_meta[$buff_id]['name'][$current_lang].'|'.$buff_meta[$buff_id]['name'][$current_lang].']]</td>'."\n";
 					$map_descriptor.='</table></center>'."\n";
@@ -265,14 +265,14 @@ foreach($item_meta as $id=>$item)
 
         if(isset($item_to_crafting[$id]))
         {
-            $map_descriptor.='<div class="subblock"><div class="valuetitle">Do the item</div><div class="value">'."\n";
+            $map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Do the item'].'</div><div class="value">'."\n";
                 $map_descriptor.='<table><tr><td>'."\n";
                 if($item_meta[$item_to_crafting[$id]['doItemId']]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$item_to_crafting[$id]['doItemId']]['image']))
                     $map_descriptor.='<img src="'.$base_datapack_site_http.$base_datapack_site_path.'items/'.$item_meta[$item_to_crafting[$id]['doItemId']]['image'].'" width="24" height="24" alt="'.$item_meta[$item_to_crafting[$id]['doItemId']]['name'][$current_lang].'" title="'.$item_meta[$item_to_crafting[$id]['doItemId']]['name'][$current_lang].'" />'."\n";
                 $map_descriptor.='</td><td>[['.$translation_list[$current_lang]['Items:'].$item_meta[$item_to_crafting[$id]['doItemId']]['name'][$current_lang].'|'.$item_meta[$item_to_crafting[$id]['doItemId']]['name'][$current_lang].']]</td></tr></table>'."\n";
             $map_descriptor.='</div></div>'."\n";
 
-            $map_descriptor.='<div class="subblock"><div class="valuetitle">Material</div><div class="value">'."\n";
+            $map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Material'].'</div><div class="value">'."\n";
             foreach($item_to_crafting[$id]['material'] as $material=>$quantity)
             {
                     $map_descriptor.='<table><tr><td>'."\n";
@@ -288,7 +288,7 @@ foreach($item_meta as $id=>$item)
 
         if(isset($doItemId_to_crafting[$id]))
         {
-            $map_descriptor.='<div class="subblock"><div class="valuetitle">Product by crafting</div><div class="value">'."\n";
+            $map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Product by crafting'].'</div><div class="value">'."\n";
             foreach($doItemId_to_crafting[$id] as $material)
             {
                     $map_descriptor.='<table><tr><td>'."\n";
@@ -302,7 +302,7 @@ foreach($item_meta as $id=>$item)
 
         if(isset($material_to_crafting[$id]))
         {
-            $map_descriptor.='<div class="subblock"><div class="valuetitle">Used into crafting</div><div class="value">'."\n";
+            $map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Used into crafting'].'</div><div class="value">'."\n";
             foreach($material_to_crafting[$id] as $material)
             {
                     $map_descriptor.='<table><tr><td>'."\n";
@@ -323,7 +323,7 @@ foreach($item_meta as $id=>$item)
                     $bot_list=array_merge($bot_list,$shop_to_bot[$shop]);
             if(count($bot_list)>0)
             {
-                $map_descriptor.='<div class="subblock"><div class="valuetitle">Shop</div><div class="value">'."\n";
+                $map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Shop'].'</div><div class="value">'."\n";
                 $map_descriptor.='{{Template:Items/'.$id.'_SHOP}}'."\n";
                 $map_descriptor.='</div></div>'."\n";
             }
@@ -343,7 +343,7 @@ foreach($item_meta as $id=>$item)
 				{
 					$map_descriptor.='<table class="item_list item_list_type_normal map_list">
 					<tr class="item_list_title item_list_title_type_normal">
-						<th colspan="'.$count_evol.'">Evolve from</th>
+						<th colspan="'.$count_evol.'">'.$translation_list[$current_lang]['Evolve from'].'</th>
 					</tr>'."\n";
 					$map_descriptor.='<tr class="value">'."\n";
 					$map_descriptor.='<td>'."\n";
@@ -357,7 +357,7 @@ foreach($item_meta as $id=>$item)
 					$map_descriptor.='</td>'."\n";
 					$map_descriptor.='</tr>'."\n";
 
-					$map_descriptor.='<tr><td class="evolution_type">Evolve with<br />'."\n";
+					$map_descriptor.='<tr><td class="evolution_type">'.$translation_list[$current_lang]['Evolve with'].'<br />'."\n";
 					if($item_meta[$id]['image']!='')
 						$map_descriptor.='[['.$translation_list[$current_lang]['Items:'].$item_meta[$id]['name'][$current_lang].'|<img src="'.$base_datapack_site_http.$base_datapack_site_path.'items/'.$item_meta[$id]['image'].'" alt="'.$item_meta[$id]['name'][$current_lang].'" title="'.$item_meta[$id]['name'][$current_lang].'" style="float:left;" />]]'."\n";
 					$map_descriptor.='[['.$translation_list[$current_lang]['Items:'].$item_meta[$id]['name'][$current_lang].'|'.$item_meta[$id]['name'][$current_lang].']]</td></tr>'."\n";
@@ -375,7 +375,7 @@ foreach($item_meta as $id=>$item)
 					$map_descriptor.='</tr>'."\n";
 
 					$map_descriptor.='<tr>
-						<th colspan="'.$count_evol.'" class="item_list_endline item_list_title item_list_title_type_normal">Evolve to</th>
+						<th colspan="'.$count_evol.'" class="item_list_endline item_list_title item_list_title_type_normal">'.$translation_list[$current_lang]['Evolve to'].'</th>
 					</tr>
 					</table>'."\n";
 				}
@@ -391,9 +391,9 @@ foreach($item_meta as $id=>$item)
 	{
 		$map_descriptor.='<table class="item_list item_list_type_normal">
 		<tr class="item_list_title item_list_title_type_normal">
-			<th colspan="2">Monster</th>
-			<th>Quantity</th>
-			<th>Luck</th>
+			<th colspan="2">'.$translation_list[$current_lang]['Monster'].'</th>
+			<th>'.$translation_list[$current_lang]['Quantity'].'</th>
+			<th>'.$translation_list[$current_lang]['Luck'].'</th>
 		</tr>'."\n";
 		foreach($item_to_monster[$id] as $item_to_monster_list)
 		{
@@ -429,8 +429,8 @@ foreach($item_meta as $id=>$item)
 	{
 		$map_descriptor.='<table class="item_list item_list_type_normal">
 		<tr class="item_list_title item_list_title_type_normal">
-			<th>Quests</th>
-			<th>Quantity rewarded</th>
+			<th>'.$translation_list[$current_lang]['Quests'].'</th>
+			<th>'.$translation_list[$current_lang]['Quantity rewarded'].'</th>
 		</tr>'."\n";
 		foreach($items_to_quests[$id] as $quest_id=>$quantity)
 		{
@@ -461,16 +461,16 @@ foreach($item_meta as $id=>$item)
 		if($full_details)
 			$map_descriptor.='<table class="item_list item_list_type_normal">
 			<tr class="item_list_title item_list_title_type_normal">
-				<th>Quests</th>
-				<th>Quantity needed</th>
-				<th colspan="2">Monster</th>
-				<th>Luck</th>
+				<th>'.$translation_list[$current_lang]['Quests'].'</th>
+				<th>'.$translation_list[$current_lang]['Quantity needed'].'</th>
+				<th colspan="2">'.$translation_list[$current_lang]['Monster'].'</th>
+				<th>'.$translation_list[$current_lang]['Luck'].'</th>
 			</tr>'."\n";
 		else
 			$map_descriptor.='<table class="item_list item_list_type_normal">
 			<tr class="item_list_title item_list_title_type_normal">
-				<th>Quests</th>
-				<th>Quantity needed</th>
+				<th>'.$translation_list[$current_lang]['Quests'].'</th>
+				<th>'.$translation_list[$current_lang]['Quantity needed'].'</th>
 			</tr>'."\n";
 		foreach($items_to_quests_for_step[$id] as $items_to_quests_for_step_details)
 		{
@@ -515,8 +515,8 @@ foreach($item_meta as $id=>$item)
 	{
 		$map_descriptor.='<table class="item_list item_list_type_normal">
 		<tr class="item_list_title item_list_title_type_normal">
-			<th>Resource of industry</th>
-			<th>Quantity</th>
+			<th>'.$translation_list[$current_lang]['Product of the industry'].'</th>
+			<th>'.$translation_list[$current_lang]['Quantity'].'</th>
 		</tr>'."\n";
 		foreach($item_consumed_by[$id] as $industry_id=>$quantity)
 		{
@@ -539,8 +539,8 @@ foreach($item_meta as $id=>$item)
 	{
 		$map_descriptor.='<table class="item_list item_list_type_normal">
 		<tr class="item_list_title item_list_title_type_normal">
-			<th>Product of industry</th>
-			<th>Quantity</th>
+			<th>'.$translation_list[$current_lang]['Product of the industry'].'</th>
+			<th>'.$translation_list[$current_lang]['Quantity'].'</th>
 		</tr>'."\n";
 		foreach($item_produced_by[$id] as $industry_id=>$quantity)
 		{
@@ -563,9 +563,9 @@ foreach($item_meta as $id=>$item)
     {
         $map_descriptor.='<table class="item_list item_list_type_normal">
         <tr class="item_list_title item_list_title_type_normal">
-            <th colspan="3">Monster</th>
-            <th>Skill</th>
-            <th>Type</th>
+            <th colspan="3">'.$translation_list[$current_lang]['Monster'].'</th>
+            <th>'.$translation_list[$current_lang]['Skill'].'</th>
+            <th>'.$translation_list[$current_lang]['Type'].'</th>
         </tr>'."\n";
         foreach($item_to_skill_of_monster[$id] as $entry)
         {
@@ -611,7 +611,7 @@ foreach($item_meta as $id=>$item)
     {
         $map_descriptor.='<table class="item_list item_list_type_normal">
         <tr class="item_list_title item_list_title_type_normal">
-            <th colspan="2">On the map</th>
+            <th colspan="2">'.$translation_list[$current_lang]['On the map'].'</th>
         </tr>'."\n";
         foreach($item_to_map[$id] as $entry)
         {
@@ -627,7 +627,7 @@ foreach($item_meta as $id=>$item)
                         $map_descriptor.='<td colspan="2">[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($entry).'|'.map_to_wiki_name($entry).']]</td>'."\n";
                 }
                 else
-                    $map_descriptor.='<td colspan="2">Unknown map</td>'."\n";
+                    $map_descriptor.='<td colspan="2">'.$translation_list[$current_lang]['Unknown map'].'</td>'."\n";
                 $map_descriptor.='</tr>'."\n";
         }
         $map_descriptor.='<tr>
@@ -647,8 +647,8 @@ foreach($item_meta as $id=>$item)
     {
         $map_descriptor.='<table class="item_list item_list_type_normal">
         <tr class="item_list_title item_list_title_type_normal">
-            <th colspan="2">Fight</th>
-            <th>Monster</th>
+            <th colspan="2">'.$translation_list[$current_lang]['Fight'].'</th>
+            <th>'.$translation_list[$current_lang]['Monster'].'</th>
         </tr>'."\n";
         foreach($fights_for_items_list as $bot)
         {

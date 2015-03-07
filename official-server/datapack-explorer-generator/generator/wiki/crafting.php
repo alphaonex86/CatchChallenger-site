@@ -76,10 +76,7 @@ $map_descriptor.='<tr>
 </tr>
 </table>'."\n";
 
-savewikipage('Template:Crafting_list',$map_descriptor);$map_descriptor='';
+savewikipage('Template:Crafting_list',$map_descriptor,false);$map_descriptor='';
 
-if($wikivars['generatefullpage'])
-{
-    $map_descriptor.='{{Template:Crafting_list}}'."\n";
-    savewikipage($translation_list[$current_lang]['Crafting list'],$map_descriptor);
-}
+$map_descriptor.='{{Template:Crafting_list}}'."\n";
+savewikipage($translation_list[$current_lang]['Crafting list'],$map_descriptor,!$wikivars['generatefullpage']);

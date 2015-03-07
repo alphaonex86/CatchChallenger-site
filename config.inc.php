@@ -27,8 +27,10 @@ $nxt_seller='';
 $nxt_product_id='';
 
 //see doc/REAME-mediawiki.txt
-$wikivarsapp[0]['wikiFolder']='mediawiki';//resolv with: $base_datapack_site_http.'/'.$wikivarsapp[0]['wikiFolder'].'/api.php';
-$wikivarsapp[0]['username']='admin';
-$wikivarsapp[0]['password']='admin';
-$wikivarsapp[0]['lang']='en';
-$wikivarsapp[0]['generatefullpage']=false;
+$wikivarsappvar=0;
+$wikivarsapp[$wikivarsappvar]['wikiFolder']='mediawiki';//resolv with: $base_datapack_site_http.'/'.$wikivarsapp[0]['wikiFolder'].'/api.php';
+$wikivarsapp[$wikivarsappvar]['username']='admin';
+$wikivarsapp[$wikivarsappvar]['password']='admin';
+$wikivarsapp[$wikivarsappvar]['lang']='en';
+$wikivarsapp[$wikivarsappvar]['generatefullpage']=false;
+$wikivarsappvar++;

@@ -86,7 +86,7 @@ foreach($item_meta as $id=>$item)
                 <td colspan="4" class="item_list_endline item_list_title_type_normal"></td>
             </tr>
             </table>'."\n";
-            savewikipage('Template:Items/'.$id.'_SHOP',$map_descriptor);$map_descriptor='';
+            savewikipage('Template:Items/'.$id.'_SHOP',$map_descriptor,false);$map_descriptor='';
         }
     }
 
@@ -385,7 +385,7 @@ foreach($item_meta as $id=>$item)
 
 	$map_descriptor.='</div>'."\n";
 
-    savewikipage('Template:Items/'.$id.'_HEADER',$map_descriptor);$map_descriptor='';
+    savewikipage('Template:Items/'.$id.'_HEADER',$map_descriptor,false);$map_descriptor='';
 
 	if(isset($item_to_monster[$id]))
 	{
@@ -431,7 +431,7 @@ foreach($item_meta as $id=>$item)
             $map_descriptor.='<td colspan="3" class="item_list_endline item_list_title_type_normal"></td>';
         $map_descriptor.='</tr>
 		</table>'."\n";
-        savewikipage('Template:Items/'.$id.'_MONSTER',$map_descriptor);$map_descriptor='';
+        savewikipage('Template:Items/'.$id.'_MONSTER',$map_descriptor,false);$map_descriptor='';
 	}
 
 	if(isset($items_to_quests[$id]))
@@ -456,7 +456,7 @@ foreach($item_meta as $id=>$item)
 			<td colspan="2" class="item_list_endline item_list_title_type_normal"></td>
 		</tr>
 		</table>'."\n";
-        savewikipage('Template:Items/'.$id.'_QUEST',$map_descriptor);$map_descriptor='';
+        savewikipage('Template:Items/'.$id.'_QUEST',$map_descriptor,false);$map_descriptor='';
 	}
 	if(isset($items_to_quests_for_step[$id]))
 	{
@@ -517,7 +517,7 @@ foreach($item_meta as $id=>$item)
 				<td colspan="2" class="item_list_endline item_list_title_type_normal"></td>
 			</tr>
 			</table>'."\n";
-        savewikipage('Template:Items/'.$id.'_QUEST2',$map_descriptor);$map_descriptor='';
+        savewikipage('Template:Items/'.$id.'_QUEST2',$map_descriptor,false);$map_descriptor='';
 	}
 
 	if(isset($item_consumed_by[$id]))
@@ -541,7 +541,7 @@ foreach($item_meta as $id=>$item)
 			<td colspan="2" class="item_list_endline item_list_title_type_normal"></td>
 		</tr>
 		</table>'."\n";
-        savewikipage('Template:Items/'.$id.'_CONSUMED',$map_descriptor);$map_descriptor='';
+        savewikipage('Template:Items/'.$id.'_CONSUMED',$map_descriptor,false);$map_descriptor='';
 	}
 
 	if(isset($item_produced_by[$id]))
@@ -565,7 +565,7 @@ foreach($item_meta as $id=>$item)
 			<td colspan="2" class="item_list_endline item_list_title_type_normal"></td>
 		</tr>
 		</table>'."\n";
-        savewikipage('Template:Items/'.$id.'_PRODUCED',$map_descriptor);$map_descriptor='';
+        savewikipage('Template:Items/'.$id.'_PRODUCED',$map_descriptor,false);$map_descriptor='';
 	}
 
     if(isset($item_to_skill_of_monster[$id]))
@@ -613,7 +613,7 @@ foreach($item_meta as $id=>$item)
             <td colspan="5" class="item_list_endline item_list_title_type_normal"></td>
         </tr>
         </table>'."\n";
-        savewikipage('Template:Items/'.$id.'_SKILL',$map_descriptor);$map_descriptor='';
+        savewikipage('Template:Items/'.$id.'_SKILL',$map_descriptor,false);$map_descriptor='';
     }
 
     if(isset($item_to_map[$id]))
@@ -643,7 +643,7 @@ foreach($item_meta as $id=>$item)
             <td colspan="2" class="item_list_endline item_list_title_type_normal"></td>
         </tr>
         </table>'."\n";
-        savewikipage('Template:Items/'.$id.'_MAP',$map_descriptor);$map_descriptor='';
+        savewikipage('Template:Items/'.$id.'_MAP',$map_descriptor,false);$map_descriptor='';
     }
 
     $fights_for_items_list=array();
@@ -725,37 +725,31 @@ foreach($item_meta as $id=>$item)
             <td colspan="3" class="item_list_endline item_list_title_type_normal"></td>
         </tr>
         </table>'."\n";
-        savewikipage('Template:Items/'.$id.'_FIGHT',$map_descriptor);$map_descriptor='';
+        savewikipage('Template:Items/'.$id.'_FIGHT',$map_descriptor,false);$map_descriptor='';
     }
 
-    if($wikivars['generatefullpage'])
+    $map_descriptor.='{{Template:Items/'.$id.'_HEADER}}'."\n";
+    if(isset($item_to_monster[$id]))
+        $map_descriptor.='{{Template:Items/'.$id.'_MONSTER}}'."\n";
+    if(isset($items_to_quests[$id]))
+        $map_descriptor.='{{Template:Items/'.$id.'_QUEST}}'."\n";
+    if(isset($items_to_quests_for_step[$id]))
+        $map_descriptor.='{{Template:Items/'.$id.'_QUEST2}}'."\n";
+    if(isset($item_consumed_by[$id]))
+        $map_descriptor.='{{Template:Items/'.$id.'_CONSUMED}}'."\n";
+    if(isset($item_produced_by[$id]))
+        $map_descriptor.='{{Template:Items/'.$id.'_PRODUCED}}'."\n";
+    if(isset($item_to_skill_of_monster[$id]))
+        $map_descriptor.='{{Template:Items/'.$id.'_SKILL}}'."\n";
+    if(isset($item_to_map[$id]))
+        $map_descriptor.='{{Template:Items/'.$id.'_MAP}}'."\n";
+    if(count($fights_for_items_list)>0)
+        $map_descriptor.='{{Template:Items/'.$id.'_FIGHT}}'."\n";
+    if(!isset($item['name'][$current_lang]))
     {
-        $map_descriptor.='{{Template:Items/'.$id.'_HEADER}}'."\n";
-
-        if(isset($item_to_monster[$id]))
-            $map_descriptor.='{{Template:Items/'.$id.'_MONSTER}}'."\n";
-        if(isset($items_to_quests[$id]))
-            $map_descriptor.='{{Template:Items/'.$id.'_QUEST}}'."\n";
-        if(isset($items_to_quests_for_step[$id]))
-            $map_descriptor.='{{Template:Items/'.$id.'_QUEST2}}'."\n";
-        if(isset($item_consumed_by[$id]))
-            $map_descriptor.='{{Template:Items/'.$id.'_CONSUMED}}'."\n";
-        if(isset($item_produced_by[$id]))
-            $map_descriptor.='{{Template:Items/'.$id.'_PRODUCED}}'."\n";
-        if(isset($item_to_skill_of_monster[$id]))
-            $map_descriptor.='{{Template:Items/'.$id.'_SKILL}}'."\n";
-        if(isset($item_to_map[$id]))
-            $map_descriptor.='{{Template:Items/'.$id.'_MAP}}'."\n";
-        if(count($fights_for_items_list)>0)
-            $map_descriptor.='{{Template:Items/'.$id.'_FIGHT}}'."\n";
-
-        if(!isset($item['name'][$current_lang]))
-        {
-            echo $id;
-            print_r($item);
-            exit;
-        }
-
-        savewikipage($translation_list[$current_lang]['Items:'].$item['name'][$current_lang],$map_descriptor);
+        echo $id;
+        print_r($item);
+        exit;
     }
+    savewikipage($translation_list[$current_lang]['Items:'].$item['name'][$current_lang],$map_descriptor,!$wikivars['generatefullpage']);
 }

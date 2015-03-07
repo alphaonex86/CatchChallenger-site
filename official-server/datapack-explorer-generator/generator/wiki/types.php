@@ -116,7 +116,7 @@ foreach($type_meta as $type=>$type_content)
 		}
 	$map_descriptor.='</div>'."\n";
 
-    savewikipage('Template:Monsters_type_'.$type_content['name'][$current_lang].'_HEADER',$map_descriptor);$map_descriptor='';
+    savewikipage('Template:Monsters_type_'.$type_content['name'][$current_lang].'_HEADER',$map_descriptor,false);$map_descriptor='';
 
 	$second_type_displayed='';
 	if(isset($type_to_monster[$type]) && count($type_to_monster[$type])>0)
@@ -163,16 +163,13 @@ foreach($type_meta as $type=>$type_content)
 			<td colspan="3" class="item_list_endline item_list_title_type_'.$type.'"></td>
 		</tr>
 		</table>'."\n";
-        savewikipage('Template:Monsters_type_'.$type_content['name'][$current_lang].'_MONSTERS',$map_descriptor);$map_descriptor='';
+        savewikipage('Template:Monsters_type_'.$type_content['name'][$current_lang].'_MONSTERS',$map_descriptor,false);$map_descriptor='';
 	}
 
-    if($wikivars['generatefullpage'])
-    {
-        $map_descriptor.='{{Template:Monsters_type_'.$type_content['name'][$current_lang].'_HEADER}}'."\n";
-        if(isset($type_to_monster[$type]) && count($type_to_monster[$type])>0)
-            $map_descriptor.='{{Template:Monsters_type_'.$type_content['name'][$current_lang].'_MONSTERS}}'."\n";
-        savewikipage($translation_list[$current_lang]['Monsters type:'].$type_content['name'][$current_lang],$map_descriptor);
-    }
+    $map_descriptor.='{{Template:Monsters_type_'.$type_content['name'][$current_lang].'_HEADER}}'."\n";
+    if(isset($type_to_monster[$type]) && count($type_to_monster[$type])>0)
+        $map_descriptor.='{{Template:Monsters_type_'.$type_content['name'][$current_lang].'_MONSTERS}}'."\n";
+    savewikipage($translation_list[$current_lang]['Monsters type:'].$type_content['name'][$current_lang],$map_descriptor,!$wikivars['generatefullpage']);
 }
 
 $map_descriptor='';
@@ -198,7 +195,7 @@ $map_descriptor.='<tr>
 	<td colspan="2" class="item_list_endline item_list_title_type_normal"></td>
 </tr>
 </table>'."\n";
-savewikipage('Template:Monsters_types_list',$map_descriptor);$map_descriptor='';
+savewikipage('Template:Monsters_types_list',$map_descriptor,false);$map_descriptor='';
 $map_descriptor.='<table class="item_list item_list_type_normal">
 <tr class="item_list_title item_list_title_type_normal">
 	<th class="item_list_title_corner">Effective against</th>'."\n";
@@ -225,11 +222,8 @@ foreach($type_meta as $type=>$type_content)
 }
 $map_descriptor.='</table>'."\n";
 
-savewikipage('Template:Monsters_types_table',$map_descriptor);$map_descriptor='';
+savewikipage('Template:Monsters_types_table',$map_descriptor,false);$map_descriptor='';
 
-if($wikivars['generatefullpage'])
-{
-    $map_descriptor.='{{Template:Monsters_types_list}}'."\n";
-    $map_descriptor.='{{Template:Monsters_types_table}}'."\n";
-    savewikipage($translation_list[$current_lang]['Monsters types'],$map_descriptor);
-}
+$map_descriptor.='{{Template:Monsters_types_list}}'."\n";
+$map_descriptor.='{{Template:Monsters_types_table}}'."\n";
+savewikipage($translation_list[$current_lang]['Monsters types'],$map_descriptor,!$wikivars['generatefullpage']);

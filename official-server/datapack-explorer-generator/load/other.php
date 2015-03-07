@@ -27,10 +27,14 @@ foreach($xmlZoneList as $file)
             $name_in_other_lang[$lang]=$temp_name;
         }
         else
+        {
             $name_in_other_lang[$lang]=$name;
+            $temp_name=$name;
+        }
+        $zone_name_to_code[$lang][$temp_name]=$code;
     }
 	$zone_meta[$code]=array('name'=>$name_in_other_lang);
-    $zone_name_to_code[$name]=$code;
+    $zone_name_to_code['en'][$name]=$code;
 }
 ksort($zone_meta);
 

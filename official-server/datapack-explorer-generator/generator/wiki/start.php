@@ -86,7 +86,7 @@ foreach($start_meta as $entry)
 			$map_descriptor.='<li>No monster information!</li>'."\n";
     }
 	$map_descriptor.='</ul>'."\n";
-    savewikipage('Template:Starter_'.$index.'_HEADER',$map_descriptor);$map_descriptor='';
+    savewikipage('Template:Starter_'.$index.'_HEADER',$map_descriptor,false);$map_descriptor='';
 
 	if(count($entry['reputations'])>0)
 	{
@@ -104,7 +104,7 @@ foreach($start_meta as $entry)
 				$map_descriptor.='<li>Unknown reputation type: '.htmlspecialchars($reputation['type']).'</li>'."\n";
 		}
 		$map_descriptor.='</ul>'."\n";
-        savewikipage('Template:Starter_'.$index.'_REP',$map_descriptor);$map_descriptor='';
+        savewikipage('Template:Starter_'.$index.'_REP',$map_descriptor,false);$map_descriptor='';
 	}
 	if(count($entry['items'])>0)
 	{
@@ -130,7 +130,7 @@ foreach($start_meta as $entry)
 				$map_descriptor.='<li>'.$quantity.'unknown item ('.htmlspecialchars($item['id']).')</li>'."\n";
 		}
 		$map_descriptor.='</ul>'."\n";
-        savewikipage('Template:Starter_'.$index.'_ITEMS',$map_descriptor);$map_descriptor='';
+        savewikipage('Template:Starter_'.$index.'_ITEMS',$map_descriptor,false);$map_descriptor='';
 	}
 
 	$index++;
@@ -149,4 +149,4 @@ foreach($start_meta as $entry)
     }
     $index++;
 }
-savewikipage($translation_list[$current_lang]['Starters'],$map_descriptor);
+savewikipage($translation_list[$current_lang]['Starters'],$map_descriptor,!$wikivars['generatefullpage']);

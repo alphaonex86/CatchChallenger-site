@@ -216,14 +216,24 @@ foreach($temp_maps as $map)
 		$type=preg_replace("#[\n\r\t]+#is",'',$type);
 		$name=preg_replace("#[\n\r\t]+#is",'',$name);
 		$zone=preg_replace("#[\n\r\t]+#is",'',$zone);
-        if(!isset($duplicate_detection_name[$name]))
-            $duplicate_detection_name[$name]=1;
+        if(!isset($duplicate_detection_name['en'][$name]))
+            $duplicate_detection_name['en'][$name]=1;
         else
-            $duplicate_detection_name[$name]++;
-        if(!isset($duplicate_detection_name_and_zone[$zone.'_'.$name]))
-            $duplicate_detection_name_and_zone[$zone.'_'.$name]=1;
+            $duplicate_detection_name['en'][$name]++;
+        if($zone!='' && isset($zone_meta[$zone]))
+        {
+            if(!isset($duplicate_detection_name_and_zone['en'][$zone_meta[$zone]['name']['en'].' '.$name]))
+                $duplicate_detection_name_and_zone['en'][$zone_meta[$zone]['name']['en'].' '.$name]=1;
+            else
+                $duplicate_detection_name_and_zone['en'][$zone_meta[$zone]['name']['en'].' '.$name]++;
+        }
         else
-            $duplicate_detection_name_and_zone[$zone.'_'.$name]++;
+        {
+            if(!isset($duplicate_detection_name_and_zone['en'][$name]))
+                $duplicate_detection_name_and_zone['en'][$name]=1;
+            else
+                $duplicate_detection_name_and_zone['en'][$name]++;
+        }
 		$shortdescription=preg_replace("#[\n\r\t]+#is",'',$shortdescription);
 		$description=preg_replace("#[\n\r\t]+#is",'',$description);
         $name_in_other_lang=array('en'=>$name);
@@ -237,7 +247,28 @@ foreach($temp_maps as $map)
                 $name_in_other_lang[$lang]=$temp_name;
             }
             else
+            {
+                $temp_name=$name;
                 $name_in_other_lang[$lang]=$name;
+            }
+            if(!isset($duplicate_detection_name[$lang][$temp_name]))
+                $duplicate_detection_name[$lang][$temp_name]=1;
+            else
+                $duplicate_detection_name[$lang][$temp_name]++;
+            if($zone!='' && isset($zone_meta[$zone]))
+            {
+                if(!isset($duplicate_detection_name_and_zone[$lang][$zone_meta[$zone]['name'][$lang].' '.$temp_name]))
+                    $duplicate_detection_name_and_zone[$lang][$zone_meta[$zone]['name'][$lang].' '.$temp_name]=1;
+                else
+                    $duplicate_detection_name_and_zone[$lang][$zone_meta[$zone]['name'][$lang].' '.$temp_name]++;
+            }
+            else
+            {
+                if(!isset($duplicate_detection_name_and_zone[$lang][$temp_name]))
+                    $duplicate_detection_name_and_zone[$lang][$temp_name]=1;
+                else
+                    $duplicate_detection_name_and_zone[$lang][$temp_name]++;
+            }
         }
         $description_in_other_lang=array('en'=>$description);
         foreach($lang_to_load as $lang)
@@ -329,3 +360,7 @@ foreach($temp_maps as $map)
 }
 ksort($map_short_path_to_name);
 ksort($zone_to_map);
+foreach($duplicate_detection_name as $index=>$value)
+    ksort($duplicate_detection_name[$index]);
+foreach($duplicate_detection_name_and_zone as $index=>$value)
+    ksort($duplicate_detection_name_and_zone[$index]);

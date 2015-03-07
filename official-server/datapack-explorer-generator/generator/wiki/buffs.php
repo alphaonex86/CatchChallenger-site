@@ -106,13 +106,10 @@ foreach($buff_meta as $buff_id=>$buff)
 		</table>'."\n";
 	}
 
-    savewikipage('Template:buffs_'.$buff_id,$map_descriptor);$map_descriptor='';
+    savewikipage('Template:buffs_'.$buff_id,$map_descriptor,false);$map_descriptor='';
 
-    if($wikivars['generatefullpage'])
-    {
-        $map_descriptor.='{{Template:buffs_'.$buff_id.'}}'."\n";
-        savewikipage($translation_list[$current_lang]['Buffs:'].$buff['name'][$current_lang],$map_descriptor);
-    }
+    $map_descriptor.='{{Template:buffs_'.$buff_id.'}}'."\n";
+    savewikipage($translation_list[$current_lang]['Buffs:'].$buff['name'][$current_lang],$map_descriptor,!$wikivars['generatefullpage']);
 }
 
 $map_descriptor='';
@@ -137,10 +134,7 @@ $map_descriptor.='<tr>
 </tr>
 </table>'."\n";
 
-savewikipage('Template:buffs_list',$map_descriptor);$map_descriptor='';
+savewikipage('Template:buffs_list',$map_descriptor,false);$map_descriptor='';
 
-if($wikivars['generatefullpage'])
-{
-    $map_descriptor.='{{Template:buffs_list}}'."\n";
-    savewikipage($translation_list[$current_lang]['Buffs list'],$map_descriptor);
-}
+$map_descriptor.='{{Template:buffs_list}}'."\n";
+savewikipage($translation_list[$current_lang]['Buffs list'],$map_descriptor,!$wikivars['generatefullpage']);

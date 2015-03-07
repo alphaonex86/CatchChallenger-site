@@ -5,15 +5,16 @@ if(!isset($datapackexplorergeneratorinclude))
 define('MEDIAWIKI',true);
 define('CACHE_NONE',true);
 
-function savewikipage($page,$content,$summary='')
+function savewikipage($page,$content,$createonly=false,$summary='')
 {
     global $wikivars,$base_datapack_site_http;
     global $finalwikitoken;
     /* edit page */
+    $postdata='action=edit&format=php&title='.urlencode($page).'&text='.urlencode($content).'&token='.urlencode($finalwikitoken);
     if($summary!='')
-        $postdata='action=edit&format=php&title='.urlencode($page).'&text='.urlencode($content).'&token='.urlencode($finalwikitoken).'&summary='.urlencode($summary);
-    else
-        $postdata='action=edit&format=php&title='.urlencode($page).'&text='.urlencode($content).'&token='.urlencode($finalwikitoken);
+        $postdata.='&summary='.urlencode($summary);
+    if($createonly)
+        $postdata.='&createonly';
     $ch=curl_init();
     curl_setopt_array($ch, $wikivars['curloptions']);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:')); //Fixes the HTTP/1.1 417 Expectation Failed Bug

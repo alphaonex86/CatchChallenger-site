@@ -386,7 +386,7 @@ foreach($bots_meta as $bot_id=>$bot)
                         $quantity=$resources['quantity'];
                         if(isset($item_meta[$item]))
                         {
-                            $link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
+                            $link_item=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
                             $name=$item_meta[$item]['name'][$current_lang];
                             if($item_meta[$item]['image']!='')
                                 $image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
@@ -395,19 +395,19 @@ foreach($bots_meta as $bot_id=>$bot)
                             $map_descriptor.='<div style="float:left;text-align:center;">';
                             if($image!='')
                             {
-                                if($link!='')
-                                    $map_descriptor.='<a href="'.$link.'">';
+                                if($link_item!='')
+                                    $map_descriptor.='<a href="'.$link_item.'">';
                                 $map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />';
-                                if($link!='')
+                                if($link_item!='')
                                     $map_descriptor.='</a>';
                             }
-                            if($link!='')
-                                $map_descriptor.='<a href="'.$link.'">';
+                            if($link_item!='')
+                                $map_descriptor.='<a href="'.$link_item.'">';
                             if($name!='')
                                 $map_descriptor.=$name;
                             else
                                 $map_descriptor.='Unknown item';
-                            if($link!='')
+                            if($link_item!='')
                                 $map_descriptor.='</a></div>';
                         }
                         else
@@ -421,7 +421,7 @@ foreach($bots_meta as $bot_id=>$bot)
                         $quantity=$products['quantity'];
                         if(isset($item_meta[$item]))
                         {
-                            $link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
+                            $link_item=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
                             $name=$item_meta[$item]['name'][$current_lang];
                             if($item_meta[$item]['image']!='')
                                 $image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
@@ -430,19 +430,19 @@ foreach($bots_meta as $bot_id=>$bot)
                             $map_descriptor.='<div style="float:left;text-align:middle;">';
                             if($image!='')
                             {
-                                if($link!='')
-                                    $map_descriptor.='<a href="'.$link.'">';
+                                if($link_item!='')
+                                    $map_descriptor.='<a href="'.$link_item.'">';
                                 $map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />';
-                                if($link!='')
+                                if($link_item!='')
                                     $map_descriptor.='</a>';
                             }
-                            if($link!='')
-                                $map_descriptor.='<a href="'.$link.'">';
+                            if($link_item!='')
+                                $map_descriptor.='<a href="'.$link_item.'">';
                             if($name!='')
                                 $map_descriptor.=$name;
                             else
                                 $map_descriptor.='Unknown item';
-                            if($link!='')
+                            if($link_item!='')
                                 $map_descriptor.='</a></div>';
                         }
                         else
@@ -486,7 +486,7 @@ foreach($bots_by_zone as $zone=>$bot_id_list)
             <th colspan="2">';
         if($zone!='')
         {
-            if(isset($zone_name_to_code[$zone]))
+            if(isset($zone_name_to_code[$current_lang][$zone]))
                 $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['zones/'].text_operation_do_for_url($zone).'.html" title="'.$zone.'">'.$zone.'</a>';
             else
             {

@@ -74,7 +74,10 @@ foreach($skill_meta as $skill_id=>$skill)
 		}
 		foreach($skill['level_list'] as $level=>$effect)
 		{
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Level '.$level.'</div><div class="value">'."\n";
+			$map_descriptor.='<div class="subblock">'."\n";
+            if(count($skill['level_list'])>1)
+                $map_descriptor.='<div class="valuetitle">'.$translation_list[$current_lang]['Level'].' '.$level.'</div>'."\n";
+            $map_descriptor.='<div class="value">'."\n";
 			$map_descriptor.='Endurance: '.$effect['endurance'].'<br />'."\n";
 			if($effect['sp']!='0')
 				$map_descriptor.=$translation_list[$current_lang]['Skill point (SP) to learn'].': '.$effect['sp'].'<br />'."\n";
@@ -113,7 +116,7 @@ foreach($skill_meta as $skill_id=>$skill)
 			$map_descriptor.='</div></div>'."\n";
 		}
 	$map_descriptor.='</div>'."\n";
-    savewikipage('Template:skill_'.$skill_id.'_HEADER',$map_descriptor);$map_descriptor='';
+    savewikipage('Template:skill_'.$skill_id.'_HEADER',$map_descriptor,false);$map_descriptor='';
 	$skill_level_displayed=0;
 	if(isset($skill_to_monster[$skill_id]) && count($skill_to_monster[$skill_id])>0)
 	{
@@ -165,16 +168,13 @@ foreach($skill_meta as $skill_id=>$skill)
 			$map_descriptor.='" class="item_list_endline item_list_title_type_'.$type.'"></td>
 		</tr>
 		</table>'."\n";
-        savewikipage('Template:skill_'.$skill_id.'_MONSTERS',$map_descriptor);$map_descriptor='';
+        savewikipage('Template:skill_'.$skill_id.'_MONSTERS',$map_descriptor,false);$map_descriptor='';
 	}
 
-    if($wikivars['generatefullpage'])
-    {
-        $map_descriptor.='{{Template:skill_'.$skill_id.'_HEADER}}'."\n";
-        if(isset($skill_to_monster[$skill_id]) && count($skill_to_monster[$skill_id])>0)
-            $map_descriptor.='{{Template:skill_'.$skill_id.'_MONSTERS}}'."\n";
-        savewikipage($translation_list[$current_lang]['Skills:'].$skill['name'][$current_lang],$map_descriptor);
-    }
+    $map_descriptor.='{{Template:skill_'.$skill_id.'_HEADER}}'."\n";
+    if(isset($skill_to_monster[$skill_id]) && count($skill_to_monster[$skill_id])>0)
+        $map_descriptor.='{{Template:skill_'.$skill_id.'_MONSTERS}}'."\n";
+    savewikipage($translation_list[$current_lang]['Skills:'].$skill['name'][$current_lang],$map_descriptor,!$wikivars['generatefullpage']);
 }
 
 $map_descriptor='';
@@ -215,10 +215,7 @@ $map_descriptor.='" class="item_list_endline item_list_title_type_normal"></td>
 </tr>
 </table>'."\n";
 
-savewikipage('Template:skills_list',$map_descriptor);$map_descriptor='';
+savewikipage('Template:skills_list',$map_descriptor,false);$map_descriptor='';
 
-if($wikivars['generatefullpage'])
-{
-    $map_descriptor.='{{Template:skills_list}}'."\n";
-    savewikipage($translation_list[$current_lang]['Skills list'],$map_descriptor);
-}
+$map_descriptor.='{{Template:skills_list}}'."\n";
+savewikipage($translation_list[$current_lang]['Skills list'],$map_descriptor,!$wikivars['generatefullpage']);

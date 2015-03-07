@@ -78,7 +78,10 @@ foreach($skill_meta as $skill_id=>$skill)
 		}
 		foreach($skill['level_list'] as $level=>$effect)
 		{
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Level'].' '.$level.'</div><div class="value">';
+            $map_descriptor.='<div class="subblock">'."\n";
+            if(count($skill['level_list'])>1)
+                $map_descriptor.='<div class="valuetitle">'.$translation_list[$current_lang]['Level'].' '.$level.'</div>'."\n";
+            $map_descriptor.='<div class="value">'."\n";
 			$map_descriptor.=$translation_list[$current_lang]['Endurance'].': '.$effect['endurance'].'<br />';
 			if($effect['sp']!='0')
 				$map_descriptor.=$translation_list[$current_lang]['Skill point (SP) to learn'].': '.$effect['sp'].'<br />';

@@ -488,7 +488,7 @@ foreach($temp_maps as $map)
                                     $map_descriptor.='<tr class="value">';
                                     if(isset($item_meta[$item]))
                                     {
-                                        $link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
+                                        $link_item=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
                                         $name=$item_meta[$item]['name'][$current_lang];
                                         if($item_meta[$item]['image']!='')
                                             $image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
@@ -497,7 +497,7 @@ foreach($temp_maps as $map)
                                     }
                                     else
                                     {
-                                        $link='';
+                                        $link_item='';
                                         $name='';
                                         $image='';
                                     }
@@ -505,21 +505,21 @@ foreach($temp_maps as $map)
                                     <td>';
                                     if($image!='')
                                     {
-                                        if($link!='')
-                                            $map_descriptor.='<a href="'.$link.'">';
+                                        if($link_item!='')
+                                            $map_descriptor.='<a href="'.$link_item.'">';
                                         $map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />';
-                                        if($link!='')
+                                        if($link_item!='')
                                             $map_descriptor.='</a>';
                                     }
                                     $map_descriptor.='</td>
                                     <td>';
-                                    if($link!='')
-                                        $map_descriptor.='<a href="'.$link.'">';
+                                    if($link_item!='')
+                                        $map_descriptor.='<a href="'.$link_item.'">';
                                     if($name!='')
                                         $map_descriptor.=$name;
                                     else
                                         $map_descriptor.=$translation_list[$current_lang]['Unknown item'];
-                                    if($link!='')
+                                    if($link_item!='')
                                         $map_descriptor.='</a>';
                                     $map_descriptor.='</td>';
                                     $map_descriptor.='<td>'.$price.'$</td>';
@@ -565,7 +565,7 @@ foreach($temp_maps as $map)
                                     {
                                         if(isset($item_meta[$item['item']]))
                                         {
-                                            $link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item['item']]['name'][$current_lang]).'.html';
+                                            $link_item=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item['item']]['name'][$current_lang]).'.html';
                                             $name=$item_meta[$item['item']]['name'][$current_lang];
                                             if($item_meta[$item['item']]['image']!='')
                                                 $image=$base_datapack_site_path.'/items/'.$item_meta[$item['item']]['image'];
@@ -574,7 +574,7 @@ foreach($temp_maps as $map)
                                         }
                                         else
                                         {
-                                            $link='';
+                                            $link_item='';
                                             $name='';
                                             $image='';
                                         }
@@ -585,21 +585,21 @@ foreach($temp_maps as $map)
                                             <td>';
                                             if($image!='')
                                             {
-                                                if($link!='')
-                                                    $map_descriptor.='<a href="'.$link.'">';
+                                                if($link_item!='')
+                                                    $map_descriptor.='<a href="'.$link_item.'">';
                                                 $map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />';
-                                                if($link!='')
+                                                if($link_item!='')
                                                     $map_descriptor.='</a>';
                                             }
                                             $map_descriptor.='</td>
                                             <td>';
-                                            if($link!='')
-                                                $map_descriptor.='<a href="'.$link.'">';
+                                            if($link_item!='')
+                                                $map_descriptor.='<a href="'.$link_item.'">';
                                             if($name!='')
                                                 $map_descriptor.=$quantity_text.$name;
                                             else
                                                 $map_descriptor.=$quantity_text.$translation_list[$current_lang]['Unknown item'];
-                                            if($link!='')
+                                            if($link_item!='')
                                                 $map_descriptor.='</a>';
                                             $map_descriptor.='</td>';
                                             $map_descriptor.='</tr>';

@@ -114,7 +114,7 @@ foreach($monster_meta as $id=>$monster)
 		}
 	$map_descriptor.='</div>'."\n";
 
-    savewikipage('Template:monster_'.$id.'_HEADER',$map_descriptor);$map_descriptor='';
+    savewikipage('Template:monster_'.$id.'_HEADER',$map_descriptor,false);$map_descriptor='';
 	
 	if(count($monster['drops'])>0)
 	{
@@ -174,7 +174,7 @@ foreach($monster_meta as $id=>$monster)
 			<td colspan="3" class="item_list_endline item_list_title_type_'.$resolved_type.'"></td>
 		</tr>
 		</table>'."\n";
-        savewikipage('Template:monster_'.$id.'_DROP',$map_descriptor);$map_descriptor='';
+        savewikipage('Template:monster_'.$id.'_DROP',$map_descriptor,false);$map_descriptor='';
 	}
 
 	if(count($monster['attack_list'])>0)
@@ -220,7 +220,7 @@ foreach($monster_meta as $id=>$monster)
 			<td colspan="4" class="item_list_endline item_list_title_type_'.$resolved_type.'"></td>
 		</tr>
 		</table>'."\n";
-        savewikipage('Template:monster_'.$id.'_ATTACK',$map_descriptor);$map_descriptor='';
+        savewikipage('Template:monster_'.$id.'_ATTACK',$map_descriptor,false);$map_descriptor='';
 	}
 	if(count($monster['attack_list_byitem'])>0)
 	{
@@ -295,7 +295,7 @@ foreach($monster_meta as $id=>$monster)
 			<td colspan="5" class="item_list_endline item_list_title_type_'.$resolved_type.'"></td>
 		</tr>
 		</table>'."\n";
-        savewikipage('Template:monster_'.$id.'_ATTACKBYITEM',$map_descriptor);$map_descriptor='';
+        savewikipage('Template:monster_'.$id.'_ATTACKBYITEM',$map_descriptor,false);$map_descriptor='';
 	}
 
 	if(isset($monster_to_quests[$id]))
@@ -349,7 +349,7 @@ foreach($monster_meta as $id=>$monster)
 		$map_descriptor.='<tr>
 		<td colspan="4" class="item_list_endline item_list_title_type_outdoor"></td>
 		</tr></table>'."\n";
-        savewikipage('Template:monster_'.$id.'_QUEST',$map_descriptor);$map_descriptor='';
+        savewikipage('Template:monster_'.$id.'_QUEST',$map_descriptor,false);$map_descriptor='';
 	}
 
 	if(count($monster['evolution_list'])>0 || isset($reverse_evolution[$id]))
@@ -457,7 +457,7 @@ foreach($monster_meta as $id=>$monster)
 		$map_descriptor.='</th>
 		</tr>
 		</table>'."\n";
-        savewikipage('Template:monster_'.$id.'_EVOL',$map_descriptor);$map_descriptor='';
+        savewikipage('Template:monster_'.$id.'_EVOL',$map_descriptor,false);$map_descriptor='';
 	}
 
 	if(isset($monster_to_map[$id]))
@@ -597,28 +597,25 @@ foreach($monster_meta as $id=>$monster)
 			<td colspan="7" class="item_list_endline item_list_title_type_'.$resolved_type.'"></td>
 		</tr>
 		</table>'."\n";
-        savewikipage('Template:monster_'.$id.'_MAP',$map_descriptor);$map_descriptor='';
+        savewikipage('Template:monster_'.$id.'_MAP',$map_descriptor,false);$map_descriptor='';
 	}
 
-    if($wikivars['generatefullpage'])
-    {
-        $map_descriptor.='{{Template:monster_'.$id.'_HEADER}}'."\n";
+    $map_descriptor.='{{Template:monster_'.$id.'_HEADER}}'."\n";
 
-        if(count($monster['drops'])>0)
-            $map_descriptor.='{{Template:monster_'.$id.'_DROP}}'."\n";
-        if(count($monster['attack_list'])>0)
-            $map_descriptor.='{{Template:monster_'.$id.'_ATTACK}}'."\n";
-        if(count($monster['attack_list_byitem'])>0)
-            $map_descriptor.='{{Template:monster_'.$id.'_ATTACKBYITEM}}'."\n";
-        if(isset($monster_to_quests[$id]))
-            $map_descriptor.='{{Template:monster_'.$id.'_QUEST}}'."\n";
-        if(count($monster['evolution_list'])>0 || isset($reverse_evolution[$id]))
-            $map_descriptor.='{{Template:monster_'.$id.'_EVOL}}'."\n";
-        if(isset($monster_to_map[$id]))
-            $map_descriptor.='{{Template:monster_'.$id.'_MAP}}'."\n";
+    if(count($monster['drops'])>0)
+        $map_descriptor.='{{Template:monster_'.$id.'_DROP}}'."\n";
+    if(count($monster['attack_list'])>0)
+        $map_descriptor.='{{Template:monster_'.$id.'_ATTACK}}'."\n";
+    if(count($monster['attack_list_byitem'])>0)
+        $map_descriptor.='{{Template:monster_'.$id.'_ATTACKBYITEM}}'."\n";
+    if(isset($monster_to_quests[$id]))
+        $map_descriptor.='{{Template:monster_'.$id.'_QUEST}}'."\n";
+    if(count($monster['evolution_list'])>0 || isset($reverse_evolution[$id]))
+        $map_descriptor.='{{Template:monster_'.$id.'_EVOL}}'."\n";
+    if(isset($monster_to_map[$id]))
+        $map_descriptor.='{{Template:monster_'.$id.'_MAP}}'."\n";
 
-        savewikipage($translation_list[$current_lang]['Monsters:'].$monster['name'][$current_lang],$map_descriptor);
-    }
+    savewikipage($translation_list[$current_lang]['Monsters:'].$monster['name'][$current_lang],$map_descriptor,!$wikivars['generatefullpage']);
 }
 
 $map_descriptor='';
@@ -652,10 +649,7 @@ $map_descriptor.='<tr>
 </tr>
 </table>'."\n";
 
-savewikipage('Template:monsters_list',$map_descriptor);$map_descriptor='';
+savewikipage('Template:monsters_list',$map_descriptor,false);$map_descriptor='';
 
-if($wikivars['generatefullpage'])
-{
-    $map_descriptor.='{{Template:monsters_list}}'."\n";
-    savewikipage($translation_list[$current_lang]['Monsters list'],$map_descriptor);
-}
+$map_descriptor.='{{Template:monsters_list}}'."\n";
+savewikipage($translation_list[$current_lang]['Monsters list'],$map_descriptor,!$wikivars['generatefullpage']);

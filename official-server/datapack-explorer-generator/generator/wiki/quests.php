@@ -18,7 +18,7 @@ foreach($quests_meta as $id=>$quest)
 		$map_descriptor.='<h2>#'.$id.'</h2>'."\n";
         $map_descriptor.='</div>'."\n";
         $map_descriptor.='</div>'."\n";
-        savewikipage('Template:quest_'.$id.'_HEADER',$map_descriptor);$map_descriptor='';
+        savewikipage('Template:quest_'.$id.'_HEADER',$map_descriptor,false);$map_descriptor='';
 
         $bot_id=$quest['bot'];
         if(isset($bots_meta[$bot_id]))
@@ -83,7 +83,7 @@ foreach($quests_meta as $id=>$quest)
             else
                 $map_descriptor.='<td colspan="2">&nbsp;</td>'."\n";
             $map_descriptor.='</tr></table></center>'."\n";
-            savewikipage('Template:quest_'.$id.'_BOTS',$map_descriptor);$map_descriptor='';
+            savewikipage('Template:quest_'.$id.'_BOTS',$map_descriptor,false);$map_descriptor='';
         }
 
 		if(count($quest['requirements'])>0)
@@ -96,7 +96,7 @@ foreach($quests_meta as $id=>$quest)
                 foreach($quest['requirements']['reputation'] as $reputation)
                     $map_descriptor.=reputationLevelToText($reputation['type'],$reputation['level']).'<br />'."\n";
             $map_descriptor.='</div></div>'."\n";
-            savewikipage('Template:quest_'.$id.'_REQ',$map_descriptor);$map_descriptor='';
+            savewikipage('Template:quest_'.$id.'_REQ',$map_descriptor,false);$map_descriptor='';
 		}
 		if(count($quest['steps'])>0)
 		{
@@ -263,7 +263,7 @@ foreach($quests_meta as $id=>$quest)
 				}
 				$map_descriptor.='</div></div>'."\n";
 			}
-            savewikipage('Template:quest_'.$id.'_STEPS',$map_descriptor);$map_descriptor='';
+            savewikipage('Template:quest_'.$id.'_STEPS',$map_descriptor,false);$map_descriptor='';
 		}
 		if(count($quest['rewards'])>0)
 		{
@@ -334,32 +334,26 @@ foreach($quests_meta as $id=>$quest)
                         $map_descriptor.=$translation_list[$current_lang]['Allow'].' '.$allow;
                 }
             $map_descriptor.='</div></div>'."\n";
-            savewikipage('Template:quest_'.$id.'_REWARDS',$map_descriptor);$map_descriptor='';
+            savewikipage('Template:quest_'.$id.'_REWARDS',$map_descriptor,false);$map_descriptor='';
 		}
 
-    if($wikivars['generatefullpage'])
-    {
-        $map_descriptor.='{{Template:quest_'.$id.'_HEADER}}'."\n";
-        if(isset($bots_meta[$bot_id]))
-            $map_descriptor.='{{Template:quest_'.$id.'_BOTS}}'."\n";
-        if(count($quest['requirements'])>0)
-            $map_descriptor.='{{Template:quest_'.$id.'_REQ}}'."\n";
-        if(count($quest['steps'])>0)
-            $map_descriptor.='{{Template:quest_'.$id.'_STEPS}}'."\n";
-        if(count($quest['rewards'])>0)
-            $map_descriptor.='{{Template:quest_'.$id.'_REWARDS}}'."\n";
-        savewikipage($translation_list[$current_lang]['Quests:'].$id.'_'.$quest['name'][$current_lang],$map_descriptor);
-    }
+    $map_descriptor.='{{Template:quest_'.$id.'_HEADER}}'."\n";
+    if(isset($bots_meta[$bot_id]))
+        $map_descriptor.='{{Template:quest_'.$id.'_BOTS}}'."\n";
+    if(count($quest['requirements'])>0)
+        $map_descriptor.='{{Template:quest_'.$id.'_REQ}}'."\n";
+    if(count($quest['steps'])>0)
+        $map_descriptor.='{{Template:quest_'.$id.'_STEPS}}'."\n";
+    if(count($quest['rewards'])>0)
+        $map_descriptor.='{{Template:quest_'.$id.'_REWARDS}}'."\n";
+    savewikipage($translation_list[$current_lang]['Quests:'].$id.'_'.$quest['name'][$current_lang],$map_descriptor,!$wikivars['generatefullpage']);
 }
 
 $map_descriptor='';
 
 $map_descriptor.=questList(array_keys($quests_meta),true,true);
 
-savewikipage('Template:quests_list',$map_descriptor);$map_descriptor='';
+savewikipage('Template:quests_list',$map_descriptor,false);$map_descriptor='';
 
-if($wikivars['generatefullpage'])
-{
-    $map_descriptor.='{{Template:quests_list}}'."\n";
-    savewikipage($translation_list[$current_lang]['Quests list'],$map_descriptor);
-}
+$map_descriptor.='{{Template:quests_list}}'."\n";
+savewikipage($translation_list[$current_lang]['Quests list'],$map_descriptor,!$wikivars['generatefullpage']);

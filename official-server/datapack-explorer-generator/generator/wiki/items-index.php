@@ -102,10 +102,7 @@ foreach($item_by_group as $group_name=>$item_meta_temp)
 	</table>'."\n";
 }
 
-savewikipage('Template:Items_list',$map_descriptor);$map_descriptor='';
+savewikipage('Template:Items_list',$map_descriptor,false);$map_descriptor='';
 
-if($wikivars['generatefullpage'])
-{
-    $map_descriptor.='{{Template:Items_list}}'."\n";
-    savewikipage($translation_list[$current_lang]['Items list'],$map_descriptor);
-}
+$map_descriptor.='{{Template:Items_list}}'."\n";
+savewikipage($translation_list[$current_lang]['Items list'],$map_descriptor,!$wikivars['generatefullpage']);

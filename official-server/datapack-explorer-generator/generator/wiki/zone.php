@@ -127,11 +127,8 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 	<td colspan="2" class="item_list_endline item_list_title_type_outdoor"></td>
 	</tr></table></center>'."\n";
 
-    savewikipage('Template:Zones/'.$zone_name,$map_descriptor);$map_descriptor='';
+    savewikipage('Template:Zones/'.$zone_name,$map_descriptor,false);$map_descriptor='';
 
-    if($wikivars['generatefullpage'])
-    {
-        $map_descriptor.='{{Template:Zones/'.$zone_name.'}}'."\n";
-        savewikipage('Zones:'.$zone_name,$map_descriptor);
-    }
+    $map_descriptor.='{{Template:Zones/'.$zone_name.'}}'."\n";
+    savewikipage('Zones:'.$zone_name,$map_descriptor,!$wikivars['generatefullpage']);
 }

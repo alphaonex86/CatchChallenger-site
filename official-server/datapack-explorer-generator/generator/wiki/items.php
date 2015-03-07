@@ -120,7 +120,7 @@ foreach($item_meta as $id=>$item)
 			if($image!='')
 			{
 				$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Plant'].'</div><div class="value">'."\n";
-				$map_descriptor.='After <b>'.($plant_meta[$item_to_plant[$id]]['fruits']/60).'</b> minutes you will have <b>'.$plant_meta[$item_to_plant[$id]]['quantity'].'</b> fruits'."\n";
+                $map_descriptor.=str_replace('[fruits]',$plant_meta[$item_to_plant[$id]]['quantity'],str_replace('[mins]',($plant_meta[$item_to_plant[$id]]['fruits']/60),$translation_list[$current_lang]['After <b>[mins]</b> minutes you will have <b>[fruits]</b> fruits']))."\n";
 				$map_descriptor.='<table class="item_list item_list_type_normal">
 				<tr class="item_list_title item_list_title_type_normal">
 					<th>'.$translation_list[$current_lang]['Seed'].'</th>
@@ -389,11 +389,16 @@ foreach($item_meta as $id=>$item)
 
 	if(isset($item_to_monster[$id]))
 	{
+        $only_one=true;
+        foreach($item_to_monster[$id] as $item_to_monster_list)
+            if($item_to_monster_list['quantity_min']!=1 || $item_to_monster_list['quantity_max']!=1)
+                $only_one=false;
 		$map_descriptor.='<table class="item_list item_list_type_normal">
 		<tr class="item_list_title item_list_title_type_normal">
-			<th colspan="2">'.$translation_list[$current_lang]['Monster'].'</th>
-			<th>'.$translation_list[$current_lang]['Quantity'].'</th>
-			<th>'.$translation_list[$current_lang]['Luck'].'</th>
+			<th colspan="2">'.$translation_list[$current_lang]['Monster'].'</th>';
+            if(!$only_one)
+                $map_descriptor.='<th>'.$translation_list[$current_lang]['Quantity'].'</th>';
+            $map_descriptor.='<th>'.$translation_list[$current_lang]['Luck'].'</th>
 		</tr>'."\n";
 		foreach($item_to_monster[$id] as $item_to_monster_list)
 		{
@@ -413,14 +418,18 @@ foreach($item_meta as $id=>$item)
 					$map_descriptor.='<div class="monstericon">[['.$translation_list[$current_lang]['Monsters:'].$name.'|<img src="'.$base_datapack_site_http.$base_datapack_site_path.'monsters/'.$item_to_monster_list['monster'].'/small.gif" width="32" height="32" alt="'.$monster_meta[$item_to_monster_list['monster']]['name'][$current_lang].'" title="'.$monster_meta[$item_to_monster_list['monster']]['name'][$current_lang].'" />]]</div>'."\n";
 				$map_descriptor.='</td>
 				<td>[['.$translation_list[$current_lang]['Monsters:'].$name.'|'.$name.']]</td>'."\n";
-				$map_descriptor.='<td>'.$quantity_text.'</td>'."\n";
+                if(!$only_one)
+                    $map_descriptor.='<td>'.$quantity_text.'</td>'."\n";
 				$map_descriptor.='<td>'.$item_to_monster_list['luck'].'%</td>'."\n";
 				$map_descriptor.='</tr>'."\n";
 			}
 		}
-		$map_descriptor.='<tr>
-			<td colspan="4" class="item_list_endline item_list_title_type_normal"></td>
-		</tr>
+		$map_descriptor.='<tr>';
+        if(!$only_one)
+            $map_descriptor.='<td colspan="4" class="item_list_endline item_list_title_type_normal"></td>';
+        else
+            $map_descriptor.='<td colspan="3" class="item_list_endline item_list_title_type_normal"></td>';
+        $map_descriptor.='</tr>
 		</table>'."\n";
         savewikipage('Template:Items/'.$id.'_MONSTER',$map_descriptor);$map_descriptor='';
 	}
@@ -523,7 +532,7 @@ foreach($item_meta as $id=>$item)
 			if(isset($industrie_meta[$industry_id]))
 			{
 				$map_descriptor.='<tr class="value">'."\n";
-				$map_descriptor.='<td>[['.$translation_list[$current_lang]['Industries:'].'Industry '.$industry_id.'|Industry '.$industry_id.']]</td>'."\n";
+				$map_descriptor.='<td>[['.$translation_list[$current_lang]['Industries:'].str_replace('[id]',$industry_id,$translation_list[$current_lang]['Industry [id]']).'|'.str_replace('[id]',$industry_id,$translation_list[$current_lang]['Industry [id]']).']]</td>'."\n";
 				$map_descriptor.='<td>'.$quantity.'</td>'."\n";
 				$map_descriptor.='</tr>'."\n";
 			}
@@ -547,7 +556,7 @@ foreach($item_meta as $id=>$item)
 			if(isset($industrie_meta[$industry_id]))
 			{
 				$map_descriptor.='<tr class="value">'."\n";
-				$map_descriptor.='<td>[['.$translation_list[$current_lang]['Industries:'].'Industry '.$industry_id.'|Industry '.$industry_id.']]</td>'."\n";
+				$map_descriptor.='<td>[['.$translation_list[$current_lang]['Industries:'].str_replace('[id]',$industry_id,$translation_list[$current_lang]['Industry [id]']).'|'.str_replace('[id]',$industry_id,$translation_list[$current_lang]['Industry [id]']).']]</td>'."\n";
 				$map_descriptor.='<td>'.$quantity.'</td>'."\n";
 				$map_descriptor.='</tr>'."\n";
 			}

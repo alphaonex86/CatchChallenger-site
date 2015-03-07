@@ -1,12 +1,12 @@
 <?php
 function reputationLevelToText($reputation,$level)
 {
-    global $reputation_meta,$current_lang;
+    global $reputation_meta,$current_lang,$translation_list;
     if(!isset($reputation_meta[$reputation]))
-        return 'Level '.$reputation['level'].' in '.$reputation['type'];
+        return $translation_list[$current_lang]['Level'].' '.$reputation['level'].' '.$translation_list[$current_lang]['in'].' '.$reputation['type'];
     if(!isset($reputation_meta[$reputation]['level'][$level]))
-        return 'Level '.$reputation['level'].' in '.$reputation_meta[$reputation]['name'][$current_lang];
-    return 'Level '.$level.' in '.$reputation_meta[$reputation]['name'][$current_lang].' ('.$reputation_meta[$reputation]['level'][(int)$level].')';
+        return $translation_list[$current_lang]['Level'].' '.$reputation['level'].' '.$translation_list[$current_lang]['in'].' '.$reputation_meta[$reputation]['name'][$current_lang];
+    return $translation_list[$current_lang]['Level'].' '.$level.' '.$translation_list[$current_lang]['in'].' '.$reputation_meta[$reputation]['name'][$current_lang].' ('.$reputation_meta[$reputation]['level'][(int)$level].')';
 }
 
 function reputationToText($reputation)

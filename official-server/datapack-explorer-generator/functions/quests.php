@@ -14,6 +14,7 @@ function questList($id_list,$showbot=true,$wiki=false)
     global $maps_list;
     global $zone_meta;
     global $current_lang;
+    global $translation_list;
     if(!$wiki)
         $real_base_datapack_site_path=$base_datapack_site_path;
     else
@@ -22,23 +23,23 @@ function questList($id_list,$showbot=true,$wiki=false)
 
     $map_descriptor.='<table class="item_list item_list_type_normal">
     <tr class="item_list_title item_list_title_type_normal">
-        <th>Quests</th>
-        <th>Repeatable</th>'."\n";
+        <th>'.$translation_list[$current_lang]['Quests'].'</th>
+        <th>'.$translation_list[$current_lang]['Repeatable'].'</th>'."\n";
     if($showbot)
-         $map_descriptor.='<th colspan="4">Starting bot</th>'."\n";
-    $map_descriptor.='<th>Rewards</th>
+         $map_descriptor.='<th colspan="4">'.$translation_list[$current_lang]['Starting bot'].'</th>'."\n";
+    $map_descriptor.='<th>'.$translation_list[$current_lang]['Rewards'].'</th>
     </tr>'."\n";
     foreach($id_list as $id)
     {
         $map_descriptor.='<tr class="value">'."\n";
         if(!$wiki)
-            $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'quests/'.$id.'-'.text_operation_do_for_url($quests_meta[$id]['name'][$current_lang]).'.html" title="'.$quests_meta[$id]['name'][$current_lang].'">'.$quests_meta[$id]['name'][$current_lang].'</a></td>'."\n";
+            $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['quests/'].$id.'-'.text_operation_do_for_url($quests_meta[$id]['name'][$current_lang]).'.html" title="'.$quests_meta[$id]['name'][$current_lang].'">'.$quests_meta[$id]['name'][$current_lang].'</a></td>'."\n";
         else
-            $map_descriptor.='<td>[[Quests:'.$id.'_'.$quests_meta[$id]['name'][$current_lang].'|'.$quests_meta[$id]['name'][$current_lang].']]</td>'."\n";
+            $map_descriptor.='<td>[['.$translation_list[$current_lang]['Quests:'].$id.'_'.$quests_meta[$id]['name'][$current_lang].'|'.$quests_meta[$id]['name'][$current_lang].']]</td>'."\n";
         if($quests_meta[$id]['repeatable'])
-            $map_descriptor.='<td>Yes</td>'."\n";
+            $map_descriptor.='<td>'.$translation_list[$current_lang]['Yes'].'</td>'."\n";
         else
-            $map_descriptor.='<td>No</td>'."\n";
+            $map_descriptor.='<td>'.$translation_list[$current_lang]['No'].'</td>'."\n";
         if(isset($quests_meta[$id]['steps'][1]))
             $bot_id=$quests_meta[$id]['steps'][1]['bot'];
         else
@@ -78,7 +79,7 @@ function questList($id_list,$showbot=true,$wiki=false)
                 if(!$skin_found)
                     $map_descriptor.=' colspan="2"';
                 if(!$wiki)
-                    $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.'bots/'.text_operation_do_for_url($final_url_name).'.html" title="'.$final_name.'">'.$final_name.'</a></td>'."\n";
+                    $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].text_operation_do_for_url($final_url_name).'.html" title="'.$final_name.'">'.$final_name.'</a></td>'."\n";
                 else
                 {
                     if($bots_meta[$bot_id]['name'][$current_lang]=='')
@@ -88,9 +89,9 @@ function questList($id_list,$showbot=true,$wiki=false)
                     else
                         $link=text_operation_do_for_url($bot_id.'-'.$bots_meta[$bot_id]['name'][$current_lang]);
                     if($bot['name'][$current_lang]=='')
-                        $map_descriptor.='>[[Bots:'.$link.'|Bot #'.$bot_id.']]</td>'."\n";
+                        $map_descriptor.='>[['.$translation_list[$current_lang]['Bots:'].$link.'|Bot #'.$bot_id.']]</td>'."\n";
                     else
-                        $map_descriptor.='>[[Bots:'.$link.'|'.$bot['name'][$current_lang].']]</td>'."\n";
+                        $map_descriptor.='>[['.$translation_list[$current_lang]['Bots:'].$link.'|'.$bot['name'][$current_lang].']]</td>'."\n";
                 }
                 if(isset($bot_id_to_map[$bot_id]))
                 {
@@ -101,25 +102,25 @@ function questList($id_list,$showbot=true,$wiki=false)
                         {
                             if(isset($zone_meta[$maps_list[$entry]['zone']]))
                             {
-                                $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>'."\n";
+                                $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>'."\n";
                                 $map_descriptor.='<td>'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].'</td>'."\n";
                             }
                             else
-                                $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.'maps/'.str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>'."\n";
+                                $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>'."\n";
                         }
                         else
                         {
                             if(isset($zone_meta[$maps_list[$entry]['zone']]))
                             {
-                                $map_descriptor.='<td>[[Maps:'.map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
-                                $map_descriptor.='<td>[[Zones:'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].'|'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].']]</td>'."\n";
+                                $map_descriptor.='<td>[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
+                                $map_descriptor.='<td>[['.$translation_list[$current_lang]['Zones:'].$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].'|'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].']]</td>'."\n";
                             }
                             else
-                                $map_descriptor.='<td colspan="2">[[Maps:'.map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
+                                $map_descriptor.='<td colspan="2">[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
                         }
                     }
                     else
-                        $map_descriptor.='<td colspan="2">Unknown map</td>'."\n";
+                        $map_descriptor.='<td colspan="2">'.$translation_list[$current_lang]['Unknown map'].'</td>'."\n";
                 }
                 else
                     $map_descriptor.='<td colspan="2">&nbsp;</td>'."\n";
@@ -163,7 +164,7 @@ function questList($id_list,$showbot=true,$wiki=false)
                             if(!$wiki)
                                 $map_descriptor.='<a href="'.$link.'">'."\n";
                             else
-                                $map_descriptor.='[[Items:'.$name.'|';
+                                $map_descriptor.='[['.$translation_list[$current_lang]['Items:'].$name.'|';
                         }
                         $map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />'."\n";
                         if($link!='')
@@ -180,12 +181,12 @@ function questList($id_list,$showbot=true,$wiki=false)
                         if(!$wiki)
                             $map_descriptor.='<a href="'.$link.'">'."\n";
                         else
-                            $map_descriptor.='[[Items:'.$name.'|';
+                            $map_descriptor.='[['.$translation_list[$current_lang]['Items:'].$name.'|';
                     }
                     if($name!='')
                         $map_descriptor.=$quantity_text.$name;
                     else
-                        $map_descriptor.=$quantity_text.'Unknown item';
+                        $map_descriptor.=$quantity_text.$translation_list[$current_lang]['Unknown item'];
                     if($link!='')
                     {
                         if(!$wiki)
@@ -201,17 +202,17 @@ function questList($id_list,$showbot=true,$wiki=false)
                 foreach($quests_meta[$id]['rewards']['reputation'] as $reputation)
                 {
                     if($reputation['point']<0)
-                        $map_descriptor.='Less reputation in: '.$reputation['type'];
+                        $map_descriptor.=$translation_list[$current_lang]['Less reputation in:'].' '.$reputation['type'];
                     else
-                        $map_descriptor.='More reputation in: '.$reputation['type'];
+                        $map_descriptor.=$translation_list[$current_lang]['More reputation in:'].' '.$reputation['type'];
                 }
             if(isset($quests_meta[$id]['rewards']['allow']))
                 foreach($quests_meta[$id]['rewards']['allow'] as $allow)
                 {
                     if($allow=='clan')
-                        $map_descriptor.='Able to create clan';
+                        $map_descriptor.=$translation_list[$current_lang]['Able to create clan'];
                     else
-                        $map_descriptor.='Allow '.$allow;
+                        $map_descriptor.=$translation_list[$current_lang]['Allow'].' '.$allow;
                 }
             $map_descriptor.='</div></div>'."\n";
         }

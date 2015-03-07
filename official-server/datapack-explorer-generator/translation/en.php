@@ -208,6 +208,20 @@ $translation_list['en']['industries']='industries';
 $translation_list['en']['quests to start']='quests to start';
 $translation_list['en']['Quantity needed']='Quantity needed';
 $translation_list['en']['Reputations']='Reputations';
+$translation_list['en']['Drop luck of [luck]%']='Drop luck of [luck]%';
+$translation_list['en']['Industry #[industryid]']='Industry #[industryid]';
+$translation_list['en']['After <b>[mins]</b> minutes you will have <b>[fruits]</b> fruits']='After <b>[mins]</b> minutes you will have <b>[fruits]</b> fruits';
+$translation_list['en']['with luck of [luck]%']='with luck of [luck]%';
+$translation_list['en']['Cave']='Cave';
+$translation_list['en']['Water']='Water';
+$translation_list['en']['Grass']='Grass';
+$translation_list['en']['at night']='at night';
+$translation_list['en'][' condition [condition] at [value]']=' condition [condition] at [value]';
+$translation_list['en']['in']='in';
+$translation_list['en']['Yes']='Yes';
+$translation_list['en']['No']='No';
+$translation_list['en']['Repeatable']='Repeatable';
+$translation_list['en']['Starting bot']='Starting bot';
 
 //generated path
 $translation_list['en']['maps/']='maps/';

@@ -168,7 +168,7 @@ foreach($temp_maps as $map)
                     $monster_html=array();
                     foreach($content as $monster)
                         $monster_html[]='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($monster_meta[$monster]['name'][$current_lang]).'.html" title="'.$monster_meta[$monster]['name'][$current_lang].'">'.$monster_meta[$monster]['name'][$current_lang].'</a>';
-                    $monster_drops_html[]=implode(', ',$monster_html).' with luck of '.$luck.'%';
+                    $monster_drops_html[]=implode(', ',$monster_html).' '.str_replace('[luck]',$luck,$translation_list[$current_lang]['with luck of [luck]%']);
                 }
                 $map_descriptor.=implode(', ',$monster_drops_html);
                 $map_descriptor.='</td>
@@ -283,13 +283,13 @@ foreach($temp_maps as $map)
                 $map_descriptor.='</tr></table></center>';
             }
             else
-                $map_descriptor.=$full_monsterType_name;
+                $map_descriptor.=$translation_list[$current_lang][$full_monsterType_name];
             if(isset($layer_event[$monsterType]))
             {
                 if($layer_event[$monsterType]['id']=='day' && $layer_event[$monsterType]['value']=='night')
-                    $map_descriptor.=' at night';
+                    $map_descriptor.=' '.$translation_list[$current_lang]['at night'];
                 else
-                    $map_descriptor.=' condition '.$layer_event[$monsterType]['id'].' at '.$layer_event[$monsterType]['value'];
+                    $map_descriptor.=str_replace('[value]',$layer_event[$monsterType]['value'],str_replace('[condition]',$layer_event[$monsterType]['id'],$translation_list[$current_lang][' condition [condition] at [value]']));
             }
             $map_descriptor.='</th>
                 </tr>';
@@ -308,7 +308,7 @@ foreach($temp_maps as $map)
                         $map_descriptor.='</td>
                         <td><a href="'.$link.'">'.$name.'</a></td>
                         <td>';
-                        $map_descriptor.='<img src="/images/datapack-explorer/'.$full_monsterType_name_top.'.png" alt="" class="locationimg">'.$full_monsterType_name_top;
+                        $map_descriptor.='<img src="/images/datapack-explorer/'.$full_monsterType_name_top.'.png" alt="" class="locationimg">'.$translation_list[$current_lang][$full_monsterType_name_top];
                         $map_descriptor.='</td>
                         <td>';
                         if($monster['minLevel']==$monster['maxLevel'])
@@ -813,61 +813,77 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 	$map_descriptor.='<table class="item_list item_list_type_outdoor map_list"><tr class="item_list_title item_list_title_type_outdoor">
 	<th><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['zones/'].text_operation_do_for_url($zone_name).'.html" title="'.$zone_name.'">';
 	$map_descriptor.=$zone_name;
-	$map_descriptor.='</a></th><th>';
-	if(isset($zone_to_function[$zone]['shop']))
-		$map_descriptor.='<div style="float:left;background-position:-32px 0px;" class="flags flags16" title="Shop"></div>';
-	if(isset($zone_to_function[$zone]['fight']))
-		$map_descriptor.='<div style="float:left;background-position:-16px -16px;" class="flags flags16" title="Fight"></div>';
-	if(isset($zone_to_function[$zone]['heal']))
-		$map_descriptor.='<div style="float:left;background-position:0px 0px;" class="flags flags16" title="Heal"></div>';
-	if(isset($zone_to_function[$zone]['learn']))
-		$map_descriptor.='<div style="float:left;background-position:-48px 0px;" class="flags flags16" title="Learn"></div>';
-	if(isset($zone_to_function[$zone]['warehouse']))
-		$map_descriptor.='<div style="float:left;background-position:0px -16px;" class="flags flags16" title="Warehouse"></div>';
-	if(isset($zone_to_function[$zone]['market']))
-		$map_descriptor.='<div style="float:left;background-position:0px -16px;" class="flags flags16" title="Market"></div>';
-	if(isset($zone_to_function[$zone]['clan']))
-		$map_descriptor.='<div style="float:left;background-position:-48px -16px;" class="flags flags16" title="Clan"></div>';
-	if(isset($zone_to_function[$zone]['sell']))
-		$map_descriptor.='<div style="float:left;background-position:-32px 0px;" class="flags flags16" title="Sell"></div>';
-	if(isset($zone_to_function[$zone]['zonecapture']))
-		$map_descriptor.='<div style="float:left;background-position:-32px -16px;" class="flags flags16" title="Zone capture"></div>';
-    if(isset($zone_to_function[$zone]['industry']))
-        $map_descriptor.='<div style="float:left;background-position:0px -32px;" class="flags flags16" title="Industry"></div>';
-    if(isset($zone_to_function[$zone]['quests']))
-        $map_descriptor.='<div style="float:left;background-position:-16px 0px;" class="flags flags16" title="Quests"></div>';
-	$map_descriptor.='</th></tr>';
+	$map_descriptor.='</a></th>';
+    if(isset($zone_to_function[$zone]))
+        $additionnal_function=count($zone_to_function[$zone])>0;
+    else
+        $additionnal_function=false;
+    if($additionnal_function)
+    {
+        $map_descriptor.='<th>';
+        if(isset($zone_to_function[$zone]['shop']))
+            $map_descriptor.='<div style="float:left;background-position:-32px 0px;" class="flags flags16" title="Shop"></div>';
+        if(isset($zone_to_function[$zone]['fight']))
+            $map_descriptor.='<div style="float:left;background-position:-16px -16px;" class="flags flags16" title="Fight"></div>';
+        if(isset($zone_to_function[$zone]['heal']))
+            $map_descriptor.='<div style="float:left;background-position:0px 0px;" class="flags flags16" title="Heal"></div>';
+        if(isset($zone_to_function[$zone]['learn']))
+            $map_descriptor.='<div style="float:left;background-position:-48px 0px;" class="flags flags16" title="Learn"></div>';
+        if(isset($zone_to_function[$zone]['warehouse']))
+            $map_descriptor.='<div style="float:left;background-position:0px -16px;" class="flags flags16" title="Warehouse"></div>';
+        if(isset($zone_to_function[$zone]['market']))
+            $map_descriptor.='<div style="float:left;background-position:0px -16px;" class="flags flags16" title="Market"></div>';
+        if(isset($zone_to_function[$zone]['clan']))
+            $map_descriptor.='<div style="float:left;background-position:-48px -16px;" class="flags flags16" title="Clan"></div>';
+        if(isset($zone_to_function[$zone]['sell']))
+            $map_descriptor.='<div style="float:left;background-position:-32px 0px;" class="flags flags16" title="Sell"></div>';
+        if(isset($zone_to_function[$zone]['zonecapture']))
+            $map_descriptor.='<div style="float:left;background-position:-32px -16px;" class="flags flags16" title="Zone capture"></div>';
+        if(isset($zone_to_function[$zone]['industry']))
+            $map_descriptor.='<div style="float:left;background-position:0px -32px;" class="flags flags16" title="Industry"></div>';
+        if(isset($zone_to_function[$zone]['quests']))
+            $map_descriptor.='<div style="float:left;background-position:-16px 0px;" class="flags flags16" title="Quests"></div>';
+        $map_descriptor.='</th>';
+    }
+    $map_descriptor.='</tr>';
 	asort($map_by_zone);
 	foreach($map_by_zone as $map=>$name)
 	{
 		$map_descriptor.='<tr class="value"><td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$map).'" title="'.$name[$current_lang].'">'.$name[$current_lang].'</a></td>';
-        $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$map).'" title="'.$name[$current_lang].'">';
-		if(isset($map_to_function[$map]['shop']))
-			$map_descriptor.='<div style="float:left;background-position:-32px 0px;" class="flags flags16" title="Shop"></div>';
-		if(isset($map_to_function[$map]['fight']))
-			$map_descriptor.='<div style="float:left;background-position:-16px -16px;" class="flags flags16" title="Fight"></div>';
-		if(isset($map_to_function[$map]['heal']))
-			$map_descriptor.='<div style="float:left;background-position:0px 0px;" class="flags flags16" title="Heal"></div>';
-		if(isset($map_to_function[$map]['learn']))
-			$map_descriptor.='<div style="float:left;background-position:-48px 0px;" class="flags flags16" title="Learn"></div>';
-		if(isset($map_to_function[$map]['warehouse']))
-			$map_descriptor.='<div style="float:left;background-position:0px -16px;" class="flags flags16" title="Warehouse"></div>';
-		if(isset($map_to_function[$map]['market']))
-			$map_descriptor.='<div style="float:left;background-position:0px -16px;" class="flags flags16" title="Market"></div>';
-		if(isset($map_to_function[$map]['clan']))
-			$map_descriptor.='<div style="float:left;background-position:-48px -16px;" class="flags flags16" title="Clan"></div>';
-		if(isset($map_to_function[$map]['sell']))
-			$map_descriptor.='<div style="float:left;background-position:-32px 0px;" class="flags flags16" title="Sell"></div>';
-		if(isset($map_to_function[$map]['zonecapture']))
-			$map_descriptor.='<div style="float:left;background-position:-32px -16px;" class="flags flags16" title="Zone capture"></div>';
-        if(isset($map_to_function[$map]['industry']))
-            $map_descriptor.='<div style="float:left;background-position:0px -32px;" class="flags flags16" title="Industry"></div>';
-        if(isset($map_to_function[$map]['quests']))
-            $map_descriptor.='<div style="float:left;background-position:-16px 0px;" class="flags flags16" title="Quests"></div>';
-		$map_descriptor.='</a></td></tr>';
+        if($additionnal_function)
+        {
+            $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$map).'" title="'.$name[$current_lang].'">';
+            if(isset($map_to_function[$map]['shop']))
+                $map_descriptor.='<div style="float:left;background-position:-32px 0px;" class="flags flags16" title="Shop"></div>';
+            if(isset($map_to_function[$map]['fight']))
+                $map_descriptor.='<div style="float:left;background-position:-16px -16px;" class="flags flags16" title="Fight"></div>';
+            if(isset($map_to_function[$map]['heal']))
+                $map_descriptor.='<div style="float:left;background-position:0px 0px;" class="flags flags16" title="Heal"></div>';
+            if(isset($map_to_function[$map]['learn']))
+                $map_descriptor.='<div style="float:left;background-position:-48px 0px;" class="flags flags16" title="Learn"></div>';
+            if(isset($map_to_function[$map]['warehouse']))
+                $map_descriptor.='<div style="float:left;background-position:0px -16px;" class="flags flags16" title="Warehouse"></div>';
+            if(isset($map_to_function[$map]['market']))
+                $map_descriptor.='<div style="float:left;background-position:0px -16px;" class="flags flags16" title="Market"></div>';
+            if(isset($map_to_function[$map]['clan']))
+                $map_descriptor.='<div style="float:left;background-position:-48px -16px;" class="flags flags16" title="Clan"></div>';
+            if(isset($map_to_function[$map]['sell']))
+                $map_descriptor.='<div style="float:left;background-position:-32px 0px;" class="flags flags16" title="Sell"></div>';
+            if(isset($map_to_function[$map]['zonecapture']))
+                $map_descriptor.='<div style="float:left;background-position:-32px -16px;" class="flags flags16" title="Zone capture"></div>';
+            if(isset($map_to_function[$map]['industry']))
+                $map_descriptor.='<div style="float:left;background-position:0px -32px;" class="flags flags16" title="Industry"></div>';
+            if(isset($map_to_function[$map]['quests']))
+                $map_descriptor.='<div style="float:left;background-position:-16px 0px;" class="flags flags16" title="Quests"></div>';
+            $map_descriptor.='</a></td>';
+        }
+        $map_descriptor.='</tr>';
 	}
 	$map_descriptor.='<tr>
-	<td colspan="2" class="item_list_endline item_list_title_type_outdoor"></td>
+	<td ';
+    if($additionnal_function)
+        $map_descriptor.=' colspan="2"';
+    $map_descriptor.=' class="item_list_endline item_list_title_type_outdoor"></td>
 	</tr></table>';
 }
 $content=$template;

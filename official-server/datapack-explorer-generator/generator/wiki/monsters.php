@@ -167,7 +167,7 @@ foreach($monster_meta as $id=>$monster)
 				if($link!='')
 					$map_descriptor.=']]'."\n";
 				$map_descriptor.='</td>'."\n";
-				$map_descriptor.='<td>Drop luck of '.$drop['luck'].'%</td>
+				$map_descriptor.='<td>'.str_replace('[luck]',$drop['luck'],$translation_list[$current_lang]['Drop luck of [luck]%']).'</td>
 			</tr>'."\n";
 		}
 		$map_descriptor.='<tr>
@@ -453,7 +453,7 @@ foreach($monster_meta as $id=>$monster)
 		$map_descriptor.='<tr>
 			<th class="item_list_endline item_list_title item_list_title_type_'.$resolved_type.'">'."\n";
 		if(count($monster['evolution_list'])>0)
-			$map_descriptor.='Evolve to'."\n";
+			$map_descriptor.=$translation_list[$current_lang]['Evolve to']."\n";
 		$map_descriptor.='</th>
 		</tr>
 		</table>'."\n";

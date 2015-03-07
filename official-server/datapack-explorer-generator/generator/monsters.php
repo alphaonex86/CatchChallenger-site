@@ -167,7 +167,7 @@ foreach($monster_meta as $id=>$monster)
 				if($link!='')
 					$map_descriptor.='</a>';
 				$map_descriptor.='</td>';
-				$map_descriptor.='<td>Drop luck of '.$drop['luck'].'%</td>
+				$map_descriptor.='<td>'.str_replace('[luck]',$drop['luck'],$translation_list[$current_lang]['Drop luck of [luck]%']).'</td>
 			</tr>';
 		}
 		$map_descriptor.='<tr>

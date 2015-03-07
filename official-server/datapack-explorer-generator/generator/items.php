@@ -38,7 +38,7 @@ foreach($item_meta as $id=>$item)
 			if($image!='')
 			{
 				$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Plant'].'</div><div class="value">';
-				$map_descriptor.='After <b>'.($plant_meta[$item_to_plant[$id]]['fruits']/60).'</b> minutes you will have <b>'.$plant_meta[$item_to_plant[$id]]['quantity'].'</b> fruits';
+				$map_descriptor.=str_replace('[fruits]',$plant_meta[$item_to_plant[$id]]['quantity'],str_replace('[mins]',($plant_meta[$item_to_plant[$id]]['fruits']/60),$translation_list[$current_lang]['After <b>[mins]</b> minutes you will have <b>[fruits]</b> fruits']))."\n";
 				$map_descriptor.='<table class="item_list item_list_type_normal">
 				<tr class="item_list_title item_list_title_type_normal">
 					<th>'.$translation_list[$current_lang]['Seed'].'</th>
@@ -382,11 +382,16 @@ foreach($item_meta as $id=>$item)
 
 	if(isset($item_to_monster[$id]))
 	{
+        $only_one=true;
+        foreach($item_to_monster[$id] as $item_to_monster_list)
+            if($item_to_monster_list['quantity_min']!=1 || $item_to_monster_list['quantity_max']!=1)
+                $only_one=false;
 		$map_descriptor.='<table class="item_list item_list_type_normal">
 		<tr class="item_list_title item_list_title_type_normal">
-			<th colspan="2">'.$translation_list[$current_lang]['Monster'].'</th>
-			<th>'.$translation_list[$current_lang]['Quantity'].'</th>
-			<th>'.$translation_list[$current_lang]['Luck'].'</th>
+			<th colspan="2">'.$translation_list[$current_lang]['Monster'].'</th>';
+            if(!$only_one)
+                $map_descriptor.='<th>'.$translation_list[$current_lang]['Quantity'].'</th>';
+			$map_descriptor.='<th>'.$translation_list[$current_lang]['Luck'].'</th>
 		</tr>';
 		foreach($item_to_monster[$id] as $item_to_monster_list)
 		{
@@ -406,14 +411,18 @@ foreach($item_meta as $id=>$item)
 					$map_descriptor.='<div class="monstericon"><a href="'.$link.'"><img src="'.$base_datapack_site_path.'monsters/'.$item_to_monster_list['monster'].'/small.gif" width="32" height="32" alt="'.$monster_meta[$item_to_monster_list['monster']]['name'][$current_lang].'" title="'.$monster_meta[$item_to_monster_list['monster']]['name'][$current_lang].'" /></a></div>';
 				$map_descriptor.='</td>
 				<td><a href="'.$link.'">'.$name.'</a></td>';
-				$map_descriptor.='<td>'.$quantity_text.'</td>';
+                if(!$only_one)
+                    $map_descriptor.='<td>'.$quantity_text.'</td>';
 				$map_descriptor.='<td>'.$item_to_monster_list['luck'].'%</td>';
 				$map_descriptor.='</tr>';
 			}
 		}
-		$map_descriptor.='<tr>
-			<td colspan="4" class="item_list_endline item_list_title_type_normal"></td>
-		</tr>
+		$map_descriptor.='<tr>';
+        if(!$only_one)
+			$map_descriptor.='<td colspan="4" class="item_list_endline item_list_title_type_normal"></td>';
+        else
+            $map_descriptor.='<td colspan="3" class="item_list_endline item_list_title_type_normal"></td>';
+		$map_descriptor.='</tr>
 		</table>';
 	}
 
@@ -516,7 +525,7 @@ foreach($item_meta as $id=>$item)
 			{
 				$map_descriptor.='<tr class="value">';
 				$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['industries/'].$industry_id.'.html">';
-				$map_descriptor.='Industry #'.$industry_id;
+				$map_descriptor.=str_replace('[industryid]',$industry_id,$translation_list[$current_lang]['Industry #[industryid]']);
 				$map_descriptor.='</a></td>';
 				$map_descriptor.='<td>'.$quantity.'</td>';
 				$map_descriptor.='</tr>';
@@ -541,7 +550,7 @@ foreach($item_meta as $id=>$item)
 			{
 				$map_descriptor.='<tr class="value">';
 				$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['industries/'].$industry_id.'.html">';
-				$map_descriptor.='Industry #'.$industry_id;
+				$map_descriptor.=str_replace('[industryid]',$industry_id,$translation_list[$current_lang]['Industry #[industryid]']);
 				$map_descriptor.='</a></td>';
 				$map_descriptor.='<td>'.$quantity.'</td>';
 				$map_descriptor.='</tr>';

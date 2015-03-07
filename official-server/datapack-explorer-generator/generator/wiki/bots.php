@@ -282,7 +282,7 @@ foreach($bots_meta as $bot_id=>$bot)
                                 if(isset($type_meta[$type]))
                                     $type_list[]='<span class="type_label type_label_'.$type.'">[['.$translation_list[$current_lang]['Monsters type:'].$type_meta[$type]['name'][$current_lang].'|'.$type_meta[$type]['name'][$current_lang].']]</span>'."\n";
                             $map_descriptor.='<div class="type_label_list">'.implode(' ',$type_list).'</div></td></tr>'."\n";
-							$map_descriptor.='<tr><td>Level '.$monster['level'].'</td></tr>'."\n";
+							$map_descriptor.='<tr><td>'.$translation_list[$current_lang]['Level'].' '.$monster['level'].'</td></tr>'."\n";
 							$map_descriptor.='</table>'."\n";
 							$map_descriptor.='</td>'."\n";
 							$map_descriptor.='</tr>'."\n";
@@ -296,6 +296,7 @@ foreach($bots_meta as $bot_id=>$bot)
 					$map_descriptor.='<br style="clear:both;" />'."\n";
 
 					$map_descriptor.='</div></div>'."\n";
+                    $map_descriptor.='<br style="clear:both" />'."\n";
 				}
 			}
 			else if($step['type']=='heal')
@@ -373,7 +374,7 @@ foreach($bots_meta as $bot_id=>$bot)
                     $industry=$industrie_meta[$step['industry']];
                     $map_descriptor.='<tr class="value">'."\n";
                     $map_descriptor.='<td>'."\n";
-                    $map_descriptor.='[['.$translation_list[$current_lang]['Industries:'].'Industry '.$step['industry'].'|Industry '.$step['industry'].']]'."\n";
+                    $map_descriptor.='[['.$translation_list[$current_lang]['Industries:'].str_replace('[id]',$step['industry'],$translation_list[$current_lang]['Industry [id]']).'|'.str_replace('[id]',$step['industry'],$translation_list[$current_lang]['Industry [id]']).']]'."\n";
                     $map_descriptor.='</td>'."\n";
                     $map_descriptor.='<td>'."\n";
                     foreach($industry['resources'] as $resources)

@@ -97,6 +97,8 @@ foreach($temp_monsters as $monster_file)
         $name_in_other_lang=array('en'=>$name);
         foreach($lang_to_load as $lang)
         {
+            if($lang=='en')
+                continue;
             if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$entry))
             {
                 $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$entry);
@@ -114,6 +116,8 @@ foreach($temp_monsters as $monster_file)
         $description_in_other_lang=array('en'=>$description);
         foreach($lang_to_load as $lang)
         {
+            if($lang=='en')
+                continue;
             if(preg_match('#<description lang="'.$lang.'">([^<]+)</description>#isU',$entry))
             {
                 $temp_description=preg_replace('#^.*<description lang="'.$lang.'">([^<]+)</description>.*$#isU','$1',$entry);
@@ -131,6 +135,8 @@ foreach($temp_monsters as $monster_file)
         $kind_in_other_lang=array('en'=>$kind);
         foreach($lang_to_load as $lang)
         {
+            if($lang=='en')
+                continue;
             if(preg_match('#<kind lang="'.$lang.'">([^<]+)</kind>#isU',$entry))
             {
                 $temp_kind=preg_replace('#^.*<kind lang="'.$lang.'">([^<]+)</kind>.*$#isU','$1',$entry);
@@ -148,6 +154,8 @@ foreach($temp_monsters as $monster_file)
         $habitat_in_other_lang=array('en'=>$habitat);
         foreach($lang_to_load as $lang)
         {
+            if($lang=='en')
+                continue;
             if(preg_match('#<habitat lang="'.$lang.'">([^<]+)</habitat>#isU',$entry))
             {
                 $temp_habitat=preg_replace('#^.*<habitat lang="'.$lang.'">([^<]+)</habitat>.*$#isU','$1',$entry);

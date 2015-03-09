@@ -53,5 +53,15 @@ $map_descriptor.='<tr>
 
 savewikipage('Template:plants_list',$map_descriptor,false);$map_descriptor='';
 
+$lang_template='';
+if(count($wikivarsapp)>1)
+{
+    foreach($wikivarsapp as $wikivars2)
+        if($wikivars2['lang']!=$current_lang)
+            $lang_template.='[['.$wikivars2['lang'].':'.$translation_list[$wikivars2['lang']]['Plants list'].']]'."\n";
+    savewikipage('Template:plants_LANG',$lang_template,false);$lang_template='';
+    $map_descriptor.='{{Template:plants_LANG}}'."\n";
+}
+
 $map_descriptor.='{{Template:plants_list}}'."\n";
 savewikipage($translation_list[$current_lang]['Plants list'],$map_descriptor,!$wikivars['generatefullpage']);

@@ -41,6 +41,8 @@ foreach($bots_file as $file=>$value)
                     $name_in_other_lang=array('en'=>$name);
                     foreach($lang_to_load as $lang)
                     {
+                        if($lang=='en')
+                            continue;
                         if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$bot_text))
                         {
                             $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$bot_text);
@@ -87,6 +89,8 @@ foreach($bots_file as $file=>$value)
                                         $step_text_in_other_lang=array('en'=>$step_text);
                                         foreach($lang_to_load as $lang)
                                         {
+                                            if($lang=='en')
+                                                continue;
                                             if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$entry))
                                             {
                                                 $temp_step_text=preg_replace('#^.*<text lang="'.$lang.'">('.preg_quote('<![CDATA[').')?(.*)('.preg_quote(']]>').')?</text>.*$#isU','$3',$step_text);

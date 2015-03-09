@@ -2,6 +2,7 @@
 if(!isset($datapackexplorergeneratorinclude))
 	die('abort into load skill'."\n");
 
+$duplicate_skill_name=array();
 $buff_to_skill=array();
 $skill_meta=array();
 $temp_skills=getXmlList($datapack_path.'monsters/skill/');
@@ -35,17 +36,32 @@ foreach($temp_skills as $skill_file)
 			continue;
 		$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
         $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
+        $name=preg_replace("#[\n\r\t]+#is",'',$name);
+        if(isset($duplicate_skill_name['en'][$name]) && $duplicate_skill_name['en'][$name]!=$id)
+            echo 'duplicate name '.$name.' for skill ('.$id.' previously on '.$duplicate_skill_name['en'][$name].')'."\n";
+        else
+            $duplicate_skill_name['en'][$name]=$id;
         $name_in_other_lang=array('en'=>$name);
         foreach($lang_to_load as $lang)
         {
+            if($lang=='en')
+                continue;
             if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$entry))
             {
                 $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$entry);
                 $temp_name=str_replace('<![CDATA[','',str_replace(']]>','',$temp_name));
+                $temp_name=preg_replace("#[\n\r\t]+#is",'',$temp_name);
                 $name_in_other_lang[$lang]=$temp_name;
             }
             else
+            {
                 $name_in_other_lang[$lang]=$name;
+                $temp_name=$name;
+            }
+            if(isset($duplicate_skill_name[$lang][$temp_name]) && $duplicate_skill_name[$lang][$temp_name]!=$id)
+                echo 'duplicate name '.$temp_name.' for skill ('.$id.' previously on '.$duplicate_skill_name[$lang][$temp_name].') for lang '.$lang."\n";
+            else
+                $duplicate_skill_name[$lang][$temp_name]=$id;
         }
 		$level_list=array();
 		preg_match_all('#<level.*</level>#isU',$entry,$temp_level_list);

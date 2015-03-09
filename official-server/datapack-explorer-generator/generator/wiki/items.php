@@ -47,12 +47,7 @@ foreach($item_meta as $id=>$item)
                     if(!$skin_found)
                         $map_descriptor.=' colspan="2"';
 
-                    if($bots_meta[$bot_id]['name'][$current_lang]=='')
-                        $link=text_operation_do_for_url('bot '.$bot_id);
-                    else if($bots_name_count[$current_lang][$bots_meta[$bot_id]['name'][$current_lang]]==1)
-                        $link=text_operation_do_for_url($bots_meta[$bot_id]['name'][$current_lang]);
-                    else
-                        $link=text_operation_do_for_url($bot_id.'-'.$bots_meta[$bot_id]['name'][$current_lang]);
+                    $link=bot_to_wiki_name($bot_id);
                     if($bot['name'][$current_lang]=='')
                         $map_descriptor.='>[['.$translation_list[$current_lang]['Bots:'].$link.'|Bot #'.$bot_id.']]</td>'."\n";
                     else
@@ -726,6 +721,21 @@ foreach($item_meta as $id=>$item)
         </tr>
         </table>'."\n";
         savewikipage('Template:Items/'.$id.'_FIGHT',$map_descriptor,false);$map_descriptor='';
+    }
+
+    $lang_template='';
+    if(count($wikivarsapp)>1)
+    {
+        $temp_current_lang=$current_lang;
+        foreach($wikivarsapp as $wikivars2)
+            if($wikivars2['lang']!=$temp_current_lang)
+            {
+                $current_lang=$wikivars2['lang'];
+                $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Items:'].$item['name'][$current_lang].']]'."\n";
+            }
+        savewikipage('Template:tems/'.$id.'_LANG',$lang_template,false);$lang_template='';
+        $current_lang=$temp_current_lang;
+        $map_descriptor.='{{Template:tems/'.$id.'_LANG}}'."\n";
     }
 
     $map_descriptor.='{{Template:Items/'.$id.'_HEADER}}'."\n";

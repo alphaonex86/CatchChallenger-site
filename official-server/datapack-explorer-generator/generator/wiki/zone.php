@@ -128,7 +128,29 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 	</tr></table></center>'."\n";
 
     savewikipage('Template:Zones/'.$zone_name,$map_descriptor,false);$map_descriptor='';
+    $base_template='Zones/'.$zone_name;
 
-    $map_descriptor.='{{Template:Zones/'.$zone_name.'}}'."\n";
+    $lang_template='';
+    if(count($wikivarsapp)>1)
+    {
+        $temp_current_lang=$current_lang;
+        foreach($wikivarsapp as $wikivars2)
+            if($wikivars2['lang']!=$temp_current_lang)
+            {
+                $current_lang=$wikivars2['lang'];
+                if(isset($zone_meta[$zone]))
+                    $temp_zone_name=$zone_meta[$zone]['name'][$current_lang];
+                elseif($zone=='')
+                    $temp_zone_name=$translation_list[$current_lang]['Unknown zone'];
+                else
+                    $temp_zone_name=$zone;
+                $lang_template.='[['.$current_lang.':'.'Zones:'.$temp_zone_name.']]'."\n";
+            }
+        savewikipage('Template:'.$base_template.'_LANG',$lang_template,false);$lang_template='';
+        $current_lang=$temp_current_lang;
+        $map_descriptor.='{{Template:'.$base_template.'_LANG}}'."\n";
+    }
+
+    $map_descriptor.='{{Template:'.$base_template.'}}'."\n";
     savewikipage('Zones:'.$zone_name,$map_descriptor,!$wikivars['generatefullpage']);
 }

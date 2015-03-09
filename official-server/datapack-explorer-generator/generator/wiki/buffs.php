@@ -108,6 +108,21 @@ foreach($buff_meta as $buff_id=>$buff)
 
     savewikipage('Template:buffs_'.$buff_id,$map_descriptor,false);$map_descriptor='';
 
+    $lang_template='';
+    if(count($wikivarsapp)>1)
+    {
+        $temp_current_lang=$current_lang;
+        foreach($wikivarsapp as $wikivars2)
+            if($wikivars2['lang']!=$temp_current_lang)
+            {
+                $current_lang=$wikivars2['lang'];
+                $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Buffs:'].$buff['name'][$current_lang].']]'."\n";
+            }
+        savewikipage('Template:buffs_'.$buff_id.'_LANG',$lang_template,false);$lang_template='';
+        $current_lang=$temp_current_lang;
+        $map_descriptor.='{{Template:buffs_'.$buff_id.'_LANG}}'."\n";
+    }
+
     $map_descriptor.='{{Template:buffs_'.$buff_id.'}}'."\n";
     savewikipage($translation_list[$current_lang]['Buffs:'].$buff['name'][$current_lang],$map_descriptor,!$wikivars['generatefullpage']);
 }
@@ -135,6 +150,16 @@ $map_descriptor.='<tr>
 </table>'."\n";
 
 savewikipage('Template:buffs_list',$map_descriptor,false);$map_descriptor='';
+
+$lang_template='';
+if(count($wikivarsapp)>1)
+{
+    foreach($wikivarsapp as $wikivars2)
+        if($wikivars2['lang']!=$current_lang)
+            $lang_template.='[['.$wikivars2['lang'].':'.$translation_list[$wikivars2['lang']]['Buffs list'].']]'."\n";
+    savewikipage('Template:buffs_LANG',$lang_template,false);$lang_template='';
+    $map_descriptor.='{{Template:buffs_LANG}}'."\n";
+}
 
 $map_descriptor.='{{Template:buffs_list}}'."\n";
 savewikipage($translation_list[$current_lang]['Buffs list'],$map_descriptor,!$wikivars['generatefullpage']);

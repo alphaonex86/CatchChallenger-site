@@ -22,6 +22,8 @@ if(file_exists($datapack_path.'monsters/type.xml'))
         $name_in_other_lang=array('en'=>$name);
         foreach($lang_to_load as $lang)
         {
+            if($lang=='en')
+                continue;
             if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$entry))
             {
                 $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$entry);

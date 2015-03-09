@@ -18,6 +18,8 @@ if(is_file($datapack_path.'items/groups.xml'))
         $name_in_other_lang=array('en'=>$name);
         foreach($lang_to_load as $lang)
         {
+            if($lang=='en')
+                continue;
             if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$entry))
             {
                 $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$entry);
@@ -32,6 +34,7 @@ if(is_file($datapack_path.'items/groups.xml'))
     }
 }
 
+$duplicate_item_name=array();
 $item_meta=array();
 $item_to_trap=array();
 $item_to_regeneration=array();
@@ -74,9 +77,16 @@ foreach($temp_items as $item_file)
 			continue;
 		$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
         $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
+        $name=preg_replace("#[\n\r\t]+#is",'',$name);
+        if(isset($duplicate_item_name['en'][$name]) && $duplicate_item_name['en'][$name]!=$id)
+            echo 'duplicate name '.$name.' for item ('.$id.' previously on '.$duplicate_item_name['en'][$name].')'."\n";
+        else
+            $duplicate_item_name['en'][$name]=$id;
         $name_in_other_lang=array('en'=>$name);
         foreach($lang_to_load as $lang)
         {
+            if($lang=='en')
+                continue;
             if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$entry))
             {
                 $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$entry);
@@ -85,7 +95,14 @@ foreach($temp_items as $item_file)
                 $name_in_other_lang[$lang]=$temp_name;
             }
             else
+            {
+                $temp_name=$name;
                 $name_in_other_lang[$lang]=$name;
+            }
+            if(isset($duplicate_item_name[$lang][$temp_name]) && $duplicate_item_name[$lang][$temp_name]!=$id)
+                echo 'duplicate name '.$temp_name.' for item ('.$id.' previously on '.$duplicate_item_name[$lang][$temp_name].') for lang '.$lang."\n";
+            else
+                $duplicate_item_name[$lang][$temp_name]=$id;
         }
 		if(preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
 			$description=text_operation_first_letter_upper(preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry));
@@ -95,6 +112,8 @@ foreach($temp_items as $item_file)
         $description_in_other_lang=array('en'=>$description);
         foreach($lang_to_load as $lang)
         {
+            if($lang=='en')
+                continue;
             if(preg_match('#<description lang="'.$lang.'">([^<]+)</description>#isU',$entry))
             {
                 $temp_description=preg_replace('#^.*<description lang="'.$lang.'">([^<]+)</description>.*$#isU','$1',$entry);

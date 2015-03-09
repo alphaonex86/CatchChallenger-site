@@ -171,6 +171,21 @@ foreach($skill_meta as $skill_id=>$skill)
         savewikipage('Template:skill_'.$skill_id.'_MONSTERS',$map_descriptor,false);$map_descriptor='';
 	}
 
+    $lang_template='';
+    if(count($wikivarsapp)>1)
+    {
+        $temp_current_lang=$current_lang;
+        foreach($wikivarsapp as $wikivars2)
+            if($wikivars2['lang']!=$temp_current_lang)
+            {
+                $current_lang=$wikivars2['lang'];
+                $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Skills:'].$skill['name'][$current_lang].']]'."\n";
+            }
+        savewikipage('Template:skill_'.$skill_id.'_LANG',$lang_template,false);$lang_template='';
+        $current_lang=$temp_current_lang;
+        $map_descriptor.='{{Template:skill_'.$skill_id.'_LANG}}'."\n";
+    }
+
     $map_descriptor.='{{Template:skill_'.$skill_id.'_HEADER}}'."\n";
     if(isset($skill_to_monster[$skill_id]) && count($skill_to_monster[$skill_id])>0)
         $map_descriptor.='{{Template:skill_'.$skill_id.'_MONSTERS}}'."\n";
@@ -216,6 +231,16 @@ $map_descriptor.='" class="item_list_endline item_list_title_type_normal"></td>
 </table>'."\n";
 
 savewikipage('Template:skills_list',$map_descriptor,false);$map_descriptor='';
+
+$lang_template='';
+if(count($wikivarsapp)>1)
+{
+    foreach($wikivarsapp as $wikivars2)
+        if($wikivars2['lang']!=$current_lang)
+            $lang_template.='[['.$wikivars2['lang'].':'.$translation_list[$wikivars2['lang']]['Skills list'].']]'."\n";
+    savewikipage('Template:skills_LANG',$lang_template,false);$lang_template='';
+    $map_descriptor.='{{Template:skills_LANG}}'."\n";
+}
 
 $map_descriptor.='{{Template:skills_list}}'."\n";
 savewikipage($translation_list[$current_lang]['Skills list'],$map_descriptor,!$wikivars['generatefullpage']);

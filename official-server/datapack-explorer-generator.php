@@ -10,7 +10,7 @@ if(isset($_SERVER['SERVER_ADDR']) && isset($_SERVER['REMOTE_ADDR']))
     if($_SERVER['SERVER_ADDR']!=$_SERVER['REMOTE_ADDR'])
         die('denied');
 
-if(!isset($argc) || $argc<1)
+if(!isset($argc) || $argc<1 || php_sapi_name()!=='cli')
     die('need be started by CLI');
 
 if(!isset($datapack_explorer_local_path))
@@ -36,6 +36,7 @@ require 'datapack-explorer-generator/functions/reputation.php';
 require 'datapack-explorer-generator/functions/quests.php';
 require 'datapack-explorer-generator/functions/monsters.php';
 require 'datapack-explorer-generator/functions/maps.php';
+require 'datapack-explorer-generator/functions/bots.php';
 require 'datapack-explorer-generator/translation/en.php';
 
 $template=file_get_contents('template.html');
@@ -91,6 +92,7 @@ if($argc<=1 || in_array('wiki',$argv))
             echo 'Lang for the wiki '.$wikivars['wikiFolder'].': '.$current_lang."\n";
             $time_start=microtime(true);
             require 'datapack-explorer-generator/generator/wiki/init.php';
+
             $sub_time_start=microtime(true);
             require 'datapack-explorer-generator/generator/wiki/map.php';
             echo 'Map generated into '.ceil(microtime(true)-$sub_time_start).'s for '.$wikivars['wikiFolder']."\n";
@@ -125,6 +127,7 @@ if($argc<=1 || in_array('wiki',$argv))
             $sub_time_start=microtime(true);
             require 'datapack-explorer-generator/generator/wiki/industries.php';
             echo 'Industries generated into '.ceil(microtime(true)-$sub_time_start).'s for '.$wikivars['wikiFolder']."\n";
+
             $sub_time_start=microtime(true);
             require 'datapack-explorer-generator/generator/wiki/post.php';
             echo 'All done into '.ceil(microtime(true)-$time_start).'s'."\n";

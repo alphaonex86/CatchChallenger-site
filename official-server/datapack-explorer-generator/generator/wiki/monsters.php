@@ -600,8 +600,22 @@ foreach($monster_meta as $id=>$monster)
         savewikipage('Template:monster_'.$id.'_MAP',$map_descriptor,false);$map_descriptor='';
 	}
 
-    $map_descriptor.='{{Template:monster_'.$id.'_HEADER}}'."\n";
+    $lang_template='';
+    if(count($wikivarsapp)>1)
+    {
+        $temp_current_lang=$current_lang;
+        foreach($wikivarsapp as $wikivars2)
+            if($wikivars2['lang']!=$temp_current_lang)
+            {
+                $current_lang=$wikivars2['lang'];
+                $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Monsters:'].$monster['name'][$current_lang].']]'."\n";
+            }
+        savewikipage('Template:monster_'.$id.'_LANG',$lang_template,false);$lang_template='';
+        $current_lang=$temp_current_lang;
+        $map_descriptor.='{{Template:monster_'.$id.'_LANG}}'."\n";
+    }
 
+    $map_descriptor.='{{Template:monster_'.$id.'_HEADER}}'."\n";
     if(count($monster['drops'])>0)
         $map_descriptor.='{{Template:monster_'.$id.'_DROP}}'."\n";
     if(count($monster['attack_list'])>0)
@@ -650,6 +664,16 @@ $map_descriptor.='<tr>
 </table>'."\n";
 
 savewikipage('Template:monsters_list',$map_descriptor,false);$map_descriptor='';
+
+$lang_template='';
+if(count($wikivarsapp)>1)
+{
+    foreach($wikivarsapp as $wikivars2)
+        if($wikivars2['lang']!=$current_lang)
+            $lang_template.='[['.$wikivars2['lang'].':'.$translation_list[$wikivars2['lang']]['Monsters list'].']]'."\n";
+    savewikipage('Template:monsters_LANG',$lang_template,false);$lang_template='';
+    $map_descriptor.='{{Template:monsters_LANG}}'."\n";
+}
 
 $map_descriptor.='{{Template:monsters_list}}'."\n";
 savewikipage($translation_list[$current_lang]['Monsters list'],$map_descriptor,!$wikivars['generatefullpage']);

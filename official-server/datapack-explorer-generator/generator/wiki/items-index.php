@@ -104,5 +104,15 @@ foreach($item_by_group as $group_name=>$item_meta_temp)
 
 savewikipage('Template:Items_list',$map_descriptor,false);$map_descriptor='';
 
+$lang_template='';
+if(count($wikivarsapp)>1)
+{
+    foreach($wikivarsapp as $wikivars2)
+        if($wikivars2['lang']!=$current_lang)
+            $lang_template.='[['.$wikivars2['lang'].':'.$translation_list[$wikivars2['lang']]['Items list'].']]'."\n";
+    savewikipage('Template:Items_LANG',$lang_template,false);$lang_template='';
+    $map_descriptor.='{{Template:Items_LANG}}'."\n";
+}
+
 $map_descriptor.='{{Template:Items_list}}'."\n";
 savewikipage($translation_list[$current_lang]['Items list'],$map_descriptor,!$wikivars['generatefullpage']);

@@ -96,12 +96,7 @@ foreach($industrie_meta as $id=>$industry)
                     $map_descriptor.='<td';
                     if(!$skin_found)
                         $map_descriptor.=' colspan="2"';
-                    if($bots_meta[$bot_id]['name'][$current_lang]=='')
-                        $link_bot=text_operation_do_for_url('bot '.$bot_id);
-                    else if($bots_name_count[$current_lang][$bots_meta[$bot_id]['name'][$current_lang]]==1)
-                        $link_bot=text_operation_do_for_url($bots_meta[$bot_id]['name'][$current_lang]);
-                    else
-                        $link_bot=text_operation_do_for_url($bot_id.'-'.$bots_meta[$bot_id]['name'][$current_lang]);
+                    $link_bot=bot_to_wiki_name($bot_id);
                     if($bot['name'][$current_lang]=='')
                         $map_descriptor.='>[['.$translation_list[$current_lang]['Bots:'].$link_bot.'|Bot #'.$bot_id.']]</td>'."\n";
                     else
@@ -163,6 +158,21 @@ foreach($industrie_meta as $id=>$industry)
 	$map_descriptor.='</div>'."\n";
     
     savewikipage('Template:industry_'.$id,$map_descriptor,false);$map_descriptor='';
+
+    $lang_template='';
+    if(count($wikivarsapp)>1)
+    {
+        $temp_current_lang=$current_lang;
+        foreach($wikivarsapp as $wikivars2)
+            if($wikivars2['lang']!=$temp_current_lang)
+            {
+                $current_lang=$wikivars2['lang'];
+                $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Industries:'].str_replace('[id]',$id,$translation_list[$current_lang]['Industry [id]']).']]'."\n";
+            }
+        savewikipage('Template:industry_'.$id.'_LANG',$lang_template,false);$lang_template='';
+        $current_lang=$temp_current_lang;
+        $map_descriptor.='{{Template:industry_'.$id.'_LANG}}'."\n";
+    }
 
     $map_descriptor.='{{Template:industry_'.$id.'}}'."\n";
     savewikipage($translation_list[$current_lang]['Industries:'].str_replace('[id]',$id,$translation_list[$current_lang]['Industry [id]']),$map_descriptor,!$wikivars['generatefullpage']);
@@ -335,6 +345,16 @@ $map_descriptor.='<tr>
 </table>'."\n";
 
 savewikipage('Template:industries_list',$map_descriptor,false);$map_descriptor='';
+
+$lang_template='';
+if(count($wikivarsapp)>1)
+{
+    foreach($wikivarsapp as $wikivars2)
+        if($wikivars2['lang']!=$current_lang)
+            $lang_template.='[['.$wikivars2['lang'].':'.$translation_list[$wikivars2['lang']]['Industries list'].']]'."\n";
+    savewikipage('Template:industries_LANG',$lang_template,false);$lang_template='';
+    $map_descriptor.='{{Template:industries_LANG}}'."\n";
+}
 
 $map_descriptor.='{{Template:industries_list}}'."\n";
 savewikipage($translation_list[$current_lang]['Industries list'],$map_descriptor,!$wikivars['generatefullpage']);

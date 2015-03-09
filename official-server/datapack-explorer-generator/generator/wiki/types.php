@@ -165,10 +165,26 @@ foreach($type_meta as $type=>$type_content)
 		</table>'."\n";
         savewikipage('Template:Monsters_type_'.$type_content['name'][$current_lang].'_MONSTERS',$map_descriptor,false);$map_descriptor='';
 	}
+    $base_template='Monsters_type_'.$type_content['name'][$current_lang];
 
-    $map_descriptor.='{{Template:Monsters_type_'.$type_content['name'][$current_lang].'_HEADER}}'."\n";
+    $lang_template='';
+    if(count($wikivarsapp)>1)
+    {
+        $temp_current_lang=$current_lang;
+        foreach($wikivarsapp as $wikivars2)
+            if($wikivars2['lang']!=$temp_current_lang)
+            {
+                $current_lang=$wikivars2['lang'];
+                $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Monsters type:'].$type_content['name'][$current_lang].']]'."\n";
+            }
+        savewikipage('Template:'.$base_template.'_LANG',$lang_template,false);$lang_template='';
+        $current_lang=$temp_current_lang;
+        $map_descriptor.='{{Template:'.$base_template.'_LANG}}'."\n";
+    }
+
+    $map_descriptor.='{{Template:'.$base_template.'_HEADER}}'."\n";
     if(isset($type_to_monster[$type]) && count($type_to_monster[$type])>0)
-        $map_descriptor.='{{Template:Monsters_type_'.$type_content['name'][$current_lang].'_MONSTERS}}'."\n";
+        $map_descriptor.='{{Template:'.$base_template.'_MONSTERS}}'."\n";
     savewikipage($translation_list[$current_lang]['Monsters type:'].$type_content['name'][$current_lang],$map_descriptor,!$wikivars['generatefullpage']);
 }
 
@@ -223,6 +239,16 @@ foreach($type_meta as $type=>$type_content)
 $map_descriptor.='</table>'."\n";
 
 savewikipage('Template:Monsters_types_table',$map_descriptor,false);$map_descriptor='';
+
+$lang_template='';
+if(count($wikivarsapp)>1)
+{
+    foreach($wikivarsapp as $wikivars2)
+        if($wikivars2['lang']!=$current_lang)
+            $lang_template.='[['.$wikivars2['lang'].':'.$translation_list[$wikivars2['lang']]['Monsters types'].']]'."\n";
+    savewikipage('Template:Monsters_types_LANG',$lang_template,false);$lang_template='';
+    $map_descriptor.='{{Template:Monsters_types_LANG}}'."\n";
+}
 
 $map_descriptor.='{{Template:Monsters_types_list}}'."\n";
 $map_descriptor.='{{Template:Monsters_types_table}}'."\n";

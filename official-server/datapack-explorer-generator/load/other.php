@@ -19,6 +19,8 @@ foreach($xmlZoneList as $file)
     $name_in_other_lang=array('en'=>$name);
     foreach($lang_to_load as $lang)
     {
+        if($lang=='en')
+            continue;
         if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$content))
         {
             $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$content);
@@ -92,6 +94,8 @@ if(file_exists($datapack_path.'player/start.xml'))
         $name_in_other_lang=array('en'=>$name);
         foreach($lang_to_load as $lang)
         {
+            if($lang=='en')
+                continue;
             if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$entry))
             {
                 $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$entry);
@@ -109,6 +113,8 @@ if(file_exists($datapack_path.'player/start.xml'))
         $description_in_other_lang=array('en'=>$description);
         foreach($lang_to_load as $lang)
         {
+            if($lang=='en')
+                continue;
             if(preg_match('#<description lang="'.$lang.'">([^<]+)</description>#isU',$entry))
             {
                 $temp_description=preg_replace('#^.*<description lang="'.$lang.'">([^<]+)</description>.*$#isU','$1',$entry);
@@ -236,6 +242,8 @@ foreach($xmlFightList as $file)
     $name_in_other_lang=array('en'=>$name);
     foreach($lang_to_load as $lang)
     {
+        if($lang=='en')
+            continue;
         if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$entry))
         {
             $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$entry);

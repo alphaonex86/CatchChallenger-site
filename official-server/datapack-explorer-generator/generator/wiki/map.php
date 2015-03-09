@@ -776,6 +776,21 @@ foreach($temp_maps as $map)
         savewikipage('Template:Maps/'.$map_html.'_BOT',$map_descriptor,false);$map_descriptor='';
 	}
 	
+    $lang_template='';
+    if(count($wikivarsapp)>1)
+    {
+        $temp_current_lang=$current_lang;
+        foreach($wikivarsapp as $wikivars2)
+            if($wikivars2['lang']!=$temp_current_lang)
+            {
+                $current_lang=$wikivars2['lang'];
+                $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($map).']]'."\n";
+            }
+        savewikipage('Template:Maps/'.$map_html.'_LANG',$lang_template,false);$lang_template='';
+        $current_lang=$temp_current_lang;
+        $map_descriptor.='{{Template:Maps/'.$map_html.'_LANG}}'."\n";
+    }
+
     $map_descriptor.='{{Template:Maps/'.$map_html.'_HEADER}}'."\n";
     if($maps_list[$map]['dropcount']>0 || count($maps_list[$map]['items'])>0)
         $map_descriptor.='{{Template:Maps/'.$map_html.'_ITEM}}'."\n";
@@ -893,6 +908,17 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 }
 savewikipage('Template:maps_list',$map_descriptor,false);$map_descriptor='';
 
-$map_descriptor.='{{Template:maps_preview}}'."\n";
+$lang_template='';
+if(count($wikivarsapp)>1)
+{
+    foreach($wikivarsapp as $wikivars2)
+        if($wikivars2['lang']!=$current_lang)
+            $lang_template.='[['.$wikivars2['lang'].':'.$translation_list[$wikivars2['lang']]['Maps list'].']]'."\n";
+    savewikipage('Template:maps_LANG',$lang_template,false);$lang_template='';
+    $map_descriptor.='{{Template:maps_LANG}}'."\n";
+}
+
+if(file_exists($datapack_explorer_local_path.'maps/overview.png') && file_exists($datapack_explorer_local_path.'maps/preview.png'))
+    $map_descriptor.='{{Template:maps_preview}}'."\n";
 $map_descriptor.='{{Template:maps_list}}'."\n";
 savewikipage($translation_list[$current_lang]['Maps list'],$map_descriptor,!$wikivars['generatefullpage']);

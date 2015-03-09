@@ -82,12 +82,7 @@ function questList($id_list,$showbot=true,$wiki=false)
                     $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].text_operation_do_for_url($final_url_name).'.html" title="'.$final_name.'">'.$final_name.'</a></td>'."\n";
                 else
                 {
-                    if($bots_meta[$bot_id]['name'][$current_lang]=='')
-                        $link=text_operation_do_for_url('bot '.$bot_id);
-                    else if($bots_name_count[$current_lang][$bots_meta[$bot_id]['name'][$current_lang]]==1)
-                        $link=text_operation_do_for_url($bots_meta[$bot_id]['name'][$current_lang]);
-                    else
-                        $link=text_operation_do_for_url($bot_id.'-'.$bots_meta[$bot_id]['name'][$current_lang]);
+                    $link=bot_to_wiki_name($bot_id);
                     if($bot['name'][$current_lang]=='')
                         $map_descriptor.='>[['.$translation_list[$current_lang]['Bots:'].$link.'|Bot #'.$bot_id.']]</td>'."\n";
                     else

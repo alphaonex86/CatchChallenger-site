@@ -122,6 +122,7 @@ if($resulttoken['tokens']['edittoken']=='')
 $finalwikitoken=$resulttoken['tokens']['edittoken'];
 
 require '../'.$wikivars['wikiFolder'].'/LocalSettings.php';
+$wgDBprefix_final=$wgDBprefix;
 if($wgDBtype!='mysql')
     echo('Only mysql purge supported');
 else

@@ -461,15 +461,25 @@ foreach($bots_meta as $bot_id=>$bot)
 		}
 	$map_descriptor.='</div>'."\n";
 
-    if($bots_meta[$bot_id]['name'][$current_lang]=='')
-        $link=text_operation_do_for_url('bot '.$bot_id);
-    else if($bots_name_count[$current_lang][$bots_meta[$bot_id]['name'][$current_lang]]==1)
-        $link=text_operation_do_for_url($bots_meta[$bot_id]['name'][$current_lang]);
-    else
-        $link=text_operation_do_for_url($bot_id.'-'.$bots_meta[$bot_id]['name'][$current_lang]);
-
     savewikipage('Template:bot'.$bot_id,$map_descriptor,false);$map_descriptor='';
 
+    $lang_template='';
+    if(count($wikivarsapp)>1)
+    {
+        $temp_current_lang=$current_lang;
+        foreach($wikivarsapp as $wikivars2)
+            if($wikivars2['lang']!=$temp_current_lang)
+            {
+                $current_lang=$wikivars2['lang'];
+                $link=bot_to_wiki_name($bot_id);
+                $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Bots:'].$link.']]'."\n";
+            }
+        savewikipage('Template:bot'.$bot_id.'_LANG',$lang_template,false);$lang_template='';
+        $current_lang=$temp_current_lang;
+        $map_descriptor.='{{Template:bot'.$bot_id.'_LANG}}'."\n";
+    }
+
+    $link=bot_to_wiki_name($bot_id);
     $map_descriptor.='{{Template:bot'.$bot_id.'}}'."\n";
     savewikipage($translation_list[$current_lang]['Bots:'].$link,$map_descriptor,!$wikivars['generatefullpage']);
 }
@@ -565,12 +575,7 @@ foreach($bots_by_zone as $zone=>$bot_id_list)
             if(!$skin_found)
                 $map_descriptor.=' colspan="2"'."\n";
     
-            if($bots_meta[$bot_id]['name'][$current_lang]=='')
-                $link=text_operation_do_for_url('bot '.$bot_id);
-            else if($bots_name_count[$current_lang][$bots_meta[$bot_id]['name'][$current_lang]]==1)
-                $link=text_operation_do_for_url($bots_meta[$bot_id]['name'][$current_lang]);
-            else
-                $link=text_operation_do_for_url($bot_id.'-'.$bots_meta[$bot_id]['name'][$current_lang]);
+            $link=bot_to_wiki_name($bot_id);
             if($bot['name'][$current_lang]=='')
                 $map_descriptor.='>[['.$translation_list[$current_lang]['Bots:'].$link.'|Bot #'.$bot_id.']]</td>'."\n";
             else
@@ -585,6 +590,16 @@ foreach($bots_by_zone as $zone=>$bot_id_list)
     }
 }
 savewikipage('Template:bots_list',$map_descriptor,false);$map_descriptor='';
+
+$lang_template='';
+if(count($wikivarsapp)>1)
+{
+    foreach($wikivarsapp as $wikivars2)
+        if($wikivars2['lang']!=$current_lang)
+            $lang_template.='[['.$wikivars2['lang'].':'.$translation_list[$wikivars2['lang']]['Bots list'].']]'."\n";
+    savewikipage('Template:bots_list_LANG',$lang_template,false);$lang_template='';
+    $map_descriptor.='{{Template:bots_list_LANG}}'."\n";
+}
 
 $map_descriptor.='{{Template:bots_list}}'."\n";
 savewikipage($translation_list[$current_lang]['Bots list'],$map_descriptor,!$wikivars['generatefullpage']);

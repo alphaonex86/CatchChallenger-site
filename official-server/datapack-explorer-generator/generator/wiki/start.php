@@ -136,6 +136,16 @@ foreach($start_meta as $entry)
 	$index++;
 }
 
+$lang_template='';
+if(count($wikivarsapp)>1)
+{
+    foreach($wikivarsapp as $wikivars2)
+        if($wikivars2['lang']!=$current_lang)
+            $lang_template.='[['.$wikivars2['lang'].':'.$translation_list[$wikivars2['lang']]['Starters'].']]'."\n";
+    savewikipage('Template:Starter_LANG',$lang_template,false);$lang_template='';
+    $map_descriptor.='{{Template:Starter_LANG}}'."\n";
+}
+
 $index=1;
 foreach($start_meta as $entry)
 {

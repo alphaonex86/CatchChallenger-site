@@ -26,7 +26,9 @@ $ch=curl_init();
     curl_setopt_array($ch, $wikivars['curloptions']);
     curl_setopt($ch, CURLOPT_URL, $base_datapack_site_http.'/'.$wikivars['wikiFolder'].'/api.php');
     curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
-    $result=unserialize(curl_exec($ch));
+    $content=curl_exec($ch);
+    if(!($result=unserialize($content)))
+        echo 'Error to decode the reply: '.$content;
     if(curl_errno($ch)){
         $curl_error='Error 003: '.curl_error($ch);
     }
@@ -106,31 +108,37 @@ else
         break;
     }
 if($_SESSION['login_result']!=='Success')
-    die('Login error. '.$other_error);
-
-//token
-$postdata='action=tokens&format=php';
-$ch=curl_init();
-curl_setopt_array($ch, $wikivars['curloptions']);
-curl_setopt($ch, CURLOPT_URL, $base_datapack_site_http.'/'.$wikivars['wikiFolder'].'/api.php');
-curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
-$content=curl_exec($ch);
-if(!($resulttoken=unserialize($content)))
-    die('Not able to unserialize:'.$content);
-if($resulttoken['tokens']['edittoken']=='')
-    die('Edit token wrong');
-$finalwikitoken=$resulttoken['tokens']['edittoken'];
-
-require '../'.$wikivars['wikiFolder'].'/LocalSettings.php';
-$wgDBprefix_final=$wgDBprefix;
-if($wgDBtype!='mysql')
-    echo('Only mysql purge supported');
+{
+    $wiki_error=true;
+    echo 'Login error. '.$other_error;
+}
 else
 {
-    $wikidblink=mysqli_connect($wgDBserver,$wgDBuser,$wgDBpassword,$wgDBname);
-    if(!$wikidblink)
-        die('Mysql wiki: unable to connect');
+    $wiki_error=false;
+    //token
+    $postdata='action=tokens&format=php';
+    $ch=curl_init();
+    curl_setopt_array($ch, $wikivars['curloptions']);
+    curl_setopt($ch, CURLOPT_URL, $base_datapack_site_http.'/'.$wikivars['wikiFolder'].'/api.php');
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+    $content=curl_exec($ch);
+    if(!($resulttoken=unserialize($content)))
+        die('Not able to unserialize:'.$content);
+    if($resulttoken['tokens']['edittoken']=='')
+        die('Edit token wrong');
+    $finalwikitoken=$resulttoken['tokens']['edittoken'];
+
+    require '../'.$wikivars['wikiFolder'].'/LocalSettings.php';
+    $wgDBprefix_final=$wgDBprefix;
+    if($wgDBtype!='mysql')
+        echo('Only mysql purge supported');
     else
     {
+        $wikidblink=mysqli_connect($wgDBserver,$wgDBuser,$wgDBpassword,$wgDBname);
+        if(!$wikidblink)
+            die('Mysql wiki: unable to connect');
+        else
+        {
+        }
     }
 }

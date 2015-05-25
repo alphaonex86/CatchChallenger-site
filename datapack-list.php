@@ -42,7 +42,7 @@ else
     else
     {
         if(!preg_match('#^[a-z0-9]+$#',$_GET['sub']))
-            die('sub with wrong char');
+            die('sub with wrong char: "'.$_GET['sub'].'"');
         $folder='datapack/map/main/'.$_GET['main'].'/sub/'.$_GET['sub'].'/';
     }
 }

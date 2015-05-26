@@ -47,7 +47,10 @@ else
     }
 }
 if(!is_dir($folder))
+{
+    echo 'The folder '.$folder.' don\'t exists!';
     exit;
+}
 
 /** \note substr(hash_file('sha224',$file),0,8) vs substr(hash_file('sha224',$file,true),0,4)
 Binary vs text for gzip have same size, gzip vs xz is small difference, and binary vs text file in xz the difference is minor */

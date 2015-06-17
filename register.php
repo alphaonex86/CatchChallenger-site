@@ -312,6 +312,7 @@ foreach($temp_items as $item_file)
                                             $mail->Subject = $_POST['login'].' enable your account into '.$_SERVER['HTTP_HOST'];
                                             $mail->Body = 'Hello '.$_POST['login'].', to enable your account into http://'.$_SERVER['HTTP_HOST'].', click here: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?key='.$key.'&email='.$_POST['email'];
 
+                                            //$mail->SMTPDebug = 2;
                                             if (!$mail->send())
                                                 echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;;"><b>Mailer error: '.$mail->ErrorInfo.', contact the admin at '.$admin_email.'</b></span><br />';
                                             else

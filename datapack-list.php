@@ -31,6 +31,15 @@ function listFolder($folder)
     }
     return $arr;
 }
+
+foreach ($argv as $arg) {
+    $e=explode("=",$arg);
+    if(count($e)==2)
+        $_GET[$e[0]]=$e[1];
+    else    
+        $_GET[$e[0]]=0;
+}
+
 if(!isset($_GET['main']))
     $folder='datapack/';
 else

@@ -64,23 +64,68 @@ if(!is_dir($folder))
 }
 
 /** \note substr(hash_file('sha224',$file),0,8) vs substr(hash_file('sha224',$file,true),0,4)
-Binary vs text for gzip have same size, gzip vs xz is small difference, and binary vs text file in xz the difference is minor */
+Binary 7% size drop for gzip
+\n drop for hash allow 10% reduction into xz, 7% into gzip
+If split into 2 file gain 100Byte but this 100Byte is lost by the http header
+Mostly is for base:
+* 7KB for file list
+* 500Bytes is for the file size
+* 12Kb for partial hash (non compressible)
+Mostly is for main:
+* 2200Bytes for file list
+* 500Bytes is for the file size
+* 2200Bytes for partial hash (non compressible)
+*/
+
+function partialhashfile($file)
+{
+    $binary=true;
+    if($binary==true)
+        return substr(hash_file('sha224',$file,true),0,4);
+    else
+        return substr(hash_file('sha224',$file),0,8);
+}
 
 $arr=listFolder($folder);
 sort($arr);
 if(!isset($_GET['main']))
+{
+    //base
     foreach($arr as $file)
     {
         //datapack/datapack-list/base.txt
         if(!preg_match('#^[\\/]*datapack[\\/]+datapack-list[\\/]+#',$file) && !preg_match('#^[\\/]*datapack[\\/]+map[\\/]+main[\\/]+#',$file))
-            echo str_replace($folder,'',$file).' '.substr(hash_file('sha224',$file),0,8).' '.(int)ceil(filesize($file)/1000)."\n";
+            echo str_replace($folder,'',$file).' '.(int)ceil(filesize($file)/1000)."\n";
     }
+    echo '-'."\n";
+    foreach($arr as $file)
+    {
+        //datapack/datapack-list/base.txt
+        if(!preg_match('#^[\\/]*datapack[\\/]+datapack-list[\\/]+#',$file) && !preg_match('#^[\\/]*datapack[\\/]+map[\\/]+main[\\/]+#',$file))
+            echo partialhashfile($file);
+    }
+}
 else if(!isset($_GET['sub']))
+{
+    //main
     foreach($arr as $file)
     {
         if(!preg_match('#^[\\/]*datapack[\\/]+map[\\/]+main[\\/]+'.$_GET['main'].'[\\/]+sub[\\/]+#',$file))
-            echo str_replace($folder,'',$file).' '.substr(hash_file('sha224',$file),0,8).' '.(int)ceil(filesize($file)/1000)."\n";
+            echo str_replace($folder,'',$file).' '.(int)ceil(filesize($file)/1000)."\n";
     }
-else
+    echo '-'."\n";
     foreach($arr as $file)
-            echo str_replace($folder,'',$file).' '.substr(hash_file('sha224',$file),0,8).' '.(int)ceil(filesize($file)/1000)."\n";
+    {
+        if(!preg_match('#^[\\/]*datapack[\\/]+map[\\/]+main[\\/]+'.$_GET['main'].'[\\/]+sub[\\/]+#',$file))
+            echo partialhashfile($file);
+    }
+}
+else
+{
+    //sub
+    foreach($arr as $file)
+        echo str_replace($folder,'',$file).' '.(int)ceil(filesize($file)/1000)."\n";
+    echo '-'."\n";
+    foreach($arr as $file)
+        echo partialhashfile($file);
+}

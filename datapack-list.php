@@ -70,7 +70,7 @@ If split into 2 file gain 100Byte but this 100Byte is lost by the http header
 Mostly is for base:
 * 7KB for file list
 * 500Bytes is for the file size
-* 12Kb for partial hash (non compressible)
+* 12KB for partial hash (non compressible)
 Mostly is for main:
 * 2200Bytes for file list
 * 500Bytes is for the file size

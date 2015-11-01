@@ -375,6 +375,11 @@ foreach($xmlFightList as $file)
 ksort($quests_meta);
 
 $visualcategory_meta=array();
+if(!file_exists($datapack_path.'/map/visualcategory.xml'))
+{
+    echo 'visualcategory.xml not found (abort)';
+    exit;
+}
 $content=file_get_contents($datapack_path.'/map/visualcategory.xml');
 $entry_list=preg_split('#<category #isU',$content);
 foreach($entry_list as $entry)

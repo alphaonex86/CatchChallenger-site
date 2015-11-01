@@ -372,4 +372,23 @@ margin: 0 auto;
     margin-right:7px;
 }
 
+.monster_list
+{
+    width:300px;
+    float:left;
+    margin:5px;
+}
 
+.skill_list
+{
+    width:320px;
+    float:left;
+    margin:5px;
+}
+
+.plant_list
+{
+    width:400px;
+    float:left;
+    margin:5px;
+}

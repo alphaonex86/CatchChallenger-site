@@ -3,12 +3,13 @@ if(!isset($datapackexplorergeneratorinclude))
 	die('abort into generator plants'."\n");
 
 $map_descriptor='';
-$map_descriptor.='<table class="item_list item_list_type_normal">
+$map_descriptor.='<table class="item_list item_list_type_normal plant_list">
 <tr class="item_list_title item_list_title_type_normal">
 	<th colspan="2">'.$translation_list[$current_lang]['Plant'].'</th>
 	<th colspan="2">'.$translation_list[$current_lang]['Time to grow'].'</th>
 	<th>'.$translation_list[$current_lang]['Fruits produced'].'</th>
 </tr>'."\n";
+$plant_count=0;
 foreach($plant_meta as $id=>$plant)
 {
 	$link=$base_datapack_site_http.$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$plant['itemUsed']]['name'][$current_lang]).'.html';
@@ -45,6 +46,20 @@ foreach($plant_meta as $id=>$plant)
 	$map_descriptor.='<td><b>'.($plant['fruits']/60).'</b> '.$translation_list[$current_lang]['minutes'].'</td>'."\n";
 	$map_descriptor.='<td>'.$plant['quantity'].'</td>'."\n";
 	$map_descriptor.='</tr>'."\n";
+    $plant_count++;
+    if($plant_count%15==0)
+    {
+        $map_descriptor.='<tr>
+            <td colspan="5" class="item_list_endline item_list_title_type_normal"></td>
+        </tr>
+        </table>'."\n";
+        $map_descriptor.='<table class="item_list item_list_type_normal plant_list">
+        <tr class="item_list_title item_list_title_type_normal">
+            <th colspan="2">'.$translation_list[$current_lang]['Plant'].'</th>
+            <th colspan="2">'.$translation_list[$current_lang]['Time to grow'].'</th>
+            <th>'.$translation_list[$current_lang]['Fruits produced'].'</th>
+        </tr>'."\n";
+    }
 }
 $map_descriptor.='<tr>
 	<td colspan="5" class="item_list_endline item_list_title_type_normal"></td>

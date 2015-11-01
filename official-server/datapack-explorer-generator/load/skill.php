@@ -6,6 +6,7 @@ $duplicate_skill_name=array();
 $buff_to_skill=array();
 $skill_meta=array();
 $temp_skills=getXmlList($datapack_path.'monsters/skill/');
+$skill_type_to_id=array();
 foreach($temp_skills as $skill_file)
 {
 	$content=file_get_contents($datapack_path.'monsters/skill/'.$skill_file);
@@ -101,6 +102,9 @@ foreach($temp_skills as $skill_file)
 			$level_list[$number]=array('endurance'=>$endurance,'sp'=>$sp,'life_quantity'=>$life_quantity,'buff'=>$buff_list,'base_level_luck'=>$base_level_luck);
 		}
 		$skill_meta[$id]=array('type'=>$type,'level_list'=>$level_list,'name'=>$name_in_other_lang);
+        if(!isset($skill_type_to_id[$type]))
+            $skill_type_to_id[$type]=array();
+        $skill_type_to_id[$type][]=$id;
 	}
 }
 ksort($skill_meta);

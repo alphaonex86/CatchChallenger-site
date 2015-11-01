@@ -21,3 +21,16 @@ function map_to_wiki_name($map)
     $map=str_replace('.tmx','',$map);
     return $map;
 } 
+
+function textToProperty($text)
+{
+    $propertyList=array();
+    preg_match_all('#<property .*/>#isU',$text,$propertyListText);
+    foreach($propertyListText[0] as $entry)
+    {
+        $name=preg_replace('#^.* name="([^"]+)".*$#isU','$1',$entry);
+        $value=preg_replace('#^.* value="([^"]+)".*$#isU','$2',$entry);
+        $propertyList[$name]=$value;
+    }
+    return $propertyList;
+}

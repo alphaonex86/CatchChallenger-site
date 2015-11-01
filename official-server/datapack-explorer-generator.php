@@ -20,6 +20,8 @@ if(!is_dir($datapack_explorer_local_path))
 	if(!mkdir($datapack_explorer_local_path))
 		exit;
 
+$lang_to_load=array('en');
+
 $automaticallygen='<div id="automaticallygen">Automatically generated from ';
 if(isset($datapack_source_url) && $datapack_source_url!='')
 	$automaticallygen.='<a href="'.$datapack_source_url.'">';
@@ -43,17 +45,19 @@ $template=file_get_contents('template.html');
 if(preg_match('#/home/user/#isU',$_SERVER['PWD']))
     $template=str_replace('stat.first-world.info','localhost',$template);
 
-$lang_to_load=array('en');
-foreach($wikivarsapp as $wikivars)
-{
-    $temp_lang=$wikivars['lang'];
-    if(!in_array($temp_lang,$lang_to_load))
+if(isset($wikivarsapp))
+{    
+    foreach($wikivarsapp as $wikivars)
     {
-        require 'datapack-explorer-generator/translation/'.$temp_lang.'.php';
-        $lang_to_load[]=$temp_lang;
-        foreach($translation_list['en'] as $original_text=>$translated_text)
-            if(!isset($translation_list[$temp_lang][$original_text]))
-                $translation_list[$temp_lang][$original_text]=$translated_text;
+        $temp_lang=$wikivars['lang'];
+        if(!in_array($temp_lang,$lang_to_load))
+        {
+            require 'datapack-explorer-generator/translation/'.$temp_lang.'.php';
+            $lang_to_load[]=$temp_lang;
+            foreach($translation_list['en'] as $original_text=>$translated_text)
+                if(!isset($translation_list[$temp_lang][$original_text]))
+                    $translation_list[$temp_lang][$original_text]=$translated_text;
+        }
     }
 }
 
@@ -83,7 +87,7 @@ echo 'Map preview done'."\n";
 echo 'Done into '.ceil(microtime(true)-$time_start).'s'."\n";
 
 if($argc<=1 || in_array('wiki',$argv))
-    if(count($wikivarsapp)>0)
+    if(isset($wikivarsapp) && count($wikivarsapp)>0)
     {
         require 'datapack-explorer-generator/generator/wiki/pre.php';
         foreach($wikivarsapp as $wikivars)

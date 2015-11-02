@@ -26,8 +26,8 @@ while (false !== ($maindatapackcode = readdir($dh)))
 {
     if(is_dir($datapack_path.'map/main/'.$maindatapackcode) && preg_match('#^[a-z0-9]+$#isU',$maindatapackcode))
     {
-        $temp_maps=getTmxList($datapack_path.'map/main/'.$maindatapackcode.'/');
-        foreach($temp_maps as $map)
+        $temp_maps[$maindatapackcode]=getTmxList($datapack_path.'map/main/'.$maindatapackcode.'/');
+        foreach($temp_maps[$maindatapackcode] as $map)
         {
             $width=0;
             $height=0;
@@ -160,7 +160,7 @@ while (false !== ($maindatapackcode = readdir($dh)))
                         }
                         else
                             $bots[$maindatapackcode][]=array('file'=>$bot_file,'id'=>$bot_id);
-                        $bots_file[$bot_file]=$map;
+                        $bots_file[$bot_file]=array('map'=>$map,'maindatapackcode'=>$maindatapackcode);
                     }
                 }
             }
@@ -179,7 +179,7 @@ while (false !== ($maindatapackcode = readdir($dh)))
                         if(!isset($item_to_map[$item_id]))
                             $item_to_map[$item_id]=array();
                         if(!in_array($map,$item_to_map[$item_id]))
-                            $item_to_map[$item_id][]=$map;
+                            $item_to_map[$item_id][]=array('map'=>$map,'maindatapackcode'=>$maindatapackcode);
                         $items[]=array('item'=>$item_id,'visible'=>$visible);
                     }
                 }
@@ -207,10 +207,10 @@ while (false !== ($maindatapackcode = readdir($dh)))
                     {
                         $name_for_url=text_operation_do_for_url($name);
                         $name_for_url=preg_replace('#^.*((last-)floor)#isU','$1',$name_for_url);
-                        if(isset($duplicate_map_file_name_list[$simplified_name]))
+                        if(isset($duplicate_map_file_name_list[$maindatapackcode][$simplified_name]))
                             $duplicate_map_file_name=true;
                         else
-                            $duplicate_map_file_name_list[$simplified_name]=1;
+                            $duplicate_map_file_name_list[$maindatapackcode][$simplified_name]=1;
                         $map_short_path_to_path[str_replace($map_folder,'',$map)]=$map_folder.$simplified_name;
                         $map_path_without_ext=$map_folder.$simplified_name;
                         if(!isset($map_name_to_path[$map_folder.$name_for_url]))
@@ -239,23 +239,23 @@ while (false !== ($maindatapackcode = readdir($dh)))
                 $type=preg_replace("#[\n\r\t]+#is",'',$type);
                 $name=preg_replace("#[\n\r\t]+#is",'',$name);
                 $zone=preg_replace("#[\n\r\t]+#is",'',$zone);
-                if(!isset($duplicate_detection_name['en'][$name]))
-                    $duplicate_detection_name['en'][$name]=1;
+                if(!isset($duplicate_detection_name[$maindatapackcode]['en'][$name]))
+                    $duplicate_detection_name[$maindatapackcode]['en'][$name]=1;
                 else
-                    $duplicate_detection_name['en'][$name]++;
-                if($zone!='' && isset($zone_meta[$zone]))
+                    $duplicate_detection_name[$maindatapackcode]['en'][$name]++;
+                if($zone!='' && isset($zone_meta[$maindatapackcode][$zone]))
                 {
-                    if(!isset($duplicate_detection_name_and_zone['en'][$zone_meta[$zone]['name']['en'].' '.$name]))
-                        $duplicate_detection_name_and_zone['en'][$zone_meta[$zone]['name']['en'].' '.$name]=1;
+                    if(!isset($duplicate_detection_name_and_zone[$maindatapackcode]['en'][$zone_meta[$maindatapackcode][$zone]['name']['en'].' '.$name]))
+                        $duplicate_detection_name_and_zone[$maindatapackcode]['en'][$zone_meta[$maindatapackcode][$zone]['name']['en'].' '.$name]=1;
                     else
-                        $duplicate_detection_name_and_zone['en'][$zone_meta[$zone]['name']['en'].' '.$name]++;
+                        $duplicate_detection_name_and_zone[$maindatapackcode]['en'][$zone_meta[$maindatapackcode][$zone]['name']['en'].' '.$name]++;
                 }
                 else
                 {
-                    if(!isset($duplicate_detection_name_and_zone['en'][$name]))
-                        $duplicate_detection_name_and_zone['en'][$name]=1;
+                    if(!isset($duplicate_detection_name_and_zone[$maindatapackcode]['en'][$name]))
+                        $duplicate_detection_name_and_zone[$maindatapackcode]['en'][$name]=1;
                     else
-                        $duplicate_detection_name_and_zone['en'][$name]++;
+                        $duplicate_detection_name_and_zone[$maindatapackcode]['en'][$name]++;
                 }
                 $shortdescription=preg_replace("#[\n\r\t]+#is",'',$shortdescription);
                 $description=preg_replace("#[\n\r\t]+#is",'',$description);
@@ -276,23 +276,23 @@ while (false !== ($maindatapackcode = readdir($dh)))
                         $temp_name=$name;
                         $name_in_other_lang[$lang]=$name;
                     }
-                    if(!isset($duplicate_detection_name[$lang][$temp_name]))
-                        $duplicate_detection_name[$lang][$temp_name]=1;
+                    if(!isset($duplicate_detection_name[$maindatapackcode][$lang][$temp_name]))
+                        $duplicate_detection_name[$maindatapackcode][$lang][$temp_name]=1;
                     else
-                        $duplicate_detection_name[$lang][$temp_name]++;
-                    if($zone!='' && isset($zone_meta[$zone]))
+                        $duplicate_detection_name[$maindatapackcode][$lang][$temp_name]++;
+                    if($zone!='' && isset($zone_meta[$maindatapackcode][$zone]))
                     {
-                        if(!isset($duplicate_detection_name_and_zone[$lang][$zone_meta[$zone]['name'][$lang].' '.$temp_name]))
-                            $duplicate_detection_name_and_zone[$lang][$zone_meta[$zone]['name'][$lang].' '.$temp_name]=1;
+                        if(!isset($duplicate_detection_name_and_zone[$maindatapackcode][$lang][$zone_meta[$maindatapackcode][$zone]['name'][$lang].' '.$temp_name]))
+                            $duplicate_detection_name_and_zone[$maindatapackcode][$lang][$zone_meta[$maindatapackcode][$zone]['name'][$lang].' '.$temp_name]=1;
                         else
-                            $duplicate_detection_name_and_zone[$lang][$zone_meta[$zone]['name'][$lang].' '.$temp_name]++;
+                            $duplicate_detection_name_and_zone[$maindatapackcode][$lang][$zone_meta[$maindatapackcode][$zone]['name'][$lang].' '.$temp_name]++;
                     }
                     else
                     {
-                        if(!isset($duplicate_detection_name_and_zone[$lang][$temp_name]))
-                            $duplicate_detection_name_and_zone[$lang][$temp_name]=1;
+                        if(!isset($duplicate_detection_name_and_zone[$maindatapackcode][$lang][$temp_name]))
+                            $duplicate_detection_name_and_zone[$maindatapackcode][$lang][$temp_name]=1;
                         else
-                            $duplicate_detection_name_and_zone[$lang][$temp_name]++;
+                            $duplicate_detection_name_and_zone[$maindatapackcode][$lang][$temp_name]++;
                     }
                 }
                 $description_in_other_lang=array('en'=>$description);
@@ -369,7 +369,7 @@ while (false !== ($maindatapackcode = readdir($dh)))
                                         $monster_to_map[$id]=array();
                                     if(!isset($monster_to_map[$id][$toSearch]))
                                         $monster_to_map[$id][$toSearch]=array();
-                                    $monster_to_map[$id][$toSearch][]=array('map'=>$map,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
+                                    $monster_to_map[$id][$toSearch][]=array('map'=>$map,'maindatapackcode'=>$maindatapackcode,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
                                     if(!in_array($id,$monsters_list))
                                         $monsters_list[]=$id;
                                     $dropcount+=count($monster_meta[$id]['drops']);
@@ -379,21 +379,30 @@ while (false !== ($maindatapackcode = readdir($dh)))
                     }
                 }
             }
-            $maps_list[$map]=array('folder'=>$map_folder,'borders'=>$borders,'tp'=>$tp,'doors'=>$doors,'bots'=>$bots,'type'=>$type,'monsters'=>$monsters,'monsters_list'=>$monsters_list,
+            $maps_list[$maindatapackcode][$map]=array('folder'=>$map_folder,'borders'=>$borders,'tp'=>$tp,'doors'=>$doors,'bots'=>$bots,'type'=>$type,'monsters'=>$monsters,'monsters_list'=>$monsters_list,
             'width'=>$width,'height'=>$height,'pixelwidth'=>$pixelwidth,'pixelheight'=>$pixelheight,'dropcount'=>$dropcount,'zone'=>$zone,'items'=>$items,'name'=>$name_in_other_lang,'shortdescription'=>$description_in_other_lang,'description'=>$name_in_other_lang,
-            'maindatapackcode'=>$maindatapackcode,
             );
-            if(!isset($zone_to_map[$zone]))
-                $zone_to_map[$zone]=array();
-            $zone_to_map[$zone][$map]=$name_in_other_lang;
-            $maps_name_to_map[$name]=$map;
+            if(!isset($zone_to_map[$maindatapackcode]))
+                $zone_to_map[$maindatapackcode]=array();
+            if(!isset($zone_to_map[$maindatapackcode][$zone]))
+                $zone_to_map[$maindatapackcode][$zone]=array();
+            $zone_to_map[$maindatapackcode][$zone][$map]=$name_in_other_lang;
+            $maps_name_to_map[$maindatapackcode][$name]=$map;
         }
         ksort($map_short_path_to_name);
         ksort($zone_to_map);
-        foreach($duplicate_detection_name as $index=>$value)
-            ksort($duplicate_detection_name[$index]);
-        foreach($duplicate_detection_name_and_zone as $index=>$value)
-            ksort($duplicate_detection_name_and_zone[$index]);
+        foreach($duplicate_detection_name as $maindatapackcode=>$duplicate_detection_name_value)
+        {
+            ksort($duplicate_detection_name[$maindatapackcode]);
+            foreach($duplicate_detection_name_value as $index=>$value)
+                ksort($duplicate_detection_name[$maindatapackcode][$index]);
+        }
+        foreach($duplicate_detection_name_and_zone as $maindatapackcode=>$duplicate_detection_name_value)
+        {
+            ksort($duplicate_detection_name_and_zone[$maindatapackcode]);
+            foreach($duplicate_detection_name_value as $index=>$value)
+                ksort($duplicate_detection_name_and_zone[$maindatapackcode][$index]);
+        }
     }
 }
 closedir($dh);

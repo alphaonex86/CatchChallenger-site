@@ -6,13 +6,14 @@ if(!is_dir($datapack_explorer_local_path.'maps/'))
     if(!mkdir($datapack_explorer_local_path.'maps/'))
         die('Unable to make: '.$datapack_explorer_local_path.'maps/');
 
-foreach($temp_maps as $map)
+foreach($temp_maps as $maindatapackcode=>$map_list)
+foreach($map_list as $map)
 {
     $map_html=str_replace('.tmx','.html',$map);
     $map_image=str_replace('.tmx','.png',$map);
     if(preg_match('#/#isU',$map))
     {
-        $map_folder=preg_replace('#/[^/]+$#','',$map).'/';
+        $map_folder=preg_replace('#/[^/]+$#','',$maindatapackcode.'/'.$map).'/';
         if(!is_dir($datapack_explorer_local_path.'maps/'.$map_folder))
             if(!mkpath($datapack_explorer_local_path.'maps/'.$map_folder))
                 die('Unable to make: '.$datapack_explorer_local_path.'maps/'.$map_folder);

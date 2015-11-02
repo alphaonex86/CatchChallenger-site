@@ -6,52 +6,54 @@ $map_to_function=array();
 $zone_to_function=array();
 $zone_to_bot_count=array();
 
-foreach($temp_maps as $map)
+foreach($temp_maps as $maindatapackcode=>$map_list)
+foreach($map_list as $map)
 {
-	$map_html=str_replace('.tmx','',$map);
-	$map_image=str_replace('.tmx','.png',$map);
+    $map_current_object=$maps_list[$maindatapackcode][$map];
+	$map_html=$maindatapackcode.'/'.str_replace('.tmx','',$map);
+	$map_image=$maindatapackcode.'/'.str_replace('.tmx','.png',$map);
 	$map_folder='';
 	if(preg_match('#/#isU',$map))
 		$map_folder=preg_replace('#/[^/]+$#','',$map).'/';
 	$map_descriptor='';
 
-	$map_descriptor.='<div class="map map_type_'.$maps_list[$map]['type'].'">'."\n";
-		$map_descriptor.='<div class="subblock"><h1>'.$maps_list[$map]['name'][$current_lang].'</h1>'."\n";
-		if($maps_list[$map]['type']!='')
-			$map_descriptor.='<h3>('.$maps_list[$map]['type'].')</h3>'."\n";
-		if($maps_list[$map]['shortdescription'][$current_lang]!='')
-			$map_descriptor.='<h2>'.$maps_list[$map]['shortdescription'][$current_lang].'</h2>'."\n";
+	$map_descriptor.='<div class="map map_type_'.$map_current_object['type'].'">'."\n";
+		$map_descriptor.='<div class="subblock"><h1>'.$map_current_object['name'][$current_lang].'</h1>'."\n";
+		if($map_current_object['type']!='')
+			$map_descriptor.='<h3>('.$map_current_object['type'].')</h3>'."\n";
+		if($map_current_object['shortdescription'][$current_lang]!='')
+			$map_descriptor.='<h2>'.$map_current_object['shortdescription'][$current_lang].'</h2>'."\n";
 		$map_descriptor.='</div>'."\n";
 		if(file_exists($datapack_explorer_local_path.'maps/'.$map_image))
 		{
             $size=getimagesize($datapack_explorer_local_path.'maps/'.$map_image);
-            $maps_list[$map]['pixelwidth']=$size[0];
-            $maps_list[$map]['pixelheight']=$size[1];
-			if($maps_list[$map]['pixelwidth']>1600 || $maps_list[$map]['pixelheight']>800)
+            $map_current_object['pixelwidth']=$size[0];
+            $map_current_object['pixelheight']=$size[1];
+			if($map_current_object['pixelwidth']>1600 || $map_current_object['pixelheight']>800)
 				$ratio=4;
-			elseif($maps_list[$map]['pixelwidth']>800 || $maps_list[$map]['pixelheight']>400)
+			elseif($map_current_object['pixelwidth']>800 || $map_current_object['pixelheight']>400)
 				$ratio=2;
 			else
 				$ratio=1;
-			$map_descriptor.='<div class="value mapscreenshot datapackscreenshot"><center>[['.$base_datapack_site_http.$base_datapack_explorer_site_path.'maps/'.$map_image.' <img src="'.$base_datapack_site_http.$base_datapack_explorer_site_path.'maps/'.$map_image.'" alt="Screenshot of '.$maps_list[$map]['name'][$current_lang].'" title="Screenshot of '.$maps_list[$map]['name'][$current_lang].'" width="'.($maps_list[$map]['pixelwidth']/$ratio).'" height="'.($maps_list[$map]['pixelheight']/$ratio).'" />]]</center></div>'."\n";
+			$map_descriptor.='<div class="value mapscreenshot datapackscreenshot"><center>[['.$base_datapack_site_http.$base_datapack_explorer_site_path.'maps/'.$map_image.' <img src="'.$base_datapack_site_http.$base_datapack_explorer_site_path.'maps/'.$map_image.'" alt="Screenshot of '.$map_current_object['name'][$current_lang].'" title="Screenshot of '.$map_current_object['name'][$current_lang].'" width="'.($map_current_object['pixelwidth']/$ratio).'" height="'.($map_current_object['pixelheight']/$ratio).'" />]]</center></div>'."\n";
 		}
-		if($maps_list[$map]['description'][$current_lang]!='')
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">Map description</div><div class="value">'.$maps_list[$map]['description'][$current_lang].'</div></div>'."\n";
+		if($map_current_object['description'][$current_lang]!='')
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">Map description</div><div class="value">'.$map_current_object['description'][$current_lang].'</div></div>'."\n";
 
-		if(isset($zone_meta[$maps_list[$map]['zone']]))
-			$zone_name=$zone_meta[$maps_list[$map]['zone']]['name'][$current_lang];
-		elseif(!isset($map['zone']) || $maps_list[$map]['zone']=='')
+		if(isset($zone_meta[$map_current_object['zone']]))
+			$zone_name=$zone_meta[$maindatapackcode][$map_current_object['zone']]['name'][$current_lang];
+		elseif(!isset($map['zone']) || $map_current_object['zone']=='')
 			$zone_name='Unknown zone';
 		else
 			$zone_name=$map['zone'];
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Zone'].'</div><div class="value">[['.$translation_list[$current_lang]['Zones:'].$zone_name.'|';
 		$map_descriptor.=$zone_name.']]</div></div>'."\n";
 
-		if(count($maps_list[$map]['borders'])>0 || count($maps_list[$map]['doors'])>0 || count($maps_list[$map]['tp'])>0)
+		if(count($map_current_object['borders'])>0 || count($map_current_object['doors'])>0 || count($map_current_object['tp'])>0)
 		{
 			$duplicate=array();
 			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Linked locations'].'</div><div class="value"><ul>'."\n";
-			foreach($maps_list[$map]['borders'] as $bordertype=>$border)
+			foreach($map_current_object['borders'] as $bordertype=>$border)
 			{
 				if(!isset($duplicate[$border]))
 				{
@@ -62,7 +64,7 @@ foreach($temp_maps as $map)
 						$map_descriptor.='<li>'.$translation_list[$current_lang]['Border '.$bordertype].': <span class="mapnotfound">'.$border.'</span></li>'."\n";
 				}
 			}
-			foreach($maps_list[$map]['doors'] as $door)
+			foreach($map_current_object['doors'] as $door)
 			{
 				if(!isset($duplicate[$door['map']]))
 				{
@@ -73,7 +75,7 @@ foreach($temp_maps as $map)
 						$map_descriptor.='<li>'.$translation_list[$current_lang]['Door'].': <span class="mapnotfound">'.$door['map'].'</span></li>'."\n";
 				}
 			}
-			foreach($maps_list[$map]['tp'] as $tp)
+			foreach($map_current_object['tp'] as $tp)
 			{
 				if(!isset($duplicate[$tp]))
 				{
@@ -89,15 +91,15 @@ foreach($temp_maps as $map)
 	$map_descriptor.='</div>';
     savewikipage('Template:Maps/'.$map_html.'_HEADER',$map_descriptor,false);$map_descriptor='';
 
-    if($maps_list[$map]['dropcount']>0 || count($maps_list[$map]['items'])>0)
+    if($map_current_object['dropcount']>0 || count($map_current_object['items'])>0)
 	{
-		$map_descriptor.='<table class="item_list item_list_type_'.$maps_list[$map]['type'].'">
-		<tr class="item_list_title item_list_title_type_'.$maps_list[$map]['type'].'">
+		$map_descriptor.='<table class="item_list item_list_type_'.$map_current_object['type'].'">
+		<tr class="item_list_title item_list_title_type_'.$map_current_object['type'].'">
 			<th colspan="2">'.$translation_list[$current_lang]['Item'].'</th>
 			<th>'.$translation_list[$current_lang]['Location'].'</th>
 		</tr>'."\n";
         $droplist=array();
-		$monster_list=$maps_list[$map]['monsters_list'];
+		$monster_list=$map_current_object['monsters_list'];
         foreach($monster_list as $monster)
         {
             if(isset($monster_meta[$monster]))
@@ -174,7 +176,7 @@ foreach($temp_maps as $map)
             }
         }
 
-        foreach($maps_list[$map]['items'] as $item)
+        foreach($map_current_object['items'] as $item)
         {
             $visible=$item['visible'];
             $item=$item['item'];
@@ -216,22 +218,22 @@ foreach($temp_maps as $map)
         }
 
 		$map_descriptor.='<tr>
-			<td colspan="3" class="item_list_endline item_list_title_type_'.$maps_list[$map]['type'].'"></td>'."\n".'
+			<td colspan="3" class="item_list_endline item_list_title_type_'.$map_current_object['type'].'"></td>'."\n".'
 		</tr>
 		</table>'."\n";
         savewikipage('Template:Maps/'.$map_html.'_ITEM',$map_descriptor,false);$map_descriptor='';
 	}
 
-	if(count($maps_list[$map]['monsters'])>0)
+	if(count($map_current_object['monsters'])>0)
 	{
-		$map_descriptor.='<table class="item_list item_list_type_'.$maps_list[$map]['type'].'">
-		<tr class="item_list_title item_list_title_type_'.$maps_list[$map]['type'].'">
+		$map_descriptor.='<table class="item_list item_list_type_'.$map_current_object['type'].'">
+		<tr class="item_list_title item_list_title_type_'.$map_current_object['type'].'">
 			<th colspan="2">'.$translation_list[$current_lang]['Monster'].'</th>
 			<th>'.$translation_list[$current_lang]['Location'].'</th>
 			<th>'.$translation_list[$current_lang]['Levels'].'</th>
 			<th colspan="3">'.$translation_list[$current_lang]['Rate'].'</th>
 		</tr>'."\n";
-        foreach($maps_list[$map]['monsters'] as $monsterType=>$monster_list)
+        foreach($map_current_object['monsters'] as $monsterType=>$monster_list)
         {
             $full_monsterType_name='Cave';
             if(isset($layer_event[$monsterType]))
@@ -251,7 +253,7 @@ foreach($temp_maps as $map)
                 $monsterType_top=$monsterType;
                 $full_monsterType_name_top=$full_monsterType_name;
             }
-            $map_descriptor.='<tr class="item_list_title_type_'.$maps_list[$map]['type'].'">
+            $map_descriptor.='<tr class="item_list_title_type_'.$map_current_object['type'].'">
                     <th colspan="7">'."\n";
             $link='';
             $name='';
@@ -321,21 +323,21 @@ foreach($temp_maps as $map)
             }
         }
 		$map_descriptor.='<tr>
-			<td colspan="7" class="item_list_endline item_list_title_type_'.$maps_list[$map]['type'].'"></td>'."\n".'
+			<td colspan="7" class="item_list_endline item_list_title_type_'.$map_current_object['type'].'"></td>'."\n".'
 		</tr>
 		</table>'."\n";
         savewikipage('Template:Maps/'.$map_html.'_MONSTER',$map_descriptor,false);$map_descriptor='';
 	}
 
-    if(isset($maps_list[$map]['bots']) && count($maps_list[$map]['bots'])>0)
+    if(isset($map_current_object['bots']) && count($map_current_object['bots'])>0)
 	{
-		$map_descriptor.='<center><table class="item_list item_list_type_'.$maps_list[$map]['type'].'">
-		<tr class="item_list_title item_list_title_type_'.$maps_list[$map]['type'].'">
+		$map_descriptor.='<center><table class="item_list item_list_type_'.$map_current_object['type'].'">
+		<tr class="item_list_title item_list_title_type_'.$map_current_object['type'].'">
 			<th colspan="2">'.$translation_list[$current_lang]['Bot'].'</th>
 			<th>'.$translation_list[$current_lang]['Type'].'</th>
 			<th>'.$translation_list[$current_lang]['Content'].'</th>
 		</tr>';
-		foreach($maps_list[$map]['bots'] as $bot_on_map)
+		foreach($map_current_object['bots'] as $bot_on_map)
 		{
             if(isset($bot_id_to_skin[$bot_id]))
             {
@@ -354,27 +356,27 @@ foreach($temp_maps as $map)
                 $have_skin=false;
             if($have_skin)
             {
-                if(!isset($zone_to_bot_count[$maps_list[$map]['zone']]))
-                    $zone_to_bot_count[$maps_list[$map]['zone']]=1;
+                if(!isset($zone_to_bot_count[$maindatapackcode][$map_current_object['zone']]))
+                    $zone_to_bot_count[$maindatapackcode][$map_current_object['zone']]=1;
                 else
-                    $zone_to_bot_count[$maps_list[$map]['zone']]++;
+                    $zone_to_bot_count[$maindatapackcode][$map_current_object['zone']]++;
             }
 
             if(isset($bot_start_to_quests[$bot_id]))
             {
-                if(!isset($map_to_function[$map]))
-                    $map_to_function[$map]=array();
-                if(!isset($map_to_function[$map]['quests']))
-                    $map_to_function[$map]['quests']=count($bot_start_to_quests[$bot_id]);
+                if(!isset($map_to_function[$maindatapackcode][$map]))
+                    $map_to_function[$maindatapackcode][$map]=array();
+                if(!isset($map_to_function[$maindatapackcode][$map]['quests']))
+                    $map_to_function[$maindatapackcode][$map]['quests']=count($bot_start_to_quests[$bot_id]);
                 else
-                    $map_to_function[$map]['quests']+=count($bot_start_to_quests[$bot_id]);
+                    $map_to_function[$maindatapackcode][$map]['quests']+=count($bot_start_to_quests[$bot_id]);
 
-                if(!isset($zone_to_function[$maps_list[$map]['zone']]))
-                    $zone_to_function[$maps_list[$map]['zone']]=array();
-                if(!isset($zone_to_function[$maps_list[$map]['zone']]['quests']))
-                    $zone_to_function[$maps_list[$map]['zone']]['quests']=count($bot_start_to_quests[$bot_id]);
+                if(!isset($zone_to_function[$maindatapackcode][$map_current_object['zone']]))
+                    $zone_to_function[$maindatapackcode][$map_current_object['zone']]=array();
+                if(!isset($zone_to_function[$maindatapackcode][$map_current_object['zone']]['quests']))
+                    $zone_to_function[$maindatapackcode][$map_current_object['zone']]['quests']=count($bot_start_to_quests[$bot_id]);
                 else
-                    $zone_to_function[$maps_list[$map]['zone']]['quests']+=count($bot_start_to_quests[$bot_id]);
+                    $zone_to_function[$maindatapackcode][$map_current_object['zone']]['quests']+=count($bot_start_to_quests[$bot_id]);
             }
 
 			if(isset($bots_meta[$bot_on_map['id']]))
@@ -432,19 +434,19 @@ foreach($temp_maps as $map)
                         {
                             if($step['type']!='quests')
                             {
-                                if(!isset($map_to_function[$map]))
-                                    $map_to_function[$map]=array();
-                                if(!isset($map_to_function[$map][$step['type']]))
-                                    $map_to_function[$map][$step['type']]=1;
+                                if(!isset($map_to_function[$maindatapackcode][$map]))
+                                    $map_to_function[$maindatapackcode][$map]=array();
+                                if(!isset($map_to_function[$maindatapackcode][$map][$step['type']]))
+                                    $map_to_function[$maindatapackcode][$map][$step['type']]=1;
                                 else
-                                    $map_to_function[$map][$step['type']]++;
+                                    $map_to_function[$maindatapackcode][$map][$step['type']]++;
 
-                                if(!isset($zone_to_function[$maps_list[$map]['zone']]))
-                                    $zone_to_function[$maps_list[$map]['zone']]=array();
-                                if(!isset($zone_to_function[$maps_list[$map]['zone']][$step['type']]))
-                                    $zone_to_function[$maps_list[$map]['zone']][$step['type']]=1;
+                                if(!isset($zone_to_function[$maindatapackcode][$map_current_object['zone']]))
+                                    $zone_to_function[$maindatapackcode][$map_current_object['zone']]=array();
+                                if(!isset($zone_to_function[$maindatapackcode][$map_current_object['zone']][$step['type']]))
+                                    $zone_to_function[$maindatapackcode][$map_current_object['zone']][$step['type']]=1;
                                 else
-                                    $zone_to_function[$maps_list[$map]['zone']][$step['type']]++;
+                                    $zone_to_function[$maindatapackcode][$map_current_object['zone']][$step['type']]++;
                             }
 
                             $map_descriptor.='<tr class="value">';
@@ -477,8 +479,8 @@ foreach($temp_maps as $map)
                         else if($step['type']=='shop')
                         {
                             $map_descriptor.='<td><center>'.$translation_list[$current_lang]['Shop'].'<div style="background-position:-32px 0px;" class="flags flags16"></div></center></td>'."\n".'<td>';
-                            $map_descriptor.='<center><table class="item_list item_list_type_'.$maps_list[$map]['type'].'">
-                            <tr class="item_list_title item_list_title_type_'.$maps_list[$map]['type'].'">
+                            $map_descriptor.='<center><table class="item_list item_list_type_'.$map_current_object['type'].'">
+                            <tr class="item_list_title item_list_title_type_'.$map_current_object['type'].'">
                                 <th colspan="2">'.$translation_list[$current_lang]['Item'].'</th>
                                 <th>'.$translation_list[$current_lang]['Price'].'</th>
                             </tr>'."\n";
@@ -528,7 +530,7 @@ foreach($temp_maps as $map)
                                 }
                             }
                             $map_descriptor.='<tr>
-                                <td colspan="3" class="item_list_endline item_list_title_type_'.$maps_list[$map]['type'].'"></td>'."\n".'
+                                <td colspan="3" class="item_list_endline item_list_title_type_'.$map_current_object['type'].'"></td>'."\n".'
                             </tr>
                             </table>'."\n";
                             $map_descriptor.='</center></td>'."\n";
@@ -558,8 +560,8 @@ foreach($temp_maps as $map)
 
                                 if(count($fight_meta[$step['fightid']]['items'])>0)
                                 {
-                                    $map_descriptor.='<center><table class="item_list item_list_type_'.$maps_list[$map]['type'].'">
-                                    <tr class="item_list_title item_list_title_type_'.$maps_list[$map]['type'].'">
+                                    $map_descriptor.='<center><table class="item_list item_list_type_'.$map_current_object['type'].'">
+                                    <tr class="item_list_title item_list_title_type_'.$map_current_object['type'].'">
                                         <th colspan="2">'.$translation_list[$current_lang]['Item'].'</th>
                                     </tr>'."\n";
                                     foreach($fight_meta[$step['fightid']]['items'] as $item)
@@ -606,7 +608,7 @@ foreach($temp_maps as $map)
                                             $map_descriptor.='</tr>'."\n";
                                     }
                                     $map_descriptor.='<tr>
-                                        <td colspan="2" class="item_list_endline item_list_title_type_'.$maps_list[$map]['type'].'"></td>'."\n".'
+                                        <td colspan="2" class="item_list_endline item_list_title_type_'.$map_current_object['type'].'"></td>'."\n".'
                                     </tr>
                                     </table></center>'."\n";
                                 }
@@ -669,8 +671,8 @@ foreach($temp_maps as $map)
                             }
                             else
                             {
-                                $map_descriptor.='<center><table class="item_list item_list_type_'.$maps_list[$map]['type'].'">
-                                <tr class="item_list_title item_list_title_type_'.$maps_list[$map]['type'].'">
+                                $map_descriptor.='<center><table class="item_list item_list_type_'.$map_current_object['type'].'">
+                                <tr class="item_list_title item_list_title_type_'.$map_current_object['type'].'">
                                     <th>'.$translation_list[$current_lang]['Industry'].'</th>
                                     <th>'.$translation_list[$current_lang]['Resources'].'</th>
                                     <th>'.$translation_list[$current_lang]['Products'].'</th>
@@ -755,7 +757,7 @@ foreach($temp_maps as $map)
                             $map_descriptor.='</td>'."\n";
                             $map_descriptor.='</tr>'."\n";
                             $map_descriptor.='<tr>
-                                <td colspan="3" class="item_list_endline item_list_title_type_'.$maps_list[$map]['type'].'"></td>'."\n".'
+                                <td colspan="3" class="item_list_endline item_list_title_type_'.$map_current_object['type'].'"></td>'."\n".'
                             </tr>
                             </table></center>'."\n";
 
@@ -770,7 +772,7 @@ foreach($temp_maps as $map)
 			}
 		}
 		$map_descriptor.='<tr>
-			<td colspan="4" class="item_list_endline item_list_title_type_'.$maps_list[$map]['type'].'"></td>'."\n".'
+			<td colspan="4" class="item_list_endline item_list_title_type_'.$map_current_object['type'].'"></td>'."\n".'
 		</tr>
 		</table></center>'."\n";
         savewikipage('Template:Maps/'.$map_html.'_BOT',$map_descriptor,false);$map_descriptor='';
@@ -792,11 +794,11 @@ foreach($temp_maps as $map)
     }
 
     $map_descriptor.='{{Template:Maps/'.$map_html.'_HEADER}}'."\n";
-    if($maps_list[$map]['dropcount']>0 || count($maps_list[$map]['items'])>0)
+    if($map_current_object['dropcount']>0 || count($map_current_object['items'])>0)
         $map_descriptor.='{{Template:Maps/'.$map_html.'_ITEM}}'."\n";
-    if(count($maps_list[$map]['monsters'])>0)
+    if(count($map_current_object['monsters'])>0)
         $map_descriptor.='{{Template:Maps/'.$map_html.'_MONSTER}}'."\n";
-    if(isset($maps_list[$map]['bots']) && count($maps_list[$map]['bots'])>0)
+    if(isset($map_current_object['bots']) && count($map_current_object['bots'])>0)
         $map_descriptor.='{{Template:Maps/'.$map_html.'_BOT}}'."\n";
     savewikipage($translation_list[$current_lang]['Maps:'].map_to_wiki_name($map),$map_descriptor,!$wikivars['generatefullpage']);
 }
@@ -807,15 +809,15 @@ ksort($zone_to_map);
 if(file_exists($datapack_explorer_local_path.'maps/overview.png') && file_exists($datapack_explorer_local_path.'maps/preview.png'))
 {
     $size=getimagesize($datapack_explorer_local_path.'maps/preview.png');
-    $maps_list[$map]['pixelwidth']=$size[0];
-    $maps_list[$map]['pixelheight']=$size[1];
-    if($maps_list[$map]['pixelwidth']>1600 || $maps_list[$map]['pixelheight']>800)
+    $map_current_object['pixelwidth']=$size[0];
+    $map_current_object['pixelheight']=$size[1];
+    if($map_current_object['pixelwidth']>1600 || $map_current_object['pixelheight']>800)
         $ratio=4;
-    elseif($maps_list[$map]['pixelwidth']>800 || $maps_list[$map]['pixelheight']>400)
+    elseif($map_current_object['pixelwidth']>800 || $map_current_object['pixelheight']>400)
         $ratio=2;
     else
         $ratio=1;
-    $map_descriptor.='<div class="value datapackscreenshot"><center>[['.$base_datapack_site_http.$base_datapack_explorer_site_path.'maps/overview.png <img src="'.$base_datapack_site_http.$base_datapack_explorer_site_path.'maps/preview.png" alt="Map overview" title="Map overview" width="'.($maps_list[$map]['pixelwidth']/$ratio).'" height="'.($maps_list[$map]['pixelheight']/$ratio).'" />]]
+    $map_descriptor.='<div class="value datapackscreenshot"><center>[['.$base_datapack_site_http.$base_datapack_explorer_site_path.'maps/overview.png <img src="'.$base_datapack_site_http.$base_datapack_explorer_site_path.'maps/preview.png" alt="Map overview" title="Map overview" width="'.($map_current_object['pixelwidth']/$ratio).'" height="'.($map_current_object['pixelheight']/$ratio).'" />]]
     <b>'.$translation_list[$current_lang]['Size'].': '.round(filesize($datapack_explorer_local_path.'maps/overview.png')/1000000,1).$translation_list[$current_lang]['MB'].'</b>
     </center></div>';
     savewikipage('Template:maps_preview',$map_descriptor,false);
@@ -834,34 +836,34 @@ foreach($zone_to_map as $zone=>$map_by_zone)
 	$map_descriptor.='<table class="item_list item_list_type_outdoor map_list"><tr class="item_list_title item_list_title_type_outdoor">
 	<th>[['.$translation_list[$current_lang]['Zones:'].$zone_name.'|'.$zone_name.']]'."\n";
 	$map_descriptor.='</th>'."\n";
-    if(isset($zone_to_function[$zone]))
-        $additionnal_function=count($zone_to_function[$zone])>0;
+    if(isset($zone_to_function[$maindatapackcode][$zone]))
+        $additionnal_function=count($zone_to_function[$maindatapackcode][$zone])>0;
     else
         $additionnal_function=false;
     if($additionnal_function)
     {
         $map_descriptor.='<th>'."\n";
-        if(isset($zone_to_function[$zone]['shop']))
+        if(isset($zone_to_function[$maindatapackcode][$zone]['shop']))
             $map_descriptor.='<div style="float:left;background-position:-32px 0px;" class="flags flags16" title="Shop"></div>'."\n";
-        if(isset($zone_to_function[$zone]['fight']))
+        if(isset($zone_to_function[$maindatapackcode][$zone]['fight']))
             $map_descriptor.='<div style="float:left;background-position:-16px -16px;" class="flags flags16" title="Fight"></div>'."\n";
-        if(isset($zone_to_function[$zone]['heal']))
+        if(isset($zone_to_function[$maindatapackcode][$zone]['heal']))
             $map_descriptor.='<div style="float:left;background-position:0px 0px;" class="flags flags16" title="Heal"></div>'."\n";
-        if(isset($zone_to_function[$zone]['learn']))
+        if(isset($zone_to_function[$maindatapackcode][$zone]['learn']))
             $map_descriptor.='<div style="float:left;background-position:-48px 0px;" class="flags flags16" title="Learn"></div>'."\n";
-        if(isset($zone_to_function[$zone]['warehouse']))
+        if(isset($zone_to_function[$maindatapackcode][$zone]['warehouse']))
             $map_descriptor.='<div style="float:left;background-position:0px -16px;" class="flags flags16" title="Warehouse"></div>'."\n";
-        if(isset($zone_to_function[$zone]['market']))
+        if(isset($zone_to_function[$maindatapackcode][$zone]['market']))
             $map_descriptor.='<div style="float:left;background-position:0px -16px;" class="flags flags16" title="Market"></div>'."\n";
-        if(isset($zone_to_function[$zone]['clan']))
+        if(isset($zone_to_function[$maindatapackcode][$zone]['clan']))
             $map_descriptor.='<div style="float:left;background-position:-48px -16px;" class="flags flags16" title="Clan"></div>'."\n";
-        if(isset($zone_to_function[$zone]['sell']))
+        if(isset($zone_to_function[$maindatapackcode][$zone]['sell']))
             $map_descriptor.='<div style="float:left;background-position:-32px 0px;" class="flags flags16" title="Sell"></div>'."\n";
-        if(isset($zone_to_function[$zone]['zonecapture']))
+        if(isset($zone_to_function[$maindatapackcode][$zone]['zonecapture']))
             $map_descriptor.='<div style="float:left;background-position:-32px -16px;" class="flags flags16" title="Zone capture"></div>'."\n";
-        if(isset($zone_to_function[$zone]['industry']))
+        if(isset($zone_to_function[$maindatapackcode][$zone]['industry']))
             $map_descriptor.='<div style="float:left;background-position:0px -32px;" class="flags flags16" title="Industry"></div>'."\n";
-        if(isset($zone_to_function[$zone]['quests']))
+        if(isset($zone_to_function[$maindatapackcode][$zone]['quests']))
             $map_descriptor.='<div style="float:left;background-position:-16px 0px;" class="flags flags16" title="Quests"></div>'."\n";
         $map_descriptor.='</th>'."\n";
     }
@@ -873,27 +875,27 @@ foreach($zone_to_map as $zone=>$map_by_zone)
         if($additionnal_function)
         {
             $map_descriptor.='<td>'."\n";
-            if(isset($map_to_function[$map]['shop']))
+            if(isset($map_to_function[$maindatapackcode][$map]['shop']))
                 $map_descriptor.='<div style="float:left;background-position:-32px 0px;" class="flags flags16" title="Shop"></div>'."\n";
-            if(isset($map_to_function[$map]['fight']))
+            if(isset($map_to_function[$maindatapackcode][$map]['fight']))
                 $map_descriptor.='<div style="float:left;background-position:-16px -16px;" class="flags flags16" title="Fight"></div>'."\n";
-            if(isset($map_to_function[$map]['heal']))
+            if(isset($map_to_function[$maindatapackcode][$map]['heal']))
                 $map_descriptor.='<div style="float:left;background-position:0px 0px;" class="flags flags16" title="Heal"></div>'."\n";
-            if(isset($map_to_function[$map]['learn']))
+            if(isset($map_to_function[$maindatapackcode][$map]['learn']))
                 $map_descriptor.='<div style="float:left;background-position:-48px 0px;" class="flags flags16" title="Learn"></div>'."\n";
-            if(isset($map_to_function[$map]['warehouse']))
+            if(isset($map_to_function[$maindatapackcode][$map]['warehouse']))
                 $map_descriptor.='<div style="float:left;background-position:0px -16px;" class="flags flags16" title="Warehouse"></div>'."\n";
-            if(isset($map_to_function[$map]['market']))
+            if(isset($map_to_function[$maindatapackcode][$map]['market']))
                 $map_descriptor.='<div style="float:left;background-position:0px -16px;" class="flags flags16" title="Market"></div>'."\n";
-            if(isset($map_to_function[$map]['clan']))
+            if(isset($map_to_function[$maindatapackcode][$map]['clan']))
                 $map_descriptor.='<div style="float:left;background-position:-48px -16px;" class="flags flags16" title="Clan"></div>'."\n";
-            if(isset($map_to_function[$map]['sell']))
+            if(isset($map_to_function[$maindatapackcode][$map]['sell']))
                 $map_descriptor.='<div style="float:left;background-position:-32px 0px;" class="flags flags16" title="Sell"></div>'."\n";
-            if(isset($map_to_function[$map]['zonecapture']))
+            if(isset($map_to_function[$maindatapackcode][$map]['zonecapture']))
                 $map_descriptor.='<div style="float:left;background-position:-32px -16px;" class="flags flags16" title="Zone capture"></div>'."\n";
-            if(isset($map_to_function[$map]['industry']))
+            if(isset($map_to_function[$maindatapackcode][$map]['industry']))
                 $map_descriptor.='<div style="float:left;background-position:0px -32px;" class="flags flags16" title="Industry"></div>'."\n";
-            if(isset($map_to_function[$map]['quests']))
+            if(isset($map_to_function[$maindatapackcode][$map]['quests']))
                 $map_descriptor.='<div style="float:left;background-position:-16px 0px;" class="flags flags16" title="Quests"></div>'."\n";
             $map_descriptor.='</td>'."\n";
         }

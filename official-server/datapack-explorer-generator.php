@@ -60,6 +60,17 @@ if(isset($wikivarsapp))
         }
     }
 }
+else
+{
+    foreach($lang_to_load as $temp_lang)
+    {
+        require 'datapack-explorer-generator/translation/'.$temp_lang.'.php';
+        $lang_to_load[]=$temp_lang;
+        foreach($translation_list['en'] as $original_text=>$translated_text)
+            if(!isset($translation_list[$temp_lang][$original_text]))
+                $translation_list[$temp_lang][$original_text]=$translated_text;
+    }
+}
 
 require 'datapack-explorer-generator/load/items.php';
 require 'datapack-explorer-generator/load/type.php';

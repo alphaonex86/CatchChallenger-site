@@ -6,18 +6,26 @@ if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['zones
 	if(!mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['zones/']))
 		die('Unable to make: '.$datapack_explorer_local_path.'zone/');
 
-foreach($zone_to_map as $zone=>$map_by_zone)
+foreach($zone_to_map as $maindatapackcode=>$zone_list)
+foreach($zone_list as $zone=>$map_by_zone)
+foreach($map_by_zone as $map=>$map_content)
 {
 	$map_descriptor='';
 
 	if(isset($zone_meta[$zone]))
-		$zone_name=$zone_meta[$zone]['name'][$current_lang];
+		$zone_name=$zone_meta[$maindatapackcode][$zone]['name'][$current_lang];
 	elseif($zone=='')
 		$zone_name=$translation_list[$current_lang]['Unknown zone'];
 	else
 		$zone_name=$zone;
 
-	$map_descriptor.='<div class="map map_type_'.$maps_list[$map]['type'].'">';
+    if(isset($maps_list[$maindatapackcode][$map]['type']))
+        $map_descriptor.='<div class="map map_type_'.$maps_list[$maindatapackcode][$map]['type'].'">';
+    else
+    {
+        echo '$maps_list['.$maindatapackcode.']['.$map.']'." not found\n";
+        $map_descriptor.='<div class="map map_type_outdoor">';
+    }
 	$map_descriptor.='<div class="subblock"><h1>'.$zone_name.'</h1></div>';
 	$bot_count=0;
 	if(isset($zone_to_bot_count[$zone]))

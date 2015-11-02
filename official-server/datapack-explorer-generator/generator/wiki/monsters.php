@@ -540,7 +540,7 @@ foreach($monster_meta as $id=>$monster)
                     if(isset($zone_meta[$maps_list[$monster_on_map['map']]['zone']]))
                     {
                         $map_descriptor.='<td>[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($monster_on_map['map']).'|'.$maps_list[$monster_on_map['map']]['name'][$current_lang].']]</td>'."\n";
-                        $map_descriptor.='<td>'.$zone_meta[$maps_list[$monster_on_map['map']]['zone']]['name'][$current_lang].'</td>'."\n";
+                        $map_descriptor.='<td>'.$zone_meta[$maindatapackcode][$maps_list[$monster_on_map['map']]['zone']]['name'][$current_lang].'</td>'."\n";
                     }
                     else
                         $map_descriptor.='<td colspan="2">[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($monster_on_map['map']).'|'.$maps_list[$monster_on_map['map']]['name'][$current_lang].']]</td>'."\n";

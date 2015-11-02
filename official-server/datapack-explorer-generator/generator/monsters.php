@@ -50,7 +50,7 @@ foreach($monster_meta as $id=>$monster)
 		$type_list=array();
 		foreach($monster['type'] as $type)
 			if(isset($type_meta[$type]))
-				$type_list[]='<span class="type_label type_label_'.$type.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_meta[$type]['name'][$current_lang].'</a></span>';
+				$type_list[]='<span class="type_label type_label_'.$type.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.ucfirst($type_meta[$type]['name'][$current_lang]).'</a></span>';
 		$map_descriptor.='<div class="type_label_list">'.implode(' ',$type_list).'</div></div></div>';
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Gender ratio'].'</div><div class="value">';
 		if($monster['ratio_gender']<0 || $monster['ratio_gender']>100)
@@ -81,11 +81,11 @@ foreach($monster_meta as $id=>$monster)
 			if(isset($effectiveness_list['2']))
 				foreach($effectiveness_list['2'] as $type)
 					if(isset($type_meta[$type]))
-						$type_list[]='<span class="type_label type_label_'.$type.'">2x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_meta[$type]['name'][$current_lang].'</a></span>';
+						$type_list[]='<span class="type_label type_label_'.$type.'">2x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.ucfirst($type_meta[$type]['name'][$current_lang]).'</a></span>';
 			if(isset($effectiveness_list['4']))
 				foreach($effectiveness_list['4'] as $type)
 					if(isset($type_meta[$type]))
-						$type_list[]='<span class="type_label type_label_'.$type.'">4x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_meta[$type]['name'][$current_lang].'</a></span>';
+						$type_list[]='<span class="type_label type_label_'.$type.'">4x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.ucfirst($type_meta[$type]['name'][$current_lang]).'</a></span>';
 			$map_descriptor.=implode(' ',$type_list);
 			$map_descriptor.='</div></div>';
 		}
@@ -96,11 +96,11 @@ foreach($monster_meta as $id=>$monster)
 			if(isset($effectiveness_list['0.25']))
 				foreach($effectiveness_list['0.25'] as $type)
 					if(isset($type_meta[$type]))
-						$type_list[]='<span class="type_label type_label_'.$type.'">0.25x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_meta[$type]['name'][$current_lang].'</a></span>';
+						$type_list[]='<span class="type_label type_label_'.$type.'">0.25x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.ucfirst($type_meta[$type]['name'][$current_lang]).'</a></span>';
 			if(isset($effectiveness_list['0.5']))
 				foreach($effectiveness_list['0.5'] as $type)
 					if(isset($type_meta[$type]))
-						$type_list[]='<span class="type_label type_label_'.$type.'">0.5x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_meta[$type]['name'][$current_lang].'</a></span>';
+						$type_list[]='<span class="type_label type_label_'.$type.'">0.5x: <a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.ucfirst($type_meta[$type]['name'][$current_lang]).'</a></span>';
 			$map_descriptor.=implode(' ',$type_list);
 			$map_descriptor.='</div></div>';
 		}
@@ -110,7 +110,7 @@ foreach($monster_meta as $id=>$monster)
 			$type_list=array();
 			foreach($effectiveness_list['0'] as $type)
 				if(isset($type_meta[$type]))
-					$type_list[]='<span class="type_label type_label_'.$type.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_meta[$type]['name'][$current_lang].'</a></span>';
+					$type_list[]='<span class="type_label type_label_'.$type.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.ucfirst($type_meta[$type]['name'][$current_lang]).'</a></span>';
 			$map_descriptor.=implode(' ',$type_list);
 			$map_descriptor.='</div></div>';
 		}
@@ -532,15 +532,15 @@ foreach($monster_meta as $id=>$monster)
             foreach($monster_list as $monster_on_map)
             {
                 $map_descriptor.='<tr class="value">';
-                if(isset($maps_list[$monster_on_map['map']]))
+                if(isset($maps_list[$maindatapackcode][$monster_on_map['map']]))
                 {
-                    if(isset($zone_meta[$maps_list[$monster_on_map['map']]['zone']]))
+                    if(isset($zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$monster_on_map['map']]['zone']]))
                     {
-                        $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$monster_on_map['map']]['name'][$current_lang].'">'.$maps_list[$monster_on_map['map']]['name'][$current_lang].'</a></td>';
-                        $map_descriptor.='<td>'.$zone_meta[$maindatapackcode][$maps_list[$monster_on_map['map']]['zone']]['name'][$current_lang].'</td>';
+                        $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'">'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'</a></td>';
+                        $map_descriptor.='<td>'.$zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$monster_on_map['map']]['zone']]['name'][$current_lang].'</td>';
                     }
                     else
-                        $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$monster_on_map['map']]['name'][$current_lang].'">'.$maps_list[$monster_on_map['map']]['name'][$current_lang].'</a></td>';
+                        $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'">'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'</a></td>';
                 }
                 else
                     $map_descriptor.='<td colspan="2">'.$translation_list[$current_lang]['Unknown map'].'</td>';
@@ -566,15 +566,15 @@ foreach($monster_meta as $id=>$monster)
 			foreach($monster_to_map[$id] as $monsterType=>$monster_list)
 			{
 				$map_descriptor.='<tr class="value">';
-					if(isset($maps_list[$monster_on_map['map']]))
+					if(isset($maps_list[$maindatapackcode][$monster_on_map['map']]))
 					{
-						if(isset($zone_meta[$maps_list[$monster_on_map['map']]['zone']]))
+						if(isset($zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$monster_on_map['map']]['zone']]))
 						{
-							$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$monster_on_map['map']]['name'][$current_lang].'">'.$maps_list[$monster_on_map['map']]['name'][$current_lang].'</a></td>';
-							$map_descriptor.='<td>'.$zone_meta[$maps_list[$monster_on_map['map']]['zone']]['name'][$current_lang].'</td>';
+							$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'">'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'</a></td>';
+							$map_descriptor.='<td>'.$zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$monster_on_map['map']]['zone']]['name'][$current_lang].'</td>';
 						}
 						else
-							$map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$monster_on_map['map']]['name'][$current_lang].'">'.$maps_list[$monster_on_map['map']]['name'][$current_lang].'</a></td>';
+							$map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'">'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'</a></td>';
 					}
 					else
 						$map_descriptor.='<td>Unknown map</td><td>&nbsp;</td>';
@@ -626,7 +626,7 @@ foreach($monster_meta as $id=>$monster)
 	$type_list=array();
 	foreach($monster['type'] as $type)
 		if(isset($type_meta[$type]))
-			$type_list[]='<span class="type_label type_label_'.$type.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_meta[$type]['name'][$current_lang].'</a></span>';
+			$type_list[]='<span class="type_label type_label_'.$type.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.ucfirst($type_meta[$type]['name'][$current_lang]).'</a></span>';
 	$map_descriptor.='<div class="type_label_list">'.implode(' ',$type_list).'</div>';
 	$map_descriptor.='</td>';
 	$map_descriptor.='</tr>';

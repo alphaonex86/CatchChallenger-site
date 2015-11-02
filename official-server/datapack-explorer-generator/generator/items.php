@@ -295,15 +295,16 @@ foreach($item_meta as $id=>$item)
                         if(isset($bot_id_to_map[$bot_id]))
                         {
                             $entry=$bot_id_to_map[$bot_id];
-                            if(isset($maps_list[$entry]))
+                            if(isset($maps_list[$entry['maindatapackcode']][$entry['map']]))
                             {
-                                if(isset($zone_meta[$maps_list[$entry]['zone']]))
+                                $item_current_map=$maps_list[$entry['maindatapackcode']][$entry['map']];
+                                if(isset($zone_meta[$item_current_map['zone']]))
                                 {
-                                    $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
-                                    $map_descriptor.='<td>'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].'</td>';
+                                    $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$item_current_map['name'][$current_lang].'">'.$item_current_map['name'][$current_lang].'</a></td>';
+                                    $map_descriptor.='<td>'.$zone_meta[$item_current_map['zone']]['name'][$current_lang].'</td>';
                                 }
                                 else
-                                    $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
+                                    $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$item_current_map['name'][$current_lang].'">'.$item_current_map['name'][$current_lang].'</a></td>';
                             }
                             else
                                 $map_descriptor.='<td colspan="2">'.$translation_list[$current_lang]['Unknown map'].'</td>';
@@ -619,15 +620,16 @@ foreach($item_meta as $id=>$item)
         foreach($item_to_map[$id] as $entry)
         {
             $map_descriptor.='<tr class="value">';
-                if(isset($maps_list[$entry]))
+                if(isset($maps_list[$entry['maindatapackcode']][$entry['map']]))
                 {
-                    if(isset($zone_meta[$maps_list[$entry]['zone']]))
+                    $item_current_map=$maps_list[$entry['maindatapackcode']][$entry['map']];
+                    if(isset($zone_meta[$item_current_map['zone']]))
                     {
-                        $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
-                        $map_descriptor.='<td>'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].'</td>';
+                        $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$entry['maindatapackcode'].'/'.str_replace('.tmx','.html',$entry['map']).'" title="'.$item_current_map['name'][$current_lang].'">'.$item_current_map['name'][$current_lang].'</a></td>';
+                        $map_descriptor.='<td>'.$zone_meta[$entry['maindatapackcode']][$item_current_map['zone']]['name'][$current_lang].'</td>';
                     }
                     else
-                        $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
+                        $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$entry['maindatapackcode'].'/'.str_replace('.tmx','.html',$entry['map']).'" title="'.$item_current_map['name'][$current_lang].'">'.$item_current_map['name'][$current_lang].'</a></td>';
                 }
                 else
                     $map_descriptor.='<td colspan="2">'.$translation_list[$current_lang]['Unknown map'].'</td>';

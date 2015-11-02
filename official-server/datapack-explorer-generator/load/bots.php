@@ -10,22 +10,23 @@ $industry_to_bot=array();
 $team_to_bot=array();
 $item_to_bot_shop=array();
 $highest_bot_id=0;
-foreach($bots_file as $file=>$value)
+foreach($bots_file as $file=>$bots_file_list)
+foreach($bots_file_list as $maindatapackcode=>$value)
 {
-    if(is_file($datapack_path.'map/'.$file))
+    if(is_file($datapack_path.'map/main/'.$maindatapackcode.'/'.$file))
     {
-        $content=file_get_contents($datapack_path.'map/'.$file);
+        $content=file_get_contents($datapack_path.'map/main/'.$maindatapackcode.'/'.$file);
         preg_match_all('#<bot [^>]+>(.*)</bot>#isU',$content,$temp_text_list);
         foreach($temp_text_list[0] as $bot_text)
         {
             $botbal=preg_replace('#^.*(<bot [^>]+>).*$#isU','$1',$bot_text);
             $id=preg_replace('#^.*<bot [^>]*id="([0-9]+)"[^>]*>.*$#isU','$1',$botbal);
             if(!preg_match('#^[0-9]+$#isU',$id))
-                echo $file.': bot with id wrong '.$botbal."\n";
+                echo $maindatapackcode.'/'.$file.': bot with id wrong '.$botbal."\n";
             else
             {
-                if(isset($bots_meta[$id]))
-                    echo $file.': bot with id '.$id.' is already found into: '.$bots_found_in[$id]."\n";
+                if(isset($bots_meta[$maindatapackcode][$id]))
+                    echo $maindatapackcode.'/'.$file.': bot with id '.$id.' is already found into: '.$bots_found_in[$maindatapackcode][$id]."\n";
                 else
                 {
                     $name='';
@@ -33,10 +34,10 @@ foreach($bots_file as $file=>$value)
                     {
                         $name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$bot_text);
                         $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
-                        if(isset($bots_name_count['en'][$name]))
-                            $bots_name_count['en'][$name]++;
+                        if(isset($bots_name_count[$maindatapackcode]['en'][$name]))
+                            $bots_name_count[$maindatapackcode]['en'][$name]++;
                         else
-                            $bots_name_count['en'][$name]=1;
+                            $bots_name_count[$maindatapackcode]['en'][$name]=1;
                     }
                     $name_in_other_lang=array('en'=>$name);
                     foreach($lang_to_load as $lang)
@@ -52,10 +53,10 @@ foreach($bots_file as $file=>$value)
                         }
                         else
                             $name_in_other_lang[$lang]=$name;
-                        if(isset($bots_name_count[$lang][$name_in_other_lang[$lang]]))
-                            $bots_name_count[$lang][$name_in_other_lang[$lang]]++;
+                        if(isset($bots_name_count[$maindatapackcode][$lang][$name_in_other_lang[$lang]]))
+                            $bots_name_count[$maindatapackcode][$lang][$name_in_other_lang[$lang]]++;
                         else
-                            $bots_name_count[$lang][$name_in_other_lang[$lang]]=1;
+                            $bots_name_count[$maindatapackcode][$lang][$name_in_other_lang[$lang]]=1;
                     }
                     $team='';
                     if(preg_match('#<bot [^>]*team="[^"]+"[^>]*>#isU',$botbal))
@@ -67,15 +68,15 @@ foreach($bots_file as $file=>$value)
                     }
                     if($highest_bot_id<$id)
                         $highest_bot_id=$id;
-                    $bots_meta[$id]=array('name'=>$name_in_other_lang,'team'=>$team,'onlytext'=>true,'step'=>array());
-                    $bots_found_in[$id]=$file;
+                    $bots_meta[$maindatapackcode][$id]=array('name'=>$name_in_other_lang,'team'=>$team,'onlytext'=>true,'step'=>array());
+                    $bots_found_in[$maindatapackcode][$id]=$maindatapackcode.'/'.$file;
                     $temp_step_list=explode('<step',$bot_text);
                     foreach($temp_step_list as $step_text)
                     {
                         if(preg_match('#^[^>]* id="([0-9]+)".*$#isU',$step_text))
                         {
                             $step_id=preg_replace('#^[^>]* id="([0-9]+)".*$#isU','$1',$step_text);
-                            if(isset($bots_meta[$id]['step'][$step_id]))
+                            if(isset($bots_meta[$maindatapackcode][$id]['step'][$step_id]))
                                 echo 'step with id '.$step_id.' for bot '.$id.' is already found'."\n";
                             else
                             {
@@ -100,7 +101,7 @@ foreach($bots_file as $file=>$value)
                                             else
                                                 $step_text_in_other_lang[$lang]=$step_text;
                                         }
-                                        $bots_meta[$id]['step'][$step_id]=array('type'=>$step_type,'text'=>$step_text_in_other_lang);
+                                        $bots_meta[$maindatapackcode][$id]['step'][$step_id]=array('type'=>$step_type,'text'=>$step_text_in_other_lang);
                                     }
                                     else if($step_type=='fight')
                                     {
@@ -112,8 +113,8 @@ foreach($bots_file as $file=>$value)
                                                 $leader=false;
                                                 if(preg_match('#leader="true"#isU',$step_text))
                                                     $leader=true;
-                                                $bots_meta[$id]['onlytext']=false;
-                                                $bots_meta[$id]['step'][$step_id]=array('type'=>$step_type,'fightid'=>$fightid,'leader'=>$leader);
+                                                $bots_meta[$maindatapackcode][$id]['onlytext']=false;
+                                                $bots_meta[$maindatapackcode][$id]['step'][$step_id]=array('type'=>$step_type,'fightid'=>$fightid,'leader'=>$leader);
                                                 if(!isset($fight_to_bot[$fightid]))
                                                     $fight_to_bot[$fightid]=array();
                                                 $fight_to_bot[$fightid][]=$id;
@@ -126,28 +127,28 @@ foreach($bots_file as $file=>$value)
                                     }
                                     else if($step_type=='heal')
                                     {
-                                        $bots_meta[$id]['onlytext']=false;
-                                        $bots_meta[$id]['step'][$step_id]=array('type'=>$step_type);
+                                        $bots_meta[$maindatapackcode][$id]['onlytext']=false;
+                                        $bots_meta[$maindatapackcode][$id]['step'][$step_id]=array('type'=>$step_type);
                                     }
                                     else if($step_type=='learn')
                                     {
-                                        $bots_meta[$id]['onlytext']=false;
-                                        $bots_meta[$id]['step'][$step_id]=array('type'=>$step_type);
+                                        $bots_meta[$maindatapackcode][$id]['onlytext']=false;
+                                        $bots_meta[$maindatapackcode][$id]['step'][$step_id]=array('type'=>$step_type);
                                     }
                                     else if($step_type=='warehouse')
                                     {
-                                        $bots_meta[$id]['onlytext']=false;
-                                        $bots_meta[$id]['step'][$step_id]=array('type'=>$step_type);
+                                        $bots_meta[$maindatapackcode][$id]['onlytext']=false;
+                                        $bots_meta[$maindatapackcode][$id]['step'][$step_id]=array('type'=>$step_type);
                                     }
                                     else if($step_type=='market')
                                     {
-                                        $bots_meta[$id]['onlytext']=false;
-                                        $bots_meta[$id]['step'][$step_id]=array('type'=>$step_type);
+                                        $bots_meta[$maindatapackcode][$id]['onlytext']=false;
+                                        $bots_meta[$maindatapackcode][$id]['step'][$step_id]=array('type'=>$step_type);
                                     }
                                     else if($step_type=='clan')
                                     {
-                                        $bots_meta[$id]['onlytext']=false;
-                                        $bots_meta[$id]['step'][$step_id]=array('type'=>$step_type);
+                                        $bots_meta[$maindatapackcode][$id]['onlytext']=false;
+                                        $bots_meta[$maindatapackcode][$id]['step'][$step_id]=array('type'=>$step_type);
                                     }
                                     else if($step_type=='shop')
                                     {
@@ -156,8 +157,8 @@ foreach($bots_file as $file=>$value)
                                             $shop=preg_replace('#^.*shop="([0-9]+)".*$#isU','$1',$step_text);
                                             if(isset($shop_meta[$shop]))
                                             {
-                                                $bots_meta[$id]['onlytext']=false;
-                                                $bots_meta[$id]['step'][$step_id]=array('type'=>$step_type,'shop'=>$shop);
+                                                $bots_meta[$maindatapackcode][$id]['onlytext']=false;
+                                                $bots_meta[$maindatapackcode][$id]['step'][$step_id]=array('type'=>$step_type,'shop'=>$shop);
                                                 if(!isset($shop_to_bot[$shop]))
                                                     $shop_to_bot[$shop]=array();
                                                 $shop_to_bot[$shop][]=$id;
@@ -175,8 +176,8 @@ foreach($bots_file as $file=>$value)
                                             $shop=preg_replace('#^.*shop="([0-9]+)".*$#isU','$1',$step_text);
                                             if(isset($shop_meta[$shop]))
                                             {
-                                                $bots_meta[$id]['onlytext']=false;
-                                                $bots_meta[$id]['step'][$step_id]=array('type'=>$step_type,'shop'=>$shop);
+                                                $bots_meta[$maindatapackcode][$id]['onlytext']=false;
+                                                $bots_meta[$maindatapackcode][$id]['step'][$step_id]=array('type'=>$step_type,'shop'=>$shop);
                                             }
                                             else
                                                 echo 'shop: '.$shop.' not found for step with id '.$step_id.' for bot '.$id."\n";
@@ -191,8 +192,8 @@ foreach($bots_file as $file=>$value)
                                             $zone=preg_replace('#^.*zone="([^"]+)".*$#isU','$1',$step_text);
                                             if(isset($zone_meta[$zone]))
                                             {
-                                                $bots_meta[$id]['onlytext']=false;
-                                                $bots_meta[$id]['step'][$step_id]=array('type'=>$step_type,'zone'=>$zone);
+                                                $bots_meta[$maindatapackcode][$id]['onlytext']=false;
+                                                $bots_meta[$maindatapackcode][$id]['step'][$step_id]=array('type'=>$step_type,'zone'=>$zone);
                                             }
                                             else
                                                 echo 'zone: '.$zone.' not found for step with id '.$step_id.' for bot '.$id."\n";
@@ -207,8 +208,8 @@ foreach($bots_file as $file=>$value)
                                             $industry=preg_replace('#^.*industry="([0-9]+)".*$#isU','$1',$step_text);
                                             if(isset($industrie_link_meta[$industry]))
                                             {
-                                                $bots_meta[$id]['onlytext']=false;
-                                                $bots_meta[$id]['step'][$step_id]=array('type'=>$step_type,'industry'=>$industry);
+                                                $bots_meta[$maindatapackcode][$id]['onlytext']=false;
+                                                $bots_meta[$maindatapackcode][$id]['step'][$step_id]=array('type'=>$step_type,'industry'=>$industry);
                                                 if(!isset($industry_to_bot[$industrie_link_meta[$industry]['industry_id']]))
                                                     $industry_to_bot[$industrie_link_meta[$industry]['industry_id']]=array();
                                                 $industry_to_bot[$industrie_link_meta[$industry]['industry_id']][]=$id;
@@ -232,6 +233,6 @@ foreach($bots_file as $file=>$value)
         }
     }
     else
-        echo $datapack_path.'map/'.$file.' not found for the map: '.$value."\n";
+        echo $datapack_path.'map/'.$maindatapackcode.'/'.$file.' not found for the map: '.$value['map']."\n";
 }
 ksort($bots_meta);

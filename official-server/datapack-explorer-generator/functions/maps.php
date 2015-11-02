@@ -29,7 +29,7 @@ function textToProperty($text)
     foreach($propertyListText[0] as $entry)
     {
         $name=preg_replace('#^.* name="([^"]+)".*$#isU','$1',$entry);
-        $value=preg_replace('#^.* value="([^"]+)".*$#isU','$2',$entry);
+        $value=preg_replace('#^.* value="([^"]+)".*$#isU','$1',$entry);
         $propertyList[$name]=$value;
     }
     return $propertyList;

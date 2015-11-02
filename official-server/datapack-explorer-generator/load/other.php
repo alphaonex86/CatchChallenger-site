@@ -2,55 +2,71 @@
 if(!isset($datapackexplorergeneratorinclude))
 	die('abort into load other'."\n");
 
+$zone_meta=array();
+$zone_name_to_code=array();
 $dir = $datapack_path.'map/main/';
 $dh  = opendir($dir);
 while (false !== ($maindatapackcode = readdir($dh)))
 {
-    if(is_dir($datapack_path.'map/main/'.$maindatapackcode) && preg_match('#^[a-z0-9]+$#isU',$maindatapackcode))
+    if($maindatapackcode!='.' && $maindatapackcode!='..')
     {
-        $xmlZoneList=getXmlList($datapack_path.'map/main/'.$maindatapackcode.'/zone/');
-        $zone_meta=array();
-        if(!isset($zone_meta[$maindatapackcode]))
-            $zone_meta[$maindatapackcode]=array();
-        $zone_name_to_code=array();
-        if(!isset($zone_name_to_code[$maindatapackcode]))
-            $zone_name_to_code[$maindatapackcode]=array();
-        foreach($xmlZoneList as $file)
+        if(is_dir($datapack_path.'map/main/'.$maindatapackcode) && preg_match('#^[a-z0-9]+$#isU',$maindatapackcode))
         {
-            $content=file_get_contents($datapack_path.'map/main/'.$maindatapackcode.'/zone/'.$file);
-            if(!preg_match('#^([^"\\.]+).xml$#isU',$file))
-                continue;
-            $code=preg_replace('#^([^"\\.]+).xml$#isU','$1',$file);
-            if(!preg_match('#<name( lang="en")?>([^<]+)</name>#isU',$content))
-                continue;
-            $name=preg_replace('#^.*<name( lang="en")?>([^<]+)</name>.*$#isU','$2',$content);
-            $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
-            $name=preg_replace("#[\n\t\r]+#is",'',$name);
-            $name_in_other_lang=array('en'=>$name);
-            foreach($lang_to_load as $lang)
+            $xmlZoneList=getXmlList($datapack_path.'map/main/'.$maindatapackcode.'/zone/');
+            if(!isset($zone_meta[$maindatapackcode]))
+                $zone_meta[$maindatapackcode]=array();
+
+            if(!isset($zone_name_to_code[$maindatapackcode]))
+                $zone_name_to_code[$maindatapackcode]=array();
+            foreach($xmlZoneList as $file)
             {
-                if($lang=='en')
+                $content=file_get_contents($datapack_path.'map/main/'.$maindatapackcode.'/zone/'.$file);
+                if(!preg_match('#^([^"\\.]+).xml$#isU',$file))
+                {
+                    echo 'Into '.$datapack_path.'map/main/ the entry: '.$maindatapackcode.' file: '.$file.' the file name is wrong'."\n";
                     continue;
-                if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$content))
-                {
-                    $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$content);
-                    $temp_name=str_replace('<![CDATA[','',str_replace(']]>','',$temp_name));
-                    $temp_name=preg_replace("#[\n\r\t]+#is",'',$temp_name);
-                    $name_in_other_lang[$lang]=$temp_name;
                 }
-                else
+                $code=preg_replace('#^([^"\\.]+).xml$#isU','$1',$file);
+                if(!preg_match('#<name( lang="en")?>([^<]+)</name>#isU',$content))
                 {
-                    $name_in_other_lang[$lang]=$name;
-                    $temp_name=$name;
+                    echo 'Into '.$datapack_path.'map/main/ the entry: '.$maindatapackcode.' file: '.$file.' the zone name is wrong'."\n";
+                    continue;
                 }
-                $zone_name_to_code[$maindatapackcode][$lang][$temp_name]=$code;
+                $name=preg_replace('#^.*<name( lang="en")?>([^<]+)</name>.*$#isU','$2',$content);
+                $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
+                $name=preg_replace("#[\n\t\r]+#is",'',$name);
+                $name_in_other_lang=array('en'=>$name);
+                $zone_name_to_code[$maindatapackcode]['en'][$name]=$code;
+                foreach($lang_to_load as $lang)
+                {
+                    if(!isset($name_in_other_lang[$lang]))
+                    {
+                        if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$content))
+                        {
+                            $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$content);
+                            $temp_name=str_replace('<![CDATA[','',str_replace(']]>','',$temp_name));
+                            $temp_name=preg_replace("#[\n\r\t]+#is",'',$temp_name);
+                            $name_in_other_lang[$lang]=$temp_name;
+                        }
+                        else
+                        {
+                            $name_in_other_lang[$lang]=$name;
+                            $temp_name=$name;
+                        }
+                        $zone_name_to_code[$maindatapackcode][$lang][$temp_name]=$code;
+                    }
+                }
+                $zone_meta[$maindatapackcode][$code]=array('name'=>$name_in_other_lang);
+                $zone_name_to_code[$maindatapackcode]['en'][$name]=$code;
             }
-            $zone_meta[$maindatapackcode][$code]=array('name'=>$name_in_other_lang);
-            $zone_name_to_code[$maindatapackcode]['en'][$name]=$code;
+            ksort($zone_meta[$maindatapackcode]);
         }
-        ksort($zone_meta);
+        else
+            echo 'Into '.$datapack_path.'map/main/ the entry: '.$maindatapackcode.' is not correct!'."\n";
     }
 }
+closedir($dh);
+ksort($zone_meta);
 
 $fight_meta=array();
 $xmlFightList=getXmlList($datapack_path.'fight/');

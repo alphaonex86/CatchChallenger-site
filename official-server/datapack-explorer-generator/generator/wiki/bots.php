@@ -3,18 +3,19 @@ if(!isset($datapackexplorergeneratorinclude))
 	die('abort into generator bots'."\n");
 
 $bots_by_zone=array(''=>array());
-foreach($bots_meta as $bot_id=>$bot)
+foreach($bots_meta as $maindatapackcode=>$bot_list)
+foreach($bot_list as $bot_id=>$bot)
 {
     $have_skin=true;
-    if(isset($bot_id_to_skin[$bot_id]))
+    if(isset($bot_id_to_skin[$bot_id][$maindatapackcode]))
     {
-        if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png'))
+        if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.png'))
             $have_skin=true;
-        elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.png'))
+        elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.png'))
             $have_skin=true;
-        elseif(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.gif'))
+        elseif(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.gif'))
             $have_skin=true;
-        elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.gif'))
+        elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.gif'))
             $have_skin=true;
         else
             $have_skin=false;
@@ -25,33 +26,34 @@ foreach($bots_meta as $bot_id=>$bot)
     {
         if(isset($bot_id_to_map[$bot_id]))
         {
-        if(isset($maps_list[$bot_id_to_map[$bot_id]]))
-        {
-            if(isset($zone_meta[$maps_list[$bot_id_to_map[$bot_id]]['zone']]))
+            $bottemp=$bot_id_to_map[$bot_id];
+            if(isset($maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]))
             {
-                if(!isset($bots_by_zone[$zone_meta[$maps_list[$bot_id_to_map[$bot_id]]['zone']]['name'][$current_lang]]))
-                    $bots_by_zone[$zone_meta[$maps_list[$bot_id_to_map[$bot_id]]['zone']]['name'][$current_lang]]=array();
-                $bots_by_zone[$zone_meta[$maps_list[$bot_id_to_map[$bot_id]]['zone']]['name'][$current_lang]][]=$bot_id;
+                if(isset($zone_meta[$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['zone']]))
+                {
+                    if(!isset($bots_by_zone[$maindatapackcode][$zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['zone']]['name'][$current_lang]]))
+                        $bots_by_zone[$maindatapackcode][$zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['zone']]['name'][$current_lang]]=array();
+                    $bots_by_zone[$maindatapackcode][$zone_meta[$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['zone']]['name'][$current_lang]][]=$bot_id;
+                }
+                else
+                {
+                    if(!isset($bots_by_zone[$maindatapackcode][$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['name'][$current_lang]]))
+                        $bots_by_zone[$maindatapackcode][$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['name'][$current_lang]]=array();
+                    $bots_by_zone[$maindatapackcode][$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['name'][$current_lang]][]=$bot_id;
+                }
             }
             else
-            {
-                if(!isset($bots_by_zone[$maps_list[$bot_id_to_map[$bot_id]]['name'][$current_lang]]))
-                    $bots_by_zone[$maps_list[$bot_id_to_map[$bot_id]]['name'][$current_lang]]=array();
-                $bots_by_zone[$maps_list[$bot_id_to_map[$bot_id]]['name'][$current_lang]][]=$bot_id;
-            }
+                $bots_by_zone[$maindatapackcode][''][]=$bot_id;
         }
         else
-            $bots_by_zone[''][]=$bot_id;
-        }
-        else
-        $bots_by_zone[''][]=$bot_id;
+        $bots_by_zone[$maindatapackcode][''][]=$bot_id;
     }
 	$map_descriptor='';
 
 	$map_descriptor.='<div class="map item_details">'."\n";
         if($bot['name'][$current_lang]=='')
             $final_url_name='bot-'.$bot_id;
-        else if($bots_name_count[$current_lang][$bot['name'][$current_lang]]==1)
+        else if($bots_name_count[$maindatapackcode][$current_lang][$bot['name'][$current_lang]]==1)
             $final_url_name=$bot['name'][$current_lang];
         else
             $final_url_name=$bot_id.'-'.$bot['name'][$current_lang];
@@ -62,58 +64,59 @@ foreach($bots_meta as $bot_id=>$bot)
 			$map_descriptor.='<div class="subblock"><h1>'.$bot['name'][$current_lang].'</h1>'."\n";
 			$map_descriptor.='<h2>Bot #'.$bot_id.'</h2>'."\n";
 		}
-		if(isset($bot_id_to_skin[$bot_id]))
+		if(isset($bot_id_to_skin[$bot_id][$maindatapackcode]))
 		{
-			if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png'))
-				$map_descriptor.='<center><h2><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;" title="Skin: '.$bot_id_to_skin[$bot_id].'"></div></h2></center>'."\n";
-			elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.png'))
-				$map_descriptor.='<center><h2><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;" title="Skin: '.$bot_id_to_skin[$bot_id].'"></div></h2></center>'."\n";
-			elseif(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.gif'))
-				$map_descriptor.='<center><h2><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;" title="Skin: '.$bot_id_to_skin[$bot_id].'"></div></h2></center>'."\n";
-			elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.gif'))
-				$map_descriptor.='<center><h2><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;" title="Skin: '.$bot_id_to_skin[$bot_id].'"></div></h2></center>'."\n";
+			if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.png'))
+				$map_descriptor.='<center><h2><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;" title="Skin: '.$bot_id_to_skin[$bot_id][$maindatapackcode].'"></div></h2></center>'."\n";
+			elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.png'))
+				$map_descriptor.='<center><h2><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;" title="Skin: '.$bot_id_to_skin[$bot_id][$maindatapackcode].'"></div></h2></center>'."\n";
+			elseif(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.gif'))
+				$map_descriptor.='<center><h2><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;" title="Skin: '.$bot_id_to_skin[$bot_id][$maindatapackcode].'"></div></h2></center>'."\n";
+			elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.gif'))
+				$map_descriptor.='<center><h2><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;" title="Skin: '.$bot_id_to_skin[$bot_id][$maindatapackcode].'"></div></h2></center>'."\n";
 		}
 		$map_descriptor.='</div>'."\n";
-		if(isset($bot_id_to_skin[$bot_id]))
+		if(isset($bot_id_to_skin[$bot_id][$maindatapackcode]))
 		{
-			if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/front.png'))
+			if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/front.png'))
 			{
 				$map_descriptor.='<div class="value datapackscreenshot"><center>'."\n";
-				$map_descriptor.='<img src="'.$base_datapack_site_http.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/front.png" width="80" height="80" alt="" />'."\n";
+				$map_descriptor.='<img src="'.$base_datapack_site_http.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/front.png" width="80" height="80" alt="" />'."\n";
 				$map_descriptor.='</center></div>'."\n";
 			}
-			else if(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/front.png'))
+			else if(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/front.png'))
 			{
 				$map_descriptor.='<div class="value datapackscreenshot"><center>'."\n";
-				$map_descriptor.='<img src="'.$base_datapack_site_http.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/front.png" width="80" height="80" alt="" />'."\n";
+				$map_descriptor.='<img src="'.$base_datapack_site_http.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/front.png" width="80" height="80" alt="" />'."\n";
 				$map_descriptor.='</center></div>'."\n";
 			}
-			elseif(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/front.gif'))
+			elseif(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/front.gif'))
 			{
 				$map_descriptor.='<div class="value datapackscreenshot"><center>'."\n";
-				$map_descriptor.='<img src="'.$base_datapack_site_http.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/front.gif" width="80" height="80" alt="" />'."\n";
+				$map_descriptor.='<img src="'.$base_datapack_site_http.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/front.gif" width="80" height="80" alt="" />'."\n";
 				$map_descriptor.='</center></div>'."\n";
 			}
-			else if(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/front.gif'))
+			else if(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/front.gif'))
 			{
 				$map_descriptor.='<div class="value datapackscreenshot"><center>'."\n";
-				$map_descriptor.='<img src="'.$base_datapack_site_http.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/front.gif" width="80" height="80" alt="" />'."\n";
+				$map_descriptor.='<img src="'.$base_datapack_site_http.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/front.gif" width="80" height="80" alt="" />'."\n";
 				$map_descriptor.='</center></div>'."\n";
 			}
 		}
 		if(isset($bot_id_to_map[$bot_id]))
 		{
-			if(isset($maps_list[$bot_id_to_map[$bot_id]]))
+            $bottemp=$bot_id_to_map[$bot_id];
+			if(isset($maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]))
 			{
 				$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Map'].'</div><div class="value">'."\n";
-				if(isset($zone_meta[$maps_list[$bot_id_to_map[$bot_id]]['zone']]))
+				if(isset($zone_meta[$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['zone']]))
 				{
-					$map_descriptor.='[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($bot_id_to_map[$bot_id]).'|'.$maps_list[$bot_id_to_map[$bot_id]]['name'][$current_lang].']]'."\n";
-					$zone_name=$zone_meta[$maps_list[$bot_id_to_map[$bot_id]]['zone']]['name'][$current_lang];
+					$map_descriptor.='[['.$translation_list[$current_lang]['Maps:'].$maindatapackcode.'-'.map_to_wiki_name($maindatapackcode,$bottemp[$maindatapackcode]['map']).'|'.$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['name'][$current_lang].']]'."\n";
+					$zone_name=$zone_meta[$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['zone']]['name'][$current_lang];
 					$map_descriptor.='(Zone: [['.$translation_list[$current_lang]['Zones:'].$zone_name.'|'.$zone_name.']])'."\n";
 				}
 				else
-					$map_descriptor.='[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($bot_id_to_map[$bot_id]).'|'.$maps_list[$bot_id_to_map[$bot_id]]['name'][$current_lang].']]'."\n";
+					$map_descriptor.='[['.$translation_list[$current_lang]['Maps:'].$maindatapackcode.'-'.map_to_wiki_name($maindatapackcode,$bottemp[$maindatapackcode]['map']).'|'.$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['name'][$current_lang].']]'."\n";
 				$map_descriptor.='</div></div>'."\n";
 			}
 		}
@@ -347,8 +350,8 @@ foreach($bots_meta as $bot_id=>$bot)
 				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">'.$translation_list[$current_lang]['Zone capture'].'</div>
 				<div class="value">
 					Zone: '."\n";
-				if(isset($zone_meta[$step['zone']]))
-					$map_descriptor.=$zone_meta[$step['zone']]['name'][$current_lang];
+				if(isset($zone_meta[$maindatapackcode][$step['zone']]))
+					$map_descriptor.=$zone_meta[$maindatapackcode][$step['zone']]['name'][$current_lang];
 				else
 					$map_descriptor.='Unknown zone'."\n";
 				$map_descriptor.='<center><div style="background-position:-256px -128px;float:none;" class="flags flags128"></div></center>
@@ -472,7 +475,7 @@ foreach($bots_meta as $bot_id=>$bot)
             {
                 $current_lang=$wikivars2['lang'];
                 $link=bot_to_wiki_name($bot_id);
-                $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Bots:'].$link.']]'."\n";
+                $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Bots:'].$maindatapackcode.'-'.$link.']]'."\n";
             }
         savewikipage('Template:bot'.$bot_id.'_LANG',$lang_template,false);$lang_template='';
         $current_lang=$temp_current_lang;
@@ -481,7 +484,7 @@ foreach($bots_meta as $bot_id=>$bot)
 
     $link=bot_to_wiki_name($bot_id);
     $map_descriptor.='{{Template:bot'.$bot_id.'}}'."\n";
-    savewikipage($translation_list[$current_lang]['Bots:'].$link,$map_descriptor,!$wikivars['generatefullpage']);
+    savewikipage($translation_list[$current_lang]['Bots:'].$maindatapackcode.'-'.$link,$map_descriptor,!$wikivars['generatefullpage']);
 }
 
 
@@ -489,7 +492,8 @@ foreach($bots_meta as $bot_id=>$bot)
 $map_descriptor='';
 
 $map_descriptor.='<!-- highest bot id: '.$highest_bot_id.' -->'."\n";
-foreach($bots_by_zone as $zone=>$bot_id_list)
+foreach($bots_by_zone as $maindatapackcode=>$bot_zone_list)
+foreach($bot_zone_list as $zone=>$bot_id_list)
 {
     if(count($bot_id_list))
     {
@@ -503,7 +507,7 @@ foreach($bots_by_zone as $zone=>$bot_id_list)
             else
             {
                 if(isset($maps_name_to_map[$zone]))
-                    $map_descriptor.='[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($maps_name_to_map[$zone]).'|'.$maps_list[$maps_name_to_map[$zone]]['name'][$current_lang].']]'."\n";
+                    $map_descriptor.='[['.$translation_list[$current_lang]['Maps:'].$maindatapackcode.'-'.map_to_wiki_name($maps_name_to_map[$zone]).'|'.$maps_list[$maps_name_to_map[$zone]]['name'][$current_lang].']]'."\n";
                 else
                     $map_descriptor.=$zone;
             }
@@ -515,13 +519,14 @@ foreach($bots_by_zone as $zone=>$bot_id_list)
         $name_count_for_zone=array();
         foreach($bot_id_list as $bot_id)
         {
-            $bot=$bots_meta[$bot_id];
+            $bot=$bots_meta[$maindatapackcode][$bot_id];
             if($bot['name'][$current_lang]!='')
             {
                 if(isset($bot_id_to_map[$bot_id]))
                 {
-                    if(isset($maps_list[$bot_id_to_map[$bot_id]]))
-                        $final_name=$name_count_for_zone[$bot['name'][$current_lang]][$maps_list[$bot_id_to_map[$bot_id]]['name'][$current_lang]]=true;
+                    $bottemp=$bot_id_to_map[$bot_id];
+                    if(isset($maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]))
+                        $final_name=$name_count_for_zone[$bot['name'][$current_lang]][$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['name'][$current_lang]]=true;
                     else
                         $final_name=$name_count_for_zone[$bot['name'][$current_lang]]['']=true;
                 }
@@ -531,7 +536,7 @@ foreach($bots_by_zone as $zone=>$bot_id_list)
         }
         foreach($bot_id_list as $bot_id)
         {
-            $bot=$bots_meta[$bot_id];
+            $bot=$bots_meta[$maindatapackcode][$bot_id];
             if($bot['name'][$current_lang]=='')
                 $final_name='Bot #'.$bot_id;
             elseif(count($name_count_for_zone[$bot['name'][$current_lang]])==1)
@@ -540,8 +545,9 @@ foreach($bots_by_zone as $zone=>$bot_id_list)
             {
                 if(isset($bot_id_to_map[$bot_id]))
                 {
-                    if(isset($maps_list[$bot_id_to_map[$bot_id]]))
-                        $final_name=$bot['name'][$current_lang].' ('.$maps_list[$bot_id_to_map[$bot_id]]['name'][$current_lang].')'."\n";
+                    $bottemp=$bot_id_to_map[$bot_id];
+                    if(isset($maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]))
+                        $final_name=$bot['name'][$current_lang].' ('.$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['name'][$current_lang].')'."\n";
                     else
                         $final_name=$bot['name'][$current_lang];
                 }
@@ -550,22 +556,22 @@ foreach($bots_by_zone as $zone=>$bot_id_list)
             }
             if($bot['name'][$current_lang]=='')
                 $final_url_name='bot-'.$bot_id;
-            else if($bots_name_count[$current_lang][$bot['name'][$current_lang]]==1)
+            else if($bots_name_count[$maindatapackcode][$current_lang][$bot['name'][$current_lang]]==1)
                 $final_url_name=$bot['name'][$current_lang];
             else
                 $final_url_name=$bot_id.'-'.$bot['name'][$current_lang];
             $map_descriptor.='<tr class="value">'."\n";
                 $skin_found=true;
-                if(isset($bot_id_to_skin[$bot_id]))
+                if(isset($bot_id_to_skin[$bot_id][$maindatapackcode]))
                 {
-                    if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png'))
-                        $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
-                    elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.png'))
-                        $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
-                    elseif(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.gif'))
-                        $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
-                    elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.gif'))
-                        $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
+                    if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.png'))
+                        $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
+                    elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.png'))
+                        $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
+                    elseif(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.gif'))
+                        $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
+                    elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.gif'))
+                        $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_http.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
                     else
                         $skin_found=false;
                 }
@@ -577,9 +583,9 @@ foreach($bots_by_zone as $zone=>$bot_id_list)
     
             $link=bot_to_wiki_name($bot_id);
             if($bot['name'][$current_lang]=='')
-                $map_descriptor.='>[['.$translation_list[$current_lang]['Bots:'].$link.'|Bot #'.$bot_id.']]</td>'."\n";
+                $map_descriptor.='>[['.$translation_list[$current_lang]['Bots:'].$maindatapackcode.'-'.$link.'|Bot #'.$bot_id.']]</td>'."\n";
             else
-                $map_descriptor.='>[['.$translation_list[$current_lang]['Bots:'].$link.'|'.$bot['name'][$current_lang].']]</td>'."\n";
+                $map_descriptor.='>[['.$translation_list[$current_lang]['Bots:'].$maindatapackcode.'-'.$link.'|'.$bot['name'][$current_lang].']]</td>'."\n";
 
             $map_descriptor.='</tr>'."\n";
         }

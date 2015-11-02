@@ -72,6 +72,11 @@ while (false !== ($maindatapackcode = readdir($dh)))
                         if(!isset($borders[$border_orientation]))
                         {
                             $border_map=$propertyList['map'];
+                            if($border_map=='')
+                            {
+                                echo '$border_map can\'t be empty for '.$datapack_path.'map/main/'.$maindatapackcode.'/'.$map."\n";
+                                exit;
+                            }
                             $border_map=$map_folder.$border_map;
                             if(!preg_match('#\\.tmx$#',$border_map))
                                 $border_map.='.tmx';
@@ -94,6 +99,11 @@ while (false !== ($maindatapackcode = readdir($dh)))
                 if(isset($propertyList['map']))
                 {
                     $border_map=$propertyList['map'];
+                    if($border_map=='')
+                    {
+                        echo '$border_map can\'t be empty for '.$datapack_path.'map/main/'.$maindatapackcode.'/'.$map."\n";
+                        exit;
+                    }
                     $border_map=$map_folder.$border_map;
                     if(!preg_match('#\\.tmx$#',$border_map))
                         $border_map.='.tmx';
@@ -135,9 +145,7 @@ while (false !== ($maindatapackcode = readdir($dh)))
                     if(isset($propertyList['id']) && isset($propertyList['file']) && preg_match('#^[0-9]+$#isU',$propertyList['id']))
                     {
                         $bot_id=$propertyList['id'];
-                        if(isset($bot_id_to_map[$maindatapackcode]))
-                            $bot_id_to_map[$maindatapackcode]=array();
-                        $bot_id_to_map[$maindatapackcode][$bot_id]=$map;
+                        $bot_id_to_map[$bot_id][$maindatapackcode]=array('map'=>$map);
                         $bot_file=$propertyList['file'];
                         $bot_file=$map_folder.$bot_file;
                         if(!preg_match('#\\.xml$#',$bot_file))
@@ -149,18 +157,18 @@ while (false !== ($maindatapackcode = readdir($dh)))
                             $bot_file=preg_replace('#^[^/]+/\\.\\./#isU','',$bot_file);
                             $bot_file=preg_replace("#[\n\r\t]+#is",'',$bot_file);
                         } while($old_bot_file!=$bot_file);
-                        if(!isset($bots[$maindatapackcode]))
-                            $bots[$maindatapackcode]=array();
+                        if(!isset($bots))
+                            $bots=array();
                         if(isset($propertyList['lookAt']) && preg_match('#^(bottom|top|left|right)$#isU',$propertyList['lookAt']) && isset($propertyList['skin']))
                         {
                             $lookAt=$propertyList['lookAt'];
                             $skin=$propertyList['skin'];
-                            $bots[$maindatapackcode][]=array('file'=>$bot_file,'id'=>$bot_id,'lookAt'=>$lookAt,'skin'=>$skin);
-                            $bot_id_to_skin[$bot_id]=$skin;
+                            $bots[]=array('file'=>$bot_file,'id'=>$bot_id,'lookAt'=>$lookAt,'skin'=>$skin);
+                            $bot_id_to_skin[$bot_id][$maindatapackcode]=$skin;
                         }
                         else
-                            $bots[$maindatapackcode][]=array('file'=>$bot_file,'id'=>$bot_id);
-                        $bots_file[$bot_file]=array('map'=>$map,'maindatapackcode'=>$maindatapackcode);
+                            $bots[]=array('file'=>$bot_file,'id'=>$bot_id);
+                        $bots_file[$bot_file][$maindatapackcode]=array('map'=>$map);
                     }
                 }
             }

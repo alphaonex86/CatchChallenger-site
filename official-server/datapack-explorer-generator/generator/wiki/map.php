@@ -484,7 +484,7 @@ foreach($map_list as $map)
                                 <th colspan="2">'.$translation_list[$current_lang]['Item'].'</th>
                                 <th>'.$translation_list[$current_lang]['Price'].'</th>
                             </tr>'."\n";
-                            foreach($shop_meta[$step['shop']]['products'] as $item=>$price)
+                            foreach($shop_meta[$maindatapackcode][$step['shop']]['products'] as $item=>$price)
                             {
                                 if(isset($item_meta[$item]))
                                 {
@@ -537,7 +537,7 @@ foreach($map_list as $map)
                         }
                         else if($step['type']=='fight')
                         {
-                            if(isset($fight_meta[$step['fightid']]))
+                            if(isset($fight_meta[$maindatapackcode][$step['fightid']]))
                             {
                                 $map_descriptor.='<td><center>'.$translation_list[$current_lang]['Fight'].'<div style="background-position:-16px -16px;" class="flags flags16"></div></center></td>'."\n".'<td>'."\n";
                                 if($step['leader'])
@@ -555,16 +555,16 @@ foreach($map_list as $map)
                                             $map_descriptor.='<center><img src="'.$base_datapack_site_http.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/front.gif" width="80" height="80" alt="" /></center>'."\n";
                                     }
                                 }
-                                if($fight_meta[$step['fightid']]['cash']>0)
-                                    $map_descriptor.=$translation_list[$current_lang]['Rewards'].': <b>'.$fight_meta[$step['fightid']]['cash'].'$</b><br />'."\n";
+                                if($fight_meta[$maindatapackcode][$step['fightid']]['cash']>0)
+                                    $map_descriptor.=$translation_list[$current_lang]['Rewards'].': <b>'.$fight_meta[$maindatapackcode][$step['fightid']]['cash'].'$</b><br />'."\n";
 
-                                if(count($fight_meta[$step['fightid']]['items'])>0)
+                                if(count($fight_meta[$maindatapackcode][$step['fightid']]['items'])>0)
                                 {
                                     $map_descriptor.='<center><table class="item_list item_list_type_'.$map_current_object['type'].'">
                                     <tr class="item_list_title item_list_title_type_'.$map_current_object['type'].'">
                                         <th colspan="2">'.$translation_list[$current_lang]['Item'].'</th>
                                     </tr>'."\n";
-                                    foreach($fight_meta[$step['fightid']]['items'] as $item)
+                                    foreach($fight_meta[$maindatapackcode][$step['fightid']]['items'] as $item)
                                     {
                                         if(isset($item_meta[$item['item']]))
                                         {
@@ -613,7 +613,7 @@ foreach($map_list as $map)
                                     </table></center>'."\n";
                                 }
 
-                                foreach($fight_meta[$step['fightid']]['monsters'] as $monster)
+                                foreach($fight_meta[$maindatapackcode][$step['fightid']]['monsters'] as $monster)
                                     $map_descriptor.=monsterAndLevelToDisplay($monster,$step['leader'],true);
                                 $map_descriptor.='<br style="clear:both;" />'."\n";
 

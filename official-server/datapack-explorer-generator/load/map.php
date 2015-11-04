@@ -377,7 +377,9 @@ while (false !== ($maindatapackcode = readdir($dh)))
                                         $monster_to_map[$id]=array();
                                     if(!isset($monster_to_map[$id][$toSearch]))
                                         $monster_to_map[$id][$toSearch]=array();
-                                    $monster_to_map[$id][$toSearch][]=array('map'=>$map,'maindatapackcode'=>$maindatapackcode,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
+                                    if(!isset($monster_to_map[$id][$toSearch][$maindatapackcode]))
+                                        $monster_to_map[$id][$toSearch][$maindatapackcode]=array();
+                                    $monster_to_map[$id][$toSearch][$maindatapackcode][]=array('map'=>$map,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
                                     if(!in_array($id,$monsters_list))
                                         $monsters_list[]=$id;
                                     $dropcount+=count($monster_meta[$id]['drops']);

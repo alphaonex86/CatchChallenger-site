@@ -148,7 +148,7 @@ foreach($bot_list as $bot_id=>$bot)
 					<th colspan="2">Item</th>
 					<th>Price</th>
 				</tr>';
-				foreach($shop_meta[$step['shop']]['products'] as $item=>$price)
+				foreach($shop_meta[$maindatapackcode][$step['shop']]['products'] as $item=>$price)
 				{
 					if(isset($item_meta[$item]))
 					{
@@ -202,21 +202,21 @@ foreach($bot_list as $bot_id=>$bot)
 			}
 			else if($step['type']=='fight')
 			{
-				if(isset($fight_meta[$step['fightid']]))
+				if(isset($fight_meta[$maindatapackcode][$step['fightid']]))
 				{
 					$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">'.$translation_list[$current_lang]['Fight'].'</div>
 					<center><div style="background-position:-16px -16px;" class="flags flags16"></div></center>
 					<div class="value">';
-					if($fight_meta[$step['fightid']]['cash']>0)
-						$map_descriptor.=$translation_list[$current_lang]['Rewards'].': <b>'.$fight_meta[$step['fightid']]['cash'].'$</b><br />';
+					if($fight_meta[$maindatapackcode][$step['fightid']]['cash']>0)
+						$map_descriptor.=$translation_list[$current_lang]['Rewards'].': <b>'.$fight_meta[$maindatapackcode][$step['fightid']]['cash'].'$</b><br />';
 
-                    if(count($fight_meta[$step['fightid']]['items'])>0)
+                    if(count($fight_meta[$maindatapackcode][$step['fightid']]['items'])>0)
                     {
                         $map_descriptor.='<center><table class="item_list item_list_type_normal">
                         <tr class="item_list_title item_list_title_type_normal">
                             <th colspan="2">'.$translation_list[$current_lang]['Item'].'</th>
                         </tr>';
-                        foreach($fight_meta[$step['fightid']]['items'] as $item)
+                        foreach($fight_meta[$maindatapackcode][$step['fightid']]['items'] as $item)
                         {
                             if(isset($item_meta[$item['item']]))
                             {
@@ -265,7 +265,7 @@ foreach($bot_list as $bot_id=>$bot)
                         </table></center>';
                     }
 
-					foreach($fight_meta[$step['fightid']]['monsters'] as $monster)
+					foreach($fight_meta[$maindatapackcode][$step['fightid']]['monsters'] as $monster)
 					{
 						if(isset($monster_meta[$monster['monster']]))
 						{

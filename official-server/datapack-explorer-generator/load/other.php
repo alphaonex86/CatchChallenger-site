@@ -96,11 +96,11 @@ foreach($xmlFightList as $file)
 		$start=str_replace('<![CDATA[','',$start);
 		$win=str_replace('<![CDATA[','',$win);
 		$monsters=array();
-		preg_match_all('#<monster id="([0-9]+)" level="([0-9]+)" />#isU',$entry,$monster_text_list);
+		preg_match_all('#<monster .* />#isU',$entry,$monster_text_list);
 		foreach($monster_text_list[0] as $monster_text)
 		{
-			$monster=preg_replace('#^.*<monster id="([0-9]+)" level="([0-9]+)" />.*$#isU','$1',$monster_text);
-			$level=preg_replace('#^.*<monster id="([0-9]+)" level="([0-9]+)" />.*$#isU','$2',$monster_text);
+			$monster=preg_replace('#^.* id="([0-9]+)".*$#isU','$1',$monster_text);
+			$level=preg_replace('#^.* level="([0-9]+)".*$#isU','$1',$monster_text);
 			$monsters[]=array('monster'=>$monster,'level'=>$level);
 		}
 		$fight_meta[$id]=array('start'=>$start,'win'=>$win,'cash'=>$cash,'monsters'=>$monsters);
@@ -109,15 +109,17 @@ foreach($xmlFightList as $file)
 ksort($fight_meta);
 
 $start_meta=array();
+
 if(file_exists($datapack_path.'player/start.xml'))
 {
-	$content=file_get_contents($datapack_path.'player/start.xml');
-	preg_match_all('#<start>.*</start>#isU',$content,$entry_list);
-	foreach($entry_list[0] as $entry)
-	{
-		if(!preg_match('#<name( lang="en")?>.*</name>#isU',$entry))
-			continue;
-		$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
+    $content=file_get_contents($datapack_path.'player/start.xml');
+    preg_match_all('#<start id="([^"]+)">.*</start>#isU',$content,$entry_list);
+    foreach($entry_list[0] as $entry_list_index=>$entry)
+    {
+        $profile_id=$entry_list[1][$entry_list_index];
+        if(!preg_match('#<name( lang="en")?>.*</name>#isU',$entry))
+            continue;
+        $name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$entry);
         $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
         $name_in_other_lang=array('en'=>$name);
         foreach($lang_to_load as $lang)
@@ -134,9 +136,9 @@ if(file_exists($datapack_path.'player/start.xml'))
             else
                 $name_in_other_lang[$lang]=$name;
         }
-		if(!preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
-			continue;
-		$description=text_operation_first_letter_upper(preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry));
+        if(!preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
+            continue;
+        $description=text_operation_first_letter_upper(preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry));
         $description=str_replace('<![CDATA[','',str_replace(']]>','',$description));
         $description_in_other_lang=array('en'=>$description);
         foreach($lang_to_load as $lang)
@@ -153,89 +155,119 @@ if(file_exists($datapack_path.'player/start.xml'))
             else
                 $description_in_other_lang[$lang]=$description;
         }
-		if(!preg_match('#<map.*file="([^"]+)".*/>#isU',$entry))
-			continue;
-		if(!preg_match('#<map.*x="([0-9]+)".*/>#isU',$entry))
-			continue;
-		if(!preg_match('#<map.*y="([0-9]+)".*/>#isU',$entry))
-			continue;
-		$map=preg_replace('#^.*<map.*file="([^"]+)".*/>.*$#isU','$1',$entry);
-		$x=preg_replace('#^.*<map.*x="([0-9]+)".*/>.*$#isU','$1',$entry);
-		$y=preg_replace('#^.*<map.*y="([0-9]+)".*/>.*$#isU','$1',$entry);
-		$forcedskin=array();
-		if(preg_match('#<forcedskin.*value="([^"]+)".*/>#isU',$entry))
-			$forcedskin=explode(';',preg_replace('#^.*<forcedskin.*value="([^"]+)".*/>.*$#isU','$1',$entry));
-		$cash=0;
-		if(preg_match('#<cash.*value="([^"]+)".*/>#isU',$entry))
-			$cash=preg_replace('#^.*<cash.*value="([^"]+)".*/>.*$#isU','$1',$entry);
-		
-		preg_match_all('#<monster id="[0-9]+" level="[0-9]+" captured_with="[0-9]+" />#isU',$entry,$monster_list);
-		$monsters=array();
-		foreach($monster_list as $monster)
-		{
-			if(!preg_match('#<monster.*id="([0-9]+)".*/>#isU',$entry))
-				continue;
-			if(!preg_match('#<monster.*level="([0-9]+)".*/>#isU',$entry))
-				continue;
-			if(!preg_match('#<monster.*captured_with="([0-9]+)".*/>#isU',$entry))
-				continue;
-			$id=preg_replace('#^.*<monster.*id="([0-9]+)".*/>.*$#isU','$1',$entry);
-			$level=preg_replace('#^.*<monster.*level="([0-9]+)".*/>.*$#isU','$1',$entry);
-			$captured_with=preg_replace('#^.*<monster.*captured_with="([0-9]+)".*/>.*$#isU','$1',$entry);
-			$skill_added=0;
-			$attack_list=array();
-			if(isset($monster_meta[$id]['attack_list']))
-				foreach($monster_meta[$id]['attack_list'] as $learn_at_level=>$skill_list)
-				{
-					foreach($skill_list as $skill)
-					{
-						if($learn_at_level<=$level)
-						{
-							$attack_list[]=$skill;
-							$skill_added++;
-						}
-						if(count($attack_list)>=4)
-							break;
-					}
-					if(count($attack_list)>=4)
-						break;
-				}
-			$monsters[]=array('id'=>$id,'level'=>$level,'captured_with'=>$captured_with,'attack_list'=>$attack_list);
-		}
-		if(count($monsters)<=0)
-			continue;
+        $forcedskin=array();
+        if(preg_match('#<forcedskin.*value="([^"]+)".*/>#isU',$entry))
+            $forcedskin=explode(';',preg_replace('#^.*<forcedskin.*value="([^"]+)".*/>.*$#isU','$1',$entry));
+        $cash=0;
+        if(preg_match('#<cash.*value="([^"]+)".*/>#isU',$entry))
+            $cash=preg_replace('#^.*<cash.*value="([^"]+)".*/>.*$#isU','$1',$entry);
+        
+        preg_match_all('#<monster id="[0-9]+" level="[0-9]+" captured_with="[0-9]+" />#isU',$entry,$monster_list);
+        $monsters=array();
+        foreach($monster_list as $monster)
+        {
+            if(!preg_match('#<monster.*id="([0-9]+)".*/>#isU',$entry))
+                continue;
+            if(!preg_match('#<monster.*level="([0-9]+)".*/>#isU',$entry))
+                continue;
+            if(!preg_match('#<monster.*captured_with="([0-9]+)".*/>#isU',$entry))
+                continue;
+            $id=preg_replace('#^.*<monster.*id="([0-9]+)".*/>.*$#isU','$1',$entry);
+            $level=preg_replace('#^.*<monster.*level="([0-9]+)".*/>.*$#isU','$1',$entry);
+            $captured_with=preg_replace('#^.*<monster.*captured_with="([0-9]+)".*/>.*$#isU','$1',$entry);
+            $skill_added=0;
+            $attack_list=array();
+            if(isset($monster_meta[$id]['attack_list']))
+                foreach($monster_meta[$id]['attack_list'] as $learn_at_level=>$skill_list)
+                {
+                    foreach($skill_list as $skill)
+                    {
+                        if($learn_at_level<=$level)
+                        {
+                            $attack_list[]=$skill;
+                            $skill_added++;
+                        }
+                        if(count($attack_list)>=4)
+                            break;
+                    }
+                    if(count($attack_list)>=4)
+                        break;
+                }
+            $monsters[]=array('id'=>$id,'level'=>$level,'captured_with'=>$captured_with,'attack_list'=>$attack_list);
+        }
+        if(count($monsters)<=0)
+            continue;
 
-		preg_match_all('#<reputation type="[a-z]+" level="[0-9]+" />#isU',$entry,$reputation_list);
-		$reputations=array();
-		foreach($reputation_list as $reputation)
-		{
-			if(!preg_match('#<reputation.*type="([a-z]+)".*/>#isU',$entry))
-				continue;
-			if(!preg_match('#<reputation.*level="([0-9]+)".*/>#isU',$entry))
-				continue;
-			$type=preg_replace('#^.*<reputation.*type="([a-z]+)".*/>.*$#isU','$1',$entry);
-			$level=preg_replace('#^.*<reputation.*level="([0-9]+)".*/>.*$#isU','$1',$entry);
-			$reputations[]=array('type'=>$type,'level'=>$level);
-		}
+        preg_match_all('#<reputation type="[a-z]+" level="[0-9]+" />#isU',$entry,$reputation_list);
+        $reputations=array();
+        foreach($reputation_list as $reputation)
+        {
+            if(!preg_match('#<reputation.*type="([a-z]+)".*/>#isU',$entry))
+                continue;
+            if(!preg_match('#<reputation.*level="([0-9]+)".*/>#isU',$entry))
+                continue;
+            $type=preg_replace('#^.*<reputation.*type="([a-z]+)".*/>.*$#isU','$1',$entry);
+            $level=preg_replace('#^.*<reputation.*level="([0-9]+)".*/>.*$#isU','$1',$entry);
+            $reputations[]=array('type'=>$type,'level'=>$level);
+        }
 
-		preg_match_all('#<item id="[0-9]+" quantity="[0-9]+" />#isU',$entry,$item_list);
-		$items=array();
-		foreach($item_list as $item)
-		{
-			if(!preg_match('#<item.*id="([0-9]+)".*/>#isU',$entry))
-				continue;
-			if(!preg_match('#<item.*quantity="([0-9]+)".*/>#isU',$entry))
-				continue;
-			$id=preg_replace('#^.*<item.*id="([^"]+)".*/>.*$#isU','$1',$entry);
-			$quantity=preg_replace('#^.*<item.*quantity="([0-9]+)".*/>.*$#isU','$1',$entry);
-			$items[]=array('id'=>$id,'quantity'=>$quantity);
-		}
-		
-		if(!preg_match('#\.tmx$#',$map))
-			$map=$map.'.tmx';
-		$start_meta[]=array('description'=>$description_in_other_lang,'map'=>$map,'x'=>$x,'y'=>$y,'forcedskin'=>$forcedskin,'cash'=>$cash,'monsters'=>$monsters,'reputations'=>$reputations,'items'=>$items,'name'=>$name_in_other_lang);
-	}
+        preg_match_all('#<item id="[0-9]+" quantity="[0-9]+" />#isU',$entry,$item_list);
+        $items=array();
+        foreach($item_list as $item)
+        {
+            if(!preg_match('#<item.*id="([0-9]+)".*/>#isU',$entry))
+                continue;
+            if(!preg_match('#<item.*quantity="([0-9]+)".*/>#isU',$entry))
+                continue;
+            $id=preg_replace('#^.*<item.*id="([^"]+)".*/>.*$#isU','$1',$entry);
+            $quantity=preg_replace('#^.*<item.*quantity="([0-9]+)".*/>.*$#isU','$1',$entry);
+            $items[]=array('id'=>$id,'quantity'=>$quantity);
+        }
+        
+        $start_meta[$profile_id]=array('description'=>$description_in_other_lang,'forcedskin'=>$forcedskin,'cash'=>$cash,'monsters'=>$monsters,'reputations'=>$reputations,'items'=>$items,'name'=>$name_in_other_lang);
+    }
 }
+
+$dir = $datapack_path.'map/main/';
+$dh  = opendir($dir);
+while (false !== ($maindatapackcode = readdir($dh)))
+{
+    if($maindatapackcode!='.' && $maindatapackcode!='..')
+    {
+        if(is_dir($datapack_path.'map/main/'.$maindatapackcode) && preg_match('#^[a-z0-9]+$#isU',$maindatapackcode))
+        {
+            if(file_exists($datapack_path.'map/main/'.$maindatapackcode.'/start.xml'))
+            {
+                $content=file_get_contents($datapack_path.'map/main/'.$maindatapackcode.'/start.xml');
+                preg_match_all('#<start id="([^"]+)">.*</start>#isU',$content,$entry_list);
+                foreach($entry_list[0] as $entry_list_index=>$entry)
+                {
+                    $profile_id=$entry_list[1][$entry_list_index];
+                    $map_list=array();
+                    preg_match_all('#<map .*/>#isU',$entry,$map_entry_list);
+                    foreach($map_entry_list[0] as $map_entry)
+                    {
+                        if(!preg_match('#<map.*file="([^"]+)".*/>#isU',$entry))
+                            continue;
+                        if(!preg_match('#<map.*x="([0-9]+)".*/>#isU',$entry))
+                            continue;
+                        if(!preg_match('#<map.*y="([0-9]+)".*/>#isU',$entry))
+                            continue;
+                        $map=preg_replace('#^.*<map.*file="([^"]+)".*/>.*$#isU','$1',$entry);
+                        if(!preg_match('#\.tmx$#',$map))
+                            $map=$map.'.tmx';
+                        $x=preg_replace('#^.*<map.*x="([0-9]+)".*/>.*$#isU','$1',$entry);
+                        $y=preg_replace('#^.*<map.*y="([0-9]+)".*/>.*$#isU','$1',$entry);
+                        $map_list[]=array('map'=>$map,'x'=>$x,'y'=>$y);
+                    }
+
+                    $start_meta[$profile_id]['map_list'][$maindatapackcode]=$map_list;
+                }
+            }
+        }
+    }
+}
+closedir($dh);
 
 $quests_meta=array();
 $monster_to_quests=array();

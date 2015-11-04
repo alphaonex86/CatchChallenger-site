@@ -468,7 +468,8 @@ foreach($monster_meta as $id=>$monster)
 		</tr>';
 
 
-        foreach($monster_to_map[$id] as $monsterType=>$monster_list)
+        foreach($monster_to_map[$id] as $monsterType=>$monster_list_temp)
+        foreach($monster_list_temp as $maindatapackcode=>$monster_list)
         {
             $full_monsterType_name='Cave';
             if(isset($layer_event[$monsterType]))
@@ -536,11 +537,11 @@ foreach($monster_meta as $id=>$monster)
                 {
                     if(isset($zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$monster_on_map['map']]['zone']]))
                     {
-                        $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'">'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'</a></td>';
+                        $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'">'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'</a></td>';
                         $map_descriptor.='<td>'.$zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$monster_on_map['map']]['zone']]['name'][$current_lang].'</td>';
                     }
                     else
-                        $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'">'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'</a></td>';
+                        $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'">'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'</a></td>';
                 }
                 else
                     $map_descriptor.='<td colspan="2">'.$translation_list[$current_lang]['Unknown map'].'</td>';

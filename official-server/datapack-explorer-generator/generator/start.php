@@ -13,7 +13,7 @@ foreach($start_meta as $entry)
 	<b>'.htmlspecialchars($entry['description'][$current_lang]).'</b><br />';
 	$map_name='';
 	$zone_code='';
-	$map_meta='datapack/map/'.str_replace('.tmx','.xml',$entry['map']);
+/*	$map_meta='datapack/map/'.str_replace('.tmx','.xml',$entry['map']);
 	if(file_exists($map_meta))
 	{
 		$content=file_get_contents($map_meta);
@@ -32,7 +32,7 @@ foreach($start_meta as $entry)
 		}
 	}
 	if($map_name!='')
-		$map_descriptor.=$translation_list[$current_lang]['Map'].': <i>'.htmlspecialchars($map_name).'</i><br />';
+		$map_descriptor.=$translation_list[$current_lang]['Map'].': <i>'.htmlspecialchars($map_name).'</i><br />';*/
 	$skin_count=0;
 	if ($handle = opendir($datapack_path.'skin/fighter/')) {
 		while (false !== ($inode = readdir($handle)))

@@ -34,6 +34,14 @@ a:active {
     clear:both;
     display: block;
 }
+h1
+{
+    clear:both;
+}
+h2
+{
+    clear:both;
+}
 
 @media screen and (min-width: 700px)
 {

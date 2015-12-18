@@ -654,3 +654,8 @@
     height:128px;
     background-image:url('/official-server/images/flags-512.png');
 }
+.datapackinital
+{
+    font-weight:bold;
+    padding:2px 4px;
+}

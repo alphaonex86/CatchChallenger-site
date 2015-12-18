@@ -274,164 +274,180 @@ $monster_to_quests=array();
 $items_to_quests=array();
 $items_to_quests_for_step=array();
 $bot_start_to_quests=array();
-$xmlFightList=getDefinitionXmlList($datapack_path.'quests/');
-foreach($xmlFightList as $file)
+$dir = $datapack_path.'map/main/';
+$dh  = opendir($dir);
+while (false !== ($maindatapackcode = readdir($dh)))
 {
-    $file_temp=preg_replace('#^([0-9]+)([^0-9].*)?$#isU','$1',$file);
-	if(!preg_match('#^([0-9]+)$#is',$file_temp))
-		continue;
-	$id=preg_replace('#^([0-9]+)$#is','$1',$file_temp);
-	if(isset($quests_meta[$id]))
-	{
-		echo 'duplicate id '.$id.' for the quests'."\n";
-		continue;
-	}
-	$content=file_get_contents($datapack_path.'quests/'.$file);
-	$repeatable=false;
-	if(preg_match('#repeatable="(yes|true)"#isU',$content))
-		$repeatable=true;
-	if(!preg_match('#bot="([0-9]+)"#isU',$content))
-		continue;
-	$bot=preg_replace('#^.*bot="([0-9]+)".*$#isU','$1',$content);
-	if(!preg_match('#<name( lang="en")?>.*</name>#isU',$content))
-		continue;
-    $bot=preg_replace("#[\n\r\t]+#is",'',$bot);
-	$name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$content);
-    $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
-    $name=preg_replace("#[\n\r\t]+#is",'',$name);
-    $name_in_other_lang=array('en'=>$name);
-    foreach($lang_to_load as $lang)
+    if($maindatapackcode!='.' && $maindatapackcode!='..')
     {
-        if($lang=='en')
-            continue;
-        if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$entry))
+        if(is_dir($datapack_path.'map/main/'.$maindatapackcode) && preg_match('#^[a-z0-9]+$#isU',$maindatapackcode))
         {
-            $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$entry);
-            $temp_name=str_replace('<![CDATA[','',str_replace(']]>','',$temp_name));
-            $temp_name=preg_replace("#[\n\r\t]+#is",'',$temp_name);
-            $name_in_other_lang[$lang]=$temp_name;
+            $xmlFightList=getDefinitionXmlList($datapack_path.'map/main/'.$maindatapackcode.'/quests/');
+            foreach($xmlFightList as $file)
+            {
+                $file_temp=preg_replace('#^([0-9]+)([^0-9].*)?$#isU','$1',$file);
+                if(!preg_match('#^([0-9]+)$#is',$file_temp))
+                    continue;
+                $id=preg_replace('#^([0-9]+)$#is','$1',$file_temp);
+                if(isset($quests_meta[$maindatapackcode][$id]))
+                {
+                    echo 'duplicate id '.$id.' for the quests'."\n";
+                    continue;
+                }
+                $content=file_get_contents($datapack_path.'map/main/'.$maindatapackcode.'/quests/'.$file);
+                $repeatable=false;
+                if(preg_match('#repeatable="(yes|true)"#isU',$content))
+                    $repeatable=true;
+                if(!preg_match('#bot="([0-9]+)"#isU',$content))
+                    continue;
+                $bot=preg_replace('#^.*bot="([0-9]+)".*$#isU','$1',$content);
+                if(!preg_match('#<name( lang="en")?>.*</name>#isU',$content))
+                    continue;
+                $bot=preg_replace("#[\n\r\t]+#is",'',$bot);
+                $name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$content);
+                $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
+                $name=preg_replace("#[\n\r\t]+#is",'',$name);
+                $name_in_other_lang=array('en'=>$name);
+                foreach($lang_to_load as $lang)
+                {
+                    if($lang=='en')
+                        continue;
+                    if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$entry))
+                    {
+                        $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$entry);
+                        $temp_name=str_replace('<![CDATA[','',str_replace(']]>','',$temp_name));
+                        $temp_name=preg_replace("#[\n\r\t]+#is",'',$temp_name);
+                        $name_in_other_lang[$lang]=$temp_name;
+                    }
+                    else
+                        $name_in_other_lang[$lang]=$name;
+                }
+
+                $requirements=array();
+                preg_match_all('#<requirements.*</requirements>#isU',$content,$entry_list);
+                foreach($entry_list[0] as $entry)
+                {
+                    preg_match_all('#<quest id="([0-9]+)"[^>]+/>#isU',$entry,$item_text_list);
+                    foreach($item_text_list[0] as $item_text)
+                    {
+                        if(!isset($requirements['quests']))
+                            $requirements['quests']=array();
+                        $quest_id=preg_replace('#^.*<quest id="([0-9]+)"[^>]+/>.*$#isU','$1',$item_text);
+                        $requirements['quests'][]=$quest_id;
+                    }
+                }
+
+                $steps=array();
+                preg_match_all('#<step id="[0-9]+".*</step>#isU',$content,$entry_list);
+                foreach($entry_list[0] as $entry)
+                {
+                    $tempbot=$bot;
+                    if(preg_match('#bot="([0-9]+)"#isU',$entry))
+                        $tempbot=preg_replace('#^.*bot="([0-9]+)".*</step>.*$#is','$1',$entry);
+                    $id_step=preg_replace('#^.*<step id="([0-9]+)".*</step>.*$#is','$1',$entry);
+                    $text=preg_replace('#^.*<text( lang="en")?>(.*)</text>.*$#isU','$2',$entry);
+                    $text=str_replace('<![CDATA[','',$text);
+                    $text=str_replace(']]>','',$text);
+                    $items=array();
+                    preg_match_all('#<item ([^>]+)/>#isU',$entry,$item_text_list);
+                    foreach($item_text_list[0] as $item_text)
+                    {
+                        if(!preg_match('# id="([0-9]+)"#isU',$item_text))
+                            continue;
+                        $item=preg_replace('#^.* id="([0-9]+)".*$#isU','$1',$item_text);
+                        if(preg_match('#quantity="([0-9]+)"#isU',$item_text))
+                            $quantity=preg_replace('#^.*quantity="([0-9]+)".*$#isU','$1',$item_text);
+                        else
+                            $quantity=1;
+                        if(preg_match('#monster="([0-9]+)"#isU',$item_text))
+                        {
+                            $monster=preg_replace('#^.*monster="([0-9]+)".*$#isU','$1',$item_text);
+                            if(preg_match('#rate="([0-9]+)%?"#isU',$item_text))
+                                $rate=preg_replace('#^.*rate="([0-9]+)%?".*$#isU','$1',$item_text);
+                            else
+                                $rate=100;
+                        }
+                        else
+                            $monster=0;
+                        if(!isset($items_to_quests_for_step[$item]))
+                            $items_to_quests_for_step[$item]=array();
+                        if($monster!=0)
+                        {
+                            $items[]=array('item'=>$item,'quantity'=>$quantity,'monster'=>$monster,'rate'=>$rate);
+                            if(!isset($monster_to_quests[$monster]))
+                                $monster_to_quests[$monster]=array();
+                            if(!isset($monster_to_quests[$monster][$maindatapackcode]))
+                                $monster_to_quests[$monster][$maindatapackcode]=array();
+                            $monster_to_quests[$monster][$maindatapackcode][]=array('quest'=>$id,'item'=>$item,'quantity'=>$quantity,'rate'=>$rate);
+                            $items_to_quests_for_step[$item][$maindatapackcode][]=array('quest'=>$id,'quantity'=>$quantity,'monster'=>$monster,'rate'=>$rate);
+                        }
+                        else
+                        {
+                            $items[]=array('item'=>$item,'quantity'=>$quantity);
+                            $items_to_quests_for_step[$item][$maindatapackcode][]=array('quest'=>$id,'quantity'=>$quantity);
+                        }
+                    }
+                    $tempbot=preg_replace("#[\n\r\t]+#is",'',$tempbot);
+                    $steps[$id_step]=array('text'=>$text,'bot'=>$tempbot,'items'=>$items);
+                    if($id_step==1)
+                    {
+                        if(!isset($bot_start_to_quests[$tempbot]))
+                            $bot_start_to_quests[$tempbot]=array();
+                        if(!in_array($id,$bot_start_to_quests[$tempbot]))
+                            $bot_start_to_quests[$tempbot][]=$id;
+                    }
+                }
+
+                $rewards=array();
+                preg_match_all('#<rewards.*</rewards>#isU',$content,$entry_list);
+                foreach($entry_list[0] as $entry)
+                {
+                    preg_match_all('#<item ([^>]+)/>#isU',$entry,$item_text_list);
+                    foreach($item_text_list[0] as $item_text)
+                    {
+                        if(!preg_match('# id="([0-9]+)"#isU',$item_text))
+                            continue;
+                        if(!isset($rewards['items']))
+                            $rewards['items']=array();
+                        $item=preg_replace('#^.* id="([0-9]+)".*$#isU','$1',$item_text);
+                        if(preg_match('#quantity="([0-9]+)"#isU',$item_text))
+                            $quantity=preg_replace('#^.*quantity="([0-9]+)".*$#isU','$1',$item_text);
+                        else
+                            $quantity=1;
+                        if(!isset($items_to_quests[$item]))
+                            $items_to_quests[$item]=array();
+                        $items_to_quests[$item][$maindatapackcode][$id]=$quantity;
+                        $rewards['items'][]=array('item'=>$item,'quantity'=>$quantity);
+                    }
+                    preg_match_all('#<allow ([^>]+)/>#isU',$entry,$item_text_list);
+                    foreach($item_text_list[0] as $item_text)
+                    {
+                        if(!preg_match('# type="([a-z]+)"#isU',$item_text))
+                            continue;
+                        if(!isset($rewards['allow']))
+                            $rewards['allow']=array();
+                        $allow=preg_replace('#^.* type="([a-z]+)".*$#isU','$1',$item_text);
+                        if(!in_array($allow,$rewards['allow']))
+                            $rewards['allow'][]=$allow;
+                    }
+                    preg_match_all('#<reputation type="([^"]+)" point="(-?[0-9]+)"[^>]+/>#isU',$entry,$item_text_list);
+                    foreach($item_text_list[0] as $item_text)
+                    {
+                        if(!isset($rewards['reputation']))
+                            $rewards['reputation']=array();
+                        $type=preg_replace('#^.*<reputation type="([^"]+)" point="(-?[0-9]+)"[^>]+/>.*$#isU','$1',$item_text);
+                        $point=preg_replace('#^.*<reputation type="([^"]+)" point="(-?[0-9]+)"[^>]+/>.*$#isU','$2',$item_text);
+                        $rewards['reputation'][]=array('type'=>$type,'point'=>$point);
+                    }
+                }
+                $quests_meta[$maindatapackcode][$id]=array('repeatable'=>$repeatable,'steps'=>$steps,'rewards'=>$rewards,'requirements'=>$requirements,'bot'=>$bot,'name'=>$name_in_other_lang);
+            }
+            if(isset($quests_meta[$maindatapackcode]))
+                ksort($quests_meta[$maindatapackcode]);
         }
-        else
-            $name_in_other_lang[$lang]=$name;
     }
-
-	$requirements=array();
-	preg_match_all('#<requirements.*</requirements>#isU',$content,$entry_list);
-	foreach($entry_list[0] as $entry)
-	{
-		preg_match_all('#<quest id="([0-9]+)"[^>]+/>#isU',$entry,$item_text_list);
-		foreach($item_text_list[0] as $item_text)
-		{
-			if(!isset($requirements['quests']))
-				$requirements['quests']=array();
-			$quest_id=preg_replace('#^.*<quest id="([0-9]+)"[^>]+/>.*$#isU','$1',$item_text);
-			$requirements['quests'][]=$quest_id;
-		}
-	}
-
-	$steps=array();
-	preg_match_all('#<step id="[0-9]+".*</step>#isU',$content,$entry_list);
-	foreach($entry_list[0] as $entry)
-	{
-		$tempbot=$bot;
-		if(preg_match('#bot="([0-9]+)"#isU',$entry))
-			$tempbot=preg_replace('#^.*bot="([0-9]+)".*</step>.*$#is','$1',$entry);
-		$id_step=preg_replace('#^.*<step id="([0-9]+)".*</step>.*$#is','$1',$entry);
-		$text=preg_replace('#^.*<text( lang="en")?>(.*)</text>.*$#isU','$2',$entry);
-		$text=str_replace('<![CDATA[','',$text);
-		$text=str_replace(']]>','',$text);
-		$items=array();
-		preg_match_all('#<item ([^>]+)/>#isU',$entry,$item_text_list);
-		foreach($item_text_list[0] as $item_text)
-		{
-            if(!preg_match('# id="([0-9]+)"#isU',$item_text))
-                continue;
-			$item=preg_replace('#^.* id="([0-9]+)".*$#isU','$1',$item_text);
-			if(preg_match('#quantity="([0-9]+)"#isU',$item_text))
-				$quantity=preg_replace('#^.*quantity="([0-9]+)".*$#isU','$1',$item_text);
-			else
-				$quantity=1;
-			if(preg_match('#monster="([0-9]+)"#isU',$item_text))
-			{
-				$monster=preg_replace('#^.*monster="([0-9]+)".*$#isU','$1',$item_text);
-				if(preg_match('#rate="([0-9]+)%?"#isU',$item_text))
-					$rate=preg_replace('#^.*rate="([0-9]+)%?".*$#isU','$1',$item_text);
-				else
-					$rate=100;
-			}
-			else
-				$monster=0;
-			if(!isset($items_to_quests_for_step[$item]))
-				$items_to_quests_for_step[$item]=array();
-			if($monster!=0)
-			{
-				$items[]=array('item'=>$item,'quantity'=>$quantity,'monster'=>$monster,'rate'=>$rate);
-				if(!isset($monster_to_quests[$monster]))
-					$monster_to_quests[$monster]=array();
-				$monster_to_quests[$monster][]=array('quest'=>$id,'item'=>$item,'quantity'=>$quantity,'rate'=>$rate);
-				$items_to_quests_for_step[$item][]=array('quest'=>$id,'quantity'=>$quantity,'monster'=>$monster,'rate'=>$rate);
-			}
-			else
-			{
-				$items[]=array('item'=>$item,'quantity'=>$quantity);
-				$items_to_quests_for_step[$item][]=array('quest'=>$id,'quantity'=>$quantity);
-			}
-		}
-        $tempbot=preg_replace("#[\n\r\t]+#is",'',$tempbot);
-		$steps[$id_step]=array('text'=>$text,'bot'=>$tempbot,'items'=>$items);
-        if($id_step==1)
-        {
-            if(!isset($bot_start_to_quests[$tempbot]))
-                $bot_start_to_quests[$tempbot]=array();
-            if(!in_array($id,$bot_start_to_quests[$tempbot]))
-                $bot_start_to_quests[$tempbot][]=$id;
-        }
-	}
-
-	$rewards=array();
-	preg_match_all('#<rewards.*</rewards>#isU',$content,$entry_list);
-	foreach($entry_list[0] as $entry)
-	{
-		preg_match_all('#<item ([^>]+)/>#isU',$entry,$item_text_list);
-        foreach($item_text_list[0] as $item_text)
-        {
-            if(!preg_match('# id="([0-9]+)"#isU',$item_text))
-                continue;
-            if(!isset($rewards['items']))
-                $rewards['items']=array();
-            $item=preg_replace('#^.* id="([0-9]+)".*$#isU','$1',$item_text);
-            if(preg_match('#quantity="([0-9]+)"#isU',$item_text))
-                $quantity=preg_replace('#^.*quantity="([0-9]+)".*$#isU','$1',$item_text);
-            else
-                $quantity=1;
-            if(!isset($items_to_quests[$item]))
-                $items_to_quests[$item]=array();
-            $items_to_quests[$item][$id]=$quantity;
-            $rewards['items'][]=array('item'=>$item,'quantity'=>$quantity);
-        }
-        preg_match_all('#<allow ([^>]+)/>#isU',$entry,$item_text_list);
-        foreach($item_text_list[0] as $item_text)
-        {
-            if(!preg_match('# type="([a-z]+)"#isU',$item_text))
-                continue;
-            if(!isset($rewards['allow']))
-                $rewards['allow']=array();
-            $allow=preg_replace('#^.* type="([a-z]+)".*$#isU','$1',$item_text);
-            if(!in_array($allow,$rewards['allow']))
-                $rewards['allow'][]=$allow;
-        }
-		preg_match_all('#<reputation type="([^"]+)" point="(-?[0-9]+)"[^>]+/>#isU',$entry,$item_text_list);
-		foreach($item_text_list[0] as $item_text)
-		{
-			if(!isset($rewards['reputation']))
-				$rewards['reputation']=array();
-			$type=preg_replace('#^.*<reputation type="([^"]+)" point="(-?[0-9]+)"[^>]+/>.*$#isU','$1',$item_text);
-			$point=preg_replace('#^.*<reputation type="([^"]+)" point="(-?[0-9]+)"[^>]+/>.*$#isU','$2',$item_text);
-			$rewards['reputation'][]=array('type'=>$type,'point'=>$point);
-		}
-	}
-	$quests_meta[$id]=array('repeatable'=>$repeatable,'steps'=>$steps,'rewards'=>$rewards,'requirements'=>$requirements,'bot'=>$bot,'name'=>$name_in_other_lang);
 }
+closedir($dh);
 ksort($quests_meta);
 
 $visualcategory_meta=array();

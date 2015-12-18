@@ -299,7 +299,8 @@ foreach($monster_meta as $id=>$monster)
 	{
 		$map_descriptor.='<table class="item_list item_list_type_outdoor"><tr class="item_list_title item_list_title_type_outdoor">';
 		$map_descriptor.='<th colspan="2">'.$translation_list[$current_lang]['Item'].'</th><th>'.$translation_list[$current_lang]['Quests'].'</th><th>'.$translation_list[$current_lang]['Luck'].'</th></tr>';
-		foreach($monster_to_quests[$id] as $quests_monsters_details)
+		foreach($monster_to_quests[$id] as $maindatapackcode=>$monsterlist)
+        foreach($monsterlist as $quests_monsters_details)
 		{
 			$map_descriptor.='<tr class="value"><td>';
 			if(isset($item_meta[$quests_monsters_details['item']]))
@@ -339,8 +340,8 @@ foreach($monster_meta as $id=>$monster)
 				$map_descriptor.='</a>';
 			$map_descriptor.='</td>';
 
-			$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['quests/'].$quests_monsters_details['quest'].'-'.text_operation_do_for_url($quests_meta[$quests_monsters_details['quest']]['name'][$current_lang]).'.html" title="'.$quests_meta[$quests_monsters_details['quest']]['name'][$current_lang].'">';
-			$map_descriptor.=$quests_meta[$quests_monsters_details['quest']]['name'][$current_lang];
+			$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['quests/'].$quests_monsters_details['quest'].'-'.text_operation_do_for_url($quests_meta[$maindatapackcode][$quests_monsters_details['quest']]['name'][$current_lang]).'.html" title="'.$quests_meta[$maindatapackcode][$quests_monsters_details['quest']]['name'][$current_lang].'">';
+			$map_descriptor.=$quests_meta[$maindatapackcode][$quests_monsters_details['quest']]['name'][$current_lang];
 			$map_descriptor.='</a></td>';
 			$map_descriptor.='<td>'.$quests_monsters_details['rate'].'%</td>';
 			$map_descriptor.='</tr>';

@@ -68,7 +68,7 @@ foreach($map_list as $map)
 				{
 					$duplicate[$border]='';
 					if(isset($maps_list[$maindatapackcode][$border]))
-						$map_descriptor.='<li>'.$translation_list[$current_lang]['Border '.$bordertype].': <a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$border).'">'.$maps_list[$maindatapackcode][$border]['name'][$current_lang].'</a></li>';
+						$map_descriptor.='<li>'.$translation_list[$current_lang]['Border '.$bordertype].': <a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$border).'">'.$maps_list[$maindatapackcode][$border]['name'][$current_lang].'</a></li>';
 					else
 						$map_descriptor.='<li>'.$translation_list[$current_lang]['Border '.$bordertype].': <span class="mapnotfound">'.$border.'</span></li>';
 				}
@@ -79,7 +79,7 @@ foreach($map_list as $map)
 				{
 					$duplicate[$door['map']]='';
 					if(isset($maps_list[$maindatapackcode][$door['map']]))
-						$map_descriptor.='<li>'.$translation_list[$current_lang]['Door'].': <a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$door['map']).'">'.$maps_list[$maindatapackcode][$door['map']]['name'][$current_lang].'</a></li>';
+						$map_descriptor.='<li>'.$translation_list[$current_lang]['Door'].': <a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$door['map']).'">'.$maps_list[$maindatapackcode][$door['map']]['name'][$current_lang].'</a></li>';
 					else
 						$map_descriptor.='<li>'.$translation_list[$current_lang]['Door'].': <span class="mapnotfound">'.$door['map'].'</span></li>';
 				}
@@ -90,7 +90,7 @@ foreach($map_list as $map)
 				{
 					$duplicate[$tp]='';
 					if(isset($maps_list[$maindatapackcode][$tp]))
-						$map_descriptor.='<li>'.$translation_list[$current_lang]['Teleporter'].': <a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$tp).'">'.$maps_list[$maindatapackcode][$tp]['name'][$current_lang].'</a></li>';
+						$map_descriptor.='<li>'.$translation_list[$current_lang]['Teleporter'].': <a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$tp).'">'.$maps_list[$maindatapackcode][$tp]['name'][$current_lang].'</a></li>';
 					else
 						$map_descriptor.='<li>'.$translation_list[$current_lang]['Teleporter'].': <span class="mapnotfound">'.$tp.'</span></li>';
 				}

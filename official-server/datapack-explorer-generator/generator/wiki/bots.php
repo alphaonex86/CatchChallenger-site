@@ -29,11 +29,11 @@ foreach($bot_list as $bot_id=>$bot)
             $bottemp=$bot_id_to_map[$bot_id];
             if(isset($maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]))
             {
-                if(isset($zone_meta[$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['zone']]))
+                if(isset($zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['zone']]))
                 {
                     if(!isset($bots_by_zone[$maindatapackcode][$zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['zone']]['name'][$current_lang]]))
                         $bots_by_zone[$maindatapackcode][$zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['zone']]['name'][$current_lang]]=array();
-                    $bots_by_zone[$maindatapackcode][$zone_meta[$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['zone']]['name'][$current_lang]][]=$bot_id;
+                    $bots_by_zone[$maindatapackcode][$zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['zone']]['name'][$current_lang]][]=$bot_id;
                 }
                 else
                 {
@@ -109,10 +109,10 @@ foreach($bot_list as $bot_id=>$bot)
 			if(isset($maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]))
 			{
 				$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Map'].'</div><div class="value">'."\n";
-				if(isset($zone_meta[$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['zone']]))
+				if(isset($zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['zone']]))
 				{
 					$map_descriptor.='[['.$translation_list[$current_lang]['Maps:'].$maindatapackcode.'-'.map_to_wiki_name($maindatapackcode,$bottemp[$maindatapackcode]['map']).'|'.$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['name'][$current_lang].']]'."\n";
-					$zone_name=$zone_meta[$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['zone']]['name'][$current_lang];
+					$zone_name=$zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['zone']]['name'][$current_lang];
 					$map_descriptor.='(Zone: [['.$translation_list[$current_lang]['Zones:'].$zone_name.'|'.$zone_name.']])'."\n";
 				}
 				else

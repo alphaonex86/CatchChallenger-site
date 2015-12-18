@@ -352,8 +352,8 @@ foreach($bot_list as $bot_id=>$bot)
 				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">'.$translation_list[$current_lang]['Zone capture'].'</div>
 				<div class="value">
 					Zone: ';
-				if(isset($zone_meta[$step['zone']]))
-					$map_descriptor.=$zone_meta[$step['zone']]['name'][$current_lang];
+				if(isset($zone_meta[$maindatapackcode][$step['zone']]))
+					$map_descriptor.=$zone_meta[$maindatapackcode][$step['zone']]['name'][$current_lang];
 				else
 					$map_descriptor.='Unknown zone';
 				$map_descriptor.='<center><div style="background-position:-256px -128px;" class="flags flags128"></div></center>
@@ -495,7 +495,7 @@ foreach($bot_zone_list as $zone=>$bot_id_list)
             else
             {
                 if(isset($maps_name_to_map[$zone]))
-                    $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$maps_name_to_map[$zone]).'" title="'.$maps_list[$maps_name_to_map[$zone]]['name'][$current_lang].'">'.$zone.'</a>';
+                    $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$maps_name_to_map[$zone]).'" title="'.$maps_list[$maps_name_to_map[$zone]]['name'][$current_lang].'">'.$zone.'</a>';
                 else
                     $map_descriptor.=$zone;
             }

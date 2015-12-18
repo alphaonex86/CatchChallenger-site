@@ -59,13 +59,13 @@ foreach($quests_meta as $id=>$quest)
                 $entry=$bot_id_to_map[$bot_id];
                 if(isset($maps_list[$entry]))
                 {
-                    if(isset($zone_meta[$maps_list[$entry]['zone']]))
+                    if(isset($zone_meta[$maindatapackcode][$maps_list[$entry]['zone']]))
                     {
-                        $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
-                        $map_descriptor.='<td>'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].'</td>';
+                        $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
+                        $map_descriptor.='<td>'.$zone_meta[$maindatapackcode][$maps_list[$entry]['zone']]['name'][$current_lang].'</td>';
                     }
                     else
-                        $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
+                        $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
                 }
                 else
                     $map_descriptor.='<td colspan="2">'.$translation_list[$current_lang]['Unknown map'].'</td>';
@@ -144,13 +144,13 @@ foreach($quests_meta as $id=>$quest)
                         $entry=$bot_id_to_map[$bot_id];
                         if(isset($maps_list[$entry]))
                         {
-                            if(isset($zone_meta[$maps_list[$entry]['zone']]))
+                            if(isset($zone_meta[$maindatapackcode][$maps_list[$entry]['zone']]))
                             {
-                                $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
-                                $map_descriptor.='<td>'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].'</td>';
+                                $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
+                                $map_descriptor.='<td>'.$zone_meta[$maindatapackcode][$maps_list[$entry]['zone']]['name'][$current_lang].'</td>';
                             }
                             else
-                                $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
+                                $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>';
                         }
                         else
                             $map_descriptor.='<td colspan="2">'.$translation_list[$current_lang]['Unknown map'].'</td>';

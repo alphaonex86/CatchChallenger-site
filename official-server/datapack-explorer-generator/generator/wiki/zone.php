@@ -146,8 +146,8 @@ foreach($map_by_zone as $map=>$map_content)
             if($wikivars2['lang']!=$temp_current_lang)
             {
                 $current_lang=$wikivars2['lang'];
-                if(isset($zone_meta[$zone]))
-                    $temp_zone_name=$zone_meta[$zone]['name'][$current_lang];
+                if(isset($zone_meta[$maindatapackcode][$zone]))
+                    $temp_zone_name=$zone_meta[$maindatapackcode][$zone]['name'][$current_lang];
                 elseif($zone=='')
                     $temp_zone_name=$translation_list[$current_lang]['Unknown zone'];
                 else

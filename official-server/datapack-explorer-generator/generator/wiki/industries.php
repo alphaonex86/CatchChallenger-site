@@ -106,10 +106,10 @@ foreach($industrie_meta as $id=>$industry)
                         $entry=$bot_id_to_map[$bot_id];
                         if(isset($maps_list[$entry]))
                         {
-                            if(isset($zone_meta[$maps_list[$entry]['zone']]))
+                            if(isset($zone_meta[$maindatapackcode][$maps_list[$entry]['zone']]))
                             {
                                 $map_descriptor.='<td>[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
-                                $map_descriptor.='<td>[['.$translation_list[$current_lang]['Zones:'].$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].'|'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].']]</td>'."\n";
+                                $map_descriptor.='<td>[['.$translation_list[$current_lang]['Zones:'].$zone_meta[$maindatapackcode][$maps_list[$entry]['zone']]['name'][$current_lang].'|'.$zone_meta[$maindatapackcode][$maps_list[$entry]['zone']]['name'][$current_lang].']]</td>'."\n";
                             }
                             else
                                 $map_descriptor.='<td colspan="2">[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
@@ -316,10 +316,10 @@ foreach($industrie_meta as $id=>$industry)
                     $entry=$bot_id_to_map[$bot_id];
                     if(isset($maps_list[$entry]))
                     {
-                        if(isset($zone_meta[$maps_list[$entry]['zone']]))
+                        if(isset($zone_meta[$maindatapackcode][$maps_list[$entry]['zone']]))
                         {
                             $map_descriptor.='<td>[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
-                            $map_descriptor.='<td>[['.$translation_list[$current_lang]['Zones:'].$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].'|'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].']]</td>'."\n";
+                            $map_descriptor.='<td>[['.$translation_list[$current_lang]['Zones:'].$zone_meta[$maindatapackcode][$maps_list[$entry]['zone']]['name'][$current_lang].'|'.$zone_meta[$maindatapackcode][$maps_list[$entry]['zone']]['name'][$current_lang].']]</td>'."\n";
                         }
                         else
                             $map_descriptor.='<td colspan="2">[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";

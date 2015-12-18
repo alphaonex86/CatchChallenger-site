@@ -212,7 +212,7 @@ foreach($bots_file_list as $maindatapackcode=>$value)
                                                 $bots_meta[$maindatapackcode][$id]['step'][$step_id]=array('type'=>$step_type,'industry'=>$industry);
                                                 if(!isset($industry_to_bot[$industrie_link_meta[$industry]['industry_id']]))
                                                     $industry_to_bot[$industrie_link_meta[$industry]['industry_id']]=array();
-                                                $industry_to_bot[$industrie_link_meta[$industry]['industry_id']][]=$id;
+                                                $industry_to_bot[$industrie_link_meta[$industry]['industry_id']][$maindatapackcode]=$id;
                                             }
                                             else
                                                 echo 'industrie_link_meta: '.$industry.' not found for step with id '.$step_id.' for bot '.$id.' for maindatapackcode: '.$maindatapackcode."\n";

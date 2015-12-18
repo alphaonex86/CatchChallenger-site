@@ -120,10 +120,10 @@ foreach($bots_file_list as $maindatapackcode=>$value)
                                                 $fight_to_bot[$maindatapackcode][$fightid][]=$id;
                                             }
                                             else
-                                                echo 'fightid not found: '.$fightid.' for step with id '.$step_id.' for bot '.$id.' for maindatapackcode: '.$maindatapackcode."\n";
+                                                echo 'fightid not found: '.$fightid.' for step with id '.$step_id.' for bot '.$id.' in file: '.$file.' for maindatapackcode: '.$maindatapackcode."\n";
                                         }
                                         else
-                                            echo 'fightid attribute not found for step with id '.$step_id.' for bot '.$id.' for maindatapackcode: '.$maindatapackcode."\n";
+                                            echo 'fightid attribute not found for step with id '.$step_id.' for bot '.$id.' in file: '.$file.' for maindatapackcode: '.$maindatapackcode."\n";
                                     }
                                     else if($step_type=='heal')
                                     {
@@ -164,7 +164,7 @@ foreach($bots_file_list as $maindatapackcode=>$value)
                                                 $shop_to_bot[$shop][$maindatapackcode][]=$id;
                                             }
                                             else
-                                                echo 'shop: '.$shop.' not found for step with id '.$step_id.' for bot '.$id.' for maindatapackcode: '.$maindatapackcode."\n";
+                                                echo 'shop: '.$shop.' not found for step with id '.$step_id.' for bot '.$id.' in file: '.$file.' for maindatapackcode: '.$maindatapackcode."\n";
                                         }
                                         else
                                             echo 'shop attribute not found for step with id '.$step_id.' for bot '.$id.', $step_text: '.$step_text."\n";
@@ -180,7 +180,7 @@ foreach($bots_file_list as $maindatapackcode=>$value)
                                                 $bots_meta[$maindatapackcode][$id]['step'][$step_id]=array('type'=>$step_type,'shop'=>$shop);
                                             }
                                             else
-                                                echo 'shop: '.$shop.' not found for step with id '.$step_id.' for bot '.$id.' for maindatapackcode: '.$maindatapackcode."\n";
+                                                echo 'sell: '.$shop.' not found for step with id '.$step_id.' for bot '.$id.' in file: '.$file.' for maindatapackcode: '.$maindatapackcode."\n";
                                         }
                                         else
                                             $bots_meta[$maindatapackcode][$id]['step'][$step_id]=array('type'=>$step_type);
@@ -190,13 +190,13 @@ foreach($bots_file_list as $maindatapackcode=>$value)
                                         if(preg_match('#^.*zone="([^"]+)".*$#isU',$step_text))
                                         {
                                             $zone=preg_replace('#^.*zone="([^"]+)".*$#isU','$1',$step_text);
-                                            if(isset($zone_meta[$zone]))
+                                            if(isset($zone_meta[$maindatapackcode][$zone]))
                                             {
                                                 $bots_meta[$maindatapackcode][$id]['onlytext']=false;
                                                 $bots_meta[$maindatapackcode][$id]['step'][$step_id]=array('type'=>$step_type,'zone'=>$zone);
                                             }
                                             else
-                                                echo 'zone: '.$zone.' not found for step with id '.$step_id.' for bot '.$id.' for maindatapackcode: '.$maindatapackcode."\n";
+                                                echo 'zone: '.$zone.' not found for step with id '.$step_id.' for bot '.$id.' in file: '.$file.' for maindatapackcode: '.$maindatapackcode."\n";
                                         }
                                         else
                                             echo 'zone attribute not found for step with id '.$step_id.' for bot '.$id.' for maindatapackcode: '.$maindatapackcode."\n";

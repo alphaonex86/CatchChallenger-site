@@ -92,10 +92,12 @@ foreach($start_meta as $entry)
 		{
 			if(array_key_exists($reputation['type'],$reputation_meta))
 			{
-				if(array_key_exists($reputation['level'],$reputation_meta[$reputation['type']]))
-					$map_descriptor.='<li>'.htmlspecialchars($reputation_meta[$reputation['type']][$reputation['level']]).'</li>';
-				else
-					$map_descriptor.='<li>Unknown reputation '.htmlspecialchars($reputation['type']).' level: '.htmlspecialchars($reputation['level']).'</li>';
+				if(array_key_exists($reputation['level'],$reputation_meta[$reputation['type']]['level']) && isset($reputation_meta[$reputation['type']]['level'][$reputation['level']][$current_lang]))
+					$map_descriptor.='<li>'.htmlspecialchars($reputation_meta[$reputation['type']]['level'][$reputation['level']][$current_lang]).'</li>';
+				else if(isset($reputation_meta[$reputation['type']]['name'][$current_lang]))
+					$map_descriptor.='<li>'.htmlspecialchars($reputation_meta[$reputation['type']]['name'][$current_lang]).' level: '.htmlspecialchars($reputation['level']).'</li>';
+                else
+                    $map_descriptor.='<li>Unknown reputation '.htmlspecialchars($reputation['type']).' level: '.htmlspecialchars($reputation['level']).'</li>';
 			}
 			else
 				$map_descriptor.='<li>Unknown reputation type: '.htmlspecialchars($reputation['type']).'</li>';

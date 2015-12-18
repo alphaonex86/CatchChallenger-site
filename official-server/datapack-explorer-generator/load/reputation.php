@@ -37,11 +37,26 @@ if(file_exists($datapack_path.'player/reputation.xml'))
 			if(!preg_match('#<level point="-?[0-9]+".*</level>#isU',$level))
 				continue;
 			$point=preg_replace('#^.*<level point="(-?[0-9]+)".*</level>.*$#isU','$1',$level);
-			if(!preg_match('#<text( lang="en")?>.*</text>#isU',$level))
-				continue;
-			$text=preg_replace('#^.*<text( lang="en")?>(.*)</text>.*$#isU','$2',$level);
-            $text=str_replace('<![CDATA[','',str_replace(']]>','',$text));
-			$reputation_meta_list[(int)$point]=$text;
+            {
+                if(!preg_match('#<text( lang="en")?>.*</text>#isU',$level))
+                    continue;
+                $text=preg_replace('#^.*<text( lang="en")?>(.*)</text>.*$#isU','$2',$level);
+                $text=str_replace('<![CDATA[','',str_replace(']]>','',$text));
+                $reputation_meta_list[(int)$point]['en']=$text;
+                foreach($lang_to_load as $lang)
+                {
+                    if($lang=='en')
+                        continue;
+                    if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$entry))
+                    {
+                        $text=preg_replace('#^.*<text lang="'.$lang.'">(.*)</text>.*$#isU','$2',$level);
+                        $text=str_replace('<![CDATA[','',str_replace(']]>','',$text));
+                        $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$entry);
+                        $temp_name=str_replace('<![CDATA[','',str_replace(']]>','',$temp_name));
+                        $reputation_meta_list[(int)$point][$lang]=$text;
+                    }
+                }
+            }
 		}
 		if(count($reputation_meta_list)>0)
 		{

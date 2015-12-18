@@ -233,11 +233,24 @@ foreach($map_list as $map)
 
 	if(count($map_current_object['monsters'])>0)
 	{
+        //test if have sub type
+        $subTypeDuplicate=array('');
+        $subTypeCount=1;
+        foreach($map_current_object['monsters'] as $monsterType=>$monster_list_temp)
+            foreach($monster_list_temp as $subdatapackcode=>$monster_list)
+                if($subdatapackcode!='' && !in_array($subdatapackcode,$subTypeDuplicate))
+                {
+                    $subTypeDuplicate[]=$subdatapackcode;
+                    $subTypeCount++;
+                }
+        sort($subTypeDuplicate);
 		$map_descriptor.='<table class="item_list item_list_type_'.$map_current_object['type'].'">
 		<tr class="item_list_title item_list_title_type_'.$map_current_object['type'].'">
 			<th colspan="2">'.$translation_list[$current_lang]['Monster'].'</th>
-			<th>'.$translation_list[$current_lang]['Location'].'</th>
-			<th>'.$translation_list[$current_lang]['Levels'].'</th>
+			<th>'.$translation_list[$current_lang]['Location'].'</th>';
+            if($subTypeCount>1)
+                $map_descriptor.='<th>'.$translation_list[$current_lang]['Variations'].'</th>';
+			$map_descriptor.='<th>'.$translation_list[$current_lang]['Levels'].'</th>
 			<th colspan="3">'.$translation_list[$current_lang]['Rate'].'</th>
 		</tr>';
         foreach($map_current_object['monsters'] as $monsterType=>$monster_list_temp)
@@ -261,7 +274,12 @@ foreach($map_list as $map)
                 $full_monsterType_name_top=$full_monsterType_name;
             }
             $map_descriptor.='<tr class="item_list_title_type_'.$map_current_object['type'].'">
-                    <th colspan="7">';
+                    <th colspan="';
+            if($subTypeCount>1)
+                $map_descriptor.='8';
+            else
+                $map_descriptor.='7';
+            $map_descriptor.='">';
             $link='';
             $name='';
             $image='';
@@ -301,8 +319,29 @@ foreach($map_list as $map)
             }
             $map_descriptor.='</th>
                 </tr>';
+            // group the monster by sub + deduplicate
+            $deduplicated_monster_list=array();
             foreach($monster_list_temp as $subdatapackcode=>$monster_list)
             foreach($monster_list as $monster)
+            {
+                $monsterfound=false;
+                foreach($deduplicated_monster_list as $temp_id_deduplicate=>$monster2)
+                {
+                    if($monster['id']==$monster2['id'] && $monster['minLevel']==$monster2['minLevel'] && $monster['maxLevel']==$monster2['maxLevel'] && $monster['luck']==$monster2['luck'])
+                    {
+                        if(!in_array($subdatapackcode,$deduplicated_monster_list[$temp_id_deduplicate]['sub']))
+                            $deduplicated_monster_list[$temp_id_deduplicate]['sub'][]=$subdatapackcode;
+                        $monsterfound=true;
+                        break;
+                    }
+                }
+                if($monsterfound==false)
+                {
+                    $monster['sub']=array($subdatapackcode);
+                    $deduplicated_monster_list[]=$monster;
+                }
+            }
+            foreach($deduplicated_monster_list as $monster)
             {
                 if(isset($monster_meta[$monster['id']]))
                 {
@@ -318,8 +357,50 @@ foreach($map_list as $map)
                         <td><a href="'.$link.'">'.$name.'</a></td>
                         <td>';
                         $map_descriptor.='<img src="/images/datapack-explorer/'.$full_monsterType_name_top.'.png" alt="" class="locationimg">'.$translation_list[$current_lang][$full_monsterType_name_top];
-                        $map_descriptor.='</td>
-                        <td>';
+                        $map_descriptor.='</td>';
+                        
+                        if($subTypeCount>1)
+                        {
+                            $map_descriptor.='<td>';
+                            foreach($subTypeDuplicate as $tempSub)
+                            {
+                                $text_temp_sub='?';
+                                $color_temp_sub='';
+                                if($tempSub=='')
+                                {
+                                    if(isset($informations_meta['main'][$maindatapackcode]))
+                                    {
+                                        $text_temp_sub=$informations_meta['main'][$maindatapackcode]['initial'];
+                                        $color_temp_sub=$informations_meta['main'][$maindatapackcode]['color'];
+                                    }
+                                }
+                                else
+                                {
+                                    if(isset($informations_meta['main'][$maindatapackcode]['sub'][$tempSub]))
+                                    {
+                                        $text_temp_sub=$informations_meta['main'][$maindatapackcode]['sub'][$tempSub]['initial'];
+                                        $color_temp_sub=$informations_meta['main'][$maindatapackcode]['sub'][$tempSub]['color'];
+                                    }
+                                }
+                                if($color_temp_sub!='')
+                                {
+                                    if(in_array($tempSub,$monster['sub']))
+                                        $map_descriptor.='<span style="background-color:'.$color_temp_sub.';" class="datapackinital">'.$text_temp_sub.'</span>';
+                                    else
+                                        $map_descriptor.='<span style="color:'.$color_temp_sub.';" class="datapackinital">'.$text_temp_sub.'</span>';
+                                }
+                                else
+                                {
+                                    if(in_array($tempSub,$monster['sub']))
+                                        $map_descriptor.='<span class="datapackinital">'.$text_temp_sub.'</span>';
+                                    else
+                                        $map_descriptor.='<span style="text-decoration:line-through;" class="datapackinital">'.$text_temp_sub.'</span>';
+                                }
+                            }
+                            $map_descriptor.='</td>';
+                        }
+
+                        $map_descriptor.='<td>';
                         if($monster['minLevel']==$monster['maxLevel'])
                             $map_descriptor.=$monster['minLevel'];
                         else
@@ -331,7 +412,12 @@ foreach($map_list as $map)
             }
         }
 		$map_descriptor.='<tr>
-			<td colspan="7" class="item_list_endline item_list_title_type_'.$map_current_object['type'].'"></td>
+			<td colspan="';
+        if($subTypeCount>1)
+            $map_descriptor.='8';
+        else
+            $map_descriptor.='7';
+        $map_descriptor.='" class="item_list_endline item_list_title_type_'.$map_current_object['type'].'"></td>
 		</tr>
 		</table>';
 	}

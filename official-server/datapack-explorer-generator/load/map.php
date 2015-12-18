@@ -393,6 +393,83 @@ while (false !== ($maindatapackcode = readdir($dh)))
                     }
                 }
             }
+            $dir2 = $datapack_path.'map/main/'.$maindatapackcode.'/sub/';
+            if(is_dir($dir2))
+                $dh2  = opendir($dir2);
+            else
+                $dh2  = FALSE;
+            if($dh2!==FALSE)
+            while(false !== ($subdatapackcode = readdir($dh2)))
+            {
+                if(is_dir($datapack_path.'map/main/'.$maindatapackcode.'/sub/'.$subdatapackcode) && preg_match('#^[a-z0-9]+$#isU',$subdatapackcode))
+                {
+                    if(file_exists($datapack_path.'map/main/'.$maindatapackcode.'/sub/'.$subdatapackcode.'/'.$map_xml_meta))
+                    {
+                        $content_meta_map=file_get_contents($datapack_path.'map/main/'.$maindatapackcode.'/sub/'.$subdatapackcode.'/'.$map_xml_meta);
+                        foreach($layer_toSearch as $toSearch)
+                        {
+                            if(preg_match('#<'.preg_quote($toSearch).'>(.*)</'.preg_quote($toSearch).'>#isU',$content_meta_map))
+                            {
+                                $search=false;
+                                if(isset($layer_meta[$toSearch]))
+                                    $search=($layer_meta[$toSearch]['layer']=='' || preg_match('#<layer name="'.preg_quote($layer_meta[$toSearch]['layer']).'"#isU',$content));
+                                else if(isset($layer_event[$toSearch]))
+                                    $search=($layer_event[$toSearch]['layer']=='' || preg_match('#<layer name="'.preg_quote($layer_event[$toSearch]['layer']).'"#isU',$content));
+                                if($search)
+                                {
+                                    $text=preg_replace('#^.*<'.preg_quote($toSearch).'>(.*)</'.preg_quote($toSearch).'>.*$#isU','$1',$content_meta_map);
+                                    preg_match_all('#<monster[^>]+/>#isU',$text,$temp_text_list);
+                                    foreach($temp_text_list[0] as $text_entry)
+                                    {
+                                        if(preg_match('# level="([0-9]+)"#isU',$text_entry))
+                                        {
+                                            $minLevel=preg_replace('#^.* level="([0-9]+)".*$#isU','$1',$text_entry);
+                                            $maxLevel=preg_replace('#^.* level="([0-9]+)".*$#isU','$1',$text_entry);
+                                        }
+                                        elseif(preg_match('# minLevel="([0-9]+)"#isU',$text_entry) && preg_match('# maxLevel="([0-9]+)"#isU',$text_entry))
+                                        {
+                                            $minLevel=preg_replace('#^.* minLevel="([0-9]+)".*$#isU','$1',$text_entry);
+                                            $maxLevel=preg_replace('#^.* maxLevel="([0-9]+)".*$#isU','$1',$text_entry);
+                                        }
+                                        else
+                                            continue;
+                                        if(preg_match('#luck="([0-9]+)"#isU',$text_entry))
+                                            $luck=preg_replace('#^.*luck="([0-9]+)".*$#isU','$1',$text_entry);
+                                        else
+                                            continue;
+                                        if(preg_match('#id="([0-9]+)"#isU',$text_entry))
+                                            $id=preg_replace('#^.*id="([0-9]+)".*$#isU','$1',$text_entry);
+                                        else
+                                            continue;
+                                        if(isset($monster_meta[$id]))
+                                        {
+                                            if(!isset($monsters[$toSearch]))
+                                                $monsters[$toSearch]=array();
+                                            if(!isset($monsters[$toSearch][$subdatapackcode]))
+                                                $monsters[$toSearch][$subdatapackcode]=array();
+                                            $monsters[$toSearch][$subdatapackcode][]=array('id'=>$id,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
+                                            if(!isset($monster_to_map[$id]))
+                                                $monster_to_map[$id]=array();
+                                            if(!isset($monster_to_map[$id][$toSearch]))
+                                                $monster_to_map[$id][$toSearch]=array();
+                                            if(!isset($monster_to_map[$id][$toSearch][$maindatapackcode]))
+                                                $monster_to_map[$id][$toSearch][$maindatapackcode]=array();
+                                            $monster_to_map[$id][$toSearch][$maindatapackcode][]=array('map'=>$map,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
+                                            if(!in_array($id,$monsters_list))
+                                                $monsters_list[]=$id;
+                                            $dropcount+=count($monster_meta[$id]['drops']);
+                                        }
+                                        else
+                                            echo 'Monster: '.$id.' not found on the map: '.$map."\n";
+                                    }
+                                }
+                            }
+                            if(isset($monsters[$toSearch]['']) && !isset($monsters[$toSearch][$subdatapackcode]))
+                                $monsters[$toSearch][$subdatapackcode]=$monsters[$toSearch][''];
+                        }
+                    }
+                }
+            }
             $maps_list[$maindatapackcode][$map]=array('folder'=>$map_folder,'borders'=>$borders,'tp'=>$tp,'doors'=>$doors,'bots'=>$bots,'type'=>$type,'monsters'=>$monsters,'monsters_list'=>$monsters_list,
             'width'=>$width,'height'=>$height,'pixelwidth'=>$pixelwidth,'pixelheight'=>$pixelheight,'dropcount'=>$dropcount,'zone'=>$zone,'items'=>$items,'name'=>$name_in_other_lang,'shortdescription'=>$description_in_other_lang,'description'=>$name_in_other_lang,
             );

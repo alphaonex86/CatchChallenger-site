@@ -88,6 +88,7 @@ require 'datapack-explorer-generator/load/map.php';
 require 'datapack-explorer-generator/load/fights.php';
 require 'datapack-explorer-generator/load/bots.php';
 require 'datapack-explorer-generator/load/team.php';
+require 'datapack-explorer-generator/load/informations.php';
 echo 'Datapack loaded'."\n";
 echo 'Done into '.ceil(microtime(true)-$time_start).'s'."\n";
 

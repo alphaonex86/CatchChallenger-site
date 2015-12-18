@@ -225,6 +225,7 @@ $translation_list[$temp_lang]['Yes']='Yes';
 $translation_list[$temp_lang]['No']='No';
 $translation_list[$temp_lang]['Repeatable']='Repeatable';
 $translation_list[$temp_lang]['Starting bot']='Starting bot';
+$translation_list[$temp_lang]['Variations']='Variations';
 
 //generated path
 $translation_list[$temp_lang]['maps/']='maps/';

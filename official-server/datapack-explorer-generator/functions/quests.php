@@ -1,6 +1,7 @@
 <?php
 function questList($id_list,$showbot=true,$wiki=false)
 {
+    global $maindatapackcode;
     global $quests_meta;
     global $bot_id_to_skin;
     global $bots_meta;
@@ -33,25 +34,31 @@ function questList($id_list,$showbot=true,$wiki=false)
     {
         $map_descriptor.='<tr class="value">'."\n";
         if(!$wiki)
-            $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['quests/'].$id.'-'.text_operation_do_for_url($quests_meta[$id]['name'][$current_lang]).'.html" title="'.$quests_meta[$id]['name'][$current_lang].'">'.$quests_meta[$id]['name'][$current_lang].'</a></td>'."\n";
+            $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['quests/'].$maindatapackcode.'/'.$id.'-'.text_operation_do_for_url(
+            $quests_meta[$maindatapackcode][$id]['name'][$current_lang]
+            ).'.html" title="'.
+            $quests_meta[$maindatapackcode][$id]['name'][$current_lang]
+            .'">'.
+            $quests_meta[$maindatapackcode][$id]['name'][$current_lang]
+            .'</a></td>'."\n";
         else
-            $map_descriptor.='<td>[['.$translation_list[$current_lang]['Quests:'].$id.'_'.$quests_meta[$id]['name'][$current_lang].'|'.$quests_meta[$id]['name'][$current_lang].']]</td>'."\n";
-        if($quests_meta[$id]['repeatable'])
+            $map_descriptor.='<td>[['.$translation_list[$current_lang]['Quests:'].$id.'_'.$quests_meta[$maindatapackcode][$id]['name'][$current_lang].'|'.$quests_meta[$maindatapackcode][$id]['name'][$current_lang].']]</td>'."\n";
+        if($quests_meta[$maindatapackcode][$id]['repeatable'])
             $map_descriptor.='<td>'.$translation_list[$current_lang]['Yes'].'</td>'."\n";
         else
             $map_descriptor.='<td>'.$translation_list[$current_lang]['No'].'</td>'."\n";
-        if(isset($quests_meta[$id]['steps'][1]))
-            $bot_id=$quests_meta[$id]['steps'][1]['bot'];
+        if(isset($quests_meta[$maindatapackcode][$id]['steps'][1]))
+            $bot_id=$quests_meta[$maindatapackcode][$id]['steps'][1]['bot'];
         else
-            $bot_id=$quests_meta[$id]['bot'];
+            $bot_id=$quests_meta[$maindatapackcode][$id]['bot'];
         if($showbot)
         {
-            if(isset($bots_meta[$bot_id]))
+            if(isset($bots_meta[$maindatapackcode][$bot_id]))
             {
-                $bot=$bots_meta[$bot_id];
+                $bot=$bots_meta[$maindatapackcode][$bot_id];
                 if($bot['name'][$current_lang]=='')
                     $final_url_name='bot-'.$bot_id;
-                else if($bots_name_count[$current_lang][$bot['name'][$current_lang]]==1)
+                else if($bots_name_count[$maindatapackcode][$current_lang][$bot['name'][$current_lang]]==1)
                     $final_url_name=$bot['name'][$current_lang];
                 else
                     $final_url_name=$bot_id.'-'.$bot['name'][$current_lang];
@@ -60,16 +67,16 @@ function questList($id_list,$showbot=true,$wiki=false)
                 else
                     $final_name=$bot['name'][$current_lang];
                 $skin_found=true;
-                if(isset($bot_id_to_skin[$bot_id]))
+                if(isset($bot_id_to_skin[$bot_id][$maindatapackcode]))
                 {
-                    if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png'))
-                        $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$real_base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
-                    elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.png'))
-                        $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$real_base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
-                    elseif(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.gif'))
-                        $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$real_base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
-                    elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.gif'))
-                        $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$real_base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
+                    if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.png'))
+                        $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$real_base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
+                    elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.png'))
+                        $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$real_base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
+                    elseif(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.gif'))
+                        $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$real_base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
+                    elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.gif'))
+                        $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$real_base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
                     else
                         $skin_found=false;
                 }
@@ -88,30 +95,30 @@ function questList($id_list,$showbot=true,$wiki=false)
                     else
                         $map_descriptor.='>[['.$translation_list[$current_lang]['Bots:'].$link.'|'.$bot['name'][$current_lang].']]</td>'."\n";
                 }
-                if(isset($bot_id_to_map[$bot_id]))
+                if(isset($bot_id_to_map[$maindatapackcode][$bot_id]))
                 {
-                    $entry=$bot_id_to_map[$bot_id];
-                    if(isset($maps_list[$entry]))
+                    $entry=$bot_id_to_map[$maindatapackcode][$bot_id];
+                    if(isset($maps_list[$maindatapackcode][$entry]))
                     {
                         if(!$wiki)
                         {
-                            if(isset($zone_meta[$maps_list[$entry]['zone']]))
+                            if(isset($zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$entry]['zone']]))
                             {
-                                $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>'."\n";
-                                $map_descriptor.='<td>'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].'</td>'."\n";
+                                $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$maindatapackcode][$entry]['name'][$current_lang].'">'.$maps_list[$maindatapackcode][$entry]['name'][$current_lang].'</a></td>'."\n";
+                                $map_descriptor.='<td>'.$zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$entry]['zone']]['name'][$current_lang].'</td>'."\n";
                             }
                             else
-                                $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$entry]['name'][$current_lang].'">'.$maps_list[$entry]['name'][$current_lang].'</a></td>'."\n";
+                                $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].str_replace('.tmx','.html',$entry).'" title="'.$maps_list[$maindatapackcode][$entry]['name'][$current_lang].'">'.$maps_list[$maindatapackcode][$entry]['name'][$current_lang].'</a></td>'."\n";
                         }
                         else
                         {
-                            if(isset($zone_meta[$maps_list[$entry]['zone']]))
+                            if(isset($zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$entry]['zone']]))
                             {
-                                $map_descriptor.='<td>[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
-                                $map_descriptor.='<td>[['.$translation_list[$current_lang]['Zones:'].$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].'|'.$zone_meta[$maps_list[$entry]['zone']]['name'][$current_lang].']]</td>'."\n";
+                                $map_descriptor.='<td>[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($entry).'|'.$maps_list[$maindatapackcode][$entry]['name'][$current_lang].']]</td>'."\n";
+                                $map_descriptor.='<td>[['.$translation_list[$current_lang]['Zones:'].$zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$entry]['zone']]['name'][$current_lang].'|'.$zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$entry]['zone']]['name'][$current_lang].']]</td>'."\n";
                             }
                             else
-                                $map_descriptor.='<td colspan="2">[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($entry).'|'.$maps_list[$entry]['name'][$current_lang].']]</td>'."\n";
+                                $map_descriptor.='<td colspan="2">[['.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($entry).'|'.$maps_list[$maindatapackcode][$entry]['name'][$current_lang].']]</td>'."\n";
                         }
                     }
                     else
@@ -124,13 +131,13 @@ function questList($id_list,$showbot=true,$wiki=false)
                 $map_descriptor.='<td colspan="4">&nbsp;</td>'."\n";
         }
         $map_descriptor.='<td>'."\n";
-        if(count($quests_meta[$id]['rewards'])>0)
+        if(count($quests_meta[$maindatapackcode][$id]['rewards'])>0)
         {
             $map_descriptor.='<div class="subblock"><div class="value">'."\n";
-            if(isset($quests_meta[$id]['rewards']['items']))
+            if(isset($quests_meta[$maindatapackcode][$id]['rewards']['items']))
             {
                 $map_descriptor.='<table>'."\n";
-                foreach($quests_meta[$id]['rewards']['items'] as $item)
+                foreach($quests_meta[$maindatapackcode][$id]['rewards']['items'] as $item)
                 {
                     $map_descriptor.='<tr class="value"><td>'."\n";
                     if(isset($item_meta[$item['item']]))
@@ -193,16 +200,16 @@ function questList($id_list,$showbot=true,$wiki=false)
                 }
                 $map_descriptor.='</table>'."\n";
             }
-            if(isset($quests_meta[$id]['rewards']['reputation']))
-                foreach($quests_meta[$id]['rewards']['reputation'] as $reputation)
+            if(isset($quests_meta[$maindatapackcode][$id]['rewards']['reputation']))
+                foreach($quests_meta[$maindatapackcode][$id]['rewards']['reputation'] as $reputation)
                 {
                     if($reputation['point']<0)
                         $map_descriptor.=$translation_list[$current_lang]['Less reputation in:'].' '.$reputation['type'];
                     else
                         $map_descriptor.=$translation_list[$current_lang]['More reputation in:'].' '.$reputation['type'];
                 }
-            if(isset($quests_meta[$id]['rewards']['allow']))
-                foreach($quests_meta[$id]['rewards']['allow'] as $allow)
+            if(isset($quests_meta[$maindatapackcode][$id]['rewards']['allow']))
+                foreach($quests_meta[$maindatapackcode][$id]['rewards']['allow'] as $allow)
                 {
                     if($allow=='clan')
                         $map_descriptor.=$translation_list[$current_lang]['Able to create clan'];

@@ -8,7 +8,7 @@ foreach($quests_meta as $maindatapackcode=>$quest_list)
 foreach($quest_list as $id=>$quest)
 {
 	if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['quests/'].$maindatapackcode.'/'))
-		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['quests/'].$maindatapackcode.'/');
+		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['quests/'].$maindatapackcode.'/',0700,true);
 	$map_descriptor='';
 
 	$map_descriptor.='<div class="map item_details">';

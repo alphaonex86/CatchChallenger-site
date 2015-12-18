@@ -372,7 +372,9 @@ while (false !== ($maindatapackcode = readdir($dh)))
                                 {
                                     if(!isset($monsters[$toSearch]))
                                         $monsters[$toSearch]=array();
-                                    $monsters[$toSearch][]=array('id'=>$id,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
+                                    if(!isset($monsters[$toSearch]['']))
+                                        $monsters[$toSearch]['']=array();
+                                    $monsters[$toSearch][''][]=array('id'=>$id,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
                                     if(!isset($monster_to_map[$id]))
                                         $monster_to_map[$id]=array();
                                     if(!isset($monster_to_map[$id][$toSearch]))
@@ -384,6 +386,8 @@ while (false !== ($maindatapackcode = readdir($dh)))
                                         $monsters_list[]=$id;
                                     $dropcount+=count($monster_meta[$id]['drops']);
                                 }
+                                else
+                                    echo 'Monster: '.$id.' not found on the map: '.$map."\n";
                             }
                         }
                     }

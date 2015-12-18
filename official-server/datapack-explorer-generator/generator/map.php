@@ -240,7 +240,7 @@ foreach($map_list as $map)
 			<th>'.$translation_list[$current_lang]['Levels'].'</th>
 			<th colspan="3">'.$translation_list[$current_lang]['Rate'].'</th>
 		</tr>';
-        foreach($map_current_object['monsters'] as $monsterType=>$monster_list)
+        foreach($map_current_object['monsters'] as $monsterType=>$monster_list_temp)
         {
             $full_monsterType_name='Cave';
             if(isset($layer_event[$monsterType]))
@@ -301,6 +301,7 @@ foreach($map_list as $map)
             }
             $map_descriptor.='</th>
                 </tr>';
+            foreach($monster_list_temp as $subdatapackcode=>$monster_list)
             foreach($monster_list as $monster)
             {
                 if(isset($monster_meta[$monster['id']]))

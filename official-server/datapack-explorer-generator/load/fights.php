@@ -39,7 +39,7 @@ while (false !== ($maindatapackcode = readdir($dh)))
                     $items[]=array('item'=>$item,'quantity'=>1);
                     if(!isset($item_to_fight[$item]))
                         $item_to_fight[$item]=array();
-                    $item_to_fight[$item][]=$id;
+                    $item_to_fight[$item][$maindatapackcode][]=$id;
                 }
                 if(preg_match('#<start( lang="en")?>(<!\\[CDATA\\[)?(.*)(]]>)?</start>#isU',$entry))
                     $start=preg_replace('#^.*<start( lang="en")?>(<!\\[CDATA\\[)?(.*)(]]>)?</start>.*$#isU','$3',$entry);

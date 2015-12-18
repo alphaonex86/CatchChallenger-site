@@ -54,7 +54,7 @@ foreach($quest_list as $id=>$quest)
             $map_descriptor.='<td';
             if(!$skin_found)
                 $map_descriptor.=' colspan="2"';
-            $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].text_operation_do_for_url($final_url_name).'.html" title="'.$final_name.'">'.$final_name;
+            $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].$maindatapackcode.'/'.text_operation_do_for_url($final_url_name).'.html" title="'.$final_name.'">'.$final_name;
             if(isset($bot_id_to_map[$maindatapackcode][$bot_id]))
             {
                 $entry=$bot_id_to_map[$maindatapackcode][$bot_id];
@@ -139,7 +139,7 @@ foreach($quest_list as $id=>$quest)
                     $map_descriptor.='<td';
                     if(!$skin_found)
                         $map_descriptor.=' colspan="2"';
-                    $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].text_operation_do_for_url($final_url_name).'.html" title="'.$final_name.'">'.$final_name.'</a></td>';
+                    $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].$maindatapackcode.'/'.text_operation_do_for_url($final_url_name).'.html" title="'.$final_name.'">'.$final_name.'</a></td>';
                     if(isset($bot_id_to_map[$maindatapackcode][$bot_id]))
                     {
                         $entry=$bot_id_to_map[$maindatapackcode][$bot_id];

@@ -40,9 +40,9 @@ while (false !== ($maindatapackcode = readdir($dh)))
                         if($price!=0)
                         {
                             $products[$item]=$price;
-                            if(!isset($item_to_shop[$item]))
-                                $item_to_shop[$item]=array();
-                            $item_to_shop[$item][]=$id;
+                            if(!isset($item_to_shop[$item][$maindatapackcode]))
+                                $item_to_shop[$item][$maindatapackcode]=array();
+                            $item_to_shop[$item][$maindatapackcode][]=$id;
                         }
                         else
                         {

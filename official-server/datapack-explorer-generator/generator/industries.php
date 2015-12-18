@@ -107,7 +107,7 @@ foreach($industrie_meta as $id=>$industry)
                         $link_bot=text_operation_do_for_url($bots_meta[$maindatapackcode][$bot_id]['name'][$current_lang]);
                     else
                         $link_bot=text_operation_do_for_url($bot_id.'-'.$bots_meta[$maindatapackcode][$bot_id]['name'][$current_lang]);
-                    $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].text_operation_do_for_url($link_bot).'.html" title="'.$final_name.'">'.$final_name.'</a></td>';
+                    $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].$maindatapackcode.'/'.text_operation_do_for_url($link_bot).'.html" title="'.$final_name.'">'.$final_name.'</a></td>';
                     if(isset($bot_id_to_map[$bot_id][$maindatapackcode]))
                     {
                         $entry=$bot_id_to_map[$bot_id][$maindatapackcode]['map'];
@@ -297,7 +297,7 @@ foreach($industrie_meta as $id=>$industry)
                     $link_bot=text_operation_do_for_url($bots_meta[$maindatapackcode][$bot_id]['name'][$current_lang]);
                 else
                     $link_bot=text_operation_do_for_url($bot_id.'-'.$bots_meta[$maindatapackcode][$bot_id]['name'][$current_lang]);
-                $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].text_operation_do_for_url($link_bot).'.html" title="'.$final_name.'">'.$final_name.'</a></td>';
+                $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].$maindatapackcode.'/'.text_operation_do_for_url($link_bot).'.html" title="'.$final_name.'">'.$final_name.'</a></td>';
                 if(isset($bot_id_to_map[$bot_id][$maindatapackcode]))
                 {
                     $entry=$bot_id_to_map[$bot_id][$maindatapackcode]['map'];

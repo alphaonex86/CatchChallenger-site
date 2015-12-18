@@ -160,8 +160,8 @@ foreach($bots_file_list as $maindatapackcode=>$value)
                                                 $bots_meta[$maindatapackcode][$id]['onlytext']=false;
                                                 $bots_meta[$maindatapackcode][$id]['step'][$step_id]=array('type'=>$step_type,'shop'=>$shop);
                                                 if(!isset($shop_to_bot[$shop]))
-                                                    $shop_to_bot[$shop]=array();
-                                                $shop_to_bot[$shop][]=$id;
+                                                    $shop_to_bot[$shop][$maindatapackcode]=array();
+                                                $shop_to_bot[$shop][$maindatapackcode][]=$id;
                                             }
                                             else
                                                 echo 'shop: '.$shop.' not found for step with id '.$step_id.' for bot '.$id.' for maindatapackcode: '.$maindatapackcode."\n";

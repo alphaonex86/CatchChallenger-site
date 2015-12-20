@@ -330,7 +330,10 @@ foreach($map_list as $map)
                     if($monster['id']==$monster2['id'] && $monster['minLevel']==$monster2['minLevel'] && $monster['maxLevel']==$monster2['maxLevel'] && $monster['luck']==$monster2['luck'])
                     {
                         if(!in_array($subdatapackcode,$deduplicated_monster_list[$temp_id_deduplicate]['sub']))
+                        {
                             $deduplicated_monster_list[$temp_id_deduplicate]['sub'][]=$subdatapackcode;
+                            sort($deduplicated_monster_list[$temp_id_deduplicate]['sub']);
+                        }
                         $monsterfound=true;
                         break;
                     }
@@ -341,6 +344,7 @@ foreach($map_list as $map)
                     $deduplicated_monster_list[]=$monster;
                 }
             }
+            uasort($deduplicated_monster_list,'monsterMapOrderGreater');
             foreach($deduplicated_monster_list as $monster)
             {
                 if(isset($monster_meta[$monster['id']]))

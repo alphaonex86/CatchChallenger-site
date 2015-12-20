@@ -34,3 +34,23 @@ function textToProperty($text)
     }
     return $propertyList;
 }
+
+function monsterMapOrderGreater($monsterA,$monsterB)
+{
+    $countMonsterA=count($monsterA['sub']);
+    $countMonsterB=count($monsterB['sub']);
+    if($countMonsterA==$countMonsterB)
+    {
+        if($countMonsterA==0)
+            return 0;
+        if(implode($monsterA['sub'],'')<implode($monsterB['sub'],''))
+            return 1;
+        else
+            return -1;
+    }
+    if($countMonsterA<$countMonsterB)
+        return 1;
+    else
+        return -1;
+}
+

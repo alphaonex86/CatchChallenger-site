@@ -262,7 +262,8 @@ foreach($temp_monsters as $monster_file)
 		ksort($attack_list);
 		ksort($attack_list_byitem);
 		$monster_meta[$id]=array('type'=>$type,'kind'=>$kind_in_other_lang,'habitat'=>$habitat_in_other_lang,'attack_list'=>$attack_list,'attack_list_byitem'=>$attack_list_byitem,'drops'=>$drops_list,'evolution_list'=>$evolution_list,'ratio_gender'=>$ratio_gender,'catch_rate'=>$catch_rate,
-		'height'=>$height,'weight'=>$weight,'egg_step'=>$egg_step,'hp'=>$hp,'attack'=>$attack,'defense'=>$defense,'special_attack'=>$special_attack,'special_defense'=>$special_defense,'speed'=>$speed,'name'=>$name_in_other_lang,'description'=>$description_in_other_lang
+		'height'=>$height,'weight'=>$weight,'egg_step'=>$egg_step,'hp'=>$hp,'attack'=>$attack,'defense'=>$defense,'special_attack'=>$special_attack,'special_defense'=>$special_defense,'speed'=>$speed,'name'=>$name_in_other_lang,'description'=>$description_in_other_lang,
+        'game'=>array()
 		);
 	}
 }

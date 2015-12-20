@@ -226,6 +226,7 @@ $translation_list[$temp_lang]['No']='Non';
 $translation_list[$temp_lang]['Repeatable']='Répétable';
 $translation_list[$temp_lang]['Starting bot']='Bot de départ';
 $translation_list[$temp_lang]['Variations']='Variations';
+$translation_list[$temp_lang]['Game to catch it']='Jeu pour l\'attaper';
 
 //generated path
 $translation_list[$temp_lang]['maps/']='cartes/';

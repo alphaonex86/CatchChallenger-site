@@ -71,6 +71,39 @@ foreach($monster_meta as $id=>$monster)
 		if($monster['habitat'][$current_lang]!='')
 			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Habitat'].'</div><div class="value">'.$monster['habitat'][$current_lang].'</div></div>';
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Catch rate'].'</div><div class="value">'.$monster['catch_rate'].'</div></div>';
+
+        if(count($monster['game']))
+        {
+            $map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Game to catch it'].'</div><div class="value">';
+            foreach($monster['game'] as $maindatapackcode=>$tempSubList)
+            foreach($tempSubList as $tempSub)
+            {
+                $text_temp_sub='?';
+                $color_temp_sub='';
+                if($tempSub=='')
+                {
+                    if(isset($informations_meta['main'][$maindatapackcode]))
+                    {
+                        $text_temp_sub=$informations_meta['main'][$maindatapackcode]['initial'];
+                        $color_temp_sub=$informations_meta['main'][$maindatapackcode]['color'];
+                    }
+                }
+                else
+                {
+                    if(isset($informations_meta['main'][$maindatapackcode]['sub'][$tempSub]))
+                    {
+                        $text_temp_sub=$informations_meta['main'][$maindatapackcode]['sub'][$tempSub]['initial'];
+                        $color_temp_sub=$informations_meta['main'][$maindatapackcode]['sub'][$tempSub]['color'];
+                    }
+                }
+                if($color_temp_sub!='')
+                    $map_descriptor.='<span style="background-color:'.$color_temp_sub.';" class="datapackinital">'.$text_temp_sub.'</span>';
+                else
+                    $map_descriptor.='<span class="datapackinital">'.$text_temp_sub.'</span>';
+            }
+            $map_descriptor.='</div></div>';
+        }
+
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Steps for hatching'].'</div><div class="value">'.$monster['egg_step'].'</div></div>';
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Body'].'</div><div class="value">'.$translation_list[$current_lang]['Height'].': '.$monster['height'].'m, '.$translation_list[$current_lang]['width'].': '.$monster['weight'].'kg</div></div>';
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Stat'].'</div><div class="value">'.$translation_list[$current_lang]['Hp'].': <i>'.$monster['hp'].'</i>, '.$translation_list[$current_lang]['Attack'].': <i>'.$monster['attack'].'</i>, '.$translation_list[$current_lang]['Defense'].': <i>'.$monster['defense'].'</i>, '.$translation_list[$current_lang]['Special attack'].': <i>'.$monster['special_attack'].'</i>, '.$translation_list[$current_lang]['Special defense'].': <i>'.$monster['special_defense'].'</i>, '.$translation_list[$current_lang]['Speed'].': <i>'.$monster['speed'].'</i></div></div>';

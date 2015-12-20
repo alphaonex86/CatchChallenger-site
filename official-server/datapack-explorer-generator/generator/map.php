@@ -244,11 +244,55 @@ foreach($map_list as $map)
                     $subTypeCount++;
                 }
         sort($subTypeDuplicate);
+        $specversion=false;
+        if($subTypeCount>1 && isset($informations_meta['main'][$maindatapackcode]['sub']) && count($informations_meta['main'][$maindatapackcode]['sub'])==($subTypeCount-1))
+        {
+            $specversion=false;
+            foreach($map_current_object['monsters'] as $monsterType=>$monster_list_temp)
+            {
+                $deduplicated_monster_list=array();
+                foreach($monster_list_temp as $subdatapackcode=>$monster_list)
+                {
+                    if($subdatapackcode!='')
+                    {
+                        if(count($monster_list_temp[''])!=count($monster_list_temp[$subdatapackcode]))
+                        {
+                            $specversion=true;
+                            break;
+                            break;
+                        }
+                        foreach($monster_list as $index=>$monster)
+                        {
+                            if($monster_list_temp[''][$index]['id']==$monster_list_temp[$subdatapackcode][$index]['id'] && 
+                            $monster_list_temp[''][$index]['minLevel']==$monster_list_temp[$subdatapackcode][$index]['minLevel'] && 
+                            $monster_list_temp[''][$index]['maxLevel']==$monster_list_temp[$subdatapackcode][$index]['maxLevel'] && 
+                            $monster_list_temp[''][$index]['luck']==$monster_list_temp[$subdatapackcode][$index]['luck'])
+                            {
+                            }
+                            else
+                            {
+                                $specversion=true;
+                                break;
+                                break;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+/*
+                if(count($monster_list_temp)!=$subTypeCount)
+                {
+
+                    $specversion=true;
+                    break;
+                }*/
+        }
 		$map_descriptor.='<table class="item_list item_list_type_'.$map_current_object['type'].'">
 		<tr class="item_list_title item_list_title_type_'.$map_current_object['type'].'">
 			<th colspan="2">'.$translation_list[$current_lang]['Monster'].'</th>
 			<th>'.$translation_list[$current_lang]['Location'].'</th>';
-            if($subTypeCount>1)
+            if($specversion)
                 $map_descriptor.='<th>'.$translation_list[$current_lang]['Variations'].'</th>';
 			$map_descriptor.='<th>'.$translation_list[$current_lang]['Levels'].'</th>
 			<th colspan="3">'.$translation_list[$current_lang]['Rate'].'</th>
@@ -275,7 +319,7 @@ foreach($map_list as $map)
             }
             $map_descriptor.='<tr class="item_list_title_type_'.$map_current_object['type'].'">
                     <th colspan="';
-            if($subTypeCount>1)
+            if($specversion)
                 $map_descriptor.='8';
             else
                 $map_descriptor.='7';
@@ -322,26 +366,33 @@ foreach($map_list as $map)
             // group the monster by sub + deduplicate
             $deduplicated_monster_list=array();
             foreach($monster_list_temp as $subdatapackcode=>$monster_list)
-            foreach($monster_list as $monster)
             {
-                $monsterfound=false;
-                foreach($deduplicated_monster_list as $temp_id_deduplicate=>$monster2)
+                if(!is_array($monster_list))
                 {
-                    if($monster['id']==$monster2['id'] && $monster['minLevel']==$monster2['minLevel'] && $monster['maxLevel']==$monster2['maxLevel'] && $monster['luck']==$monster2['luck'])
-                    {
-                        if(!in_array($subdatapackcode,$deduplicated_monster_list[$temp_id_deduplicate]['sub']))
-                        {
-                            $deduplicated_monster_list[$temp_id_deduplicate]['sub'][]=$subdatapackcode;
-                            sort($deduplicated_monster_list[$temp_id_deduplicate]['sub']);
-                        }
-                        $monsterfound=true;
-                        break;
-                    }
+                    print_r($monster_list);
+                    die('not an array, abort');
                 }
-                if($monsterfound==false)
+                foreach($monster_list as $monster)
                 {
-                    $monster['sub']=array($subdatapackcode);
-                    $deduplicated_monster_list[]=$monster;
+                    $monsterfound=false;
+                    foreach($deduplicated_monster_list as $temp_id_deduplicate=>$monster2)
+                    {
+                        if($monster['id']==$monster2['id'] && $monster['minLevel']==$monster2['minLevel'] && $monster['maxLevel']==$monster2['maxLevel'] && $monster['luck']==$monster2['luck'])
+                        {
+                            if(!in_array($subdatapackcode,$deduplicated_monster_list[$temp_id_deduplicate]['sub']))
+                            {
+                                $deduplicated_monster_list[$temp_id_deduplicate]['sub'][]=$subdatapackcode;
+                                sort($deduplicated_monster_list[$temp_id_deduplicate]['sub']);
+                            }
+                            $monsterfound=true;
+                            break;
+                        }
+                    }
+                    if($monsterfound==false)
+                    {
+                        $monster['sub']=array($subdatapackcode);
+                        $deduplicated_monster_list[]=$monster;
+                    }
                 }
             }
             uasort($deduplicated_monster_list,'monsterMapOrderGreater');
@@ -363,7 +414,7 @@ foreach($map_list as $map)
                         $map_descriptor.='<img src="/images/datapack-explorer/'.$full_monsterType_name_top.'.png" alt="" class="locationimg">'.$translation_list[$current_lang][$full_monsterType_name_top];
                         $map_descriptor.='</td>';
                         
-                        if($subTypeCount>1)
+                        if($specversion)
                         {
                             $map_descriptor.='<td>';
                             foreach($subTypeDuplicate as $tempSub)
@@ -417,7 +468,7 @@ foreach($map_list as $map)
         }
 		$map_descriptor.='<tr>
 			<td colspan="';
-        if($subTypeCount>1)
+        if($specversion)
             $map_descriptor.='8';
         else
             $map_descriptor.='7';

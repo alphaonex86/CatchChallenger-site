@@ -104,6 +104,32 @@ foreach($monster_meta as $id=>$monster)
             $map_descriptor.='</div></div>';
         }
 
+        $map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Rarity'].'</div><div class="value">';
+        if(isset($exclusive_monster_reverse[$id]))
+            $map_descriptor.=$translation_list[$current_lang]['Version exclusive!'];
+        else if(!isset($monster_to_map[$id]))
+            $map_descriptor.=$translation_list[$current_lang]['Not found on any map'];
+        else
+        {
+            if(!isset($monster_to_rarity[$id]))
+                $map_descriptor.='Bug';
+            else
+            {
+                $percent=100*($monster_to_rarity[$id]['position'])/count($monster_to_rarity);
+                if($percent>80)
+                    $map_descriptor.=$translation_list[$current_lang]['Very common'];
+                else if($percent>50)
+                    $map_descriptor.=$translation_list[$current_lang]['Common'];
+                else if($percent>20)
+                    $map_descriptor.=$translation_list[$current_lang]['Less common'];
+                else if($percent>5)
+                    $map_descriptor.=$translation_list[$current_lang]['Rare'];
+                else
+                    $map_descriptor.=$translation_list[$current_lang]['Very rare'];
+            }
+        }
+        $map_descriptor.='</div></div>';
+
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Steps for hatching'].'</div><div class="value">'.$monster['egg_step'].'</div></div>';
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Body'].'</div><div class="value">'.$translation_list[$current_lang]['Height'].': '.$monster['height'].'m, '.$translation_list[$current_lang]['width'].': '.$monster['weight'].'kg</div></div>';
 		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Stat'].'</div><div class="value">'.$translation_list[$current_lang]['Hp'].': <i>'.$monster['hp'].'</i>, '.$translation_list[$current_lang]['Attack'].': <i>'.$monster['attack'].'</i>, '.$translation_list[$current_lang]['Defense'].': <i>'.$monster['defense'].'</i>, '.$translation_list[$current_lang]['Special attack'].': <i>'.$monster['special_attack'].'</i>, '.$translation_list[$current_lang]['Special defense'].': <i>'.$monster['special_defense'].'</i>, '.$translation_list[$current_lang]['Speed'].': <i>'.$monster['speed'].'</i></div></div>';

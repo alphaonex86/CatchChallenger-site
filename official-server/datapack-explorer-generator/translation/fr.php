@@ -227,6 +227,14 @@ $translation_list[$temp_lang]['Repeatable']='Répétable';
 $translation_list[$temp_lang]['Starting bot']='Bot de départ';
 $translation_list[$temp_lang]['Variations']='Variations';
 $translation_list[$temp_lang]['Game to catch it']='Jeu pour l\'attaper';
+$translation_list[$temp_lang]['Rarity']='Rareté';
+$translation_list[$temp_lang]['Not found on any map']='Trouvé sur aucune map';
+$translation_list[$temp_lang]['Version exclusive!']='Exclusif à la version!';
+$translation_list[$temp_lang]['Very common']='Vraiment courrant';
+$translation_list[$temp_lang]['Common']='Courrant';
+$translation_list[$temp_lang]['Less common']='Moins courrant';
+$translation_list[$temp_lang]['Rare']='Rare';
+$translation_list[$temp_lang]['Very rare']='Vraiment rare';
 
 //generated path
 $translation_list[$temp_lang]['maps/']='cartes/';

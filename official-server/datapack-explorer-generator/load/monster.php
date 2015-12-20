@@ -3,6 +3,8 @@ if(!isset($datapackexplorergeneratorinclude))
 	die('abort into load monster'."\n");
 
 $monster_meta=array();
+$exclusive_monster=array();
+$exclusive_monster_reverse=array();
 $item_to_monster=array();
 $item_to_evolution=array();
 $reverse_evolution=array();
@@ -263,8 +265,23 @@ foreach($temp_monsters as $monster_file)
 		ksort($attack_list_byitem);
 		$monster_meta[$id]=array('type'=>$type,'kind'=>$kind_in_other_lang,'habitat'=>$habitat_in_other_lang,'attack_list'=>$attack_list,'attack_list_byitem'=>$attack_list_byitem,'drops'=>$drops_list,'evolution_list'=>$evolution_list,'ratio_gender'=>$ratio_gender,'catch_rate'=>$catch_rate,
 		'height'=>$height,'weight'=>$weight,'egg_step'=>$egg_step,'hp'=>$hp,'attack'=>$attack,'defense'=>$defense,'special_attack'=>$special_attack,'special_defense'=>$special_defense,'speed'=>$speed,'name'=>$name_in_other_lang,'description'=>$description_in_other_lang,
-        'game'=>array()
+        'game'=>array(),'rarity'=>0
 		);
 	}
 }
 ksort($monster_meta);
+
+foreach($monster_meta as $id=>$monster)
+{
+    if(count($monster['game'])==1)
+    {
+        foreach($monster['game'] as $maindatapackcode=>$values)
+        {
+            if(count($values)==1)
+            {
+                $exclusive_monster[$maindatapackcode][$values[0]][]=$id;
+                $exclusive_monster_reverse[$id]=array('maindatapackcode'=>$maindatapackcode,'subdatapackcode'=>$values[0]);
+            }
+        }
+    }
+}

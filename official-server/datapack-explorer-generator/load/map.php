@@ -486,16 +486,11 @@ while (false !== ($maindatapackcode = readdir($dh)))
                                     foreach($monsters[$toSearch][$subdatapackcode] as $tempMonsterList)
                                     {
                                         $id=$tempMonsterList['id'];
-$minLevel=;
-$maxLevel=;
-$luck=;
+                                        $minLevel=$tempMonsterList['minLevel'];
+                                        $maxLevel=$tempMonsterList['maxLevel'];
+                                        $luck=$tempMonsterList['luck'];
                                         if(isset($monster_meta[$id]))
                                         {
-                                            if(!isset($monsters[$toSearch]))
-                                                $monsters[$toSearch]=array();
-                                            if(!isset($monsters[$toSearch][$subdatapackcode]))
-                                                $monsters[$toSearch][$subdatapackcode]=array();
-                                            $monsters[$toSearch][$subdatapackcode][]=array('id'=>$id,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
                                             if(!isset($monster_to_map[$id]))
                                                 $monster_to_map[$id]=array();
                                             if(!isset($monster_to_map[$id][$toSearch]))
@@ -528,13 +523,11 @@ $luck=;
                                 foreach($monsters[$toSearch][$subdatapackcode] as $tempMonsterList)
                                 {
                                     $id=$tempMonsterList['id'];
+                                    $minLevel=$tempMonsterList['minLevel'];
+                                    $maxLevel=$tempMonsterList['maxLevel'];
+                                    $luck=$tempMonsterList['luck'];
                                     if(isset($monster_meta[$id]))
                                     {
-                                        if(!isset($monsters[$toSearch]))
-                                            $monsters[$toSearch]=array();
-                                        if(!isset($monsters[$toSearch][$subdatapackcode]))
-                                            $monsters[$toSearch][$subdatapackcode]=array();
-                                        $monsters[$toSearch][$subdatapackcode][]=array('id'=>$id,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
                                         if(!isset($monster_to_map[$id]))
                                             $monster_to_map[$id]=array();
                                         if(!isset($monster_to_map[$id][$toSearch]))

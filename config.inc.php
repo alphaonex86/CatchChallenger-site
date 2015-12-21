@@ -1,9 +1,19 @@
 <?php
 //rename into config.php and customize
-$postgres_host='localhost';
 $postgres_login='root';
 $postgres_pass='root';
-$postgres_db='catchchallenger';
+
+$postgres_db_login=array('host'=>'localhost','database'=>'catchchallenger_login');
+$postgres_db_base=array('host'=>'localhost','database'=>'catchchallenger_base');
+$postgres_db_tree=array(
+'common1'=>array('host'=>'localhost','database'=>'catchchallenger_common',
+    'server1'=>array(
+            array('host'=>'localhost','database'=>'catchchallenger_server'),
+        )
+    ),
+);
+
+$postgres_db_server='catchchallenger';
 $base_datapack_explorer_site_path='/official-server/datapack-explorer/';
 $base_datapack_site_path='/datapack/';
 $base_datapack_site_http='http://localhost';

@@ -1,22 +1,13 @@
 <?php
 $is_up=true;
 require '../config.php';
-if($postgres_db_login['host']!='localhost')
-    $postgres_link_login = @pg_connect('dbname='.$postgres_db_login['database'].' user='.$postgres_login.' password='.$postgres_pass.' host='.$postgres_db_login['host']);
-else
-    $postgres_link_login = @pg_connect('dbname='.$postgres_db_login['database'].' user='.$postgres_login.' password='.$postgres_pass);
-if($postgres_link_login===FALSE)
-    $is_up=false;
 
-if($is_up)
-{
-    if($postgres_db_base['host']!='localhost')
-        $postgres_link_base = @pg_connect('dbname='.$postgres_db_base['database'].' user='.$postgres_base.' password='.$postgres_pass.' host='.$postgres_db_base['host']);
-    else
-        $postgres_link_base = @pg_connect('dbname='.$postgres_db_base['database'].' user='.$postgres_base.' password='.$postgres_pass);
-    if($postgres_link_base===FALSE)
-        $is_up=false;
-}
+if($postgres_db_base['host']!='localhost')
+    $postgres_link_base = pg_connect('dbname='.$postgres_db_base['database'].' user='.$postgres_login.' password='.$postgres_pass.' host='.$postgres_db_base['host']);
+else
+    $postgres_link_base = pg_connect('dbname='.$postgres_db_base['database'].' user='.$postgres_login.' password='.$postgres_pass);
+if($postgres_link_base===FALSE)
+    $is_up=false;
 
 if($is_up)
 {
@@ -25,9 +16,9 @@ if($is_up)
     {
         $is_up=true;
         if($common_server_content['host']!='localhost')
-            $postgres_link_common = @pg_connect('dbname='.$common_server_content['database'].' user='.$postgres_common.' password='.$postgres_pass.' host='.$common_server_content['host']);
+            $postgres_link_common = pg_connect('dbname='.$common_server_content['database'].' user='.$postgres_login.' password='.$postgres_pass.' host='.$common_server_content['host']);
         else
-            $postgres_link_common = @pg_connect('dbname='.$common_server_content['database'].' user='.$postgres_common.' password='.$postgres_pass);
+            $postgres_link_common = pg_connect('dbname='.$common_server_content['database'].' user='.$postgres_login.' password='.$postgres_pass);
         if($postgres_link_common===FALSE)
             $is_up=false;
         break;
@@ -101,7 +92,7 @@ if($is_up)
 					echo '</tr>';
                     $skin_list=array();
 					$index=1;
-					$reply = pg_query('SELECT * FROM character ORDER BY id LIMIT 30') or die(pg_last_error());
+					$reply = pg_query($postgres_link_common,'SELECT * FROM character ORDER BY id LIMIT 30') or die(pg_last_error());
 					while($data = pg_fetch_array($reply))
 					{
 						echo '<tr><td>';
@@ -111,7 +102,7 @@ if($is_up)
                             $skin=$skin_list[$data['skin']];
                         else
                         {
-                            $reply_skin = pg_query('SELECT skin FROM dictionary_skin WHERE id='.$data['skin']) or die(pg_last_error());
+                            $reply_skin = pg_query($postgres_link_base,'SELECT skin FROM dictionary_skin WHERE id='.$data['skin']) or die(pg_last_error());
                             if($data_skin = pg_fetch_array($reply_skin))
                                 $skin=$data_skin['skin'];
                             else
@@ -124,7 +115,7 @@ if($is_up)
 							echo '<div style="width:16px;height:24px;background-image:url(\'../datapack/skin/fighter/'.htmlspecialchars($skin).'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;float:left;"></div>';
 						echo '</td><td>'.htmlspecialchars($data['pseudo']).'</td>';
 						echo '<td>'.date('jS \of F Y',$data['date']).'</td>';
-						$reply_clan = pg_query('SELECT name FROM clan WHERE id='.$data['clan']) or die(pg_last_error());
+						$reply_clan = pg_query($postgres_link_common,'SELECT name FROM clan WHERE id='.$data['clan']) or die(pg_last_error());
 						if($data_clan = pg_fetch_array($reply_clan))
 						{
 							if($data['clan_leader']==true)

@@ -72,7 +72,7 @@ function send_mail($title,$text,$to,$type,$from)
 				<p class="text">
 				<?php
 				if(!$is_up)
-					echo 'The registration is actually <span style="color:red;"><b>closed</b></span>. count($start): '.count($start).', $is_up: '.$is_up.'<br />';
+					echo 'The registration is actually <span style="color:red;"><b>closed</b></span><br />';
 				else
 				{
 					if(isset($_POST['login']) && isset($_POST['password']) && isset($_POST['email']))

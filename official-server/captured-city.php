@@ -1,12 +1,34 @@
 <?php
 $is_up=true;
 require '../config.php';
-if($postgres_db_login['host']!='localhost')
-    $postgres_link_login = @pg_connect('dbname='.$postgres_db_login['database'].' user='.$postgres_login.' password='.$postgres_pass.' host='.$postgres_db_login['host']);
-else
-    $postgres_link_login = @pg_connect('dbname='.$postgres_db_login['database'].' user='.$postgres_login.' password='.$postgres_pass);
-if($postgres_link_login===FALSE)
-    $is_up=false;
+
+$is_up=false;
+foreach($postgres_db_tree as $common_server_content)
+{
+    $is_up=true;
+    if($common_server_content['host']!='localhost')
+        $postgres_link_common = pg_connect('dbname='.$common_server_content['database'].' user='.$postgres_login.' password='.$postgres_pass.' host='.$common_server_content['host']);
+    else
+        $postgres_link_common = pg_connect('dbname='.$common_server_content['database'].' user='.$postgres_login.' password='.$postgres_pass);
+    if($postgres_link_common===FALSE)
+        $is_up=false;
+    else
+    {
+        $is_up=false;
+        foreach($common_server_content['servers'] as $server_content)
+        {
+            $is_up=true;
+            if($server_content['host']!='localhost')
+                $postgres_link_server = pg_connect('dbname='.$server_content['database'].' user='.$postgres_login.' password='.$postgres_pass.' host='.$server_content['host']);
+            else
+                $postgres_link_server = pg_connect('dbname='.$server_content['database'].' user='.$postgres_login.' password='.$postgres_pass);
+            if($postgres_link_server===FALSE)
+                $is_up=false;
+            break;
+        }
+    }
+    break;
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
@@ -67,11 +89,11 @@ if($postgres_link_login===FALSE)
 					echo '<td>City</td>';
 					echo '<td>Clan</td>';
 					echo '</tr>';
-					$reply = pg_query('SELECT * FROM  city ORDER BY city LIMIT 30') or die(pg_last_error());
+					$reply = pg_query($postgres_link_server,'SELECT * FROM  city ORDER BY city LIMIT 30') or die(pg_last_error());
 					while($data = pg_fetch_array($reply))
 					{
 						echo '<tr>';
-						$reply_clan = pg_query('SELECT name FROM clan WHERE id='.$data['clan'].' ORDER BY id') or die(pg_last_error());
+						$reply_clan = pg_query($postgres_link_common,'SELECT name FROM clan WHERE id='.$data['clan'].' ORDER BY id') or die(pg_last_error());
 						if($data_clan = pg_fetch_array($reply_clan))
 							echo '<td><img src="/official-server/images/flag.png" width="16" height="16" alt="" /></td>';
 						else
@@ -85,7 +107,7 @@ if($postgres_link_login===FALSE)
 								$zone_text=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$content);
 						}
 						echo '<td><strong>'.htmlspecialchars($zone_text).'</strong></td>';
-						$reply_clan = pg_query('SELECT name FROM clan WHERE id='.$data['clan'].' ORDER BY name') or die(pg_last_error());
+						$reply_clan = pg_query($postgres_link_common,'SELECT name FROM clan WHERE id='.$data['clan'].' ORDER BY name') or die(pg_last_error());
 						if($data_clan = pg_fetch_array($reply_clan))
 							echo '<td>'.htmlspecialchars($data_clan['name']).'</td>';
 						else

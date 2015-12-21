@@ -112,17 +112,17 @@ foreach($monster_meta as $id=>$monster)
         else
         {
             if(!isset($monster_to_rarity[$id]))
-                $map_descriptor.='Bug';
+                $map_descriptor.=$translation_list[$current_lang]['Very rare'];
             else
             {
                 $percent=100*($monster_to_rarity[$id]['position'])/count($monster_to_rarity);
-                if($percent>80)
+                if($percent>10)
                     $map_descriptor.=$translation_list[$current_lang]['Very common'];
-                else if($percent>50)
+                else if($percent>70)
                     $map_descriptor.=$translation_list[$current_lang]['Common'];
-                else if($percent>20)
+                else if($percent>40)
                     $map_descriptor.=$translation_list[$current_lang]['Less common'];
-                else if($percent>5)
+                else if($percent>10)
                     $map_descriptor.=$translation_list[$current_lang]['Rare'];
                 else
                     $map_descriptor.=$translation_list[$current_lang]['Very rare'];
@@ -529,7 +529,7 @@ foreach($monster_meta as $id=>$monster)
 
 
         foreach($monster_to_map[$id] as $monsterType=>$monster_list_temp)
-        foreach($monster_list_temp as $maindatapackcode=>$monster_list)
+        foreach($monster_list_temp as $maindatapackcode=>$map_list)
         {
             $full_monsterType_name='Cave';
             if(isset($layer_event[$monsterType]))
@@ -590,18 +590,19 @@ foreach($monster_meta as $id=>$monster)
             }
             $map_descriptor.='</th>
                 </tr>';
-            foreach($monster_list as $monster_on_map)
+            foreach($map_list as $map=>$subdatapackcode_list)
+            foreach($subdatapackcode_list as $subdatapackcode=>$monster_on_map)
             {
                 $map_descriptor.='<tr class="value">';
-                if(isset($maps_list[$maindatapackcode][$monster_on_map['map']]))
+                if(isset($maps_list[$maindatapackcode][$map]))
                 {
-                    if(isset($zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$monster_on_map['map']]['zone']]))
+                    if(isset($zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$map]['zone']]))
                     {
-                        $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'">'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'</a></td>';
-                        $map_descriptor.='<td>'.$zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$monster_on_map['map']]['zone']]['name'][$current_lang].'</td>';
+                        $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$map).'" title="'.$maps_list[$maindatapackcode][$map]['name'][$current_lang].'">'.$maps_list[$maindatapackcode][$map]['name'][$current_lang].'</a></td>';
+                        $map_descriptor.='<td>'.$zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$map]['zone']]['name'][$current_lang].'</td>';
                     }
                     else
-                        $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'">'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'</a></td>';
+                        $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$map).'" title="'.$maps_list[$maindatapackcode][$map]['name'][$current_lang].'">'.$maps_list[$maindatapackcode][$map]['name'][$current_lang].'</a></td>';
                 }
                 else
                     $map_descriptor.='<td colspan="2">'.$translation_list[$current_lang]['Unknown map'].'</td>';
@@ -616,40 +617,9 @@ foreach($monster_meta as $id=>$monster)
                 $map_descriptor.='</td>';
                 $map_descriptor.='<td colspan="3">'.$monster_on_map['luck'].'%</td>
                 </tr>';
+                break;
             }
         }
-
-		/*if(isset($monster_to_map[$id]))
-		{
-			$map_descriptor.='<tr class="item_list_title_type_'.$resolved_type.'">
-					<th colspan="7">Grass</th>
-				</tr>';
-			foreach($monster_to_map[$id] as $monsterType=>$monster_list)
-			{
-				$map_descriptor.='<tr class="value">';
-					if(isset($maps_list[$maindatapackcode][$monster_on_map['map']]))
-					{
-						if(isset($zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$monster_on_map['map']]['zone']]))
-						{
-							$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'">'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'</a></td>';
-							$map_descriptor.='<td>'.$zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$monster_on_map['map']]['zone']]['name'][$current_lang].'</td>';
-						}
-						else
-							$map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$monster_on_map['map']).'" title="'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'">'.$maps_list[$maindatapackcode][$monster_on_map['map']]['name'][$current_lang].'</a></td>';
-					}
-					else
-						$map_descriptor.='<td>Unknown map</td><td>&nbsp;</td>';
-					$map_descriptor.='<td><img src="/images/datapack-explorer/grass.png" alt="" class="locationimg">Grass</td>
-					<td>';
-					if($monster_on_map['minLevel']==$monster_on_map['maxLevel'])
-						$map_descriptor.=$monster_on_map['minLevel'];
-					else
-						$map_descriptor.=$monster_on_map['minLevel'].'-'.$monster_on_map['maxLevel'];
-					$map_descriptor.='</td>';
-					$map_descriptor.='<td colspan="3">'.$monster_on_map['luck'].'%</td>
-				</tr>';
-			}
-		}*/
 
 		$map_descriptor.='<tr>
 			<td colspan="7" class="item_list_endline item_list_title_type_'.$resolved_type.'"></td>

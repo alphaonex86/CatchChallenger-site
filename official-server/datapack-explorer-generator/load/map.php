@@ -6,6 +6,7 @@ $maps_list=array();
 $maps_name_to_file=array();
 $zone_to_map=array();
 $monster_to_map=array();
+$monster_to_map_count=array();
 $bots_file=array();
 $bot_id_to_skin=array();
 $bot_id_to_map=array();
@@ -382,13 +383,14 @@ while (false !== ($maindatapackcode = readdir($dh)))
                                         $monster_to_map[$id][$toSearch]=array();
                                     if(!isset($monster_to_map[$id][$toSearch][$maindatapackcode]))
                                         $monster_to_map[$id][$toSearch][$maindatapackcode]=array();
-                                    $monster_to_map[$id][$toSearch][$maindatapackcode][]=array('map'=>$map,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
+                                    $monster_to_map[$id][$toSearch][$maindatapackcode][$map]['']=array('minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
                                     if(!in_array($id,$monsters_list))
                                         $monsters_list[]=$id;
                                     if(!isset($monster_meta[$id]['game'][$maindatapackcode]))
                                         $monster_meta[$id]['game'][$maindatapackcode]=array();
                                     if(!in_array('',$monster_meta[$id]['game'][$maindatapackcode]))
                                         $monster_meta[$id]['game'][$maindatapackcode][]='';
+                                    $monster_to_map_count[$id][$maindatapackcode.'/'.$map]['']=0;
                                     $monster_meta[$id]['rarity']+=$luck;
                                     $dropcount+=count($monster_meta[$id]['drops']);
                                 }
@@ -460,13 +462,14 @@ while (false !== ($maindatapackcode = readdir($dh)))
                                                 $monster_to_map[$id][$toSearch]=array();
                                             if(!isset($monster_to_map[$id][$toSearch][$maindatapackcode]))
                                                 $monster_to_map[$id][$toSearch][$maindatapackcode]=array();
-                                            $monster_to_map[$id][$toSearch][$maindatapackcode][]=array('map'=>$map,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
+                                            $monster_to_map[$id][$toSearch][$maindatapackcode][$map][$subdatapackcode]=array('minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
                                             if(!in_array($id,$monsters_list))
                                                 $monsters_list[]=$id;
                                             if(!isset($monster_meta[$id]['game'][$maindatapackcode]))
                                                 $monster_meta[$id]['game'][$maindatapackcode]=array();
                                             if(!in_array($subdatapackcode,$monster_meta[$id]['game'][$maindatapackcode]))
                                                 $monster_meta[$id]['game'][$maindatapackcode][]=$subdatapackcode;
+                                            $monster_to_map_count[$id][$maindatapackcode.'/'.$map][$subdatapackcode]=0;
                                             $monster_meta[$id]['rarity']+=$luck;
                                             $dropcount+=count($monster_meta[$id]['drops']);
                                         }
@@ -482,9 +485,33 @@ while (false !== ($maindatapackcode = readdir($dh)))
                                     $monsters[$toSearch][$subdatapackcode]=$monsters[$toSearch][''];
                                     foreach($monsters[$toSearch][$subdatapackcode] as $tempMonsterList)
                                     {
-                                        if(isset($monster_meta[$tempMonsterList['id']]))
+                                        $id=$tempMonsterList['id'];
+$minLevel=;
+$maxLevel=;
+$luck=;
+                                        if(isset($monster_meta[$id]))
                                         {
-                                            $monster_meta[$tempMonsterList['id']]['rarity']+=$tempMonsterList['luck'];
+                                            if(!isset($monsters[$toSearch]))
+                                                $monsters[$toSearch]=array();
+                                            if(!isset($monsters[$toSearch][$subdatapackcode]))
+                                                $monsters[$toSearch][$subdatapackcode]=array();
+                                            $monsters[$toSearch][$subdatapackcode][]=array('id'=>$id,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
+                                            if(!isset($monster_to_map[$id]))
+                                                $monster_to_map[$id]=array();
+                                            if(!isset($monster_to_map[$id][$toSearch]))
+                                                $monster_to_map[$id][$toSearch]=array();
+                                            if(!isset($monster_to_map[$id][$toSearch][$maindatapackcode]))
+                                                $monster_to_map[$id][$toSearch][$maindatapackcode]=array();
+                                            $monster_to_map[$id][$toSearch][$maindatapackcode][$map][$subdatapackcode]=array('minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
+                                            if(!in_array($id,$monsters_list))
+                                                $monsters_list[]=$id;
+                                            if(!isset($monster_meta[$id]['game'][$maindatapackcode]))
+                                                $monster_meta[$id]['game'][$maindatapackcode]=array();
+                                            if(!in_array($subdatapackcode,$monster_meta[$id]['game'][$maindatapackcode]))
+                                                $monster_meta[$id]['game'][$maindatapackcode][]=$subdatapackcode;
+                                            $monster_to_map_count[$id][$maindatapackcode.'/'.$map][$subdatapackcode]=0;
+                                            $dropcount+=count($monster_meta[$id]['drops']);
+                                            $monster_meta[$id]['rarity']+=$tempMonsterList['luck'];
                                         }
                                     }
                                 }
@@ -500,8 +527,29 @@ while (false !== ($maindatapackcode = readdir($dh)))
                                 $monsters[$toSearch][$subdatapackcode]=$monsters[$toSearch][''];
                                 foreach($monsters[$toSearch][$subdatapackcode] as $tempMonsterList)
                                 {
-                                    if(isset($monster_meta[$tempMonsterList['id']]))
+                                    $id=$tempMonsterList['id'];
+                                    if(isset($monster_meta[$id]))
                                     {
+                                        if(!isset($monsters[$toSearch]))
+                                            $monsters[$toSearch]=array();
+                                        if(!isset($monsters[$toSearch][$subdatapackcode]))
+                                            $monsters[$toSearch][$subdatapackcode]=array();
+                                        $monsters[$toSearch][$subdatapackcode][]=array('id'=>$id,'minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
+                                        if(!isset($monster_to_map[$id]))
+                                            $monster_to_map[$id]=array();
+                                        if(!isset($monster_to_map[$id][$toSearch]))
+                                            $monster_to_map[$id][$toSearch]=array();
+                                        if(!isset($monster_to_map[$id][$toSearch][$maindatapackcode]))
+                                            $monster_to_map[$id][$toSearch][$maindatapackcode]=array();
+                                        $monster_to_map[$id][$toSearch][$maindatapackcode][$map][$subdatapackcode]=array('minLevel'=>$minLevel,'maxLevel'=>$maxLevel,'luck'=>$luck);
+                                        if(!in_array($id,$monsters_list))
+                                            $monsters_list[]=$id;
+                                        if(!isset($monster_meta[$id]['game'][$maindatapackcode]))
+                                            $monster_meta[$id]['game'][$maindatapackcode]=array();
+                                        if(!in_array($subdatapackcode,$monster_meta[$id]['game'][$maindatapackcode]))
+                                            $monster_meta[$id]['game'][$maindatapackcode][]=$subdatapackcode;
+                                        $monster_to_map_count[$id][$maindatapackcode.'/'.$map][$subdatapackcode]=0;
+                                        $dropcount+=count($monster_meta[$id]['drops']);
                                         $monster_meta[$tempMonsterList['id']]['rarity']+=$tempMonsterList['luck'];
                                     }
                                 }
@@ -548,5 +596,7 @@ $index=1;
 foreach($monster_to_rarity as $id=>$rarity)
 {
     $monster_to_rarity[$id]=array('rarity'=>$rarity,'position'=>$index);
+    if(!isset($monster_to_map_count[$id]) || count($monster_to_map_count[$id])<2)
+        unset($monster_to_rarity[$id]);
     $index++;
 }

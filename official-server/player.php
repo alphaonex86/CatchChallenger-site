@@ -1,12 +1,38 @@
 <?php
 $is_up=true;
 require '../config.php';
-if($postgres_host!='localhost')
-    $postgres_link = @pg_connect('dbname='.$postgres_db.' user='.$postgres_login.' password='.$postgres_pass.' host='.$postgres_host);
+if($postgres_db_login['host']!='localhost')
+    $postgres_link_login = @pg_connect('dbname='.$postgres_db_login['database'].' user='.$postgres_login.' password='.$postgres_pass.' host='.$postgres_db_login['host']);
 else
-    $postgres_link = @pg_connect('dbname='.$postgres_db.' user='.$postgres_login.' password='.$postgres_pass);
-if($postgres_link===FALSE)
+    $postgres_link_login = @pg_connect('dbname='.$postgres_db_login['database'].' user='.$postgres_login.' password='.$postgres_pass);
+if($postgres_link_login===FALSE)
     $is_up=false;
+
+if($is_up)
+{
+    if($postgres_db_base['host']!='localhost')
+        $postgres_link_base = @pg_connect('dbname='.$postgres_db_base['database'].' user='.$postgres_base.' password='.$postgres_pass.' host='.$postgres_db_base['host']);
+    else
+        $postgres_link_base = @pg_connect('dbname='.$postgres_db_base['database'].' user='.$postgres_base.' password='.$postgres_pass);
+    if($postgres_link_base===FALSE)
+        $is_up=false;
+}
+
+if($is_up)
+{
+    $is_up=false;
+    foreach($postgres_db_tree as $common_server_content)
+    {
+        $is_up=true;
+        if($common_server_content['host']!='localhost')
+            $postgres_link_common = @pg_connect('dbname='.$common_server_content['database'].' user='.$postgres_common.' password='.$postgres_pass.' host='.$common_server_content['host']);
+        else
+            $postgres_link_common = @pg_connect('dbname='.$common_server_content['database'].' user='.$postgres_common.' password='.$postgres_pass);
+        if($postgres_link_common===FALSE)
+            $is_up=false;
+        break;
+    }
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">

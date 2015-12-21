@@ -7,8 +7,8 @@ $postgres_db_login=array('host'=>'localhost','database'=>'catchchallenger_login'
 $postgres_db_base=array('host'=>'localhost','database'=>'catchchallenger_base');
 $postgres_db_tree=array(
 'common1'=>array('host'=>'localhost','database'=>'catchchallenger_common',
-    'server1'=>array(
-            array('host'=>'localhost','database'=>'catchchallenger_server'),
+    'servers'=>array(
+            'server1'=>array('host'=>'localhost','database'=>'catchchallenger_server'),
         )
     ),
 );

@@ -3,12 +3,44 @@ $is_up=true;
 require '../config.php';
 $datapackexplorergeneratorinclude=true;
 require 'datapack-explorer-generator/function.php';
-if($postgres_db_login['host']!='localhost')
-    $postgres_link_login = @pg_connect('dbname='.$postgres_db_login['database'].' user='.$postgres_login.' password='.$postgres_pass.' host='.$postgres_db_login['host']);
+
+if($postgres_db_base['host']!='localhost')
+    $postgres_link_base = pg_connect('dbname='.$postgres_db_base['database'].' user='.$postgres_login.' password='.$postgres_pass.' host='.$postgres_db_base['host']);
 else
-    $postgres_link_login = @pg_connect('dbname='.$postgres_db_login['database'].' user='.$postgres_login.' password='.$postgres_pass);
-if($postgres_link_login===FALSE)
+    $postgres_link_base = pg_connect('dbname='.$postgres_db_base['database'].' user='.$postgres_login.' password='.$postgres_pass);
+if($postgres_link_base===FALSE)
     $is_up=false;
+
+if($is_up)
+{
+    $is_up=false;
+    foreach($postgres_db_tree as $common_server_content)
+    {
+        $is_up=true;
+        if($common_server_content['host']!='localhost')
+            $postgres_link_common = pg_connect('dbname='.$common_server_content['database'].' user='.$postgres_login.' password='.$postgres_pass.' host='.$common_server_content['host']);
+        else
+            $postgres_link_common = pg_connect('dbname='.$common_server_content['database'].' user='.$postgres_login.' password='.$postgres_pass);
+        if($postgres_link_common===FALSE)
+            $is_up=false;
+        else
+        {
+            $is_up=false;
+            foreach($common_server_content['servers'] as $server_content)
+            {
+                $is_up=true;
+                if($server_content['host']!='localhost')
+                    $postgres_link_server = pg_connect('dbname='.$server_content['database'].' user='.$postgres_login.' password='.$postgres_pass.' host='.$server_content['host']);
+                else
+                    $postgres_link_server = pg_connect('dbname='.$server_content['database'].' user='.$postgres_login.' password='.$postgres_pass);
+                if($postgres_link_server===FALSE)
+                    $is_up=false;
+                break;
+            }
+        }
+        break;
+    }
+}
 
 $skin_list=array();
 
@@ -146,7 +178,7 @@ ksort($item_meta);
 					echo '<td>Player</td>';
 					echo '<td>Price</td>';
 					echo '</tr>';
-					$reply = pg_query('SELECT * FROM item_market ORDER BY item LIMIT 30') or die(pg_last_error());
+					$reply = pg_query($postgres_link_server,'SELECT * FROM item_market ORDER BY item LIMIT 30') or die(pg_last_error());
 					while($data = pg_fetch_array($reply))
 					{
 						echo '<tr>';
@@ -166,14 +198,14 @@ ksort($item_meta);
 						else
 							echo '<td>Unknown item ('.htmlspecialchars($data['item']).')</td>';
 						echo '<td>'.htmlspecialchars($data['quantity']).'</td>';
-						$reply_clan_players = pg_query('SELECT pseudo,skin FROM character WHERE id='.$data['character']) or die(pg_last_error());
+						$reply_clan_players = pg_query($postgres_link_common,'SELECT pseudo,skin FROM character WHERE id='.$data['character']) or die(pg_last_error());
 						if($data_clan_players = pg_fetch_array($reply_clan_players))
 						{
                             if(isset($skin_list[$data_clan_players['skin']]))
                                 $skin=$skin_list[$data_clan_players['skin']];
                             else
                             {
-                                $reply_skin = pg_query('SELECT skin FROM dictionary_skin WHERE id='.$data_clan_players['skin']) or die(pg_last_error());
+                                $reply_skin = pg_query($postgres_link_base,'SELECT skin FROM dictionary_skin WHERE id='.$data_clan_players['skin']) or die(pg_last_error());
                                 if($data_skin = pg_fetch_array($reply_skin))
                                     $skin=$data_skin['skin'];
                                 else
@@ -206,56 +238,60 @@ ksort($item_meta);
 					echo '<td>Player</td>';
 					echo '<td>Price</td>';
 					echo '</tr>';
-					$reply = pg_query('SELECT * FROM monster_market ORDER BY id LIMIT 30') or die(pg_last_error());
+					$reply = pg_query($postgres_link_server,'SELECT * FROM monster_market_price ORDER BY id LIMIT 30') or die(pg_last_error());
 					while($data = pg_fetch_array($reply))
 					{
-						echo '<tr>';
-						echo '<td>';
-						if(array_key_exists($data['monster'],$monster_meta))
-						{
-							if(file_exists('../datapack/monsters/'.$data['monster'].'/front.png'))
-								echo '<a href="/official-server/datapack-explorer/monsters/'.str_replace(' ','-',strtolower($monster_meta[$data['monster']]['name'])).'.html"><img src="../datapack/monsters/'.$data['monster'].'/front.png" width="80" height="80" alt="'.htmlspecialchars($monster_meta[$data['monster']]['name']).'" title="'.htmlspecialchars($monster_meta[$data['monster']]['description']).'" /></a>';
-							elseif(file_exists('../datapack/monsters/'.$data['monster'].'/front.gif'))
-								echo '<a href="/official-server/datapack-explorer/monsters/'.str_replace(' ','-',strtolower($monster_meta[$data['monster']]['name'])).'.html"><img src="../datapack/monsters/'.$data['monster'].'/front.gif" width="80" height="80" alt="'.htmlspecialchars($monster_meta[$data['monster']]['name']).'" title="'.htmlspecialchars($monster_meta[$data['monster']]['description']).'" /></a>';
-						}
-						echo '</td>';
-						if(array_key_exists($data['monster'],$monster_meta))
+                        $reply2 = pg_query($postgres_link_common,'SELECT * FROM monster WHERE id='.$data['id']) or die(pg_last_error());
+                        if($data2 = pg_fetch_array($reply2))
                         {
-                            echo '<td><a href="/official-server/datapack-explorer/monsters/'.str_replace(' ','-',strtolower($monster_meta[$data['monster']]['name'])).'.html">';
-							echo '<b>'.htmlspecialchars($monster_meta[$data['monster']]['name']).'</b>';
-                            echo '</a></td>';
-                        }
-						else
-							echo '<td>Unknown monster ('.htmlspecialchars($data['monster']).')</td>';
-						echo '<td>'.$data['level'].'</td>';
-						$reply_clan_players = pg_query('SELECT pseudo,skin FROM character WHERE id='.$data['character']) or die(pg_last_error());
-						if($data_clan_players = pg_fetch_array($reply_clan_players))
-						{
-                            if(isset($skin_list[$data_clan_players['skin']]))
-                                $skin=$skin_list[$data_clan_players['skin']];
-                            else
+                            echo '<tr>';
+                            echo '<td>';
+                            if(array_key_exists($data2['monster'],$monster_meta))
                             {
-                                $reply_skin = pg_query('SELECT skin FROM dictionary_skin WHERE id='.$data_clan_players['skin']) or die(pg_last_error());
-                                if($data_skin = pg_fetch_array($reply_skin))
-                                    $skin=$data_skin['skin'];
-                                else
-                                    $skin='default';
-                                $skin_list[$data_clan_players['skin']]=$skin;
+                                if(file_exists('../datapack/monsters/'.$data2['monster'].'/front.png'))
+                                    echo '<a href="/official-server/datapack-explorer/monsters/'.str_replace(' ','-',strtolower($monster_meta[$data2['monster']]['name'])).'.html"><img src="../datapack/monsters/'.$data2['monster'].'/front.png" width="80" height="80" alt="'.htmlspecialchars($monster_meta[$data2['monster']]['name']).'" title="'.htmlspecialchars($monster_meta[$data2['monster']]['description']).'" /></a>';
+                                elseif(file_exists('../datapack/monsters/'.$data2['monster'].'/front.gif'))
+                                    echo '<a href="/official-server/datapack-explorer/monsters/'.str_replace(' ','-',strtolower($monster_meta[$data2['monster']]['name'])).'.html"><img src="../datapack/monsters/'.$data2['monster'].'/front.gif" width="80" height="80" alt="'.htmlspecialchars($monster_meta[$data2['monster']]['name']).'" title="'.htmlspecialchars($monster_meta[$data2['monster']]['description']).'" /></a>';
                             }
-							if(file_exists('../datapack/skin/fighter/'.$skin.'/trainer.png'))
-								echo '<td><div style="width:16px;height:24px;background-image:url(\'../datapack/skin/fighter/'.htmlspecialchars($skin).'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;float:left;"></div></td><td>'.htmlspecialchars($data_clan_players['pseudo']).'</td>';
-							elseif(file_exists('../datapack/skin/fighter/'.$skin.'/trainer.gif'))
-								echo '<td><div style="width:16px;height:24px;background-image:url(\'../datapack/skin/fighter/'.htmlspecialchars($skin).'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;float:left;"></div></td><td>'.htmlspecialchars($data_clan_players['pseudo']).'</td>';
-							else
-								echo '<td></td><td>'.htmlspecialchars($data_clan_players['pseudo']).'</td>';
-						}
-						else
-							echo '<td></td><td></td>';
-						if($data['market_price']==0)
-							echo '<td>Free</td>';
-						else
-							echo '<td>'.htmlspecialchars($data['market_price']).'$</td>';
-						echo '</tr>';
+                            echo '</td>';
+                            if(array_key_exists($data2['monster'],$monster_meta))
+                            {
+                                echo '<td><a href="/official-server/datapack-explorer/monsters/'.str_replace(' ','-',strtolower($monster_meta[$data2['monster']]['name'])).'.html">';
+                                echo '<b>'.htmlspecialchars($monster_meta[$data2['monster']]['name']).'</b>';
+                                echo '</a></td>';
+                            }
+                            else
+                                echo '<td>Unknown monster ('.htmlspecialchars($data2['monster']).')</td>';
+                            echo '<td>'.$data2['level'].'</td>';
+                            $reply_clan_players = pg_query($postgres_link_common,'SELECT pseudo,skin FROM character WHERE id='.$data2['character']) or die(pg_last_error());
+                            if($data_clan_players = pg_fetch_array($reply_clan_players))
+                            {
+                                if(isset($skin_list[$data_clan_players['skin']]))
+                                    $skin=$skin_list[$data_clan_players['skin']];
+                                else
+                                {
+                                    $reply_skin = pg_query($postgres_link_base,'SELECT skin FROM dictionary_skin WHERE id='.$data_clan_players['skin']) or die(pg_last_error());
+                                    if($data_skin = pg_fetch_array($reply_skin))
+                                        $skin=$data_skin['skin'];
+                                    else
+                                        $skin='default';
+                                    $skin_list[$data_clan_players['skin']]=$skin;
+                                }
+                                if(file_exists('../datapack/skin/fighter/'.$skin.'/trainer.png'))
+                                    echo '<td><div style="width:16px;height:24px;background-image:url(\'../datapack/skin/fighter/'.htmlspecialchars($skin).'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;float:left;"></div></td><td>'.htmlspecialchars($data_clan_players['pseudo']).'</td>';
+                                elseif(file_exists('../datapack/skin/fighter/'.$skin.'/trainer.gif'))
+                                    echo '<td><div style="width:16px;height:24px;background-image:url(\'../datapack/skin/fighter/'.htmlspecialchars($skin).'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;float:left;"></div></td><td>'.htmlspecialchars($data_clan_players['pseudo']).'</td>';
+                                else
+                                    echo '<td></td><td>'.htmlspecialchars($data_clan_players['pseudo']).'</td>';
+                            }
+                            else
+                                echo '<td></td><td></td>';
+                            if($data['market_price']==0)
+                                echo '<td>Free</td>';
+                            else
+                                echo '<td>'.htmlspecialchars($data['market_price']).'$</td>';
+                            echo '</tr>';
+                        }
 					}
 					echo '</table></p>';
 				}

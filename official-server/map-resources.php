@@ -6,12 +6,44 @@ $is_up=true;
 require '../config.php';
 $datapackexplorergeneratorinclude=true;
 require 'datapack-explorer-generator/function.php';
-if($postgres_db_login['host']!='localhost')
-    $postgres_link_login = @pg_connect('dbname='.$postgres_db_login['database'].' user='.$postgres_login.' password='.$postgres_pass.' host='.$postgres_db_login['host']);
+
+if($postgres_db_base['host']!='localhost')
+    $postgres_link_base = pg_connect('dbname='.$postgres_db_base['database'].' user='.$postgres_login.' password='.$postgres_pass.' host='.$postgres_db_base['host']);
 else
-    $postgres_link_login = @pg_connect('dbname='.$postgres_db_login['database'].' user='.$postgres_login.' password='.$postgres_pass);
-if($postgres_link_login===FALSE)
+    $postgres_link_base = pg_connect('dbname='.$postgres_db_base['database'].' user='.$postgres_login.' password='.$postgres_pass);
+if($postgres_link_base===FALSE)
     $is_up=false;
+
+if($is_up)
+{
+    $is_up=false;
+    foreach($postgres_db_tree as $common_server_content)
+    {
+        $is_up=true;
+        if($common_server_content['host']!='localhost')
+            $postgres_link_common = pg_connect('dbname='.$common_server_content['database'].' user='.$postgres_login.' password='.$postgres_pass.' host='.$common_server_content['host']);
+        else
+            $postgres_link_common = pg_connect('dbname='.$common_server_content['database'].' user='.$postgres_login.' password='.$postgres_pass);
+        if($postgres_link_common===FALSE)
+            $is_up=false;
+        else
+        {
+            $is_up=false;
+            foreach($common_server_content['servers'] as $server_content)
+            {
+                $is_up=true;
+                if($server_content['host']!='localhost')
+                    $postgres_link_server = pg_connect('dbname='.$server_content['database'].' user='.$postgres_login.' password='.$postgres_pass.' host='.$server_content['host']);
+                else
+                    $postgres_link_server = pg_connect('dbname='.$server_content['database'].' user='.$postgres_login.' password='.$postgres_pass);
+                if($postgres_link_server===FALSE)
+                    $is_up=false;
+                break;
+            }
+        }
+        break;
+    }
+}
 
 $item_meta=array();
 $temp_items=getXmlList($datapack_path.'items/');
@@ -285,7 +317,7 @@ function industryStatusWithCurrentTime($industryStatus,$industry)
                     $skin_list=array();
                     $map_list=array();
 					$index=1;
-					$reply = pg_query('SELECT * FROM plant ORDER BY id LIMIT 30') or die(pg_last_error());
+					$reply = pg_query($postgres_link_server,'SELECT * FROM plant ORDER BY plant_timestamps LIMIT 30') or die(pg_last_error());
 					while($data = pg_fetch_array($reply))
 					{
 						if($data['plant_timestamps']>time())
@@ -308,7 +340,7 @@ function industryStatusWithCurrentTime($industryStatus,$industry)
                             $map=$map_list[$data['map']];
                         else
                         {
-                            $reply_map = pg_query('SELECT map FROM dictionary_map WHERE id='.$data['map']) or die(pg_last_error());
+                            $reply_map = pg_query($postgres_link_server,'SELECT map FROM dictionary_map WHERE id='.$data['map']) or die(pg_last_error());
                             if($data_map = pg_fetch_array($reply_map))
                                 $map=$data_map['map'];
                             else
@@ -330,7 +362,7 @@ function industryStatusWithCurrentTime($industryStatus,$industry)
 							echo '<td></td><td></td>';
 						else
 						{
-							$reply_player = pg_query('SELECT * FROM character WHERE id='.$data['character']) or die(pg_last_error());
+							$reply_player = pg_query($postgres_link_common,'SELECT * FROM character WHERE id='.$data['character']) or die(pg_last_error());
 							if($data_player = pg_fetch_array($reply_player))
 							{
 								echo '<td>';
@@ -338,7 +370,7 @@ function industryStatusWithCurrentTime($industryStatus,$industry)
                                     $skin=$skin_list[$data_player['skin']];
                                 else
                                 {
-                                    $reply_skin = pg_query('SELECT skin FROM dictionary_skin WHERE id='.$data_player['skin']) or die(pg_last_error());
+                                    $reply_skin = pg_query($postgres_link_base,'SELECT skin FROM dictionary_skin WHERE id='.$data_player['skin']) or die(pg_last_error());
                                     if($data_skin = pg_fetch_array($reply_skin))
                                         $skin=$data_skin['skin'];
                                     else
@@ -371,7 +403,7 @@ function industryStatusWithCurrentTime($industryStatus,$industry)
 					$products_tot=array();
 					foreach($industrie_link_meta as $factory=>$industry)
 					{
-						$reply_factory = pg_query('SELECT * FROM factory WHERE id='.$factory) or die(pg_last_error());
+						$reply_factory = pg_query($postgres_link_server,'SELECT * FROM factory WHERE id='.$factory) or die(pg_last_error());
 						if($data_factory = pg_fetch_array($reply_factory))
 						{
 							$data_factory_resources=array();
@@ -484,7 +516,7 @@ function industryStatusWithCurrentTime($industryStatus,$industry)
 					$resources_tot=array();
 					foreach($industrie_link_meta as $factory=>$industry)
 					{
-						$reply_factory = pg_query('SELECT * FROM factory WHERE id='.$factory) or die(pg_last_error());
+						$reply_factory = pg_query($postgres_link_server,'SELECT * FROM factory WHERE id='.$factory) or die(pg_last_error());
 						if($data_factory = pg_fetch_array($reply_factory))
 						{
 							$data_factory_resources=array();

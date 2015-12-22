@@ -21,6 +21,21 @@ if($is_up)
             $postgres_link_common = pg_connect('dbname='.$common_server_content['database'].' user='.$postgres_login.' password='.$postgres_pass);
         if($postgres_link_common===FALSE)
             $is_up=false;
+        else
+        {
+            $is_up=false;
+            foreach($common_server_content['servers'] as $server_content)
+            {
+                $is_up=true;
+                if($server_content['host']!='localhost')
+                    $postgres_link_server = pg_connect('dbname='.$server_content['database'].' user='.$postgres_login.' password='.$postgres_pass.' host='.$server_content['host']);
+                else
+                    $postgres_link_server = pg_connect('dbname='.$server_content['database'].' user='.$postgres_login.' password='.$postgres_pass);
+                if($postgres_link_server===FALSE)
+                    $is_up=false;
+                break;
+            }
+        }
         break;
     }
 }

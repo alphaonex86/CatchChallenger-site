@@ -1,12 +1,43 @@
 <?php
 $is_up=true;
 require '../config.php';
-if($postgres_db_login['host']!='localhost')
-    $postgres_link_login = @pg_connect('dbname='.$postgres_db_login['database'].' user='.$postgres_login.' password='.$postgres_pass.' host='.$postgres_db_login['host']);
+if($postgres_db_base['host']!='localhost')
+    $postgres_link_base = pg_connect('dbname='.$postgres_db_base['database'].' user='.$postgres_login.' password='.$postgres_pass.' host='.$postgres_db_base['host']);
 else
-    $postgres_link_login = @pg_connect('dbname='.$postgres_db_login['database'].' user='.$postgres_login.' password='.$postgres_pass);
-if($postgres_link_login===FALSE)
+    $postgres_link_base = pg_connect('dbname='.$postgres_db_base['database'].' user='.$postgres_login.' password='.$postgres_pass);
+if($postgres_link_base===FALSE)
     $is_up=false;
+
+if($is_up)
+{
+    $is_up=false;
+    foreach($postgres_db_tree as $common_server_content)
+    {
+        $is_up=true;
+        if($common_server_content['host']!='localhost')
+            $postgres_link_common = pg_connect('dbname='.$common_server_content['database'].' user='.$postgres_login.' password='.$postgres_pass.' host='.$common_server_content['host']);
+        else
+            $postgres_link_common = pg_connect('dbname='.$common_server_content['database'].' user='.$postgres_login.' password='.$postgres_pass);
+        if($postgres_link_common===FALSE)
+            $is_up=false;
+        else
+        {
+            $is_up=false;
+            foreach($common_server_content['servers'] as $server_content)
+            {
+                $is_up=true;
+                if($server_content['host']!='localhost')
+                    $postgres_link_server = pg_connect('dbname='.$server_content['database'].' user='.$postgres_login.' password='.$postgres_pass.' host='.$server_content['host']);
+                else
+                    $postgres_link_server = pg_connect('dbname='.$server_content['database'].' user='.$postgres_login.' password='.$postgres_pass);
+                if($postgres_link_server===FALSE)
+                    $is_up=false;
+                break;
+            }
+        }
+        break;
+    }
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
@@ -75,7 +106,7 @@ if($postgres_link_login===FALSE)
 					echo '</tr>';
                     $skin_list=array();
 					$index=1;
-					$reply = pg_query('SELECT * FROM  clan ORDER BY name LIMIT 30') or die(pg_last_error());
+					$reply = pg_query($postgres_link_common,'SELECT * FROM clan ORDER BY name LIMIT 30') or die(pg_last_error());
 					while($data = pg_fetch_array($reply))
 					{
 						echo '<tr>';
@@ -85,21 +116,21 @@ if($postgres_link_login===FALSE)
 						echo '<strong>'.htmlspecialchars($data['name']).'</strong></td>';
 						echo '<td>'.htmlspecialchars($data['cash']).'$</td>';
 						echo '<td>'.date('jS \of F Y',$data['date']).'</td>';
-						$reply_clan_count = pg_query('SELECT COUNT(id) FROM character WHERE clan='.$data['id']) or die(pg_last_error());
+						$reply_clan_count = pg_query($postgres_link_common,'SELECT COUNT(id) FROM character WHERE clan='.$data['id']) or die(pg_last_error());
 						if($data_clan_count = pg_fetch_array($reply_clan_count))
 							echo '<td><b>'.$data_clan_count['count'].'</b></td>';
 						else
 							echo '<td></td>';
 						echo '<td>';
 						$clan_players=array();
-						$reply_clan_players = pg_query('SELECT pseudo,skin,clan_leader FROM character WHERE clan='.$data['id'].' AND clan_leader=true ORDER BY id') or die(pg_last_error());
+						$reply_clan_players = pg_query($postgres_link_common,'SELECT pseudo,skin,clan_leader FROM character WHERE clan='.$data['id'].' AND clan_leader=true ORDER BY id') or die(pg_last_error());
 						while($data_clan_players = pg_fetch_array($reply_clan_players))
                         {
                             if(isset($skin_list[$data_clan_players['skin']]))
                                 $skin=$skin_list[$data_clan_players['skin']];
                             else
                             {
-                                $reply_skin = pg_query('SELECT skin FROM dictionary_skin WHERE id='.$data_clan_players['skin']) or die(pg_last_error());
+                                $reply_skin = pg_query($postgres_link_base,'SELECT skin FROM dictionary_skin WHERE id='.$data_clan_players['skin']) or die(pg_last_error());
                                 if($data_skin = pg_fetch_array($reply_skin))
                                     $skin=$data_skin['skin'];
                                 else
@@ -118,7 +149,7 @@ if($postgres_link_login===FALSE)
 						echo '<td>';
 						$city=array();
 						$city_text=array();
-						$reply_clan_city = pg_query('SELECT * FROM city WHERE clan='.$data['id'].' ORDER BY city') or die(pg_last_error());
+						$reply_clan_city = pg_query($postgres_link_server,'SELECT * FROM city WHERE clan='.$data['id'].' ORDER BY city') or die(pg_last_error());
 						while($data_clan_city = pg_fetch_array($reply_clan_city))
 							$city[]=$data_clan_city['city'];
 						foreach($city as $entry)

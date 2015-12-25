@@ -119,7 +119,7 @@ if(is_file($datapack_path.'informations.xml'))
                         $color=preg_replace("#[\n\r\t]+#is",'',$color);
                     }
 
-                    $informations_meta['main'][$maindatapackcode]=array('name'=>$name_in_other_lang,'description'=>$description_in_other_lang,'initial'=>$initial,'color'=>$color,'sub'=>array());
+                    $informations_meta['main'][$maindatapackcode]=array('name'=>$name_in_other_lang,'description'=>$description_in_other_lang,'initial'=>$initial,'color'=>$color,'sub'=>array(),'monsters'=>array());
 
                     $dir2 = $datapack_path.'map/main/'.$maindatapackcode.'/sub/';
                     if(is_dir($dir2))
@@ -196,7 +196,7 @@ if(is_file($datapack_path.'informations.xml'))
                                             $color=preg_replace("#[\n\r\t]+#is",'',$color);
                                         }
 
-                                        $informations_meta['main'][$maindatapackcode]['sub'][$subdatapackcode]=array('name'=>$name_in_other_lang,'description'=>$description_in_other_lang,'initial'=>$initial,'color'=>$color);
+                                        $informations_meta['main'][$maindatapackcode]['sub'][$subdatapackcode]=array('name'=>$name_in_other_lang,'description'=>$description_in_other_lang,'initial'=>$initial,'color'=>$color,'monsters'=>array());
                                     }
                                 }
                                 else

@@ -582,14 +582,33 @@ closedir($dh);
 foreach($monster_meta as $id=>$monster)
 {
     if($monster['rarity']>0)
+    {
         $monster_to_rarity[$id]=$monster['rarity'];
+        if(count($monster['game'])==1)
+        foreach($monster['game'] as $maingame=>$subgame_list)
+            if(count($subgame_list)==1)
+            {
+                foreach($subgame_list as $subgame)
+                if($subgame=='')
+                    $informations_meta['main'][$maingame]['monsters'][]=$id;
+                else
+                    $informations_meta['main'][$maingame]['sub'][$subgame]['monsters'][]=$id;
+            }
+    }
 }
 asort($monster_to_rarity);
 $index=1;
 foreach($monster_to_rarity as $id=>$rarity)
 {
     $monster_to_rarity[$id]=array('rarity'=>$rarity,'position'=>$index);
-    if(!isset($monster_to_map_count[$id]) || count($monster_to_map_count[$id])<2)
+    if(!isset($monster_to_map_count[$id]))
         unset($monster_to_rarity[$id]);
+    else if(count($monster_to_map_count[$id])<2)
+        unset($monster_to_rarity[$id]);
+    else if(count($monster_to_map_count[$id])==1)
+    {
+
+        unset($monster_to_rarity[$id]);
+    }
     $index++;
 }

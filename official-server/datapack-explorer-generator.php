@@ -174,6 +174,7 @@ if($argc<=1 || in_array('explorer',$argv))
     require 'datapack-explorer-generator/generator/bots.php';
     require 'datapack-explorer-generator/generator/zone.php';
     require 'datapack-explorer-generator/generator/plants.php';
+    require 'datapack-explorer-generator/generator/tree.php';
     //require 'datapack-explorer-generator/generator/reputation.php';
     echo 'Explorer generation done '.ceil(microtime(true)-$time_start).'s'."\n";
 }

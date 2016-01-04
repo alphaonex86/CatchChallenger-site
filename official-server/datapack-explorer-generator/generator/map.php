@@ -58,7 +58,7 @@ foreach($map_list as $map)
 			$zone_name='Unknown zone';
 		else
 			$zone_name=$map['zone'];
-		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Zone'].'</div><div class="value"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['zones/'].text_operation_do_for_url($zone_name).'.html" title="'.$zone_name.'">';
+		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Zone'].'</div><div class="value"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['zones/'].$maindatapackcode.'/'.text_operation_do_for_url($zone_name).'.html" title="'.$zone_name.'">';
 		$map_descriptor.=$zone_name.'</a></div></div>';
 
 		if(count($map_current_object['borders'])>0 || count($map_current_object['doors'])>0 || count($map_current_object['tp'])>0)

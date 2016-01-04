@@ -35,16 +35,19 @@ foreach($map_list as $map)
 		$map_descriptor.='</div>';
 		if(file_exists($datapack_explorer_local_path.'maps/'.$map_image))
 		{
-            $size=getimagesize($datapack_explorer_local_path.'maps/'.$map_image);
-            $map_current_object['pixelwidth']=$size[0];
-            $map_current_object['pixelheight']=$size[1];
-			if($map_current_object['pixelwidth']>1600 || $map_current_object['pixelheight']>800)
-				$ratio=4;
-			elseif($map_current_object['pixelwidth']>800 || $map_current_object['pixelheight']>400)
-				$ratio=2;
-			else
-				$ratio=1;
-			$map_descriptor.='<div class="value mapscreenshot datapackscreenshot"><a href="'.$base_datapack_explorer_site_path.'maps/'.$map_image.'"><center><img src="'.$base_datapack_explorer_site_path.'maps/'.$map_image.'" alt="Screenshot of '.$map_current_object['name'][$current_lang].'" title="Screenshot of '.$map_current_object['name'][$current_lang].'" width="'.($map_current_object['pixelwidth']/$ratio).'" height="'.($map_current_object['pixelheight']/$ratio).'" /></center></a></div>';
+            $size=@getimagesize($datapack_explorer_local_path.'maps/'.$map_image);
+            if($size!==NULL)
+            {
+                $map_current_object['pixelwidth']=$size[0];
+                $map_current_object['pixelheight']=$size[1];
+                if($map_current_object['pixelwidth']>1600 || $map_current_object['pixelheight']>800)
+                    $ratio=4;
+                elseif($map_current_object['pixelwidth']>800 || $map_current_object['pixelheight']>400)
+                    $ratio=2;
+                else
+                    $ratio=1;
+                $map_descriptor.='<div class="value mapscreenshot datapackscreenshot"><a href="'.$base_datapack_explorer_site_path.'maps/'.$map_image.'"><center><img src="'.$base_datapack_explorer_site_path.'maps/'.$map_image.'" alt="Screenshot of '.$map_current_object['name'][$current_lang].'" title="Screenshot of '.$map_current_object['name'][$current_lang].'" width="'.($map_current_object['pixelwidth']/$ratio).'" height="'.($map_current_object['pixelheight']/$ratio).'" /></center></a></div>';
+            }
 		}
 		if($map_current_object['description'][$current_lang]!='')
 			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Map description'].'</div><div class="value">'.$map_current_object['description'][$current_lang].'</div></div>';

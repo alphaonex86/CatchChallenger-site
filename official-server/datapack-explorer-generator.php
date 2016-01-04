@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start(); -> wrong in CLI only
 $is_up=true;
 if(file_exists('config.php'))
     require 'config.php';
@@ -182,5 +182,5 @@ if($argc<=1 || in_array('explorer',$argv))
 //require 'datapack-explorer-generator/tools/map-fix-broken-links.php';
 //require 'datapack-explorer-generator/tools/rename-map-file-name.php';
 
-session_destroy();
+//session_destroy();
 echo 'All is done'."\n";

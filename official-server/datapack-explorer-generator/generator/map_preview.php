@@ -29,7 +29,7 @@ if(isset($map_generator) && $map_generator!='')
     chdir($datapack_explorer_local_path.'maps/');
     
     //all map preview
-    if(count($start_meta)>0)
+    /*if(count($start_meta)>0)
     {
         if(isset($maps_list[$start_meta[0]['map']]))
         {
@@ -57,10 +57,12 @@ if(isset($map_generator) && $map_generator!='')
             echo 'map for starter '.$start_meta[0]['map'].' missing'."\n";
     }
     else
-        echo 'starter to do overview map missing'."\n";
+        echo 'starter to do overview map missing'."\n";*/
 
     //single map preview
-    exec($map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/',$output,$return_var);
+    echo $pwd."\n";
+    echo $map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/main/'."\n";
+    exec($map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/main/',$output,$return_var);
     if(is_executable('/usr/bin/mogrify'))
     {
         $before = microtime(true);
@@ -79,7 +81,7 @@ if(isset($map_generator) && $map_generator!='')
         $after = microtime(true);
         echo 'Png compressed into '.(int)($after-$before)."s\n";
     }
-    if(isset($png_compress_zopfli) && is_executable($png_compress_zopfli))
+    /*if(isset($png_compress_zopfli) && is_executable($png_compress_zopfli))
     {
         if(!isset($png_compress_zopfli_level))
             $png_compress_zopfli_level=100;
@@ -90,7 +92,7 @@ if(isset($map_generator) && $map_generator!='')
         echo 'Png trim and repage into '.(int)($after-$before)."s\n";
     }
     else
-        echo 'zopfli for png don\'t installed, prefed install it'."\n";
+        echo 'zopfli for png don\'t installed, prefed install it'."\n";*/
 
     chdir($pwd);
 }

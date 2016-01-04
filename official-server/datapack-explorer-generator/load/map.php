@@ -125,7 +125,7 @@ while (false !== ($maindatapackcode = readdir($dh)))
                     $propertyList=textToProperty($door_text);
                     if(isset($propertyList['map']))
                     {
-                        $door_map=preg_replace('#^.*<property name="map" value="([^"]+)"/>.*$#isU','$1',$door_text);
+                        $door_map=$propertyList['map'];
                         $door_map=$map_folder.$door_map;
                         if(!preg_match('#\\.tmx$#',$door_map))
                             $door_map.='.tmx';

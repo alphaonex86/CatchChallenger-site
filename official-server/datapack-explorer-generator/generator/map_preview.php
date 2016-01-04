@@ -60,8 +60,6 @@ if(isset($map_generator) && $map_generator!='')
         echo 'starter to do overview map missing'."\n";*/
 
     //single map preview
-    echo $pwd."\n";
-    echo $map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/main/'."\n";
     exec($map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/main/',$output,$return_var);
     if(is_executable('/usr/bin/mogrify'))
     {

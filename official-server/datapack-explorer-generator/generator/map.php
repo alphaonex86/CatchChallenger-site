@@ -33,9 +33,9 @@ foreach($map_list as $map)
 		if($map_current_object['shortdescription'][$current_lang]!='')
 			$map_descriptor.='<h2>'.$map_current_object['shortdescription'][$current_lang].'</h2>';
 		$map_descriptor.='</div>';
-		if(file_exists($datapack_explorer_local_path.'maps/'.$map_image))
+		if(file_exists($datapack_explorer_local_path.$translation_list[$current_lang]['maps/'].$map_image))
 		{
-            $size=@getimagesize($datapack_explorer_local_path.'maps/'.$map_image);
+            $size=@getimagesize($datapack_explorer_local_path.$translation_list[$current_lang]['maps/'].$map_image);
             if($size!==NULL)
             {
                 $map_current_object['pixelwidth']=$size[0];

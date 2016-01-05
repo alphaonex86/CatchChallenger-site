@@ -61,6 +61,11 @@ if(isset($map_generator) && $map_generator!='')
 
     //single map preview
     exec($map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/main/',$output,$return_var);
+    if($return_var!=0)
+    {
+        echo 'exec failed';
+        exit;
+    }
     if(is_executable('/usr/bin/mogrify'))
     {
         $before = microtime(true);

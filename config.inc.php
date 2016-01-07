@@ -3,6 +3,7 @@
 $postgres_login='root';
 $postgres_pass='root';
 
+$postgres_db_site=array('host'=>'localhost','database'=>'catchchallenger_site');
 $postgres_db_login=array('host'=>'localhost','database'=>'catchchallenger_login');
 $postgres_db_base=array('host'=>'localhost','database'=>'catchchallenger_base');
 $postgres_db_tree=array(

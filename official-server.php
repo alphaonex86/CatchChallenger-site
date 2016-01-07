@@ -96,7 +96,7 @@ if($postgres_link_site===FALSE)
                                             $description=preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$server['xml']);
                                             $description=str_replace('<![CDATA[','',str_replace(']]>','',$description));
                                         }
-                                        if($server['maxPlayer']<65534)
+                                        if($server['maxPlayer']<65534 && $server['maxPlayer']>0 && $server['connectedPlayer']<=$server['maxPlayer'])
                                         {
                                             echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="labelDatapackMap"></div><strong>'.htmlentities($name).'</strong> - '.$server['connectedPlayer'].'/'.$server['maxPlayer'].' players</div></li>';
                                             $player_count+=$server['connectedPlayer'];
@@ -131,7 +131,7 @@ if($postgres_link_site===FALSE)
                                             $description=preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$server['xml']);
                                             $description=str_replace('<![CDATA[','',str_replace(']]>','',$description));
                                         }
-                                        if($server['maxPlayer']<65534)
+                                        if($server['maxPlayer']<65534 && $server['maxPlayer']>0 && $server['connectedPlayer']<=$server['maxPlayer'])
                                         {
                                             echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="labelDatapackMap"></div><strong>'.htmlentities($name).'</strong> - '.$server['connectedPlayer'].'/'.$server['maxPlayer'].' players</div></li>';
                                             $player_count+=$server['connectedPlayer'];
@@ -164,7 +164,7 @@ if($postgres_link_site===FALSE)
                                         $description=preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$server['xml']);
                                         $description=str_replace('<![CDATA[','',str_replace(']]>','',$description));
                                     }
-                                    if($server['maxPlayer']<65534)
+                                    if($server['maxPlayer']<65534 && $server['maxPlayer']>0 && $server['connectedPlayer']<=$server['maxPlayer'])
                                     {
                                         echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="labelDatapackMap"></div><strong>'.htmlentities($name).'</strong> - '.$server['connectedPlayer'].'/'.$server['maxPlayer'].' players</div></li>';
                                         $player_count+=$server['connectedPlayer'];

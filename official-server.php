@@ -181,6 +181,38 @@ if($postgres_link_site===FALSE)
                 }
                 else
                     echo '<li><p class="text">The official server list is actually in <b>Unknown state</b>.</p></li>';
+
+                $loginserver_up=0;
+                $loginserver_down=0;
+                $file='loginserver.json';
+                if(file_exists($file) && $filecurs=file_get_contents($file))
+                {
+                    $arr=json_decode($filecurs,true);
+                    if(is_array($arr))
+                    {
+                        ksort($arr);
+                        foreach($arr as $ip=>$server)
+                        {
+                            if(isset($server['state']))
+                            {
+                                if($server['state']=='up')
+                                    $loginserver_up++;
+                                else
+                                    $loginserver_down++;
+                            }
+                            else
+                                $loginserver_down++;
+                        }
+                        echo '<li><p class="text">Login server: ';
+                        if($loginserver_up>0)
+                            echo '<strong>'.$loginserver_up.'</strong> <span style="color:green;">online</span>';
+                        if($loginserver_down>0 && $loginserver_up>0)
+                            echo ', ';
+                        if($loginserver_down>0)
+                            echo '<strong>'.$loginserver_up.'</strong> <span style="color:red;">offline</span>';
+                        echo '</p></li>';
+                    }
+                }
                 ?>
                 </ul>
                 <p class="text">Total: <b><?php echo $server_count; ?></b> servers and <b><?php echo $player_count; ?></b> players.</p>

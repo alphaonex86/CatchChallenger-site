@@ -60,7 +60,7 @@ if($postgres_link_site===FALSE)
 				<ul><?php
                 $server_count=0;
                 $player_count=0;
-                $file='testserver.json';
+                $file='gameserver.json';
                 if(file_exists($file) && $filecurs=file_get_contents($file))
                 {
                     $arr=json_decode($filecurs,true);
@@ -181,6 +181,10 @@ if($postgres_link_site===FALSE)
                 }
                 else
                     echo '<li><p class="text">The official server list is actually in <b>Unknown state</b>.</p></li>';
+                ?>
+                </ul>
+                <?php
+                $total_string_array=array();
 
                 $loginserver_up=0;
                 $loginserver_down=0;
@@ -203,18 +207,53 @@ if($postgres_link_site===FALSE)
                             else
                                 $loginserver_down++;
                         }
-                        echo '<li><p class="text">Login server: ';
+                        $string_array=array();
                         if($loginserver_up>0)
-                            echo '<strong>'.$loginserver_up.'</strong> <span style="color:green;">online</span>';
-                        if($loginserver_down>0 && $loginserver_up>0)
-                            echo ', ';
+                            $string_array[]='<strong>'.$loginserver_up.'</strong> <span style="color:green;">online</span>';
                         if($loginserver_down>0)
-                            echo '<strong>'.$loginserver_up.'</strong> <span style="color:red;">offline</span>';
-                        echo '</p></li>';
+                            $string_array[]='<strong>'.$loginserver_down.'</strong> <span style="color:red;">offline</span>';
+                        $total_string_array[]='Login server: '.implode(', ',$string_array);
                     }
                 }
+
+                $mirrorserver_up=0;
+                $mirrorserver_down=0;
+                $mirrorserver_corrupted=0;
+                $file='mirrorserver.json';
+                if(file_exists($file) && $filecurs=file_get_contents($file))
+                {
+                    $arr=json_decode($filecurs,true);
+                    if(is_array($arr))
+                    {
+                        ksort($arr);
+                        foreach($arr as $ip=>$server)
+                        {
+                            if(isset($server['state']))
+                            {
+                                if($server['state']=='up')
+                                    $mirrorserver_up++;
+                                else if($server['state']=='corrupted')
+                                    $mirrorserver_corrupted++;
+                                else
+                                    $mirrorserver_down++;
+                            }
+                            else
+                                $mirrorserver_down++;
+                        }
+                        $string_array=array();
+                        if($mirrorserver_up>0)
+                            $string_array[]='<strong>'.$mirrorserver_up.'</strong> <span style="color:green;">online</span>';
+                        if($mirrorserver_corrupted>0)
+                            $string_array[]='<strong>'.$mirrorserver_corrupted.'</strong> <span style="color:brown;">corrupted</span>';
+                        if($mirrorserver_down>0)
+                            $string_array[]='<strong>'.$mirrorserver_down.'</strong> <span style="color:red;">offline</span>';
+                        $total_string_array[]='Mirror server: '.implode(', ',$string_array);
+                    }
+                }
+                
+                if(count($total_string_array)>0)
+                    echo '<p class="text">'.implode(', ',$total_string_array).'</p>';
                 ?>
-                </ul>
                 <p class="text">Total: <b><?php echo $server_count; ?></b> servers and <b><?php echo $player_count; ?></b> players.</p>
 				<p class="text">Download the <a href="http://files.first-world.info/catchchallenger/1.0.0.0/catchchallenger-single-server-windows-x86-1.0.0.0-setup.exe">client for Windows</a> or the <a href="http://files.first-world.info/catchchallenger/1.0.0.0/catchchallenger-single-server-mac-os-x-1.0.0.0.dmg">client for Mac</a> to play on it</p>
                 <?php

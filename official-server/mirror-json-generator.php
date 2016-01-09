@@ -4,9 +4,10 @@ if (!function_exists('curl_init')){
     }
 
 require '../config.php';
-$serverlist=array(
-    'http://amber/datapack/'=>array('state'=>'up')
-);
+$mirrorserverlisttemp=array();
+foreach($mirrorserverlist as $host)
+    $mirrorserverlisttemp[$host]=array('state'=>'up');
+
 function listFolder($folder,$foldersuffix='')
 {
     if(!preg_match('#/$#',$folder))
@@ -44,7 +45,7 @@ sort($arr);
 foreach($arr as $file)
 {
     $contentlocal=file_get_contents($datapack_path.$file);
-    foreach($serverlist as $server=>$content)
+    foreach($mirrorserverlisttemp as $server=>$content)
     {
         if($content['state']=='up')
         {
@@ -62,17 +63,17 @@ foreach($arr as $file)
             {
                 $error_message = curl_strerror($errno);
                 echo "cURL error ({$errno}):\n {$error_message}";
-                $serverlist[$server]['state']='down';
+                $mirrorserverlisttemp[$server]['state']='down';
             }
             else if($httpcode!=200)
-                $serverlist[$server]['state']='corrupted';
+                $mirrorserverlisttemp[$server]['state']='corrupted';
             else
             {
                 if($contentlocal!=$contentremote)
-                    $serverlist[$server]['state']='corrupted';
+                    $mirrorserverlisttemp[$server]['state']='corrupted';
             }
         }
     }
 }
 
-echo json_encode($serverlist);
+echo json_encode($mirrorserverlisttemp);

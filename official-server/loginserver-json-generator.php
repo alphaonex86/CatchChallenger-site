@@ -1,12 +1,10 @@
 <?php
-$serverlist=array(
-    array('host'=>'localhost','port'=>3306)
-);
+require '../config.php';
 $result=array();
-foreach($serverlist as $server)
+foreach($loginserverlist as $server)
 {
     $state='down';
-    $fp=fsockopen($server['host'],$server['port'],$errno,$errstr,1);
+    $fp=@fsockopen($server['host'],$server['port'],$errno,$errstr,1);
     if($fp)
     {
         $state='up';

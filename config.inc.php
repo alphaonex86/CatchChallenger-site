@@ -14,6 +14,13 @@ $postgres_db_tree=array(
     ),
 );
 
+$loginserverlist=array(
+    array('host'=>'localhost','port'=>3306)
+);
+$mirrorserverlist=array(
+    'http://localhost/datapack/'
+);
+
 $postgres_db_server='catchchallenger';
 $base_datapack_explorer_site_path='/official-server/datapack-explorer/';
 $base_datapack_site_path='/datapack/';

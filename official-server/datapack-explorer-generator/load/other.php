@@ -228,6 +228,35 @@ if(file_exists($datapack_path.'player/start.xml'))
     }
 }
 
+$start_map_meta=array();
+$dir = $datapack_path.'map/main/';
+$dh  = opendir($dir);
+while (false !== ($maindatapackcode = readdir($dh)))
+{
+    if($maindatapackcode!='.' && $maindatapackcode!='..')
+    {
+        if(is_dir($datapack_path.'map/main/'.$maindatapackcode) && preg_match('#^[a-z0-9]+$#isU',$maindatapackcode))
+        {
+            if(file_exists($datapack_path.'map/main/'.$maindatapackcode.'/start.xml'))
+            {
+                $content=file_get_contents($datapack_path.'map/main/'.$maindatapackcode.'/start.xml');
+                preg_match_all('#map.*file="([^"]+)"#isU',$content,$map_list);
+                foreach($map_list[1] as $mapcontent)
+                {
+                    $map=preg_replace('#^.*<map.*file="([^"]+)".* />.*$#isU','$1',$mapcontent);
+                    $map=preg_replace("#[\n\r\t]+#is",'',$map);
+                    if(!preg_match('#\\.tmx$#',$map))
+                        $map.='.tmx';
+                    if(!isset($start_map_meta[$maindatapackcode]))
+                        $start_map_meta[$maindatapackcode]=array();
+                    if(!in_array($map,$start_map_meta[$maindatapackcode]))
+                        $start_map_meta[$maindatapackcode][]=$map;
+                }
+            }
+        }
+    }
+}
+
 $dir = $datapack_path.'map/main/';
 $dh  = opendir($dir);
 while (false !== ($maindatapackcode = readdir($dh)))

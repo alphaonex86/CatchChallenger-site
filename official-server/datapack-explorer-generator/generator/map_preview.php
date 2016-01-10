@@ -29,23 +29,34 @@ if(isset($map_generator) && $map_generator!='')
     chdir($datapack_explorer_local_path.'maps/');
     
     //all map preview
-    /*if(count($start_meta)>0)
+    if(count($start_map_meta)>0)
     {
-        if(isset($maps_list[$start_meta[0]['map']]))
+        $mapgroupdisplaygenerated=array();
+        foreach($start_map_meta as $maindatapackcode=>$map_list)
+        foreach($map_list as $map)
+        if(isset($maps_list[$maindatapackcode][$map]))
         {
+            $overviweid=count($mapgroupdisplaygenerated)+1;
             //overview
-            @unlink('overview.png');
-            exec($map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/'.$start_meta[0]['map'].' overview.png --renderAll',$output,$return_var);
+            @unlink('overview-'.$overviweid.'.png');
+            @unlink('preview-'.$overviweid.'.png');
+            $before = microtime(true);
+            exec($map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/main/'.$maindatapackcode.'/'.$map.' overview-'.$overviweid.'.png --renderAll',$output,$return_var);
+            $after = microtime(true);
+            echo 'Preview generation '.(int)($after-$before)."s\n";
             
             //preview
-            if(file_exists('overview.png'))
+            if(file_exists('overview-'.$overviweid.'.png'))
             {
                 if(is_executable('/usr/bin/convert'))
                 {
                     $before = microtime(true);
-                    exec('/usr/bin/ionice -c 3 /usr/bin/nice -n 19 /usr/bin/convert overview.png -resize 256x256 preview.png');
+                    exec('/usr/bin/ionice -c 3 /usr/bin/nice -n 19 /usr/bin/convert overview-'.$overviweid.'.png -resize 256x256 preview-'.$overviweid.'.png');
                     $after = microtime(true);
-                    echo 'Preview generation '.(int)($after-$before)."s\n";
+                    echo 'Preview resize generation '.(int)($after-$before)."s\n";
+
+                    if(!in_array($maps_list[$maindatapackcode][$map]['mapgroup'],$mapgroupdisplaygenerated))
+                        $mapgroupdisplaygenerated[]=$maps_list[$maindatapackcode][$map]['mapgroup'];
                 }
                 else
                     echo 'no /usr/bin/convert found, install imagemagick'."\n";
@@ -54,10 +65,10 @@ if(isset($map_generator) && $map_generator!='')
                     echo 'overview.png not found'."\n";
         }
         else
-            echo 'map for starter '.$start_meta[0]['map'].' missing'."\n";
+            echo 'map for starter '.$map.' missing'."\n";
     }
     else
-        echo 'starter to do overview map missing'."\n";*/
+        echo 'starter to do overview map missing'."\n";
 
     //single map preview
     exec($map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/main/',$output,$return_var);

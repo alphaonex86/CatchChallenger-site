@@ -21,6 +21,7 @@ $duplicate_detection_name=array();
 $duplicate_detection_name_and_zone=array();
 $temp_maps=array();
 $monster_to_rarity=array();
+$mapsgroup_meta=array();
 
 $dir = $datapack_path.'map/main/';
 $dh  = opendir($dir);
@@ -31,6 +32,7 @@ while (false !== ($maindatapackcode = readdir($dh)))
         $temp_maps[$maindatapackcode]=getTmxList($datapack_path.'map/main/'.$maindatapackcode.'/');
         foreach($temp_maps[$maindatapackcode] as $map)
         {
+            $mapgroup=0;
             $width=0;
             $height=0;
             $pixelwidth=0;
@@ -86,6 +88,25 @@ while (false !== ($maindatapackcode = readdir($dh)))
                             $border_map=preg_replace('#^[^/]+/\\.\\./#isU','',$border_map);
                             $border_map=preg_replace("#[\n\r\t]+#is",'',$border_map);
                             $borders[$border_orientation]=$border_map;
+                            if(isset($maps_list[$maindatapackcode][$border_map]))
+                            {
+                                if($mapgroup==0)//just add to current group
+                                {
+                                    $mapgroup=$maps_list[$maindatapackcode][$border_map]['mapgroup'];
+                                    $mapsgroup_meta[$mapgroup][]=$map;
+                                }
+                                else//merge 2 group
+                                {
+                                    $tempmapgroup=$maps_list[$maindatapackcode][$border_map]['mapgroup'];
+                                    foreach($mapsgroup_meta[$mapgroup] as $maptomigrate)
+                                    {
+                                        $maps_list[$maindatapackcode][$maptomigrate]['mapgroup']=$tempmapgroup;
+                                        $mapsgroup_meta[$tempmapgroup][]=$maptomigrate;
+                                    }
+                                    $mapsgroup_meta[$mapgroup]=array();
+                                    $mapgroup=$tempmapgroup;
+                                }
+                            }
                         }
                         else
                             echo 'Dual same border detected '.$map."\n";
@@ -551,9 +572,14 @@ while (false !== ($maindatapackcode = readdir($dh)))
                     }
                 }
             }
+            if($mapgroup==0)//create a new group
+            {
+                $mapgroup=count($mapsgroup_meta)+1;
+                $mapsgroup_meta[$mapgroup][]=$map;
+            }
             $maps_list[$maindatapackcode][$map]=array('folder'=>$map_folder,'borders'=>$borders,'tp'=>$tp,'doors'=>$doors,'bots'=>$bots,'type'=>$type,'monsters'=>$monsters,'monsters_list'=>$monsters_list,
             'width'=>$width,'height'=>$height,'pixelwidth'=>$pixelwidth,'pixelheight'=>$pixelheight,'dropcount'=>$dropcount,'zone'=>$zone,'items'=>$items,'name'=>$name_in_other_lang,'shortdescription'=>$description_in_other_lang,'description'=>$name_in_other_lang,
-            );
+            'mapgroup'=>$mapgroup);
             if(!isset($zone_to_map[$maindatapackcode]))
                 $zone_to_map[$maindatapackcode]=array();
             if(!isset($zone_to_map[$maindatapackcode][$zone]))
@@ -579,6 +605,9 @@ while (false !== ($maindatapackcode = readdir($dh)))
 }
 closedir($dh);
 
+foreach($mapsgroup_meta as $groupid=>$maplist)
+    if(count($maplist)==0)
+        unset($mapsgroup_meta[$groupid]);
 foreach($monster_meta as $id=>$monster)
 {
     if($monster['rarity']>0)

@@ -938,9 +938,10 @@ foreach($map_list as $map)
 $map_descriptor='';
 ksort($zone_to_map);
 
-if(file_exists($datapack_explorer_local_path.'maps/overview.png') && file_exists($datapack_explorer_local_path.'maps/preview.png'))
+$mapoverviewindex=1;
+while(file_exists($datapack_explorer_local_path.'maps/overview-'.$mapoverviewindex.'.png') && file_exists($datapack_explorer_local_path.'maps/preview-'.$mapoverviewindex.'.png'))
 {
-    $size=getimagesize($datapack_explorer_local_path.'maps/preview.png');
+    $size=getimagesize($datapack_explorer_local_path.'maps/preview-'.$mapoverviewindex.'.png');
     $map_current_object['pixelwidth']=$size[0];
     $map_current_object['pixelheight']=$size[1];
     if($map_current_object['pixelwidth']>1600 || $map_current_object['pixelheight']>800)
@@ -949,9 +950,10 @@ if(file_exists($datapack_explorer_local_path.'maps/overview.png') && file_exists
         $ratio=2;
     else
         $ratio=1;
-    $map_descriptor.='<div class="value datapackscreenshot"><a href="'.$base_datapack_explorer_site_path.'maps/overview.png"><center><img src="'.$base_datapack_explorer_site_path.'maps/preview.png" alt="Map overview" title="Map overview" width="'.($map_current_object['pixelwidth']/$ratio).'" height="'.($map_current_object['pixelheight']/$ratio).'" />
-    <b>'.$translation_list[$current_lang]['Size'].': '.round(filesize($datapack_explorer_local_path.'maps/overview.png')/1000000,1).$translation_list[$current_lang]['MB'].'</b>
+    $map_descriptor.='<div class="value datapackscreenshot"><a href="'.$base_datapack_explorer_site_path.'maps/overview-'.$mapoverviewindex.'.png"><center><img src="'.$base_datapack_explorer_site_path.'maps/preview-'.$mapoverviewindex.'.png" alt="Map overview" title="Map overview" width="'.($map_current_object['pixelwidth']/$ratio).'" height="'.($map_current_object['pixelheight']/$ratio).'" />
+    <b>'.$translation_list[$current_lang]['Size'].': '.round(filesize($datapack_explorer_local_path.'maps/overview-'.$mapoverviewindex.'.png')/1000000,1).$translation_list[$current_lang]['MB'].'</b>
     </center></a></div>';
+    $mapoverviewindex++;
 }
 
 foreach($zone_to_map as $maindatapackcode=>$zonetempthis)

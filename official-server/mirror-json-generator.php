@@ -62,15 +62,24 @@ foreach($arr as $file)
             if($errno)
             {
                 $error_message = curl_strerror($errno);
-                echo "cURL error ({$errno}):\n {$error_message}";
                 $mirrorserverlisttemp[$server]['state']='down';
+                $mirrorserverlisttemp[$server]['error']="cURL error ({$errno}):\n {$error_message}";
+                $mirrorserverlisttemp[$server]['file']=$server.$file;
             }
             else if($httpcode!=200)
+            {
                 $mirrorserverlisttemp[$server]['state']='corrupted';
+                $mirrorserverlisttemp[$server]['error']='http code: '.$httpcode;
+                $mirrorserverlisttemp[$server]['file']=$server.$file;
+            }
             else
             {
                 if($contentlocal!=$contentremote)
+                {
                     $mirrorserverlisttemp[$server]['state']='corrupted';
+                    $mirrorserverlisttemp[$server]['error']='local and remote file are not same';
+                    $mirrorserverlisttemp[$server]['file']=$server.$file;
+                }
             }
         }
     }

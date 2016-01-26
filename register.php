@@ -83,13 +83,14 @@ function send_mail($title,$text,$to,$type,$from)
                         {
                             $handle = @fopen("blacklisted-passwords.txt", "r");
                             $arrayofpass=array();
-                            if ($handle) {
+                            if ($handle)
+                            {
                                 while (($buffer = fgets($handle, 4096)) !== false) {
                                     $arrayofpass[]=$buffer;
                                 }
-                                if (!feof($handle)) {
+                                /*if (!feof($handle)) {
                                     echo "Error: unexpected fgets() fail\n";
-                                }
+                                }*/
                                 fclose($handle);
                             }
                             if(in_array($_POST['password'],$arrayofpass))

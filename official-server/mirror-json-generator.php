@@ -47,6 +47,8 @@ foreach($arr as $file)
     $contentlocal=file_get_contents($datapack_path.$file);
     foreach($mirrorserverlisttemp as $server=>$content)
     {
+        if(!isset($mirrorserverlisttemp[$server]['time']))
+            $mirrorserverlisttemp[$server]['time']=0.0;
         if($content['state']=='up')
         {
             $ch = curl_init();
@@ -54,10 +56,15 @@ foreach($arr as $file)
             curl_setopt($ch, CURLOPT_HEADER,0);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_TIMEOUT,10);
+            curl_setopt($ch, CURLOPT_TCP_NODELAY, 1); 
+            $time_start = microtime(true);
             $contentremote = curl_exec($ch);
+            $time_end = microtime(true);
+            $time = $time_end - $time_start;
             $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             $errno = curl_errno($ch);
             curl_close($ch);
+            $mirrorserverlisttemp[$server]['time']+=$time;
             
             if($errno)
             {

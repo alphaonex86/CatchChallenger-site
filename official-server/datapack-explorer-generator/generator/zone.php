@@ -8,7 +8,6 @@ if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['zones
 
 foreach($zone_to_map as $maindatapackcode=>$zone_list)
 foreach($zone_list as $zone=>$map_by_zone)
-foreach($map_by_zone as $map=>$map_content)
 {
 	$map_descriptor='';
 
@@ -19,12 +18,20 @@ foreach($map_by_zone as $map=>$map_content)
 	else
 		$zone_name=$zone;
 
-    if(isset($maps_list[$maindatapackcode][$map]['type']))
-        $map_descriptor.='<div class="map map_type_'.$maps_list[$maindatapackcode][$map]['type'].'">';
-    else
     {
-        echo '$maps_list['.$maindatapackcode.']['.$map.']'." not found\n";
-        $map_descriptor.='<div class="map map_type_outdoor">';
+        $map_type_found=false;
+        foreach($map_by_zone as $map=>$map_content)
+        {
+            if(isset($maps_list[$maindatapackcode][$map]['type']))
+            {
+                $map_descriptor.='<div class="map map_type_'.$maps_list[$maindatapackcode][$map]['type'].'">';
+                $map_type_found=true;
+            }
+            else
+                echo '$maps_list['.$maindatapackcode.']['.$map.']'." not found\n";
+        }
+        if($map_type_found==false)
+            $map_descriptor.='<div class="map map_type_outdoor">';
     }
 	$map_descriptor.='<div class="subblock"><h1>'.$zone_name.'</h1></div>';
 	$bot_count=0;
@@ -97,10 +104,10 @@ foreach($map_by_zone as $map=>$map_content)
         $map_descriptor.='<div style="float:left;background-position:-16px 0px;" class="flags flags16" title="Quests"></div>';
 	$map_descriptor.='</th></tr>';
 	asort($map_by_zone);
-	foreach($map_by_zone as $map=>$name)
+	foreach($map_by_zone as $map=>$map_content)
 	{
-        $map_descriptor.='<tr class="value"><td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$map).'" title="'.$name[$current_lang].'">'.$name[$current_lang].'</a></td>';
-        $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$map).'" title="'.$name[$current_lang].'">';
+        $map_descriptor.='<tr class="value"><td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$map).'" title="'.$map_content[$current_lang].'">'.$map_content[$current_lang].'</a></td>';
+        $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$map).'" title="'.$map_content[$current_lang].'">';
 		if(isset($map_to_function[$maindatapackcode][$map]['shop']))
 			for ($i = 1; $i <= $map_to_function[$maindatapackcode][$map]['shop']; $i++)
 				$map_descriptor.='<div style="float:left;background-position:-32px 0px;" class="flags flags16" title="Shop"></div>';

@@ -71,4 +71,7 @@ $content=str_replace('${TITLE}',$translation_list[$current_lang]['Plants list'],
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=clean_html($content);
-filewrite($datapack_explorer_local_path.$translation_list[$current_lang]['plants.html'],$content);
+$filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['plants.html'];
+if(file_exists($filedestination))
+    die('The file already exists: '.$filedestination);
+filewrite($filedestination,$content);

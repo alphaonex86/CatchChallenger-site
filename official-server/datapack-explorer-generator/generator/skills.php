@@ -178,7 +178,10 @@ foreach($skill_meta as $skill_id=>$skill)
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=clean_html($content);
-	filewrite($datapack_explorer_local_path.'monsters/skills/'.text_operation_do_for_url($skill['name'][$current_lang]).'.html',$content);
+    $filedestination=$datapack_explorer_local_path.'monsters/skills/'.text_operation_do_for_url($skill['name'][$current_lang]).'.html';
+    if(file_exists($filedestination))
+        die('The file already exists: '.$filedestination);
+    filewrite($filedestination,$content);
 }
 
 $map_descriptor='';
@@ -250,4 +253,7 @@ $content=str_replace('${TITLE}',$translation_list[$current_lang]['Skills list'],
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=clean_html($content);
-filewrite($datapack_explorer_local_path.$translation_list[$current_lang]['skills.html'],$content);
+$filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['skills.html'];
+if(file_exists($filedestination))
+    die('The file already exists: '.$filedestination);
+filewrite($filedestination,$content);

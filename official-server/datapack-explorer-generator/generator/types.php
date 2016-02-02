@@ -169,7 +169,10 @@ foreach($type_meta as $type=>$type_content)
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=clean_html($content);
-	filewrite($datapack_explorer_local_path.'monsters/type-'.$type.'.html',$content);
+    $filedestination=$datapack_explorer_local_path.'monsters/type-'.$type.'.html';
+    if(file_exists($filedestination))
+        die('The file already exists: '.$filedestination);
+    filewrite($filedestination,$content);
 }
 
 $map_descriptor='';
@@ -225,4 +228,7 @@ $content=str_replace('${TITLE}',$translation_list[$current_lang]['Monsters types
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=clean_html($content);
-filewrite($datapack_explorer_local_path.$translation_list[$current_lang]['types.html'],$content);
+$filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['types.html'];
+if(file_exists($filedestination))
+    die('The file already exists: '.$filedestination);
+filewrite($filedestination,$content);

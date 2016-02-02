@@ -257,6 +257,7 @@ $translation_list[$temp_lang]['quests.html']='quests.html';
 $translation_list[$temp_lang]['skills.html']='skills.html';
 $translation_list[$temp_lang]['start.html']='start.html';
 $translation_list[$temp_lang]['types.html']='types.html';
+$translation_list[$temp_lang]['tree.html']='tree.html';
 //mediawiki categories
 $translation_list[$temp_lang]['Bots:']='Bots:';
 $translation_list[$temp_lang]['Items:']='Items:';

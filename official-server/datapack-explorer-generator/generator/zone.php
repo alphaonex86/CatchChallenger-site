@@ -146,5 +146,8 @@ foreach($map_by_zone as $map=>$map_content)
 	$content=clean_html($content);
     if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['zones/'].$maindatapackcode.'/'))
         mkpath($datapack_explorer_local_path.$translation_list[$current_lang]['zones/'].$maindatapackcode.'/');
-	filewrite($datapack_explorer_local_path.$translation_list[$current_lang]['zones/'].$maindatapackcode.'/'.text_operation_do_for_url($zone_name).'.html',$content);
+    $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['zones/'].$maindatapackcode.'/'.text_operation_do_for_url($zone_name).'.html';
+    if(file_exists($filedestination))
+        die('The file already exists: '.$filedestination);
+    filewrite($filedestination,$content);
 }

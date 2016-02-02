@@ -18,7 +18,6 @@ $map_descriptor.='<div class="map map_type_city">';
     else if(isset($informations_meta['description']['en']))
         $map_descriptor.='<div class="type_label_list">'.htmlspecialchars($informations_meta['description']['en']).'</div>';
 
-$map_descriptor.='<div class="subblock"><div class="valuetitle">Main part(s)</div><div class="value">';
 foreach($informations_meta['main'] as $maindatapackcode=>$mainContent)
 {
     $map_descriptor.='<div class="map map_type_city">';
@@ -152,7 +151,6 @@ foreach($informations_meta['main'] as $maindatapackcode=>$mainContent)
 
     $map_descriptor.='</div>';
 }
-$map_descriptor.='</div></div>';
 
 $map_descriptor.='</div>';
 
@@ -166,4 +164,7 @@ else
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=clean_html($content);
-filewrite($datapack_explorer_local_path.'tree.html',$content);
+$filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['buffs.html'];
+if(file_exists($filedestination))
+    die('The file already exists: '.$filedestination);
+filewrite($filedestination,$content);

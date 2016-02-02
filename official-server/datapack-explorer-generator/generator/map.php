@@ -932,7 +932,10 @@ foreach($map_list as $map)
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=clean_html($content);
-	filewrite($datapack_explorer_local_path.$translation_list[$current_lang]['maps/'].$map_html,$content);
+    $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['maps/'].$map_html;
+    if(file_exists($filedestination))
+        die('The file already exists: '.$filedestination);
+    filewrite($filedestination,$content);
 }
 
 $map_descriptor='';
@@ -1047,4 +1050,7 @@ $content=str_replace('${TITLE}',$translation_list[$current_lang]['Maps list'],$c
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=clean_html($content);
-filewrite($datapack_explorer_local_path.$translation_list[$current_lang]['maps.html'],$content);
+$filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['maps.html'];
+if(file_exists($filedestination))
+    die('The file already exists: '.$filedestination);
+filewrite($filedestination,$content);

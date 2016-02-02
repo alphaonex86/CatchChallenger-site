@@ -474,7 +474,10 @@ foreach($bot_list as $bot_id=>$bot)
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=clean_html($content);
-	filewrite($datapack_explorer_local_path.$translation_list[$current_lang]['bots/'].$maindatapackcode.'/'.text_operation_do_for_url($final_url_name).'.html',$content);
+    $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['bots/'].$maindatapackcode.'/'.text_operation_do_for_url($final_url_name).'.html';
+    if(file_exists($filedestination))
+        die('The file already exists: '.$filedestination);
+	filewrite($filedestination,$content);
 }
 
 $map_descriptor='';
@@ -599,4 +602,7 @@ $content=str_replace('${TITLE}',$translation_list[$current_lang]['Bots list'],$c
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=clean_html($content);
-filewrite($datapack_explorer_local_path.$translation_list[$current_lang]['bots.html'],$content);
+$filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['bots.html'];
+if(file_exists($filedestination))
+    die('The file already exists: '.$filedestination);
+filewrite($filedestination,$content);

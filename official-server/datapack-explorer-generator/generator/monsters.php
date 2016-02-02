@@ -632,7 +632,10 @@ foreach($monster_meta as $id=>$monster)
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=clean_html($content);
-	filewrite($datapack_explorer_local_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($monster['name'][$current_lang]).'.html',$content);
+    $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($monster['name'][$current_lang]).'.html';
+    if(file_exists($filedestination))
+        die('The file already exists: '.$filedestination);
+    filewrite($filedestination,$content);
 }
 
 $map_descriptor='';
@@ -683,4 +686,7 @@ $content=str_replace('${TITLE}',$translation_list[$current_lang]['Monsters list'
 $content=str_replace('${CONTENT}',$map_descriptor,$content);
 $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 $content=clean_html($content);
-filewrite($datapack_explorer_local_path.$translation_list[$current_lang]['monsters.html'],$content);
+$filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['monsters.html'];
+if(file_exists($filedestination))
+    die('The file already exists: '.$filedestination);
+filewrite($filedestination,$content);

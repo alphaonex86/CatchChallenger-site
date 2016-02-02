@@ -283,12 +283,12 @@
 }
 .item_list_title_type_electric
 {
-	background-color:#FEF205;
+	background-color:#FCF005;
 }
 .item_list_type_electric
 {
-	border-color:#C7954F;
-	background-color:#EFCB5F;
+	border-color:#C5934D;
+	background-color:#EDC95D;
 }
 .item_list_title_type_spectre
 {
@@ -437,13 +437,13 @@
 }
 .monster_type_electric
 {
-	border-color:#C7954F;
-	background-color:#EFCB5F;
+    border-color:#C5934D;
+    background-color:#EDC95D;
 }
 .monster_type_electric .subblock
 {
-	border-color:#C7954F;
-	background-color:#FFF564;
+	border-color:#C5934D;
+	background-color:#FDF361;
 }
 .monster_type_spectre
 {

@@ -287,7 +287,7 @@ foreach($bot_list as $bot_id=>$bot)
                             $type_list=array();
                             foreach($monster_meta[$monster['monster']]['type'] as $type)
                                 if(isset($type_meta[$type]))
-                                    $type_list[]='<span class="type_label type_label_'.$type.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.$type_meta[$type]['name'][$current_lang].'</a></span>';
+                                    $type_list[]='<span class="type_label type_label_'.$type.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.ucfirst($type_meta[$type]['name'][$current_lang]).'</a></span>';
                             $map_descriptor.='<div class="type_label_list">'.implode(' ',$type_list).'</div></td></tr>';
 							$map_descriptor.='<tr><td>Level '.$monster['level'].'</td></tr>';
 							$map_descriptor.='</table>';

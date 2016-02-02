@@ -91,7 +91,7 @@ foreach($buff_meta as $buff_id=>$buff)
 						$type_list=array();
 						foreach($monster_meta[$monster]['type'] as $type_monster)
 							if(isset($type_meta[$type_monster]))
-								$type_list[]='<span class="type_label type_label_'.$type_monster.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_monster.'.html">'.$type_meta[$type_monster]['name'][$current_lang].'</a></span>';
+								$type_list[]='<span class="type_label type_label_'.$type_monster.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_monster.'.html">'.ucfirst($type_meta[$type_monster]['name'][$current_lang]).'</a></span>';
 						$map_descriptor.='<td><div class="type_label_list">'.implode(' ',$type_list).'</div></td>';
 						if(count($buff_to_monster[$buff_id])>1)
 							$map_descriptor.='<td>'.$buff_level.'</td>';

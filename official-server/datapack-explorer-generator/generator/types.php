@@ -22,8 +22,8 @@ foreach($type_meta as $type=>$type_content)
 		}
 	}
 	$map_descriptor.='<div class="map monster_type_'.$type.'">';
-		$map_descriptor.='<div class="subblock"><h1>'.$type_content['name'][$current_lang].'</h1></div>';
-		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Type'].'</div><div class="value">';
+		$map_descriptor.='<div class="subblock"><h1>'.ucfirst($type_content['name'][$current_lang]).'</h1></div>';
+		$map_descriptor.='<div class="subblock"><div class="valuetitle">'.ucfirst($translation_list[$current_lang]['Type']).'</div><div class="value">';
 		$map_descriptor.='<div class="type_label_list"><span class="type_label type_label_'.$type.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.ucfirst($type_meta[$type]['name'][$current_lang]).'</a></span></div></div></div>';
 		if(isset($effectiveness_list['4']) || isset($effectiveness_list['2']))
 		{
@@ -120,25 +120,43 @@ foreach($type_meta as $type=>$type_content)
 	$second_type_displayed='';
 	if(isset($type_to_monster[$type]) && count($type_to_monster[$type])>0)
 	{
-		$map_descriptor.='<table class="item_list item_list_type_'.$type.'">
+		$map_descriptor.='<table class="monster_list item_list item_list_type_'.$type.'">
 		<tr class="item_list_title item_list_title_type_'.$type.'">
 			<th colspan="2">'.$translation_list[$current_lang]['Monster'].'</th>
 			<th>'.$translation_list[$current_lang]['Type'].'</th>
 		</tr>';
+        $typetomonster_count=0;
 		foreach($type_to_monster[$type] as $second_type=>$second_type_content)
 		{
 			if($second_type_displayed!=$second_type)
 			{
-				if($second_type==$type)
-					$map_descriptor.='<tr class="item_list_title_type_'.$second_type.'"><th colspan="3">'.$type_meta[$second_type]['name'][$current_lang].'</th></tr>';
-				else
-					$map_descriptor.='<tr class="item_list_title_type_'.$second_type.'"><th colspan="3">'.$type_meta[$type]['name'][$current_lang].' - '.$type_meta[$second_type]['name'][$current_lang].'</th></tr>';
-				$second_type_displayed=$second_type;
+                $typetomonster_count++;
+
+                if($typetomonster_count%10==0)
+                {
+                    $map_descriptor.='<tr>
+                        <td colspan="3" class="item_list_endline item_list_title_type_'.$type.'"></td>
+                    </tr>
+                    </table>';
+                    
+                    $map_descriptor.='<table class="monster_list item_list item_list_type_'.$type.'">
+                    <tr class="item_list_title item_list_title_type_'.$type.'">
+                        <th colspan="2">'.$translation_list[$current_lang]['Monster'].'</th>
+                        <th>'.$translation_list[$current_lang]['Type'].'</th>
+                    </tr>';
+                }
+
+                if($second_type==$type)
+                    $map_descriptor.='<tr class="item_list_title_type_'.$second_type.'"><th colspan="3">'.ucfirst($type_meta[$second_type]['name'][$current_lang]).'</th></tr>';
+                else
+                    $map_descriptor.='<tr class="item_list_title_type_'.$second_type.'"><th colspan="3">'.ucfirst($type_meta[$type]['name'][$current_lang]).' - '.ucfirst($type_meta[$second_type]['name'][$current_lang]).'</th></tr>';
+                $second_type_displayed=$second_type;
 			}
 			foreach($second_type_content as $monster)
 			{
 				if(isset($monster_meta[$monster]))
 				{
+                    $typetomonster_count++;
 					$name=$monster_meta[$monster]['name'][$current_lang];
 					$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
 					$map_descriptor.='<tr class="value">
@@ -155,6 +173,29 @@ foreach($type_meta as $type=>$type_content)
 								$type_list[]='<span class="type_label type_label_'.$type_monster.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_monster.'.html">'.ucfirst($type_meta[$type_monster]['name'][$current_lang]).'</a></span>';
 						$map_descriptor.='<td><div class="type_label_list">'.implode(' ',$type_list).'</div></td>';
 					$map_descriptor.='</tr>';
+                    
+                    if($typetomonster_count%10==0)
+                    {
+                        $map_descriptor.='<tr>
+                            <td colspan="3" class="item_list_endline item_list_title_type_'.$type.'"></td>
+                        </tr>
+                        </table>';
+                        
+                        $map_descriptor.='<table class="monster_list item_list item_list_type_'.$type.'">
+                        <tr class="item_list_title item_list_title_type_'.$type.'">
+                            <th colspan="2">'.$translation_list[$current_lang]['Monster'].'</th>
+                            <th>'.$translation_list[$current_lang]['Type'].'</th>
+                        </tr>';
+                        if($second_type_displayed!=$second_type)
+                        {
+                            if($second_type==$type)
+                                $map_descriptor.='<tr class="item_list_title_type_'.$second_type.'"><th colspan="3">'.ucfirst($type_meta[$second_type]['name'][$current_lang]).'</th></tr>';
+                            else
+                                $map_descriptor.='<tr class="item_list_title_type_'.$second_type.'"><th colspan="3">'.ucfirst($type_meta[$type]['name'][$current_lang]).' - '.ucfirst($type_meta[$second_type]['name'][$current_lang]).'</th></tr>';
+                            $second_type_displayed=$second_type;
+                            $typetomonster_count++;
+                        }
+                    }
 				}
 			}
 		}
@@ -162,10 +203,12 @@ foreach($type_meta as $type=>$type_content)
 			<td colspan="3" class="item_list_endline item_list_title_type_'.$type.'"></td>
 		</tr>
 		</table>';
+
+        $map_descriptor.='<br style="clear:both;" />';
 	}
 
 	$content=$template;
-	$content=str_replace('${TITLE}',$type_content['name'][$current_lang],$content);
+	$content=str_replace('${TITLE}',ucfirst($type_content['name'][$current_lang]),$content);
 	$content=str_replace('${CONTENT}',$map_descriptor,$content);
 	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
 	$content=clean_html($content);

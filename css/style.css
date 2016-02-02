@@ -400,3 +400,24 @@ margin: 0 auto;
     float:left;
     margin:5px;
 }
+
+.skilltm_list
+{
+    width:450px;
+    float:left;
+    margin:5px;
+}
+
+.itemmonster_list
+{
+    width:200px;
+    float:left;
+    margin:5px;
+}
+
+.itemskillmonster
+{
+    float:left;
+    margin:5px;
+}
+

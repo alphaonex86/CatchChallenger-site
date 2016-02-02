@@ -14,9 +14,9 @@ $map_descriptor.='<div class="map map_type_city">';
         $map_descriptor.='Informations';
     $map_descriptor.='</h1></div>';
     if(isset($informations_meta['description'][$current_lang]))
-        $map_descriptor.='<div class="type_label_list">'.htmlspecialchars($informations_meta['description'][$current_lang]).'</div>';
+        $map_descriptor.='<div class="type_label_list">'.htmlspecialchars(ucfirst($informations_meta['description'][$current_lang])).'</div>';
     else if(isset($informations_meta['description']['en']))
-        $map_descriptor.='<div class="type_label_list">'.htmlspecialchars($informations_meta['description']['en']).'</div>';
+        $map_descriptor.='<div class="type_label_list">'.htmlspecialchars(ucfirst($informations_meta['description']['en'])).'</div>';
 
 foreach($informations_meta['main'] as $maindatapackcode=>$mainContent)
 {
@@ -41,9 +41,9 @@ foreach($informations_meta['main'] as $maindatapackcode=>$mainContent)
         }
         $map_descriptor.='</h1></div>';
         if(isset($mainContent['description'][$current_lang]))
-            $map_descriptor.='<div class="type_label_list">'.htmlspecialchars($mainContent['description'][$current_lang]).'</div>';
+            $map_descriptor.='<div class="type_label_list">'.htmlspecialchars(ucfirst($mainContent['description'][$current_lang])).'</div>';
         else if(isset($mainContent['description']['en']))
-            $map_descriptor.='<div class="type_label_list">'.htmlspecialchars($mainContent['description']['en']).'</div>';
+            $map_descriptor.='<div class="type_label_list">'.htmlspecialchars(ucfirst($mainContent['description']['en'])).'</div>';
 
         if(count($mainContent['monsters']))
         {
@@ -105,9 +105,9 @@ foreach($informations_meta['main'] as $maindatapackcode=>$mainContent)
                 }
                 $map_descriptor.='</h1></div>';
                 if(isset($subContent['description'][$current_lang]))
-                    $map_descriptor.='<div class="type_label_list">'.htmlspecialchars($subContent['description'][$current_lang]).'</div>';
+                    $map_descriptor.='<div class="type_label_list">'.htmlspecialchars(ucfirst($subContent['description'][$current_lang])).'</div>';
                 else if(isset($subContent['description']['en']))
-                    $map_descriptor.='<div class="type_label_list">'.htmlspecialchars($subContent['description']['en']).'</div>';
+                    $map_descriptor.='<div class="type_label_list">'.htmlspecialchars(ucfirst($subContent['description']['en'])).'</div>';
 
                 if(count($subContent['monsters']))
                 {

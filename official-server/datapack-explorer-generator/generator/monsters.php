@@ -263,7 +263,7 @@ foreach($monster_meta as $id=>$monster)
 						$map_descriptor.=' at level '.$attack['attack_level'];
 					$map_descriptor.='</a></td>';
 					if(isset($type_meta[$skill_meta[$attack['id']]['type']]))
-						$map_descriptor.='<td><span class="type_label type_label_'.$skill_meta[$attack['id']]['type'].'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$skill_meta[$attack['id']]['type'].'.html">'.$type_meta[$skill_meta[$attack['id']]['type']]['name'][$current_lang].'</a></span></td>';
+						$map_descriptor.='<td><span class="type_label type_label_'.$skill_meta[$attack['id']]['type'].'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$skill_meta[$attack['id']]['type'].'.html">'.ucfirst($type_meta[$skill_meta[$attack['id']]['type']]['name'][$current_lang]).'</a></span></td>';
 					else
 						$map_descriptor.='<td>&nbsp;</td>';
 					if(isset($skill_meta[$attack['id']]['level_list'][$attack['attack_level']]))
@@ -281,7 +281,8 @@ foreach($monster_meta as $id=>$monster)
 	}
 	if(count($monster['attack_list_byitem'])>0)
 	{
-		$map_descriptor.='<table class="item_list item_list_type_'.$resolved_type.'">
+        $attack_list_count=0;
+		$map_descriptor.='<table class="skilltm_list item_list item_list_type_'.$resolved_type.'">
 		<tr class="item_list_title item_list_title_type_'.$resolved_type.'">
 			<th colspan="2">'.$translation_list[$current_lang]['Item'].'</th>
 			<th>'.$translation_list[$current_lang]['Skill'].'</th>
@@ -295,6 +296,7 @@ foreach($monster_meta as $id=>$monster)
 			{
 				if(isset($skill_meta[$attack['id']]))
 				{
+                    $attack_list_count++;
 					$map_descriptor.='<tr class="value">';
 					if(isset($item_meta[$item]))
 					{
@@ -337,7 +339,7 @@ foreach($monster_meta as $id=>$monster)
 						$map_descriptor.=' at level '.$attack['attack_level'];
 					$map_descriptor.='</a></td>';
 					if(isset($type_meta[$skill_meta[$attack['id']]['type']]))
-						$map_descriptor.='<td><span class="type_label type_label_'.$skill_meta[$attack['id']]['type'].'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$skill_meta[$attack['id']]['type'].'.html">'.$type_meta[$skill_meta[$attack['id']]['type']]['name'][$current_lang].'</a></span></td>';
+						$map_descriptor.='<td><span class="type_label type_label_'.$skill_meta[$attack['id']]['type'].'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$skill_meta[$attack['id']]['type'].'.html">'.ucfirst($type_meta[$skill_meta[$attack['id']]['type']]['name'][$current_lang]).'</a></span></td>';
 					else
 						$map_descriptor.='<td>&nbsp;</td>';
 					if(isset($skill_meta[$attack['id']]['level_list'][$attack['attack_level']]))
@@ -345,13 +347,31 @@ foreach($monster_meta as $id=>$monster)
 					else
 						$map_descriptor.='<td>&nbsp;</td>';
 					$map_descriptor.='</tr>';
+                    if($attack_list_count%10==0)
+                    {
+                        $map_descriptor.='<tr>
+                            <td colspan="5" class="item_list_endline item_list_title_type_'.$resolved_type.'"></td>
+                        </tr>
+                        </table>';
+
+                        $map_descriptor.='<table class="skilltm_list item_list item_list_type_'.$resolved_type.'">
+                        <tr class="item_list_title item_list_title_type_'.$resolved_type.'">
+                            <th colspan="2">'.$translation_list[$current_lang]['Item'].'</th>
+                            <th>'.$translation_list[$current_lang]['Skill'].'</th>
+                            <th>'.$translation_list[$current_lang]['Type'].'</th>
+                            <th>'.$translation_list[$current_lang]['Endurance'].'</th>
+                        </tr>';
+                    }
 				}
+                else
+                    echo '$skill_meta[$attack[id]] not found'."\n";
 			}
 		}
 		$map_descriptor.='<tr>
 			<td colspan="5" class="item_list_endline item_list_title_type_'.$resolved_type.'"></td>
 		</tr>
 		</table>';
+        $map_descriptor.='<br style="clear:both;" />';
 	}
 
 	if(isset($monster_to_quests[$id]))

@@ -235,6 +235,7 @@ $translation_list[$temp_lang]['Common']='Common';
 $translation_list[$temp_lang]['Less common']='Less common';
 $translation_list[$temp_lang]['Rare']='Rare';
 $translation_list[$temp_lang]['Very rare']='Very rare';
+$translation_list[$temp_lang]['Monster able to learn']='Monster able to learn';
 
 //generated path
 $translation_list[$temp_lang]['maps/']='maps/';

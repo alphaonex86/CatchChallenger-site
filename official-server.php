@@ -58,8 +58,12 @@ if($postgres_link_site===FALSE)
 				<br />
 				<img src="/images/pixel.png" width="96" height="96" style="float:left; margin-right:7px;" class="tiers_img" alt="" />
 				<ul><?php
+                $total_string_array=array();
+                $gameserver_up=0;
+                $gameserver_down=0;
                 $server_count=0;
                 $player_count=0;
+                $maxplayer_count=0;
                 $file='gameserver.json';
                 if(file_exists($file) && $filecurs=file_get_contents($file))
                 {
@@ -75,7 +79,10 @@ if($postgres_link_site===FALSE)
                             {
                                 $db_server_found[]=$data['uniquekey'];
                                 if(!isset($arr[$data['uniquekey']]))//not found
+                                {
                                     echo '<li><div class="divBackground" title="'.htmlspecialchars($data['description']).'"><div class="labelDatapackMap"></div><strong>'.htmlspecialchars($data['name']).'</strong> - <span style="color:red;">down</span></div></li>';
+                                    $gameserver_down++;
+                                }
                                 else
                                 {
                                     $server_count++;
@@ -98,11 +105,13 @@ if($postgres_link_site===FALSE)
                                         }
                                         if($server['maxPlayer']<65534 && $server['maxPlayer']>0 && $server['connectedPlayer']<=$server['maxPlayer'])
                                         {
-                                            echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="labelDatapackMap"></div><strong>'.htmlentities($name).'</strong> - '.$server['connectedPlayer'].'/'.$server['maxPlayer'].' players</div></li>';
+                                            echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="labelDatapackMap"></div><strong>'.htmlentities($name).'</strong> - <strong>'.$server['connectedPlayer'].'</strong>/'.$server['maxPlayer'].' players - <span style="color:green;">online</span></div></li>';
                                             $player_count+=$server['connectedPlayer'];
+                                            $maxplayer_count+=$server['maxPlayer'];
                                         }
                                         else
                                             echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="labelDatapackMap"></div><strong>'.htmlentities($name).'</strong> - <span style="color:green;">online</span></div></li>';
+                                        $gameserver_up++;
                                         if($data['name']!=$name || $data['description']!=$description)
                                             pg_query($postgres_link_site,'UPDATE gameservers SET name=\''.addslashes($name).'\',description=\''.addslashes($description).'\' WHERE uniquekey='.$data['uniquekey']) or die(pg_last_error());
                                     }
@@ -133,11 +142,13 @@ if($postgres_link_site===FALSE)
                                         }
                                         if($server['maxPlayer']<65534 && $server['maxPlayer']>0 && $server['connectedPlayer']<=$server['maxPlayer'])
                                         {
-                                            echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="labelDatapackMap"></div><strong>'.htmlentities($name).'</strong> - '.$server['connectedPlayer'].'/'.$server['maxPlayer'].' players</div></li>';
+                                            echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="labelDatapackMap"></div><strong>'.htmlentities($name).'</strong> - <strong>'.$server['connectedPlayer'].'</strong>/'.$server['maxPlayer'].' players - <span style="color:green;">online</span></div></li>';
                                             $player_count+=$server['connectedPlayer'];
+                                            $maxplayer_count+=$server['maxPlayer'];
                                         }
                                         else
                                             echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="labelDatapackMap"></div><strong>'.htmlentities($name).'</strong> - <span style="color:green;">online</span></div></li>';
+                                        $gameserver_up++;
                                         pg_query($postgres_link_site,'INSERT INTO gameservers(uniquekey,name,description) VALUES ('.addslashes($uniqueKey).',\''.addslashes($name).'\',\''.addslashes($description).'\');') or die(pg_last_error());
                                     }
                                     else
@@ -166,15 +177,23 @@ if($postgres_link_site===FALSE)
                                     }
                                     if($server['maxPlayer']<65534 && $server['maxPlayer']>0 && $server['connectedPlayer']<=$server['maxPlayer'])
                                     {
-                                        echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="labelDatapackMap"></div><strong>'.htmlentities($name).'</strong> - '.$server['connectedPlayer'].'/'.$server['maxPlayer'].' players</div></li>';
+                                        echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="labelDatapackMap"></div><strong>'.htmlentities($name).'</strong> - <strong>'.$server['connectedPlayer'].'</strong>/'.$server['maxPlayer'].' players - <span style="color:green;">online</span></div></li>';
                                         $player_count+=$server['connectedPlayer'];
+                                        $maxplayer_count+=$server['maxPlayer'];
                                     }
                                     else
                                         echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="labelDatapackMap"></div><strong>'.htmlentities($name).'</strong> - <span style="color:green;">online</span></div></li>';
+                                    $gameserver_up++;
                                 }
                                 else
                                     echo '<li><div class="divBackground"><div class="labelDatapackMap"></div><strong>Default server</strong></div></li>';
                             }
+                        $string_array=array();
+                        if($gameserver_up>0)
+                            $string_array[]='<strong>'.$gameserver_up.'</strong> <span style="color:green;">online</span>';
+                        if($gameserver_down>0)
+                            $string_array[]='<strong>'.$gameserver_down.'</strong> <span style="color:red;">offline</span>';
+                        $total_string_array[]='Game server: '.implode(', ',$string_array);
                     }
                     else
                         echo '<li><p class="text">The official server list is actually in <b>Unknown state</b>.</p></li>';
@@ -184,8 +203,6 @@ if($postgres_link_site===FALSE)
                 ?>
                 </ul>
                 <?php
-                $total_string_array=array();
-
                 $loginserver_up=0;
                 $loginserver_down=0;
                 $file='loginserver.json';
@@ -254,7 +271,7 @@ if($postgres_link_site===FALSE)
                 if(count($total_string_array)>0)
                     echo '<p class="text">'.implode(', ',$total_string_array).'</p>';
                 ?>
-                <p class="text">Total: <b><?php echo $server_count; ?></b> servers and <b><?php echo $player_count; ?></b> players.</p>
+                <p class="text">Total: <!--<b><?php echo $server_count; ?></b> servers and --><b><?php echo $player_count; ?></b>/<?php echo $maxplayer_count; ?> players.</p>
 				<p class="text">Download the <a href="http://files.first-world.info/catchchallenger/1.0.0.0/catchchallenger-single-server-windows-x86-1.0.0.0-setup.exe">client for Windows</a> or the <a href="http://files.first-world.info/catchchallenger/1.0.0.0/catchchallenger-single-server-mac-os-x-1.0.0.0.dmg">client for Mac</a> to play on it</p>
                 <?php
                 $file='official-server/datapack-explorer/contentstat.json';

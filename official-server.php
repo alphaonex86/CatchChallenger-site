@@ -74,11 +74,11 @@ if($postgres_link_site===FALSE)
                         if($is_up)
                         {
                             $db_server_found=array();
-                            $reply = pg_query($postgres_link_site,'SELECT uniquekey,name,description FROM gameservers ORDER BY uniquekey') or die(pg_last_error());
+                            $reply = pg_query($postgres_link_site,'SELECT uniquekey,"groupIndex",name,description FROM gameservers ORDER BY "groupIndex",uniquekey') or die(pg_last_error());
                             while($data = pg_fetch_array($reply))
                             {
-                                $db_server_found[]=$data['uniquekey'];
-                                if(!isset($arr[$data['uniquekey']]))//not found
+                                $db_server_found[]=$data['groupIndex'].'-'.$data['uniquekey'];
+                                if(!isset($arr[$data['groupIndex']][$data['uniquekey']]))//not found
                                 {
                                     echo '<li><div class="divBackground" title="'.htmlspecialchars($data['description']).'"><div class="labelDatapackMap"></div><strong>'.htmlspecialchars($data['name']).'</strong> - <span style="color:red;">down</span></div></li>';
                                     $gameserver_down++;
@@ -86,7 +86,7 @@ if($postgres_link_site===FALSE)
                                 else
                                 {
                                     $server_count++;
-                                    $server=$arr[$data['uniquekey']];
+                                    $server=$arr[$data['groupIndex']][$data['uniquekey']];
                                     if(isset($server['xml']) && isset($server['connectedPlayer']) && isset($server['maxPlayer']))
                                     {
                                         $name='';
@@ -119,9 +119,10 @@ if($postgres_link_site===FALSE)
                                         echo '<li><div class="divBackground" title="'.htmlentities($data['description']).'"><div class="labelDatapackMap"></div><strong>'.htmlentities($data['name']).'</strong></div></li>';
                                 }
                             }
-                            foreach($arr as $uniqueKey=>$server)
+                            foreach($arr as $groupIndex=>$server_list)
+                            foreach($server_list as $uniqueKey=>$server)
                             {
-                                if(!in_array($uniqueKey,$db_server_found))
+                                if(!in_array($groupIndex.'-'.$uniqueKey,$db_server_found))
                                 {
                                     $server_count++;
                                     if(isset($server['xml']) && isset($server['connectedPlayer']) && isset($server['maxPlayer']))
@@ -149,7 +150,7 @@ if($postgres_link_site===FALSE)
                                         else
                                             echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="labelDatapackMap"></div><strong>'.htmlentities($name).'</strong> - <span style="color:green;">online</span></div></li>';
                                         $gameserver_up++;
-                                        pg_query($postgres_link_site,'INSERT INTO gameservers(uniquekey,name,description) VALUES ('.addslashes($uniqueKey).',\''.addslashes($name).'\',\''.addslashes($description).'\');') or die(pg_last_error());
+                                        pg_query($postgres_link_site,'INSERT INTO gameservers(uniquekey,"groupIndex",name,description) VALUES ('.addslashes($uniqueKey).','.addslashes($groupIndex).',\''.addslashes($name).'\',\''.addslashes($description).'\');') or die(pg_last_error());
                                     }
                                     else
                                         echo '<li><div class="divBackground"><div class="labelDatapackMap"></div><strong>Default server</strong></div></li>';
@@ -157,7 +158,8 @@ if($postgres_link_site===FALSE)
                             }
                         }
                         else
-                            foreach($arr as $uniqueKey=>$server)
+                            foreach($arr as $groupIndex=>$server_list)
+                            foreach($server_list as $uniqueKey=>$server)
                             {
                                 if(isset($server['xml']) && isset($server['connectedPlayer']) && isset($server['maxPlayer']))
                                 {

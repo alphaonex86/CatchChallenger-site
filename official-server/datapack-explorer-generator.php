@@ -30,6 +30,11 @@ if(isset($datapack_source_url) && $datapack_source_url!='')
 	$automaticallygen.='</a>';
 $automaticallygen.='</div>';
 
+if(!file_exists('/usr/bin/pngcrush'))
+    echo 'Better if you install /usr/bin/pngcrush'."\n";
+if(!file_exists('/usr/bin/pngquant'))
+    echo 'Better if you install /usr/bin/pngquant'."\n";
+
 $datapackexplorergeneratorinclude=true;
 
 $time_start=microtime(true);

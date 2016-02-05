@@ -41,7 +41,8 @@ if(isset($map_generator) && $map_generator!='')
             @unlink('overview-'.$overviweid.'.png');
             @unlink('preview-'.$overviweid.'.png');
             $before = microtime(true);
-            exec($map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/main/'.$maindatapackcode.'/'.$map.' overview-'.$overviweid.'.png --renderAll',$output,$return_var);
+            echo exec($map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/main/'.$maindatapackcode.'/'.$map.' overview-'.$overviweid.'.png --renderAll',$output,$return_var);
+            echo implode($output,"\n");
             $after = microtime(true);
             echo 'Preview generation '.(int)($after-$before)."s\n";
             
@@ -71,7 +72,8 @@ if(isset($map_generator) && $map_generator!='')
         echo 'starter to do overview map missing'."\n";
 
     //single map preview
-    exec($map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/main/',$output,$return_var);
+    echo exec($map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/main/',$output,$return_var);
+    echo implode($output,"\n");
     if($return_var!=0)
     {
         echo 'exec failed';
@@ -80,7 +82,8 @@ if(isset($map_generator) && $map_generator!='')
     if(is_executable('/usr/bin/mogrify'))
     {
         $before = microtime(true);
-        exec('/usr/bin/find ./ -name \'*.png\' -exec /usr/bin/ionice -c 3 /usr/bin/nice -n 19 /usr/bin/mogrify -trim +repage {} \;');
+        echo exec('/usr/bin/find ./ -name \'*.png\' -exec /usr/bin/ionice -c 3 /usr/bin/nice -n 19 /usr/bin/mogrify -trim +repage {} \;',$output,$return_var);
+        echo implode($output,"\n");
         $after = microtime(true);
         echo 'Png trim and repage into '.(int)($after-$before)."s\n";
     }
@@ -91,7 +94,7 @@ if(isset($map_generator) && $map_generator!='')
     if(isset($png_compress) && $png_compress!='')
     {
         $before = microtime(true);
-        exec($png_compress);
+        echo exec($png_compress,$output,$return_var);
         $after = microtime(true);
         echo 'Png compressed into '.(int)($after-$before)."s\n";
     }

@@ -42,7 +42,7 @@ if(isset($map_generator) && $map_generator!='')
             @unlink('preview-'.$overviweid.'.png');
             $before = microtime(true);
             echo exec($map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/main/'.$maindatapackcode.'/'.$map.' overview-'.$overviweid.'.png --renderAll',$output,$return_var);
-            echo implode($output,"\n");
+            //echo implode($output,"\n");
             $after = microtime(true);
             echo 'Preview generation '.(int)($after-$before)."s\n";
             
@@ -63,7 +63,10 @@ if(isset($map_generator) && $map_generator!='')
                     echo 'no /usr/bin/convert found, install imagemagick'."\n";
             }
             else
-                    echo 'overview.png not found'."\n";
+            {
+                echo 'overview.png not found'."\n";
+                echo 'cd '.$pwd.' && '.$map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/main/'.$maindatapackcode.'/'.$map.' overview-'.$overviweid.'.png --renderAll'."\n";
+            }
         }
         else
             echo 'map for starter '.$map.' missing'."\n";

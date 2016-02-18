@@ -70,15 +70,20 @@ function filewrite($file,$content)
 				<br />
 				<img src="/images/pixel.png" width="96" height="96" style="float:left; margin-right:7px;" class="tiers_img" alt="" />
 				<ul><?php
+                $gameserverfile='gameserver.json';
+                $loginserverfile='loginserver.json';
+                $previously_know_server_file='previously_know_server.json';
+                $mirrorserverfile='mirrorserver.json';
+                $contentstatfile='official-server/datapack-explorer/contentstat.json';
+
                 $total_string_array=array();
                 $gameserver_up=0;
                 $gameserver_down=0;
                 $server_count=0;
                 $player_count=0;
                 $maxplayer_count=0;
-                $file='gameserver.json';
-                $previously_know_server_file='previously_know_server.json';
-                if(file_exists($file) && $filecurs=file_get_contents($file))
+
+                if(file_exists($gameserverfile) && $filecurs=file_get_contents($gameserverfile))
                 {
                     $arr=json_decode($filecurs,true);
                     if(is_array($arr))
@@ -229,8 +234,7 @@ function filewrite($file,$content)
                 <?php
                 $loginserver_up=0;
                 $loginserver_down=0;
-                $file='loginserver.json';
-                if(file_exists($file) && $filecurs=file_get_contents($file))
+                if(file_exists($loginserverfile) && $filecurs=file_get_contents($loginserverfile))
                 {
                     $arr=json_decode($filecurs,true);
                     if(is_array($arr))
@@ -260,8 +264,7 @@ function filewrite($file,$content)
                 $mirrorserver_up=0;
                 $mirrorserver_down=0;
                 $mirrorserver_corrupted=0;
-                $file='mirrorserver.json';
-                if(file_exists($file) && $filecurs=file_get_contents($file))
+                if(file_exists($mirrorserverfile) && $filecurs=file_get_contents($mirrorserverfile))
                 {
                     $arr=json_decode($filecurs,true);
                     if(is_array($arr))
@@ -298,8 +301,7 @@ function filewrite($file,$content)
                 <p class="text">Total: <!--<b><?php echo $server_count; ?></b> servers and --><b><?php echo $player_count; ?></b>/<?php echo $maxplayer_count; ?> players.</p>
 				<p class="text">Download the <a href="http://files.first-world.info/catchchallenger/1.0.0.0/catchchallenger-single-server-windows-x86-1.0.0.0-setup.exe">client for Windows</a> or the <a href="http://files.first-world.info/catchchallenger/1.0.0.0/catchchallenger-single-server-mac-os-x-1.0.0.0.dmg">client for Mac</a> to play on it</p>
                 <?php
-                $file='official-server/datapack-explorer/contentstat.json';
-                if(file_exists($file) && $filecurs=file_get_contents($file))
+                if(file_exists($contentstatfile) && $filecurs=file_get_contents($contentstatfile))
                 {
                     $arr=json_decode($filecurs,true);
                     if(is_array($arr))

@@ -66,24 +66,32 @@ foreach($start_meta as $entry)
 		$map_descriptor.='Skin: No skin found<br />';
 	if($entry['cash']>0)
 		$map_descriptor.=$translation_list[$current_lang]['Cash'].': <i>'.htmlspecialchars($entry['cash']).'$</i><br />';
-	$map_descriptor.=$translation_list[$current_lang]['Monster'].': <ul style="margin:0px;">';
-	foreach($entry['monsters'] as $monster)
-		if(array_key_exists($monster['id'],$monster_meta))
-		{
-			$map_descriptor.='<li>';
-			$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($monster_meta[$monster['id']]['name'][$current_lang]).'.html">';
-			if(file_exists($datapack_path.'monsters/'.$monster['id'].'/front.png'))
-				$map_descriptor.='<img src="'.$base_datapack_site_path.'monsters/'.$monster['id'].'/front.png" width="80" height="80" alt="'.htmlspecialchars($monster_meta[$monster['id']]['name'][$current_lang]).'" title="'.htmlspecialchars($monster_meta[$monster['id']]['description'][$current_lang]).'" /><br />';
-			elseif(file_exists($datapack_path.'monsters/'.$monster['id'].'/front.gif'))
-				$map_descriptor.='<img src="'.$base_datapack_site_path.'monsters/'.$monster['id'].'/front.gif" width="80" height="80" alt="'.htmlspecialchars($monster_meta[$monster['id']]['name'][$current_lang]).'" title="'.htmlspecialchars($monster_meta[$monster['id']]['description'][$current_lang]).'" /><br />';
-			else
-				$map_descriptor.='No skin found!';
-			$map_descriptor.='<b>'.htmlspecialchars($monster_meta[$monster['id']]['name'][$current_lang]).'</b> level <i>'.htmlspecialchars($monster['level']).'</i>';
-			$map_descriptor.='</a>';
-			$map_descriptor.='</li>';
-		}
-		else
-			$map_descriptor.='<li>No monster information!</li>';
+	$map_descriptor.=$translation_list[$current_lang]['Monster'].': <ul style="margin:0px;list-style-type:none;">';
+
+    foreach($entry['monstergroup'] as $monstergroup)
+    {
+        $map_descriptor.='<li>';
+        foreach($monstergroup as $monster)
+        {
+            if(array_key_exists($monster['id'],$monster_meta))
+            {
+                $map_descriptor.='<div style="float:left;margin:5px;">';
+                $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($monster_meta[$monster['id']]['name'][$current_lang]).'.html">';
+                if(file_exists($datapack_path.'monsters/'.$monster['id'].'/front.png'))
+                    $map_descriptor.='<img src="'.$base_datapack_site_path.'monsters/'.$monster['id'].'/front.png" width="80" height="80" alt="'.htmlspecialchars($monster_meta[$monster['id']]['name'][$current_lang]).'" title="'.htmlspecialchars($monster_meta[$monster['id']]['description'][$current_lang]).'" /><br />';
+                elseif(file_exists($datapack_path.'monsters/'.$monster['id'].'/front.gif'))
+                    $map_descriptor.='<img src="'.$base_datapack_site_path.'monsters/'.$monster['id'].'/front.gif" width="80" height="80" alt="'.htmlspecialchars($monster_meta[$monster['id']]['name'][$current_lang]).'" title="'.htmlspecialchars($monster_meta[$monster['id']]['description'][$current_lang]).'" /><br />';
+                else
+                    $map_descriptor.='No skin found!';
+                $map_descriptor.='<b>'.htmlspecialchars($monster_meta[$monster['id']]['name'][$current_lang]).'</b> level <i>'.htmlspecialchars($monster['level']).'</i>';
+                $map_descriptor.='</a>';
+                $map_descriptor.='</div>';
+            }
+            else
+                $map_descriptor.='No monster information!';
+        }
+        $map_descriptor.='<br style="clear:both" /></li>';
+    }
 	$map_descriptor.='</ul>';
 	if(count($entry['reputations'])>0)
 	{

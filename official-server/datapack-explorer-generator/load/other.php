@@ -96,13 +96,13 @@ foreach($xmlFightList as $file)
 		$start=str_replace('<![CDATA[','',$start);
 		$win=str_replace('<![CDATA[','',$win);
 		$monsters=array();
-		preg_match_all('#<monster .* />#isU',$entry,$monster_text_list);
-		foreach($monster_text_list[0] as $monster_text)
-		{
-			$monster=preg_replace('#^.* id="([0-9]+)".*$#isU','$1',$monster_text);
-			$level=preg_replace('#^.* level="([0-9]+)".*$#isU','$1',$monster_text);
-			$monsters[]=array('monster'=>$monster,'level'=>$level);
-		}
+        preg_match_all('#<monster .* />#isU',$entry,$monster_text_list);
+        foreach($monster_text_list[0] as $monster_text)
+        {
+            $monster=preg_replace('#^.* id="([0-9]+)".*$#isU','$1',$monster_text);
+            $level=preg_replace('#^.* level="([0-9]+)".*$#isU','$1',$monster_text);
+            $monsters[]=array('monster'=>$monster,'level'=>$level);
+        }
 		$fight_meta[$id]=array('start'=>$start,'win'=>$win,'cash'=>$cash,'monsters'=>$monsters);
 	}
 }
@@ -162,39 +162,48 @@ if(file_exists($datapack_path.'player/start.xml'))
         if(preg_match('#<cash.*value="([^"]+)".*/>#isU',$entry))
             $cash=preg_replace('#^.*<cash.*value="([^"]+)".*/>.*$#isU','$1',$entry);
         
-        preg_match_all('#<monster id="[0-9]+" level="[0-9]+" captured_with="[0-9]+" />#isU',$entry,$monster_list);
-        $monsters=array();
-        foreach($monster_list as $monster)
+        $monstergroup=array();
+        preg_match_all('#<monstergroup>.*</monstergroup>#isU',$entry,$monstergroup_text_list);
+        foreach($monstergroup_text_list[0] as $monstergroup_text)
         {
-            if(!preg_match('#<monster.*id="([0-9]+)".*/>#isU',$entry))
-                continue;
-            if(!preg_match('#<monster.*level="([0-9]+)".*/>#isU',$entry))
-                continue;
-            if(!preg_match('#<monster.*captured_with="([0-9]+)".*/>#isU',$entry))
-                continue;
-            $id=preg_replace('#^.*<monster.*id="([0-9]+)".*/>.*$#isU','$1',$entry);
-            $level=preg_replace('#^.*<monster.*level="([0-9]+)".*/>.*$#isU','$1',$entry);
-            $captured_with=preg_replace('#^.*<monster.*captured_with="([0-9]+)".*/>.*$#isU','$1',$entry);
-            $skill_added=0;
-            $attack_list=array();
-            if(isset($monster_meta[$id]['attack_list']))
-                foreach($monster_meta[$id]['attack_list'] as $learn_at_level=>$skill_list)
-                {
-                    foreach($skill_list as $skill)
+            $monsters=array();
+            preg_match_all('#<monster .*/>#isU',$monstergroup_text,$monster_list);
+
+            foreach($monster_list[0] as $monster)
+            {
+                if(!preg_match('#<monster.*id="([0-9]+)".*/>#isU',$monster))
+                    continue;
+                if(!preg_match('#<monster.*level="([0-9]+)".*/>#isU',$monster))
+                    continue;
+                if(!preg_match('#<monster.*captured_with="([0-9]+)".*/>#isU',$monster))
+                    continue;
+                $id=preg_replace('#^.*<monster.*id="([0-9]+)".*/>.*$#isU','$1',$monster);
+                $level=preg_replace('#^.*<monster.*level="([0-9]+)".*/>.*$#isU','$1',$monster);
+                $captured_with=preg_replace('#^.*<monster.*captured_with="([0-9]+)".*/>.*$#isU','$1',$monster);
+                $skill_added=0;
+                $attack_list=array();
+                if(isset($monster_meta[$id]['attack_list']))
+                    foreach($monster_meta[$id]['attack_list'] as $learn_at_level=>$skill_list)
                     {
-                        if($learn_at_level<=$level)
+                        foreach($skill_list as $skill)
                         {
-                            $attack_list[]=$skill;
-                            $skill_added++;
+                            if($learn_at_level<=$level)
+                            {
+                                $attack_list[]=$skill;
+                                $skill_added++;
+                            }
+                            if(count($attack_list)>=4)
+                                break;
                         }
                         if(count($attack_list)>=4)
                             break;
                     }
-                    if(count($attack_list)>=4)
-                        break;
-                }
-            $monsters[]=array('id'=>$id,'level'=>$level,'captured_with'=>$captured_with,'attack_list'=>$attack_list);
+                $monsters[]=array('id'=>$id,'level'=>$level,'captured_with'=>$captured_with,'attack_list'=>$attack_list);
+            }
+
+            $monstergroup[]=$monsters;
         }
+
         if(count($monsters)<=0)
             continue;
 
@@ -224,7 +233,7 @@ if(file_exists($datapack_path.'player/start.xml'))
             $items[]=array('id'=>$id,'quantity'=>$quantity);
         }
         
-        $start_meta[$profile_id]=array('description'=>$description_in_other_lang,'forcedskin'=>$forcedskin,'cash'=>$cash,'monsters'=>$monsters,'reputations'=>$reputations,'items'=>$items,'name'=>$name_in_other_lang);
+        $start_meta[$profile_id]=array('description'=>$description_in_other_lang,'forcedskin'=>$forcedskin,'cash'=>$cash,'monstergroup'=>$monstergroup,'reputations'=>$reputations,'items'=>$items,'name'=>$name_in_other_lang);
     }
 }
 

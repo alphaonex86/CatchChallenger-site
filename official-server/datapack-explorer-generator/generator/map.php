@@ -953,9 +953,22 @@ while(file_exists($datapack_explorer_local_path.'maps/overview-'.$mapoverviewind
         $ratio=2;
     else
         $ratio=1;
-    $map_descriptor.='<div class="value datapackscreenshot"><a href="'.$base_datapack_explorer_site_path.'maps/overview-'.$mapoverviewindex.'.png"><center><img src="'.$base_datapack_explorer_site_path.'maps/preview-'.$mapoverviewindex.'.png" alt="Map overview" title="Map overview" width="'.($map_current_object['pixelwidth']/$ratio).'" height="'.($map_current_object['pixelheight']/$ratio).'" />
-    <b>'.$translation_list[$current_lang]['Size'].': '.round(filesize($datapack_explorer_local_path.'maps/overview-'.$mapoverviewindex.'.png')/1000000,1).$translation_list[$current_lang]['MB'].'</b>
-    </center></a></div>';
+    $map_descriptor.='<div class="value datapackscreenshot"><a href="'.$base_datapack_explorer_site_path.'maps/overview-'.$mapoverviewindex.'.png"><center><img src="'.$base_datapack_explorer_site_path.'maps/preview-'.$mapoverviewindex.'.png" alt="Map overview" title="Map overview" width="'.($map_current_object['pixelwidth']/$ratio).'" height="'.($map_current_object['pixelheight']/$ratio).'" />';
+    $file_size=filesize($datapack_explorer_local_path.'maps/overview-'.$mapoverviewindex.'.png');
+    if($file_size<1000)
+    {}
+    else
+    {
+        $map_descriptor.='<b>'.$translation_list[$current_lang]['Size'].': ';
+        if($file_size<1000000)
+            $map_descriptor.=round($file_size/1000,0).$translation_list[$current_lang]['KB'];
+        else if($file_size<10000000)
+            $map_descriptor.=round($file_size/1000000,2).$translation_list[$current_lang]['MB'];
+        else
+            $map_descriptor.=round($file_size/1000000,1).$translation_list[$current_lang]['MB'];
+        $map_descriptor.='</b>';
+    }
+    $map_descriptor.='</center></a></div>';
     $mapoverviewindex++;
 }
 

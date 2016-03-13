@@ -26,6 +26,7 @@ foreach($zone_list as $zone=>$map_by_zone)
             {
                 $map_descriptor.='<div class="map map_type_'.$maps_list[$maindatapackcode][$map]['type'].'">';
                 $map_type_found=true;
+                break;
             }
             else
                 echo '$maps_list['.$maindatapackcode.']['.$map.']'." not found\n";

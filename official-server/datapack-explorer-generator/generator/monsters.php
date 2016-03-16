@@ -667,6 +667,19 @@ $map_descriptor.='<table class="item_list item_list_type_normal monster_list">
 $monster_count=0;
 foreach($monster_meta as $id=>$monster)
 {
+    if($monster_count%20==0 && $monster_count!=0)
+    {
+        $map_descriptor.='<tr>
+            <td colspan="3" class="item_list_endline item_list_title_type_normal"></td>
+        </tr>
+        </table>';
+        $map_descriptor.='<table class="item_list item_list_type_normal monster_list">
+        <tr class="item_list_title item_list_title_type_normal">
+            <th colspan="3">'.$translation_list[$current_lang]['Monster'].'</th>
+        </tr>';
+    }
+    $monster_count++;
+
 	$name=$monster['name'][$current_lang];
 	$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
 	$map_descriptor.='<tr class="value">';
@@ -685,18 +698,6 @@ foreach($monster_meta as $id=>$monster)
 	$map_descriptor.='<div class="type_label_list">'.implode(' ',$type_list).'</div>';
 	$map_descriptor.='</td>';
 	$map_descriptor.='</tr>';
-    $monster_count++;
-    if($monster_count%20==0)
-    {
-        $map_descriptor.='<tr>
-            <td colspan="3" class="item_list_endline item_list_title_type_normal"></td>
-        </tr>
-        </table>';
-        $map_descriptor.='<table class="item_list item_list_type_normal monster_list">
-        <tr class="item_list_title item_list_title_type_normal">
-            <th colspan="3">'.$translation_list[$current_lang]['Monster'].'</th>
-        </tr>';
-    }
 }
 $map_descriptor.='<tr>
 	<td colspan="3" class="item_list_endline item_list_title_type_normal"></td>

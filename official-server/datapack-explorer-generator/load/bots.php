@@ -34,10 +34,10 @@ foreach($bots_file_list as $maindatapackcode=>$value)
                     {
                         $name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$bot_text);
                         $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
-                        if(isset($bots_name_count[$maindatapackcode]['en'][$name]))
-                            $bots_name_count[$maindatapackcode]['en'][$name]++;
+                        if(isset($bots_name_count[$maindatapackcode]['en'][text_operation_do_for_url($name)]))
+                            $bots_name_count[$maindatapackcode]['en'][text_operation_do_for_url($name)]++;
                         else
-                            $bots_name_count[$maindatapackcode]['en'][$name]=1;
+                            $bots_name_count[$maindatapackcode]['en'][text_operation_do_for_url($name)]=1;
                     }
                     $name_in_other_lang=array('en'=>$name);
                     foreach($lang_to_load as $lang)
@@ -53,10 +53,10 @@ foreach($bots_file_list as $maindatapackcode=>$value)
                         }
                         else
                             $name_in_other_lang[$lang]=$name;
-                        if(isset($bots_name_count[$maindatapackcode][$lang][$name_in_other_lang[$lang]]))
-                            $bots_name_count[$maindatapackcode][$lang][$name_in_other_lang[$lang]]++;
+                        if(isset($bots_name_count[$maindatapackcode][$lang][text_operation_do_for_url($name_in_other_lang[$lang])]))
+                            $bots_name_count[$maindatapackcode][$lang][text_operation_do_for_url($name_in_other_lang[$lang])]++;
                         else
-                            $bots_name_count[$maindatapackcode][$lang][$name_in_other_lang[$lang]]=1;
+                            $bots_name_count[$maindatapackcode][$lang][text_operation_do_for_url($name_in_other_lang[$lang])]=1;
                     }
                     $team='';
                     if(preg_match('#<bot [^>]*team="[^"]+"[^>]*>#isU',$botbal))

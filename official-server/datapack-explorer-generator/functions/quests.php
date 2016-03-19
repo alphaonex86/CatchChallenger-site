@@ -58,7 +58,7 @@ function questList($id_list,$showbot=true,$wiki=false)
                 $bot=$bots_meta[$maindatapackcode][$bot_id];
                 if($bot['name'][$current_lang]=='')
                     $final_url_name='bot-'.$bot_id;
-                else if($bots_name_count[$maindatapackcode][$current_lang][$bot['name'][$current_lang]]==1)
+                else if($bots_name_count[$maindatapackcode][$current_lang][text_operation_do_for_url($bot['name'][$current_lang])]==1)
                     $final_url_name=$bot['name'][$current_lang];
                 else
                     $final_url_name=$bot_id.'-'.$bot['name'][$current_lang];

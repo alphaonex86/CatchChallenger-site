@@ -535,7 +535,7 @@ foreach($map_list as $map)
                 $bot=$bots_meta[$maindatapackcode][$bot_id];
 				if($bot['name'][$current_lang]=='')
 					$link=text_operation_do_for_url('bot '.$bot_on_map['id']);
-				else if($bots_name_count[$maindatapackcode][$current_lang][$bot['name'][$current_lang]]==1)
+				else if($bots_name_count[$maindatapackcode][$current_lang][text_operation_do_for_url($bot['name'][$current_lang])]==1)
 					$link=text_operation_do_for_url($bot['name'][$current_lang]);
 				else
 					$link=text_operation_do_for_url($bot_on_map['id'].'-'.$bot['name'][$current_lang]);

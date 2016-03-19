@@ -57,7 +57,7 @@ foreach($bot_list as $bot_id=>$bot)
 	$map_descriptor.='<div class="map item_details">';
         if($bot['name'][$current_lang]=='')
             $final_url_name='bot-'.$bot_id;
-        else if($bots_name_count[$maindatapackcode][$current_lang][$bot['name'][$current_lang]]==1)
+        else if($bots_name_count[$maindatapackcode][$current_lang][text_operation_do_for_url($bot['name'][$current_lang])]==1)
             $final_url_name=$bot['name'][$current_lang];
         else
             $final_url_name=$bot_id.'-'.$bot['name'][$current_lang];
@@ -476,7 +476,10 @@ foreach($bot_list as $bot_id=>$bot)
 	$content=clean_html($content);
     $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['bots/'].$maindatapackcode.'/'.text_operation_do_for_url($final_url_name).'.html';
     if(file_exists($filedestination))
+    {
+        print_r($bot['name'][$current_lang]);
         die('The file already exists: '.$filedestination);
+    }
 	filewrite($filedestination,$content);
 }
 
@@ -563,7 +566,7 @@ foreach($bot_zone_list as $zone=>$bot_id_list)
             }
             if($bot['name'][$current_lang]=='')
                 $final_url_name='bot-'.$bot_id;
-            else if($bots_name_count[$maindatapackcode][$current_lang][$bot['name'][$current_lang]]==1)
+            else if($bots_name_count[$maindatapackcode][$current_lang][text_operation_do_for_url($bot['name'][$current_lang])]==1)
                 $final_url_name=$bot['name'][$current_lang];
             else
                 $final_url_name=$bot_id.'-'.$bot['name'][$current_lang];

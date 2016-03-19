@@ -299,7 +299,10 @@ while (false !== ($maindatapackcode = readdir($dh)))
                         $map_list[]=array('map'=>$map,'x'=>$x,'y'=>$y);
                     }
 
-                    $start_meta[$profile_id]['map_list'][$maindatapackcode]=$map_list;
+                    if(isset($start_meta[$profile_id]))
+                        $start_meta[$profile_id]['map_list'][$maindatapackcode]=$map_list;
+                    else
+                        echo 'Profile to put the main code map not found: '.$profile_id."\n";
                 }
             }
         }

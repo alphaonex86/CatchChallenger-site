@@ -1,6 +1,10 @@
 <?php
 require '../config.php';
 $result=array();
+if($argc==3)
+$loginserverlist=array(
+    array('host'=>$argv[1],'port'=>$argv[2])
+);
 foreach($loginserverlist as $server)
 {
     $state='down';
@@ -24,7 +28,7 @@ foreach($loginserverlist as $server)
         {
             $state='down';
             $result[$server['host']]=array('state'=>$state,
-                'time'=>array('toconnect'=>$time,'tonegociatetheprotocol'=>$timetonegociatetheprotocol),
+                'time'=>array('toconnect'=>$time),
             'encrypted'=>'encrypted','error'=>'at first round no data');
         }
         else
@@ -32,7 +36,7 @@ foreach($loginserverlist as $server)
             if($contents[0x00]==0x01)
             {
                 $result[$server['host']]=array('state'=>$state,
-                    'time'=>array('toconnect'=>$time,'tonegociatetheprotocol'=>$timetonegociatetheprotocol),
+                    'time'=>array('toconnect'=>$time),
                 'encrypted'=>'encrypted');
             }
             else

@@ -27,7 +27,7 @@ foreach($loginserverlist as $server)
         if(!isset($contents[0x00]))
         {
             $state='down';
-            $result[$server['host']]=array('state'=>$state,
+            $result[$server['host'].':'.$server['port']]=array('state'=>$state,
                 'time'=>array('toconnect'=>$time),
             'encrypted'=>'encrypted','error'=>'at first round no data');
         }
@@ -35,7 +35,7 @@ foreach($loginserverlist as $server)
         {
             if($contents[0x00]==0x01)
             {
-                $result[$server['host']]=array('state'=>$state,
+                $result[$server['host'].':'.$server['port']]=array('state'=>$state,
                     'time'=>array('toconnect'=>$time),
                 'encrypted'=>'encrypted');
             }
@@ -46,7 +46,7 @@ foreach($loginserverlist as $server)
                 $returnsize=fwrite($socket,$tosend,2+5);
                 if($returnsize!=7)
                 {
-                    $result[$server['host']]=array('state'=>$state,
+                    $result[$server['host'].':'.$server['port']]=array('state'=>$state,
                         'time'=>array('toconnect'=>$time),
                     'encrypted'=>'clear');
                 }
@@ -56,13 +56,13 @@ foreach($loginserverlist as $server)
                     $time_end = microtime(true);
                     $timetonegociatetheprotocol = $time_end - $time_start;
                     if(isset($contents[0x06]))
-                        $result[$server['host']]=array('state'=>$state,
+                        $result[$server['host'].':'.$server['port']]=array('state'=>$state,
                             'time'=>array('toconnect'=>$time,'tonegociatetheprotocol'=>$timetonegociatetheprotocol),
                         'encrypted'=>'clear','returncode'=>bindec($contents[0x06]));
                     else
                     {
                         $state='down';
-                        $result[$server['host']]=array('state'=>$state,
+                        $result[$server['host'].':'.$server['port']]=array('state'=>$state,
                             'time'=>array('toconnect'=>$time,'tonegociatetheprotocol'=>$timetonegociatetheprotocol),
                         'encrypted'=>'clear','error'=>'at second round no data');
                     }
@@ -72,6 +72,6 @@ foreach($loginserverlist as $server)
         fclose($socket);
     }
     else
-        $result[$server['host']]=array('state'=>$state);
+        $result[$server['host'].':'.$server['port']]=array('state'=>$state);
 }
 echo json_encode($result);

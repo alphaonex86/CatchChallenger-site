@@ -159,7 +159,7 @@ function filewrite($file,$content)
                                             {
                                                 $previously_know_server_changed=true;
                                                 $previously_know_server[$groupIndex][$uniqueKey]['name']=$name;
-                                                $previously_know_server[$groupIndex][$uniqueKey]['name']=$description;
+                                                $previously_know_server[$groupIndex][$uniqueKey]['description']=$description;
                                             }
                                         }
                                     }

@@ -82,6 +82,7 @@ function filewrite($file,$content)
                 $server_count=0;
                 $player_count=0;
                 $maxplayer_count=0;
+                $previously_know_server_changed=false;
 
                 if(file_exists($gameserverfile) && $filecurs=file_get_contents($gameserverfile))
                 {
@@ -156,6 +157,7 @@ function filewrite($file,$content)
                                                 pg_query($postgres_link_site,'UPDATE gameservers SET name=\''.addslashes($name).'\',description=\''.addslashes($description).'\' WHERE uniquekey='.$data['uniquekey']) or die(pg_last_error());
                                             else
                                             {
+                                                $previously_know_server_changed=true;
                                                 $previously_know_server[$groupIndex][$uniqueKey]['name']=$name;
                                                 $previously_know_server[$groupIndex][$uniqueKey]['name']=$description;
                                             }
@@ -203,6 +205,7 @@ function filewrite($file,$content)
                                             pg_query($postgres_link_site,'INSERT INTO gameservers(uniquekey,"groupIndex",name,description) VALUES ('.addslashes($uniqueKey).','.addslashes($groupIndex).',\''.addslashes($name).'\',\''.addslashes($description).'\');') or die(pg_last_error());
                                         else
                                         {
+                                            $previously_know_server_changed=true;
                                             $previously_know_server[$groupIndex][$uniqueKey]=array('uniquekey'=>$uniqueKey,'groupIndex'=>$groupIndex,'name'=>$name,'description'=>$description);
                                             ksort($previously_know_server[$groupIndex]);
                                             ksort($previously_know_server);
@@ -221,7 +224,7 @@ function filewrite($file,$content)
                             $string_array[]='<strong>'.$gameserver_down.'</strong> <span style="color:red;">offline</span>';
                         $total_string_array[]='Game server: '.implode(', ',$string_array);
 
-                        if(!$is_up)
+                        if(!$is_up && $previously_know_server_changed)
                             filewrite($previously_know_server_file,json_encode($previously_know_server));
                     }
                     else

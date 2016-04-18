@@ -19,6 +19,17 @@ function filewrite($file,$content)
     else
         die('Unable to write or create the file: '.$file);
 }
+
+function playerwithunit($player)
+{
+    return $player;
+    if($player>9000000)
+        return ceil($player/1000000).'M';
+    else if($player>9000)
+        return ceil($player/1000).'k';
+    else
+        return $player;
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
@@ -144,7 +155,7 @@ function filewrite($file,$content)
                                         }
                                         if($server['maxPlayer']<65534 && $server['maxPlayer']>0 && $server['connectedPlayer']<=$server['maxPlayer'])
                                         {
-                                            echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="labelDatapackMap"></div><strong>'.htmlentities($name).'</strong> - <strong>'.$server['connectedPlayer'].'</strong>/'.$server['maxPlayer'].' players - <span style="color:green;">online</span></div></li>';
+                                            echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="labelDatapackMap"></div><strong>'.htmlentities($name).'</strong> - <strong>'.playerwithunit($server['connectedPlayer']).'</strong>/'.playerwithunit($server['maxPlayer']).' players - <span style="color:green;">online</span></div></li>';
                                             $player_count+=$server['connectedPlayer'];
                                             $maxplayer_count+=$server['maxPlayer'];
                                         }
@@ -194,7 +205,7 @@ function filewrite($file,$content)
                                         }
                                         if($server['maxPlayer']<65534 && $server['maxPlayer']>0 && $server['connectedPlayer']<=$server['maxPlayer'])
                                         {
-                                            echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="labelDatapackMap"></div><strong>'.htmlentities($name).'</strong> - <strong>'.$server['connectedPlayer'].'</strong>/'.$server['maxPlayer'].' players - <span style="color:green;">online</span></div></li>';
+                                            echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="labelDatapackMap"></div><strong>'.htmlentities($name).'</strong> - <strong>'.playerwithunit($server['connectedPlayer']).'</strong>/'.playerwithunit($server['maxPlayer']).' players - <span style="color:green;">online</span></div></li>';
                                             $player_count+=$server['connectedPlayer'];
                                             $maxplayer_count+=$server['maxPlayer'];
                                         }
@@ -301,7 +312,7 @@ function filewrite($file,$content)
                 if(count($total_string_array)>0)
                     echo '<p class="text">'.implode(', ',$total_string_array).'</p>';
                 ?>
-                <?php if($maxplayer_count>0) { ?><p class="text">Total: <!--<b><?php echo $server_count; ?></b> servers and --><b><?php echo $player_count; ?></b>/<?php echo $maxplayer_count; ?> players.</p><?php } ?>
+                <?php if($maxplayer_count>0) { ?><p class="text">Total: <!--<b><?php echo $server_count; ?></b> servers and --><b><?php echo playerwithunit($player_count); ?></b>/<?php echo playerwithunit($maxplayer_count); ?> players.</p><?php } ?>
 				<p class="text">Download the <a href="http://files.first-world.info/catchchallenger/1.0.0.0/catchchallenger-single-server-windows-x86-1.0.0.0-setup.exe">client for Windows</a> or the <a href="http://files.first-world.info/catchchallenger/1.0.0.0/catchchallenger-single-server-mac-os-x-1.0.0.0.dmg">client for Mac</a> to play on it</p>
                 <?php
                 if(file_exists($contentstatfile) && $filecurs=file_get_contents($contentstatfile))

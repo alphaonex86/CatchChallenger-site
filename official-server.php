@@ -22,7 +22,9 @@ function filewrite($file,$content)
 
 function playerwithunit($player)
 {
-    return $player;
+    //return ceil($player/1000).'k';//to force into k unit
+    return $player;//to force into raw unit
+    //automatic unit
     if($player>9000000)
         return ceil($player/1000000).'M';
     else if($player>9000)

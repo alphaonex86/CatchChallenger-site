@@ -103,10 +103,14 @@ foreach($industrie_meta as $id=>$industry)
                         $map_descriptor.=' colspan="2"';
                     if($bots_meta[$maindatapackcode][$bot_id]['name'][$current_lang]=='')
                         $link_bot=text_operation_do_for_url('bot '.$bot_id);
-                    else if($bots_name_count[$maindatapackcode][$current_lang][$bots_meta[$maindatapackcode][$bot_id]['name'][$current_lang]]==1)
-                        $link_bot=text_operation_do_for_url($bots_meta[$maindatapackcode][$bot_id]['name'][$current_lang]);
                     else
-                        $link_bot=text_operation_do_for_url($bot_id.'-'.$bots_meta[$maindatapackcode][$bot_id]['name'][$current_lang]);
+                    {
+                        $urlname=text_operation_do_for_url($bots_meta[$maindatapackcode][$bot_id]['name'][$current_lang]);
+                        if($bots_name_count[$maindatapackcode][$current_lang][$urlname]==1)
+                            $link_bot=$urlname;
+                        else
+                            $link_bot=text_operation_do_for_url($bot_id.'-'.$bots_meta[$maindatapackcode][$bot_id]['name'][$current_lang]);
+                    }
                     $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].$maindatapackcode.'/'.text_operation_do_for_url($link_bot).'.html" title="'.$final_name.'">'.$final_name.'</a></td>';
                     if(isset($bot_id_to_map[$bot_id][$maindatapackcode]))
                     {
@@ -267,10 +271,14 @@ foreach($industrie_meta as $id=>$industry)
                 $bot=$bots_meta[$maindatapackcode][$bot_id];
                 if($bot['name'][$current_lang]=='')
                     $final_url_name='bot-'.$bot_id;
-                else if($bots_name_count[$maindatapackcode][$current_lang][$bot['name'][$current_lang]]==1)
-                    $final_url_name=$bot['name'][$current_lang];
                 else
-                    $final_url_name=$bot_id.'-'.$bot['name'][$current_lang];
+                {
+                    $urlname=text_operation_do_for_url($bot['name'][$current_lang]);
+                    if($bots_name_count[$maindatapackcode][$current_lang][$urlname]==1)
+                        $final_url_name=$urlname;
+                    else
+                        $final_url_name=text_operation_do_for_url($bot_id.'-'.$bot['name'][$current_lang]);
+                }
                 if($bot['name'][$current_lang]=='')
                     $final_name='Bot #'.$bot_id;
                 else
@@ -296,10 +304,14 @@ foreach($industrie_meta as $id=>$industry)
                     $map_descriptor.=' colspan="2"';
                 if($bots_meta[$maindatapackcode][$bot_id]['name'][$current_lang]=='')
                     $link_bot=text_operation_do_for_url('bot '.$bot_id);
-                else if($bots_name_count[$maindatapackcode][$current_lang][$bots_meta[$maindatapackcode][$bot_id]['name'][$current_lang]]==1)
-                    $link_bot=text_operation_do_for_url($bots_meta[$maindatapackcode][$bot_id]['name'][$current_lang]);
                 else
-                    $link_bot=text_operation_do_for_url($bot_id.'-'.$bots_meta[$maindatapackcode][$bot_id]['name'][$current_lang]);
+                {
+                    $urlname=text_operation_do_for_url($bots_meta[$maindatapackcode][$bot_id]['name'][$current_lang]);
+                    if($bots_name_count[$maindatapackcode][$current_lang][$urlname]==1)
+                        $link_bot=text_operation_do_for_url($bots_meta[$maindatapackcode][$bot_id]['name'][$current_lang]);
+                    else
+                        $link_bot=text_operation_do_for_url($bot_id.'-'.$bots_meta[$maindatapackcode][$bot_id]['name'][$current_lang]);
+                }
                 $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].$maindatapackcode.'/'.text_operation_do_for_url($link_bot).'.html" title="'.$final_name.'">'.$final_name.'</a></td>';
                 if(isset($bot_id_to_map[$bot_id][$maindatapackcode]))
                 {

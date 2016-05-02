@@ -53,7 +53,10 @@ if(preg_match('#^.*<content.*/>(.*)</content>.*$#isU',$filecurs))
     <p class="text">';
     $filecurs=preg_replace('#^.*<content.*/>(.*)</content>.*$#isU','$1',$filecurs);
     $filecurs=preg_replace('#<p>Statistics:.*$#isU','',$filecurs);
-    echo $filecurs;
+    $filecurs=preg_replace('#<hr />.*$#isU','',$filecurs);
+    $filecurs=str_replace('<![CDATA[','',$filecurs);
+    $filecurs=str_replace(']]>','',$filecurs);
+    echo htmlspecialchars_decode($filecurs);
     echo '</p>';
 }
 ?>

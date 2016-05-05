@@ -26,12 +26,21 @@ foreach($plant_meta as $id=>$plant)
         </tr>';
     }
     $plant_count++;
-	$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$plant['itemUsed']]['name'][$current_lang]).'.html';
-	$name=$item_meta[$plant['itemUsed']]['name'][$current_lang];
-	if($item_meta[$plant['itemUsed']]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$plant['itemUsed']]['image']))
-		$image=$base_datapack_site_path.'/items/'.$item_meta[$plant['itemUsed']]['image'];
-	else
-		$image='';
+    if(isset($item_meta[$plant['itemUsed']]))
+    {
+        $link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$plant['itemUsed']]['name'][$current_lang]).'.html';
+        $name=$item_meta[$plant['itemUsed']]['name'][$current_lang];
+        if($item_meta[$plant['itemUsed']]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$plant['itemUsed']]['image']))
+            $image=$base_datapack_site_path.'/items/'.$item_meta[$plant['itemUsed']]['image'];
+        else
+            $image='';
+    }
+    else
+    {
+        $link='';
+        $name='???';
+        $image='';
+    }
 	$map_descriptor.='<tr class="value">
 	<td>';
 	if($image!='')

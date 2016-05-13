@@ -1,4 +1,7 @@
 <?php
+//can be "all", "onlytar", "onlyfile"
+$scantype="all";
+
 if (!function_exists('curl_init')){
         die('Sorry cURL is not installed!');
     }
@@ -58,21 +61,25 @@ function listFolder($folder,$foldersuffix='')
     }
     return $arr;
 }
-$arr=listFolder($datapack_path);
-$arr[]='datapack-list/base.txt';
-$arr[]='pack/datapack.tar.xz';
-$maincodelist=giveDirList($datapack_path.'map/main/');
-foreach($maincodelist as $maincode)
+if($scantype!="onlyfile")
 {
-    $arr[]='datapack-list/main-'.$maincode.'.txt';
-    $arr[]='pack/datapack-main-'.$maincode.'.tar.xz';
-    $subcodelist=giveDirList($datapack_path.'/map/main/'.$maincode.'/sub/');
-    foreach($subcodelist as $subcode)
+    $arr[]='datapack-list/base.txt';
+    $arr[]='pack/datapack.tar.xz';
+    $maincodelist=giveDirList($datapack_path.'map/main/');
+    foreach($maincodelist as $maincode)
     {
-        $arr[]='datapack-list/sub-'.$maincode.'-'.$subcode.'.txt';
-        $arr[]='pack/datapack-sub-'.$maincode.'-'.$subcode.'.tar.xz';
+        $arr[]='datapack-list/main-'.$maincode.'.txt';
+        $arr[]='pack/datapack-main-'.$maincode.'.tar.xz';
+        $subcodelist=giveDirList($datapack_path.'/map/main/'.$maincode.'/sub/');
+        foreach($subcodelist as $subcode)
+        {
+            $arr[]='datapack-list/sub-'.$maincode.'-'.$subcode.'.txt';
+            $arr[]='pack/datapack-sub-'.$maincode.'-'.$subcode.'.tar.xz';
+        }
     }
 }
+if($scantype!="onlytar")
+    $arr=listFolder($datapack_path);
 sort($arr);
 
 $missingfilecache=array();

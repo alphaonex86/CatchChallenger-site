@@ -8,6 +8,25 @@ $mirrorserverlisttemp=array();
 foreach($mirrorserverlist as $host)
     $mirrorserverlisttemp[$host]=array('state'=>'up');
 
+function giveDirList($folder)
+{
+    if(!preg_match('#/$#',$folder))
+        $folder.='/';
+    $arr=array();
+    if($handle = opendir($folder)) {
+        while(false !== ($entry = readdir($handle)))
+        {
+            if($entry != '.' && $entry != '..')
+            {
+                if(is_dir($folder.$entry))
+                    $arr[]=$entry;
+            }
+        }
+        closedir($handle);
+    }
+    return $arr;
+}
+
 function listFolder($folder,$foldersuffix='')
 {
     if(!preg_match('#/$#',$folder))
@@ -40,11 +59,45 @@ function listFolder($folder,$foldersuffix='')
     return $arr;
 }
 $arr=listFolder($datapack_path);
+$arr[]='datapack-list/base.txt';
+$arr[]='pack/datapack.tar.xz';
+$maincodelist=giveDirList($datapack_path.'map/main/');
+foreach($maincodelist as $maincode)
+{
+    $arr[]='datapack-list/main-'.$maincode.'.txt';
+    $arr[]='pack/datapack-main-'.$maincode.'.tar.xz';
+    $subcodelist=giveDirList($datapack_path.'/map/main/'.$maincode.'/sub/');
+    foreach($subcodelist as $subcode)
+    {
+        $arr[]='datapack-list/sub-'.$maincode.'-'.$subcode.'.txt';
+        $arr[]='pack/datapack-sub-'.$maincode.'-'.$subcode.'.tar.xz';
+    }
+}
 sort($arr);
 
+$missingfilecache=array();
 foreach($arr as $file)
 {
-    $contentlocal=file_get_contents($datapack_path.$file);
+    if(is_file($datapack_path.$file))
+        $contentlocal=file_get_contents($datapack_path.$file);
+    if(isset($missingfilecache[$file]))
+        $contentlocal=$missingfilecache[$file];
+    else if(count($mirrorserverlisttemp)>0)
+    {
+        foreach($mirrorserverlisttemp as $server=>$content)
+        {
+            $contentlocal=file_get_contents($server.$file);
+            break;
+        }
+        if($contentlocal=='')
+        {
+            echo 'Primary mirror is wrong, file problem on: '.$server.$file."\n";
+            exit;
+        }
+        $missingfilecache[$file]=$contentlocal;
+    }
+    else
+        continue;
     foreach($mirrorserverlisttemp as $server=>$content)
     {
         if(!isset($mirrorserverlisttemp[$server]['time']))

@@ -18,6 +18,7 @@ $loginserverlist=array(
     array('host'=>'localhost','port'=>3306)
 );
 $mirrorserverlist=array(
+    //the first is considered as the clean and refence version
     'http://localhost/datapack/'
 );
 

@@ -8,100 +8,6 @@ foreach($item_meta as $id=>$item)
 		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['items/']);
 	$map_descriptor='';
 
-    //shop
-    if(isset($item_to_shop[$id]))
-    {
-        $map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Shop'].'</div><div class="value">'."\n";
-        $map_descriptor.='<table class="item_list item_list_type_normal">
-        <tr class="item_list_title item_list_title_type_normal">
-            <th colspan="4">'.$translation_list[$current_lang]['Shop'].'</th>
-        </tr>'."\n";
-        foreach($item_to_shop[$id] as $maindatapackcode=>$shop_list)
-        {
-            $bot_list=array();
-            foreach($shop_list as $shop)
-                if(isset($shop_to_bot[$shop][$maindatapackcode]))
-                    $bot_list=array_merge($bot_list,$shop_to_bot[$shop][$maindatapackcode]);
-            if(count($bot_list)>0)
-            {
-                foreach($bot_list as $bot_id)
-                {
-                    $map_descriptor.='<tr class="value">'."\n";
-                    if(isset($bots_meta[$maindatapackcode][$bot_id]))
-                    {
-                        $bot=$bots_meta[$maindatapackcode][$bot_id];
-                        if($bot['name'][$current_lang]=='')
-                            $final_url_name='bot-'.$bot_id;
-                        else if($bots_name_count[$maindatapackcode][$current_lang][text_operation_do_for_url($bot['name'][$current_lang])]==1)
-                            $final_url_name=$bot['name'][$current_lang];
-                        else
-                            $final_url_name=$bot_id.'-'.$bot['name'][$current_lang];
-                        if($bot['name'][$current_lang]=='')
-                            $final_name='Bot #'.$bot_id;
-                        else
-                            $final_name=$bot['name'][$current_lang];
-                        $skin_found=true;
-                        if(isset($bot_id_to_skin[$bot_id][$maindatapackcode]))
-                        {
-                            if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.png'))
-                                $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
-                            elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.png'))
-                                $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
-                            elseif(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.gif'))
-                                $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
-                            elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.gif'))
-                                $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
-                            else
-                                $skin_found=false;
-                        }
-                        else
-                            $skin_found=false;
-                        $map_descriptor.='<td';
-                        if(!$skin_found)
-                            $map_descriptor.=' colspan="2"';
-                        $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].$maindatapackcode.'/'.text_operation_do_for_url($final_url_name).'.html" title="'.$final_name.'">'.$final_name.'</a></td>'."\n";
-                        if(isset($bot_id_to_map[$bot_id][$maindatapackcode]))
-                        {
-                            $entry=$bot_id_to_map[$bot_id][$maindatapackcode];
-                            if(isset($maps_list[$maindatapackcode][$entry['map']]))
-                            {
-                                $item_current_map=$maps_list[$maindatapackcode][$entry['map']];
-                                if(isset($zone_meta[$maindatapackcode][$item_current_map['zone']]))
-                                {
-                                    $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$entry['map']).'" title="'.$item_current_map['name'][$current_lang].'">'.$item_current_map['name'][$current_lang].'</a></td>'."\n";
-                                    $map_descriptor.='<td>'.$zone_meta[$maindatapackcode][$item_current_map['zone']]['name'][$current_lang].'</td>'."\n";
-                                }
-                                else
-                                    $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$entry['map']).'" title="'.$item_current_map['name'][$current_lang].'">'.$item_current_map['name'][$current_lang].'</a></td>'."\n";
-                            }
-                            else
-                                $map_descriptor.='<td colspan="2">'.$translation_list[$current_lang]['Unknown map'].'</td>'."\n";
-                        }
-                        else
-                            $map_descriptor.='<td colspan="2">&nbsp;'.$final_name.' not found for '.$maindatapackcode.' for map</td>'."\n";
-                    }
-                    else
-                    {
-                        $map_descriptor.='<td colspan="4">Bot id not found: '.$bot_id.' for '.$maindatapackcode.'</td>'."\n";
-                        echo 'Bot id not found: '.$bot_id.' for '.$maindatapackcode."\n";
-                    }
-                    $map_descriptor.='</tr>'."\n";
-                }
-            }
-        }
-
-        $map_descriptor.='<tr>
-            <td colspan="4" class="item_list_endline item_list_title_type_normal"></td>
-        </tr>
-        </table>'."\n";
-        $map_descriptor.='</div></div>'."\n";
-
-        if($wikimode)
-        {
-            savewikipage('Template:Items/'.$id.'_SHOP',$map_descriptor,false);$map_descriptor='';
-        }
-    }
-
 	$map_descriptor.='<div class="map item_details">'."\n";
 		$map_descriptor.='<div class="subblock"><h1>'.$item['name'][$current_lang].'</h1>'."\n";
 		$map_descriptor.='<h2>#'.$id.'</h2>'."\n";
@@ -430,6 +336,100 @@ foreach($item_meta as $id=>$item)
     if($wikimode)
     {
         savewikipage('Template:Items/'.$id.'_HEADER',$map_descriptor,false);$map_descriptor='';
+    }
+
+    //shop
+    if(isset($item_to_shop[$id]))
+    {
+        //$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Shop'].'</div><div class="value">'."\n";
+        $map_descriptor.='<table class="item_list item_list_type_normal">
+        <tr class="item_list_title item_list_title_type_normal">
+            <th colspan="4">'.$translation_list[$current_lang]['Shop'].'</th>
+        </tr>'."\n";
+        foreach($item_to_shop[$id] as $maindatapackcode=>$shop_list)
+        {
+            $bot_list=array();
+            foreach($shop_list as $shop)
+                if(isset($shop_to_bot[$shop][$maindatapackcode]))
+                    $bot_list=array_merge($bot_list,$shop_to_bot[$shop][$maindatapackcode]);
+            if(count($bot_list)>0)
+            {
+                foreach($bot_list as $bot_id)
+                {
+                    $map_descriptor.='<tr class="value">'."\n";
+                    if(isset($bots_meta[$maindatapackcode][$bot_id]))
+                    {
+                        $bot=$bots_meta[$maindatapackcode][$bot_id];
+                        if($bot['name'][$current_lang]=='')
+                            $final_url_name='bot-'.$bot_id;
+                        else if($bots_name_count[$maindatapackcode][$current_lang][text_operation_do_for_url($bot['name'][$current_lang])]==1)
+                            $final_url_name=$bot['name'][$current_lang];
+                        else
+                            $final_url_name=$bot_id.'-'.$bot['name'][$current_lang];
+                        if($bot['name'][$current_lang]=='')
+                            $final_name='Bot #'.$bot_id;
+                        else
+                            $final_name=$bot['name'][$current_lang];
+                        $skin_found=true;
+                        if(isset($bot_id_to_skin[$bot_id][$maindatapackcode]))
+                        {
+                            if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.png'))
+                                $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
+                            elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.png'))
+                                $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
+                            elseif(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.gif'))
+                                $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
+                            elseif(file_exists($datapack_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.gif'))
+                                $map_descriptor.='<td><center><div style="width:16px;height:24px;background-image:url(\''.$base_datapack_site_path.'skin/fighter/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;"></div></center></td>'."\n";
+                            else
+                                $skin_found=false;
+                        }
+                        else
+                            $skin_found=false;
+                        $map_descriptor.='<td';
+                        if(!$skin_found)
+                            $map_descriptor.=' colspan="2"';
+                        $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].$maindatapackcode.'/'.text_operation_do_for_url($final_url_name).'.html" title="'.$final_name.'">'.$final_name.'</a></td>'."\n";
+                        if(isset($bot_id_to_map[$bot_id][$maindatapackcode]))
+                        {
+                            $entry=$bot_id_to_map[$bot_id][$maindatapackcode];
+                            if(isset($maps_list[$maindatapackcode][$entry['map']]))
+                            {
+                                $item_current_map=$maps_list[$maindatapackcode][$entry['map']];
+                                if(isset($zone_meta[$maindatapackcode][$item_current_map['zone']]))
+                                {
+                                    $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$entry['map']).'" title="'.$item_current_map['name'][$current_lang].'">'.$item_current_map['name'][$current_lang].'</a></td>'."\n";
+                                    $map_descriptor.='<td>'.$zone_meta[$maindatapackcode][$item_current_map['zone']]['name'][$current_lang].'</td>'."\n";
+                                }
+                                else
+                                    $map_descriptor.='<td colspan="2"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$entry['map']).'" title="'.$item_current_map['name'][$current_lang].'">'.$item_current_map['name'][$current_lang].'</a></td>'."\n";
+                            }
+                            else
+                                $map_descriptor.='<td colspan="2">'.$translation_list[$current_lang]['Unknown map'].'</td>'."\n";
+                        }
+                        else
+                            $map_descriptor.='<td colspan="2">&nbsp;'.$final_name.' not found for '.$maindatapackcode.' for map</td>'."\n";
+                    }
+                    else
+                    {
+                        $map_descriptor.='<td colspan="4">Bot id not found: '.$bot_id.' for '.$maindatapackcode.'</td>'."\n";
+                        echo 'Bot id not found: '.$bot_id.' for '.$maindatapackcode."\n";
+                    }
+                    $map_descriptor.='</tr>'."\n";
+                }
+            }
+        }
+
+        $map_descriptor.='<tr>
+            <td colspan="4" class="item_list_endline item_list_title_type_normal"></td>
+        </tr>
+        </table>'."\n";
+        //$map_descriptor.='</div></div>'."\n";
+
+        if($wikimode)
+        {
+            savewikipage('Template:Items/'.$id.'_SHOP',$map_descriptor,false);$map_descriptor='';
+        }
     }
 
 	if(isset($item_to_monster[$id]))

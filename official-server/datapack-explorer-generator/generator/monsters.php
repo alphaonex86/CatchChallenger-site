@@ -576,23 +576,23 @@ foreach($monster_meta as $id=>$monster)
         foreach($monster_to_map[$id] as $monsterType=>$monster_list_temp)
         foreach($monster_list_temp as $maindatapackcode=>$map_list)
         {
-            $full_monsterType_name='Cave'."\n";
+            $full_monsterType_name='Cave';
             if(isset($layer_event[$monsterType]))
             {
                 if($layer_event[$monsterType]['layer']!='')
                     $full_monsterType_name=$layer_event[$monsterType]['layer'];
                 $monsterType_top=$layer_event[$monsterType]['monsterType'];
-                $full_monsterType_name_top='Cave'."\n";
+                $full_monsterType_name_top='Cave';
                 if(isset($layer_meta[$monsterType_top]))
                     if($layer_meta[$monsterType_top]['layer']!='')
-                        $full_monsterType_name_top=$layer_meta[$monsterType_top]['layer']."\n";
+                        $full_monsterType_name_top=$layer_meta[$monsterType_top]['layer'];
             }
             elseif(isset($layer_meta[$monsterType]))
             {
                 if($layer_meta[$monsterType]['layer']!='')
                     $full_monsterType_name=$layer_meta[$monsterType]['layer'];
                 $monsterType_top=$monsterType;
-                $full_monsterType_name_top=$full_monsterType_name."\n";
+                $full_monsterType_name_top=$full_monsterType_name;
             }
             $map_descriptor.='<tr class="item_list_title_type_'.$resolved_type.'">
                     <th colspan="7">'."\n";
@@ -618,14 +618,14 @@ foreach($monster_meta as $id=>$monster)
 
                 if($link!='')
                     $map_descriptor.='<td><a href="'.$link.'">'."\n";
-                $map_descriptor.=$item_meta[$layer_meta[$monsterType_top]['item']]['name'][$current_lang];
+                $map_descriptor.=$item_meta[$layer_meta[$monsterType_top]['item']]['name'][$current_lang]."\n";
                 if($link!='')
                     $map_descriptor.='</a></td>'."\n";
 
                 $map_descriptor.='</tr></table></center>'."\n";
             }
             else
-                $map_descriptor.=$full_monsterType_name;
+                $map_descriptor.=$translation_list[$current_lang][$full_monsterType_name]."\n";
             if(isset($layer_event[$monsterType]))
             {
                 if($layer_event[$monsterType]['id']=='day' && $layer_event[$monsterType]['value']=='night')

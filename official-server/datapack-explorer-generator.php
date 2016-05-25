@@ -36,6 +36,7 @@ if(!file_exists('/usr/bin/pngquant'))
     echo 'Better if you install /usr/bin/pngquant'."\n";
 
 $datapackexplorergeneratorinclude=true;
+$wikimode=false;
 
 $time_start=microtime(true);
 require 'datapack-explorer-generator/function.php';
@@ -118,47 +119,50 @@ if($argc<=1 || in_array('wiki',$argv))
                 echo 'wiki error, skip'."\n";
             else
             {
+                $wikimode=true;
                 $sub_time_start=microtime(true);
-                require 'datapack-explorer-generator/generator/wiki/map.php';
+                require 'datapack-explorer-generator/generator/map.php';
                 echo 'Map generated into '.ceil(microtime(true)-$sub_time_start).'s for '.$wikivars['wikiFolder']."\n";
                 $sub_time_start=microtime(true);
-                require 'datapack-explorer-generator/generator/wiki/items.php';
+                require 'datapack-explorer-generator/generator/items.php';
                 echo 'Item generated into '.ceil(microtime(true)-$sub_time_start).'s for '.$wikivars['wikiFolder']."\n";
                 $sub_time_start=microtime(true);
-                require 'datapack-explorer-generator/generator/wiki/zone.php';
+                require 'datapack-explorer-generator/generator/zone.php';
                 echo 'Zone generated into '.ceil(microtime(true)-$sub_time_start).'s for '.$wikivars['wikiFolder']."\n";
-                require 'datapack-explorer-generator/generator/wiki/items-index.php';
+                require 'datapack-explorer-generator/generator/items-index.php';
                 $sub_time_start=microtime(true);
-                require 'datapack-explorer-generator/generator/wiki/bots.php';
+                require 'datapack-explorer-generator/generator/bots.php';
                 echo 'Bot generated into '.ceil(microtime(true)-$sub_time_start).'s for '.$wikivars['wikiFolder']."\n";
                 $sub_time_start=microtime(true);
-                require 'datapack-explorer-generator/generator/wiki/monsters.php';
+                require 'datapack-explorer-generator/generator/monsters.php';
                 echo 'Monster generated into '.ceil(microtime(true)-$sub_time_start).'s for '.$wikivars['wikiFolder']."\n";
                 $sub_time_start=microtime(true);
-                require 'datapack-explorer-generator/generator/wiki/buffs.php';
+                require 'datapack-explorer-generator/generator/buffs.php';
                 echo 'Buffs generated into '.ceil(microtime(true)-$sub_time_start).'s for '.$wikivars['wikiFolder']."\n";
-                require 'datapack-explorer-generator/generator/wiki/crafting.php';
-                require 'datapack-explorer-generator/generator/wiki/plants.php';
+                require 'datapack-explorer-generator/generator/crafting.php';
+                require 'datapack-explorer-generator/generator/plants.php';
                 $sub_time_start=microtime(true);
-                require 'datapack-explorer-generator/generator/wiki/skills.php';
+                require 'datapack-explorer-generator/generator/skills.php';
                 echo 'Skill generated into '.ceil(microtime(true)-$sub_time_start).'s for '.$wikivars['wikiFolder']."\n";
                 $sub_time_start=microtime(true);
-                require 'datapack-explorer-generator/generator/wiki/types.php';
+                require 'datapack-explorer-generator/generator/types.php';
                 echo 'Type generated into '.ceil(microtime(true)-$sub_time_start).'s for '.$wikivars['wikiFolder']."\n";
-                require 'datapack-explorer-generator/generator/wiki/start.php';
+                require 'datapack-explorer-generator/generator/start.php';
                 $sub_time_start=microtime(true);
-                require 'datapack-explorer-generator/generator/wiki/quests.php';
+                require 'datapack-explorer-generator/generator/quests.php';
                 echo 'Quests generated into '.ceil(microtime(true)-$sub_time_start).'s for '.$wikivars['wikiFolder']."\n";
                 $sub_time_start=microtime(true);
-                require 'datapack-explorer-generator/generator/wiki/industries.php';
+                require 'datapack-explorer-generator/generator/industries.php';
                 echo 'Industries generated into '.ceil(microtime(true)-$sub_time_start).'s for '.$wikivars['wikiFolder']."\n";
 
                 $sub_time_start=microtime(true);
                 require 'datapack-explorer-generator/generator/wiki/post.php';
                 echo 'All done into '.ceil(microtime(true)-$time_start).'s'."\n";
+                $wikimode=false;
             }
+
+            require 'datapack-explorer-generator/generator/wiki/close.php';
         }
-        require 'datapack-explorer-generator/generator/wiki/close.php';
     }
 
 if($argc<=1 || in_array('explorer',$argv))

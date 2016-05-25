@@ -10,24 +10,24 @@ foreach($buff_meta as $buff_id=>$buff)
 		mkdir($datapack_explorer_local_path.'monsters/buffs/');
 	$map_descriptor='';
 
-	$map_descriptor.='<div class="map monster_type_normal">';
-		$map_descriptor.='<div class="subblock"><h1>'.$buff['name'][$current_lang].'</h1></div>';
+	$map_descriptor.='<div class="map monster_type_normal">'."\n";
+		$map_descriptor.='<div class="subblock"><h1>'.$buff['name'][$current_lang].'</h1></div>'."\n";
 		foreach($buff['level_list'] as $level=>$effect)
 		{
-			$map_descriptor.='<div class="subblock"><div class="valuetitle">';
+			$map_descriptor.='<div class="subblock"><div class="valuetitle">'."\n";
 			if(file_exists($datapack_path.'/monsters/buff/'.$buff_id.'.png'))
-				$map_descriptor.='<center><img src="'.$base_datapack_site_path.'monsters/buff/'.$buff_id.'.png" alt="" width="16" height="16" /></center>';
+				$map_descriptor.='<center><img src="'.$base_datapack_site_path.'monsters/buff/'.$buff_id.'.png" alt="" width="16" height="16" /></center>'."\n";
 			if(count($buff['level_list'])>1)
                 $map_descriptor.=str_replace('[level]',$level,$translation_list[$current_lang]['Level [level]']);
-            $map_descriptor.='</div><div class="value">';
+            $map_descriptor.='</div><div class="value">'."\n";
 			if($effect['capture_bonus']!=1)
-				$map_descriptor.=$translation_list[$current_lang]['Capture bonus: '].$effect['capture_bonus'].'<br />';
+				$map_descriptor.=$translation_list[$current_lang]['Capture bonus: '].$effect['capture_bonus'].'<br />'."\n";
 			if($effect['duration']=='ThisFight')
-				$map_descriptor.=$translation_list[$current_lang]['This buff is only valid for this fight'].'<br />';
+				$map_descriptor.=$translation_list[$current_lang]['This buff is only valid for this fight'].'<br />'."\n";
 			else if($effect['duration']=='Always')
-				$map_descriptor.=$translation_list[$current_lang]['This buff is always valid'].'<br />';
+				$map_descriptor.=$translation_list[$current_lang]['This buff is always valid'].'<br />'."\n";
 			else if($effect['duration']=='NumberOfTurn')
-				$map_descriptor.=str_replace('[turns]',$effect['durationNumberOfTurn'],$translation_list[$current_lang]['This buff is valid during [turns] turns']).'<br />';
+				$map_descriptor.=str_replace('[turns]',$effect['durationNumberOfTurn'],$translation_list[$current_lang]['This buff is valid during [turns] turns']).'<br />'."\n";
 
             if(count($effect['effect']['inFight'])>0)
             {
@@ -52,26 +52,26 @@ foreach($buff_meta as $buff_id=>$buff)
                 $map_descriptor.='</div></div>'."\n";
             }
 
-			$map_descriptor.='</div></div>';
+			$map_descriptor.='</div></div>'."\n";
 		}
-	$map_descriptor.='</div>';
+	$map_descriptor.='</div>'."\n";
 	$buff_level_displayed=0;
 	if(isset($buff_to_monster[$buff_id]) && count($buff_to_monster[$buff_id])>0)
 	{
 		$map_descriptor.='<table class="item_list item_list_type_normal">
 		<tr class="item_list_title item_list_title_type_normal">
 			<th colspan="2">'.$translation_list[$current_lang]['Monster'].'</th>
-			<th>'.$translation_list[$current_lang]['Type'].'</th>';
+			<th>'.$translation_list[$current_lang]['Type'].'</th>'."\n";
 			if(count($buff_to_monster[$buff_id])>1)
-				$map_descriptor.='<th>'.$translation_list[$current_lang]['Skill level'].'</th>';
-		$map_descriptor.='</tr>';
+				$map_descriptor.='<th>'.$translation_list[$current_lang]['Skill level'].'</th>'."\n";
+		$map_descriptor.='</tr>'."\n";
 		foreach($buff_to_monster[$buff_id] as $buff_level=>$monster_list_content)
 		{
 			if($buff_level_displayed!=$buff_level && count($buff_to_monster[$buff_id])>1)
 			{
-				$map_descriptor.='<tr class="item_list_title_type_normal"><th colspan="4">';
+				$map_descriptor.='<tr class="item_list_title_type_normal"><th colspan="4">'."\n";
                 $map_descriptor.=str_replace('[level]',$buff_level,$translation_list[$current_lang]['Level [level]']);
-                $map_descriptor.='</th></tr>';
+                $map_descriptor.='</th></tr>'."\n";
 				$buff_level_displayed=$buff_level;
 			}
 			foreach($monster_list_content as $monster)
@@ -81,21 +81,21 @@ foreach($buff_meta as $buff_id=>$buff)
 					$name=$monster_meta[$monster]['name'][$current_lang];
 					$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
 					$map_descriptor.='<tr class="value">
-						<td>';
+						<td>'."\n";
 						if(file_exists($datapack_path.'monsters/'.$monster.'/small.png'))
-							$map_descriptor.='<div class="monstericon"><a href="'.$link.'"><img src="'.$base_datapack_site_path.'monsters/'.$monster.'/small.png" width="32" height="32" alt="'.$name.'" title="'.$name.'" /></a></div>';
+							$map_descriptor.='<div class="monstericon"><a href="'.$link.'"><img src="'.$base_datapack_site_path.'monsters/'.$monster.'/small.png" width="32" height="32" alt="'.$name.'" title="'.$name.'" /></a></div>'."\n";
 						else if(file_exists($datapack_path.'monsters/'.$monster.'/small.gif'))
-							$map_descriptor.='<div class="monstericon"><a href="'.$link.'"><img src="'.$base_datapack_site_path.'monsters/'.$monster.'/small.gif" width="32" height="32" alt="'.$name.'" title="'.$name.'" /></a></div>';
+							$map_descriptor.='<div class="monstericon"><a href="'.$link.'"><img src="'.$base_datapack_site_path.'monsters/'.$monster.'/small.gif" width="32" height="32" alt="'.$name.'" title="'.$name.'" /></a></div>'."\n";
 						$map_descriptor.='</td>
-						<td><a href="'.$link.'">'.$name.'</a></td>';
+						<td><a href="'.$link.'">'.$name.'</a></td>'."\n";
 						$type_list=array();
 						foreach($monster_meta[$monster]['type'] as $type_monster)
 							if(isset($type_meta[$type_monster]))
-								$type_list[]='<span class="type_label type_label_'.$type_monster.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_monster.'.html">'.ucfirst($type_meta[$type_monster]['name'][$current_lang]).'</a></span>';
-						$map_descriptor.='<td><div class="type_label_list">'.implode(' ',$type_list).'</div></td>';
+								$type_list[]='<span class="type_label type_label_'.$type_monster.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type_monster.'.html">'.ucfirst($type_meta[$type_monster]['name'][$current_lang]).'</a></span>'."\n";
+						$map_descriptor.='<td><div class="type_label_list">'.implode(' ',$type_list).'</div></td>'."\n";
 						if(count($buff_to_monster[$buff_id])>1)
-							$map_descriptor.='<td>'.$buff_level.'</td>';
-					$map_descriptor.='</tr>';
+							$map_descriptor.='<td>'.$buff_level.'</td>'."\n";
+					$map_descriptor.='</tr>'."\n";
 				}
 			}
 		}
@@ -107,47 +107,93 @@ foreach($buff_meta as $buff_id=>$buff)
 				$map_descriptor.='3';
 			$map_descriptor.='" class="item_list_endline item_list_title_type_normal"></td>
 		</tr>
-		</table>';
+		</table>'."\n";
 	}
 
-	$content=$template;
-	$content=str_replace('${TITLE}',$buff['name'][$current_lang],$content);
-	$content=str_replace('${CONTENT}',$map_descriptor,$content);
-	$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
-	$content=clean_html($content);
-    $filedestination=$datapack_explorer_local_path.'monsters/buffs/'.text_operation_do_for_url($buff['name'][$current_lang]).'.html';
-    if(file_exists($filedestination))
-        die('The file already exists: '.$filedestination);
-    filewrite($filedestination,$content);
+    if(!$wikimode)
+    {
+        $content=$template;
+        $content=str_replace('${TITLE}',$buff['name'][$current_lang],$content);
+        $content=str_replace('${CONTENT}',$map_descriptor,$content);
+        $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
+        $content=clean_html($content);
+        $filedestination=$datapack_explorer_local_path.'monsters/buffs/'.text_operation_do_for_url($buff['name'][$current_lang]).'.html';
+        if(file_exists($filedestination))
+            die('The file already exists: '.$filedestination);
+        filewrite($filedestination,$content);
+    }
+    else
+    {
+        savewikipage('Template:buffs_'.$buff_id,$map_descriptor,false);$map_descriptor='';
+
+        $lang_template='';
+        if(count($wikivarsapp)>1)
+        {
+            $temp_current_lang=$current_lang;
+            foreach($wikivarsapp as $wikivars2)
+                if($wikivars2['lang']!=$temp_current_lang)
+                {
+                    $current_lang=$wikivars2['lang'];
+                    $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Buffs:'].$buff['name'][$current_lang].']]'."\n";
+                }
+            savewikipage('Template:buffs_'.$buff_id.'_LANG',$lang_template,false);$lang_template='';
+            $current_lang=$temp_current_lang;
+            $map_descriptor.='{{Template:buffs_'.$buff_id.'_LANG}}'."\n";
+        }
+
+        $map_descriptor.='{{Template:buffs_'.$buff_id.'}}'."\n";
+        savewikipage($translation_list[$current_lang]['Buffs:'].$buff['name'][$current_lang],$map_descriptor,!$wikivars['generatefullpage']);
+    }
 }
 
 $map_descriptor='';
 $map_descriptor.='<table class="item_list item_list_type_normal">
 <tr class="item_list_title item_list_title_type_normal">
 	<th colspan="2">'.$translation_list[$current_lang]['Buff'].'</th>
-</tr>';
+</tr>'."\n";
 foreach($buff_meta as $buff_id=>$buff)
 {
-	$map_descriptor.='<tr class="value">';
-	$map_descriptor.='<td>';
+	$map_descriptor.='<tr class="value">'."\n";
+	$map_descriptor.='<td>'."\n";
 	if(file_exists($datapack_path.'/monsters/buff/'.$buff_id.'.png'))
-		$map_descriptor.='<img src="'.$base_datapack_site_path.'monsters/buff/'.$buff_id.'.png" alt="" width="16" height="16" />';
+		$map_descriptor.='<img src="'.$base_datapack_site_path.'monsters/buff/'.$buff_id.'.png" alt="" width="16" height="16" />'."\n";
 	else
-		$map_descriptor.='&nbsp;';
-	$map_descriptor.='</td>';
-	$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'monsters/buffs/'.text_operation_do_for_url($buff['name'][$current_lang]).'.html">'.$buff['name'][$current_lang].'</a></td>';
-	$map_descriptor.='</tr>';
+		$map_descriptor.='&nbsp;'."\n";
+	$map_descriptor.='</td>'."\n";
+	$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'monsters/buffs/'.text_operation_do_for_url($buff['name'][$current_lang]).'.html">'.$buff['name'][$current_lang].'</a></td>'."\n";
+	$map_descriptor.='</tr>'."\n";
 }
 $map_descriptor.='<tr>
 	<td colspan="2" class="item_list_endline item_list_title_type_normal"></td>
 </tr>
-</table>';
-$content=$template;
-$content=str_replace('${TITLE}',$translation_list[$current_lang]['Buffs list'],$content);
-$content=str_replace('${CONTENT}',$map_descriptor,$content);
-$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
-$content=clean_html($content);
-$filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['buffs.html'];
-if(file_exists($filedestination))
-    die('The file already exists: '.$filedestination);
-filewrite($filedestination,$content);
+</table>'."\n";
+
+if(!$wikimode)
+{
+    $content=$template;
+    $content=str_replace('${TITLE}',$translation_list[$current_lang]['Buffs list'],$content);
+    $content=str_replace('${CONTENT}',$map_descriptor,$content);
+    $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
+    $content=clean_html($content);
+    $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['buffs.html'];
+    if(file_exists($filedestination))
+        die('The file already exists: '.$filedestination);
+    filewrite($filedestination,$content);
+}
+else
+{
+    savewikipage('Template:buffs_list',$map_descriptor,false);$map_descriptor='';
+
+    $lang_template='';
+    if(count($wikivarsapp)>1)
+    {
+        foreach($wikivarsapp as $wikivars2)
+            if($wikivars2['lang']!=$current_lang)
+                $lang_template.='[['.$wikivars2['lang'].':'.$translation_list[$wikivars2['lang']]['Buffs list'].']]'."\n";
+        savewikipage('Template:buffs_LANG',$lang_template,false);$lang_template='';
+        $map_descriptor.='{{Template:buffs_LANG}}'."\n";
+    }
+
+    $map_descriptor.='{{Template:buffs_list}}'."\n";
+    savewikipage($translation_list[$current_lang]['Buffs list'],$map_descriptor,!$wikivars['generatefullpage']);
+}

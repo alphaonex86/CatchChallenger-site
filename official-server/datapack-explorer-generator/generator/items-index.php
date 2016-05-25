@@ -35,7 +35,7 @@ foreach($item_by_group as $group_name=>$item_meta_temp)
 	<tr class="item_list_title item_list_title_type_normal">
 		<th colspan="2">'.$translation_list[$current_lang]['Item'].'</th>
 		<th>'.$translation_list[$current_lang]['Price'].'</th>
-	</tr>';
+	</tr>'."\n";
 	$max=15;
 	if(count($item_meta_temp)>$max)
 	{
@@ -51,7 +51,7 @@ foreach($item_by_group as $group_name=>$item_meta_temp)
 			$map_descriptor.='<tr>
 				<td colspan="3" class="item_list_endline item_list_title_type_normal"></td>
 			</tr>
-			</table>';
+			</table>'."\n";
 			$map_descriptor.='<table class="item_list item_list_type_normal map_list">
 			<tr class="item_list_title item_list_title_type_normal">
 				<th colspan="3">'.$group_name.'</th>
@@ -59,7 +59,7 @@ foreach($item_by_group as $group_name=>$item_meta_temp)
 			<tr class="item_list_title item_list_title_type_normal">
         <th colspan="2">'.$translation_list[$current_lang]['Item'].'</th>
         <th>'.$translation_list[$current_lang]['Price'].'</th>
-			</tr>';
+			</tr>'."\n";
 			$item_count_list=1;
 		}
 		$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item['name'][$current_lang]).'.html';
@@ -69,45 +69,66 @@ foreach($item_by_group as $group_name=>$item_meta_temp)
 		else
 			$image='';
 		$map_descriptor.='<tr class="value">
-		<td>';
+		<td>'."\n";
 		if($image!='')
 		{
 			if($link!='')
-				$map_descriptor.='<a href="'.$link.'">';
-			$map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />';
+				$map_descriptor.='<a href="'.$link.'">'."\n";
+			$map_descriptor.='<img src="'.$image.'" width="24" height="24" alt="'.$name.'" title="'.$name.'" />'."\n";
 			if($link!='')
-				$map_descriptor.='</a>';
+				$map_descriptor.='</a>'."\n";
 		}
 		$map_descriptor.='</td>
-		<td>';
+		<td>'."\n";
 		if($link!='')
-			$map_descriptor.='<a href="'.$link.'">';
+			$map_descriptor.='<a href="'.$link.'">'."\n";
 		if($name!='')
 			$map_descriptor.=$name;
 		else
 			$map_descriptor.=$translation_list[$current_lang]['Unknown item'];
 		if($link!='')
-			$map_descriptor.='</a>';
-		$map_descriptor.='</td>';
+			$map_descriptor.='</a>'."\n";
+		$map_descriptor.='</td>'."\n";
 		if($item['price']>0)
-			$map_descriptor.='<td>'.$item['price'].'$</td>';
+			$map_descriptor.='<td>'.$item['price'].'$</td>'."\n";
 		else
-			$map_descriptor.='<td>&nbsp;</td>';
-		$map_descriptor.='</tr>';
+			$map_descriptor.='<td>&nbsp;</td>'."\n";
+		$map_descriptor.='</tr>'."\n";
 
 	}
 	$map_descriptor.='<tr>
 		<td colspan="3" class="item_list_endline item_list_title_type_normal"></td>
 	</tr>
-	</table>';
+	</table>'."\n";
 }
 
-$content=$template;
-$content=str_replace('${TITLE}',$translation_list[$current_lang]['Items list'],$content);
-$content=str_replace('${CONTENT}',$map_descriptor,$content);
-$content=str_replace('${AUTOGEN}',$automaticallygen,$content);
-$content=clean_html($content);
-$filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['items.html'];
-if(file_exists($filedestination))
-    die('The file already exists: '.$filedestination);
-filewrite($filedestination,$content);
+if(!$wikimode)
+{
+    $content=$template;
+    $content=str_replace('${TITLE}',$translation_list[$current_lang]['Items list'],$content);
+    $content=str_replace('${CONTENT}',$map_descriptor,$content);
+    $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
+    $content=clean_html($content);
+    $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['items.html'];
+    if(file_exists($filedestination))
+        die('The file already exists: '.$filedestination);
+    filewrite($filedestination,$content);
+}
+else
+{
+    savewikipage('Template:Items_list',$map_descriptor,false);$map_descriptor='';
+
+    $lang_template='';
+    if(count($wikivarsapp)>1)
+    {
+        foreach($wikivarsapp as $wikivars2)
+            if($wikivars2['lang']!=$current_lang)
+                $lang_template.='[['.$wikivars2['lang'].':'.$translation_list[$wikivars2['lang']]['Items list'].']]'."\n";
+        savewikipage('Template:Items_LANG',$lang_template,false);$lang_template='';
+        $map_descriptor.='{{Template:Items_LANG}}'."\n";
+    }
+
+    $map_descriptor.='{{Template:Items_list}}'."\n";
+    savewikipage($translation_list[$current_lang]['Items list'],$map_descriptor,!$wikivars['generatefullpage']);
+}
+

@@ -3,6 +3,7 @@ if(!isset($datapackexplorergeneratorinclude))
     die('abort into wiki post'."\n");
 
 savewikipagereal();
+$pageintowikiduplicate=array();
 
 if(isset($wikidblink))
 {

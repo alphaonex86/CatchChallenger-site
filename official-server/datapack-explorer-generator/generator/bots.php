@@ -486,7 +486,7 @@ foreach($bot_list as $bot_id=>$bot)
     }
     else
     {
-        savewikipage('Template:bot'.$bot_id,$map_descriptor,false);$map_descriptor='';
+        savewikipage('Template:'.$maindatapackcode.'-bot'.$bot_id,$map_descriptor,false);$map_descriptor='';
 
         $lang_template='';
         if(count($wikivarsapp)>1)
@@ -499,13 +499,13 @@ foreach($bot_list as $bot_id=>$bot)
                     $link=bot_to_wiki_name($bot_id);
                     $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Bots:'].$maindatapackcode.'-'.$link.']]'."\n";
                 }
-            savewikipage('Template:bot'.$bot_id.'_LANG',$lang_template,false);$lang_template='';
+            savewikipage('Template:'.$maindatapackcode.'-bot'.$bot_id.'_LANG',$lang_template,false);$lang_template='';
             $current_lang=$temp_current_lang;
-            $map_descriptor.='{{Template:bot'.$bot_id.'_LANG}}'."\n";
+            $map_descriptor.='{{Template:'.$maindatapackcode.'-bot'.$bot_id.'_LANG}}'."\n";
         }
 
         $link=bot_to_wiki_name($bot_id);
-        $map_descriptor.='{{Template:bot'.$bot_id.'}}'."\n";
+        $map_descriptor.='{{Template:'.$maindatapackcode.'-bot'.$bot_id.'}}'."\n";
         savewikipage($translation_list[$current_lang]['Bots:'].$maindatapackcode.'-'.$link,$map_descriptor,!$wikivars['generatefullpage']);
     }
 }

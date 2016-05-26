@@ -5,9 +5,11 @@ if(!isset($datapackexplorergeneratorinclude))
 $map_to_function=array();
 $zone_to_function=array();
 $zone_to_bot_count=array();
+$count_time=array(0,0,0,0,0,0,0,0);
 foreach($temp_maps as $maindatapackcode=>$map_list)
 foreach($map_list as $map)
 {
+    $temp_time_start=microtime(true);
     $map_current_object=$maps_list[$maindatapackcode][$map];
 	$map_html=$maindatapackcode.'/'.str_replace('.tmx','.html',$map);
 	$map_image=$maindatapackcode.'/'.str_replace('.tmx','.png',$map);
@@ -26,6 +28,8 @@ foreach($map_list as $map)
     }
 	$map_descriptor='';
 
+    $count_time[0]+=microtime(true)-$temp_time_start;
+    $temp_time_start=microtime(true);
 	$map_descriptor.='<div class="map map_type_'.$map_current_object['type'].'">'."\n";
 		$map_descriptor.='<div class="subblock"><h1>'.$map_current_object['name'][$current_lang].'</h1>'."\n";
 		if($map_current_object['type']!='')
@@ -101,11 +105,15 @@ foreach($map_list as $map)
 			$map_descriptor.='</ul></div></div>'."\n";
 		}
 	$map_descriptor.='</div>'."\n";
+    $count_time[1]+=microtime(true)-$temp_time_start;
+    $temp_time_start=microtime(true);
     if($wikimode)
     {
         savewikipage('Template:Maps/'.$map_html.'_HEADER',$map_descriptor,false);$map_descriptor='';
     }
 
+    $count_time[2]+=microtime(true)-$temp_time_start;
+    $temp_time_start=microtime(true);
     if($map_current_object['dropcount']>0 || count($map_current_object['items'])>0)
 	{
 		$map_descriptor.='<table class="item_list item_list_type_'.$map_current_object['type'].'">
@@ -242,6 +250,8 @@ foreach($map_list as $map)
         }
 	}
 
+    $count_time[3]+=microtime(true)-$temp_time_start;
+    $temp_time_start=microtime(true);
 	if(count($map_current_object['monsters'])>0)
 	{
         //test if have sub type
@@ -491,6 +501,8 @@ foreach($map_list as $map)
             savewikipage('Template:Maps/'.$map_html.'_MONSTER',$map_descriptor,false);$map_descriptor='';
         }
 	}
+    $count_time[4]+=microtime(true)-$temp_time_start;
+    $temp_time_start=microtime(true);
     if(isset($map_current_object['bots']) && count($map_current_object['bots'])>0)
 	{
 		$map_descriptor.='<center><table class="item_list item_list_type_'.$map_current_object['type'].'">
@@ -943,6 +955,8 @@ foreach($map_list as $map)
         }
 	}
 	
+    $count_time[5]+=microtime(true)-$temp_time_start;
+    $temp_time_start=microtime(true);
     if(!$wikimode)
     {
         $content=$template;
@@ -953,6 +967,8 @@ foreach($map_list as $map)
         $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['maps/'].$map_html;
         if(file_exists($filedestination))
             die('The file already exists: '.$filedestination);
+        $count_time[6]+=microtime(true)-$temp_time_start;
+        $temp_time_start=microtime(true);
         filewrite($filedestination,$content);
     }
     else
@@ -979,12 +995,27 @@ foreach($map_list as $map)
             $map_descriptor.='{{Template:Maps/'.$map_html.'_MONSTER}}'."\n";
         if(isset($map_current_object['bots']) && count($map_current_object['bots'])>0)
             $map_descriptor.='{{Template:Maps/'.$map_html.'_BOT}}'."\n";
-        savewikipage($translation_list[$current_lang]['Maps:'].map_to_wiki_name($map),$map_descriptor,!$wikivars['generatefullpage']);
+        $savepagename=$translation_list[$current_lang]['Maps:'].map_to_wiki_name($map);
+        $savepagecontent=$map_descriptor;
+        $savepagegeneratefullpage=!$wikivars['generatefullpage'];
+        $count_time[6]+=microtime(true)-$temp_time_start;
+        $temp_time_start=microtime(true);
+        savewikipage($savepagename,$savepagecontent,$savepagegeneratefullpage);
     }
+    $count_time[7]+=microtime(true)-$temp_time_start;
 }
-
 $map_descriptor='';
 ksort($zone_to_map);
+
+/*echo 'Temp Map generated into for '.$wikivars['wikiFolder'].': '."\n";
+echo '- mkdir: '.ceil($count_time[0]*1000).'ms'."\n";
+echo '- header: '.ceil($count_time[1]*1000).'ms'."\n";
+echo '- header save: '.ceil($count_time[2]*1000).'ms'."\n";
+echo '- item + save: '.ceil($count_time[3]*1000).'ms'."\n";
+echo '- monster + save: '.ceil($count_time[4]*1000).'ms'."\n";
+echo '- bot + save: '.ceil($count_time[5]*1000).'ms'."\n";
+echo '- preformat to save: '.ceil($count_time[6]*1000).'ms'."\n";
+echo '- save: '.ceil($count_time[7]*1000).'ms'."\n";*/
 
 $mapoverviewindex=1;
 while(file_exists($datapack_explorer_local_path.'maps/overview-'.$mapoverviewindex.'.png') && file_exists($datapack_explorer_local_path.'maps/preview-'.$mapoverviewindex.'.png'))

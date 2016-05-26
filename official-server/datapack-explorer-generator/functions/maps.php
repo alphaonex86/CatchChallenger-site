@@ -6,20 +6,20 @@ function map_to_wiki_name($map)
     $zone=$maps_list[$maindatapackcode][$map]['zone'];
     $name=$maps_list[$maindatapackcode][$map]['name'][$current_lang];
     if(!isset($duplicate_detection_name[$maindatapackcode][$current_lang][$name]))
-        return $map;
+        return $maindatapackcode.'/'.$map;
     if($zone!='' && isset($zone_meta[$maindatapackcode][$zone]))
         $final_name_with_zone=$zone_meta[$maindatapackcode][$zone]['name'][$current_lang].' '.$name;
     else
         $final_name_with_zone=$name;
     if(!isset($duplicate_detection_name_and_zone[$maindatapackcode][$current_lang][$final_name_with_zone]))
-        return $map;
+        return $maindatapackcode.'/'.$map;
 
     if($duplicate_detection_name[$maindatapackcode][$current_lang][$name]==1)
-        return $name;
+        return $maindatapackcode.'/'.$name;
     if($duplicate_detection_name_and_zone[$maindatapackcode][$current_lang][$final_name_with_zone]==1)
-        return $final_name_with_zone;
+        return $maindatapackcode.'/'.$final_name_with_zone;
     $map=str_replace('.tmx','',$map);
-    return $map;
+    return $maindatapackcode.'/'.$map;
 } 
 
 function textToProperty($text)

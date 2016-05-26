@@ -10,15 +10,24 @@ if(!isset($pagetodointowiki))
 if(!isset($pageintowikiduplicate))
     $pageintowikiduplicate=array();
 
+
 function savewikipage($page,$content,$createonly=false,$summary='')
 {
     global $pagetodointowiki,$pageintowikiduplicate;
     if(in_array($page,$pageintowikiduplicate))
     {
+        debug_print_backtrace();
         echo 'Page duplicate: '.$page."\n";
         exit;
     }
     $pageintowikiduplicate[]=$page;
+
+    if(/*FAKE:*/false)
+    {
+        $pagetodointowiki=array();
+        return;
+    }
+
     $pagetodointowiki[]=array($page,$content,$createonly,$summary);
     if(count($pagetodointowiki)>50)
         savewikipagereal();
@@ -29,6 +38,12 @@ function savewikipagereal()
     global $pagetodointowiki;
     global $wikivars,$base_datapack_site_http,$curlmaster;
     global $finalwikitoken;
+
+    if(/*FAKE:*/false)
+    {
+        $pagetodointowiki=array();
+        return;
+    }
 
     $curl_arr=array();
     $curlmaster = curl_multi_init();
@@ -85,5 +100,5 @@ function savewikipagereal()
     }
     curl_multi_close($curlmaster);
     $pagetodointowiki=array();
-    //echo 'Extract: '.$page."\n";
+    //echo 'Extract: '.$page.' for '.$base_datapack_site_http."\n";
 }

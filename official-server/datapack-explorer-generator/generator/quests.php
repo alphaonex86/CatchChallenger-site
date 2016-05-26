@@ -23,7 +23,7 @@ foreach($quest_list as $id=>$quest)
         $map_descriptor.='</div>'."\n";
         if($wikimode)
         {
-            savewikipage('Template:quest_'.$id.'_HEADER',$map_descriptor,false);$map_descriptor='';
+            savewikipage('Template:'.$maindatapackcode.'_quest_'.$id.'_HEADER',$map_descriptor,false);$map_descriptor='';
         }
 
         $bot_id=$quest['bot'];
@@ -86,7 +86,7 @@ foreach($quest_list as $id=>$quest)
 		$map_descriptor.='</div>'."\n";
         if($wikimode)
         {
-            savewikipage('Template:quest_'.$id.'_BOTS',$map_descriptor,false);$map_descriptor='';
+            savewikipage('Template:'.$maindatapackcode.'_quest_'.$id.'_BOTS',$map_descriptor,false);$map_descriptor='';
         }
 
 		if(count($quest['requirements'])>0)
@@ -107,7 +107,7 @@ foreach($quest_list as $id=>$quest)
             $map_descriptor.='</div></div>'."\n";
             if($wikimode)
             {
-                savewikipage('Template:quest_'.$id.'_REQ',$map_descriptor,false);$map_descriptor='';
+                savewikipage('Template:'.$maindatapackcode.'_quest_'.$id.'_REQ',$map_descriptor,false);$map_descriptor='';
             }
 		}
 		if(count($quest['steps'])>0)
@@ -268,7 +268,7 @@ foreach($quest_list as $id=>$quest)
 			}
             if($wikimode)
             {
-                savewikipage('Template:quest_'.$id.'_STEPS',$map_descriptor,false);$map_descriptor='';
+                savewikipage('Template:'.$maindatapackcode.'_quest_'.$id.'_STEPS',$map_descriptor,false);$map_descriptor='';
             }
 		}
 		if(count($quest['rewards'])>0)
@@ -342,7 +342,7 @@ foreach($quest_list as $id=>$quest)
             $map_descriptor.='</div></div>'."\n";
             if($wikimode)
             {
-                savewikipage('Template:quest_'.$id.'_REWARDS',$map_descriptor,false);$map_descriptor='';
+                savewikipage('Template:'.$maindatapackcode.'_quest_'.$id.'_REWARDS',$map_descriptor,false);$map_descriptor='';
             }
     }
 
@@ -370,21 +370,21 @@ foreach($quest_list as $id=>$quest)
                     $current_lang=$wikivars2['lang'];
                     $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Quests:'].$id.'_'.$quest['name'][$current_lang].']]'."\n";
                 }
-            savewikipage('Template:quest_'.$id.'_LANG',$lang_template,false);$lang_template='';
+            savewikipage('Template:'.$maindatapackcode.'_quest_'.$id.'_LANG',$lang_template,false);$lang_template='';
             $current_lang=$temp_current_lang;
-            $map_descriptor.='{{Template:quest_'.$id.'_LANG}}'."\n";
+            $map_descriptor.='{{Template:'.$maindatapackcode.'_quest_'.$id.'_LANG}}'."\n";
         }
 
-        $map_descriptor.='{{Template:quest_'.$id.'_HEADER}}'."\n";
+        $map_descriptor.='{{Template:'.$maindatapackcode.'_quest_'.$id.'_HEADER}}'."\n";
         if(isset($bots_meta[$bot_id]))
-            $map_descriptor.='{{Template:quest_'.$id.'_BOTS}}'."\n";
+            $map_descriptor.='{{Template:'.$maindatapackcode.'_quest_'.$id.'_BOTS}}'."\n";
         if(count($quest['requirements'])>0)
-            $map_descriptor.='{{Template:quest_'.$id.'_REQ}}'."\n";
+            $map_descriptor.='{{Template:'.$maindatapackcode.'_quest_'.$id.'_REQ}}'."\n";
         if(count($quest['steps'])>0)
-            $map_descriptor.='{{Template:quest_'.$id.'_STEPS}}'."\n";
+            $map_descriptor.='{{Template:'.$maindatapackcode.'_quest_'.$id.'_STEPS}}'."\n";
         if(count($quest['rewards'])>0)
-            $map_descriptor.='{{Template:quest_'.$id.'_REWARDS}}'."\n";
-        savewikipage($translation_list[$current_lang]['Quests:'].$id.'_'.$quest['name'][$current_lang],$map_descriptor,!$wikivars['generatefullpage']);
+            $map_descriptor.='{{Template:'.$maindatapackcode.'_quest_'.$id.'_REWARDS}}'."\n";
+        savewikipage($translation_list[$current_lang]['Quests:'].$maindatapackcode.'/'.$id.'_'.$quest['name'][$current_lang],$map_descriptor,!$wikivars['generatefullpage']);
     }
 }
 

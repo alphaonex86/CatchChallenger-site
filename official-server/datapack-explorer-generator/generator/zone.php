@@ -162,4 +162,25 @@ foreach($zone_list as $zone=>$map_by_zone)
             die('The file already exists: '.$filedestination);
         filewrite($filedestination,$content);
     }
+    else
+    {
+        savewikipage('Template:Zones/'.$maindatapackcode.'/'.$zone_name,$map_descriptor,false);$map_descriptor='';
+        $base_template='Zones/'.$maindatapackcode.'/'.$zone_name;
+        $lang_template='';
+        if(count($wikivarsapp)>1)
+        {
+            $temp_current_lang=$current_lang;
+            foreach($wikivarsapp as $wikivars2)
+                if($wikivars2['lang']!=$temp_current_lang)
+                {
+                    $current_lang=$wikivars2['lang'];
+                    $lang_template.='[['.$current_lang.':'.'Zones:'.$maindatapackcode.'/'.$zone_name.']]'."\n";
+                }
+            savewikipage('Template:'.$base_template.'_LANG',$lang_template,false);$lang_template='';
+            $current_lang=$temp_current_lang;
+            $map_descriptor.='{{Template:'.$base_template.'_LANG}}'."\n";
+        }
+        $map_descriptor.='{{Template:'.$base_template.'}}'."\n";
+        savewikipage('Zones:'.$maindatapackcode.'/'.$zone_name,$map_descriptor,!$wikivars['generatefullpage']);
+    }
 }

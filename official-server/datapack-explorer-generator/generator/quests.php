@@ -409,7 +409,8 @@ else
 {
     $map_descriptor='';
 
-    $map_descriptor.=questList(array_keys($quests_meta),true,true);
+    foreach($quests_meta as $maindatapackcode=>$quest_list)
+        $map_descriptor.=questList(array_keys($quest_list),true,true);
 
     savewikipage('Template:quests_list',$map_descriptor,false);$map_descriptor='';
 

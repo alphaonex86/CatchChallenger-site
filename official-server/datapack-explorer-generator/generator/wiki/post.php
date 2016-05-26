@@ -2,6 +2,8 @@
 if(!isset($datapackexplorergeneratorinclude))
     die('abort into wiki post'."\n");
 
+savewikipagereal();
+
 if(isset($wikidblink))
 {
     mysqli_query($wikidblink,'TRUNCATE `'.$wgDBprefix_final.'l10n_cache`;') or die(mysqli_error());

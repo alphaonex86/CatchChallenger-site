@@ -55,6 +55,8 @@ if(isset($wikivarsapp))
 {    
     foreach($wikivarsapp as $wikivars)
     {
+        if(!preg_match('#^https?://#',$base_datapack_site_http))
+            die('$base_datapack_site_http need start with http:// or https://');
         $temp_lang=$wikivars['lang'];
         if(!in_array($temp_lang,$lang_to_load))
         {
@@ -105,6 +107,7 @@ echo 'Map preview done'."\n";
 echo 'Done into '.ceil(microtime(true)-$time_start).'s'."\n";
 
 if($argc<=1 || in_array('wiki',$argv))
+{
     if(isset($wikivarsapp) && count($wikivarsapp)>0)
     {
         require 'datapack-explorer-generator/generator/wiki/pre.php';
@@ -164,6 +167,7 @@ if($argc<=1 || in_array('wiki',$argv))
             require 'datapack-explorer-generator/generator/wiki/close.php';
         }
     }
+}
 
 if($argc<=1 || in_array('explorer',$argv))
 {

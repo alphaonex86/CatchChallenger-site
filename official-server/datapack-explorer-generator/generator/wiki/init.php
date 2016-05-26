@@ -6,6 +6,7 @@ if(!isset($wikivars['generatefullpage']))
     $wikivars['generatefullpage']=false;
 //init
 
+$other_error='';
 $_SESSION['login_result']='';
 date_default_timezone_set('UTC');
 $wikivars['lastmod']=date('Y-m-d H:i',getlastmod()).' UTC';
@@ -28,7 +29,10 @@ $ch=curl_init();
     curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
     $content=curl_exec($ch);
     if(!($result=unserialize($content)))
-        echo 'Error to decode the reply: '.$content;
+    {
+        $other_error='Error to decode the reply: '.$content;
+        echo 'Error to decode the reply: '.$content.' for '.$base_datapack_site_http.'/'.$wikivars['wikiFolder'].'/api.php?'.$postdata."\n";
+    }
     if(curl_errno($ch)){
         $curl_error='Error 003: '.curl_error($ch);
     }

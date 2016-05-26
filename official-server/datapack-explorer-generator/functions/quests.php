@@ -1,21 +1,10 @@
 <?php
 function questList($id_list,$showbot=true,$wiki=false)
 {
-    global $maindatapackcode;
-    global $quests_meta;
-    global $bot_id_to_skin;
-    global $bots_meta;
-    global $bot_id_to_map;
-    global $base_datapack_explorer_site_path;
-    global $datapack_path;
-    global $bots_name_count;
-    global $base_datapack_site_path;
-    global $item_meta;
-    global $base_datapack_site_http;
-    global $maps_list;
-    global $zone_meta;
-    global $current_lang;
-    global $translation_list;
+    global $maindatapackcode,$quests_meta,$bot_id_to_skin,$bots_meta,$bot_id_to_map,$base_datapack_explorer_site_path;
+    global $datapack_path,$bots_name_count,$base_datapack_site_path,$item_meta,$base_datapack_site_http,$maps_list;
+    global $zone_meta,$current_lang,$translation_list;
+
     if(!$wiki)
         $real_base_datapack_site_path=$base_datapack_site_path;
     else
@@ -42,7 +31,20 @@ function questList($id_list,$showbot=true,$wiki=false)
             $quests_meta[$maindatapackcode][$id]['name'][$current_lang]
             .'</a></td>'."\n";
         else
-            $map_descriptor.='<td>[['.$translation_list[$current_lang]['Quests:'].$id.'_'.$quests_meta[$maindatapackcode][$id]['name'][$current_lang].'|'.$quests_meta[$maindatapackcode][$id]['name'][$current_lang].']]</td>'."\n";
+        {
+            $map_descriptor.='<td>[['.$translation_list[$current_lang]['Quests:'].
+            $id.'_'.
+            $quests_meta[$maindatapackcode][$id]['name'][$current_lang].
+            '|'.
+            $quests_meta[$maindatapackcode][$id]['name'][$current_lang].
+            ']]</td>'."\n";
+        }
+        if(!isset($quests_meta[$maindatapackcode][$id]))
+        {
+            echo '$id ('.$id.') not found into:'."\n";
+            print_r($quests_meta[$maindatapackcode]);
+            exit;
+        }
         if($quests_meta[$maindatapackcode][$id]['repeatable'])
             $map_descriptor.='<td>'.$translation_list[$current_lang]['Yes'].'</td>'."\n";
         else
@@ -51,6 +53,11 @@ function questList($id_list,$showbot=true,$wiki=false)
             $bot_id=$quests_meta[$maindatapackcode][$id]['steps'][1]['bot'];
         else
             $bot_id=$quests_meta[$maindatapackcode][$id]['bot'];
+        if(!isset($quests_meta[$maindatapackcode][$id]))
+        {
+            print_r($quests_meta[$maindatapackcode][$id]);
+            exit;
+        }
         if($showbot)
         {
             if(isset($bots_meta[$maindatapackcode][$bot_id]))

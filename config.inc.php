@@ -27,6 +27,7 @@ $base_datapack_explorer_site_path='/official-server/datapack-explorer/';
 $base_datapack_site_path='/datapack/';
 $base_datapack_site_http='http://localhost';
 $datapack_path='../datapack/';
+$datapack_path_wikicache='wikicache/';
 $git_source_program='';//to have the commit order
 //$map_generator='/usr/bin/map2png';
 //$png_compress='/usr/bin/CatchChallenger/tools/datapack-compressor/png-compress.sh';

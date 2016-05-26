@@ -114,6 +114,7 @@ if($argc<=1 || in_array('wiki',$argv))
         foreach($wikivarsapp as $wikivars)
         {
             $current_lang=$wikivars['lang'];
+            $wikivars['cachepath']=$datapack_path_wikicache.'/'.hash('sha256',$base_datapack_site_http.'/'.$wikivars['wikiFolder']).'/';
             echo 'Lang for the wiki '.$wikivars['wikiFolder'].': '.$current_lang."\n";
             $time_start=microtime(true);
             require 'datapack-explorer-generator/generator/wiki/init.php';

@@ -285,8 +285,8 @@ function playerwithunit($player)
                     $arr=json_decode($filecurs,true);
                     if(is_array($arr))
                     {
-                        ksort($arr);
-                        foreach($arr as $ip=>$server)
+                        ksort($arr['servers']);
+                        foreach($arr['servers'] as $ip=>$server)
                         {
                             if(isset($server['state']))
                             {

@@ -9,7 +9,7 @@ if (!function_exists('curl_init')){
 require '../config.php';
 $mirrorserverlisttemp=array();
 foreach($mirrorserverlist as $host)
-    $mirrorserverlisttemp[$host]=array('state'=>'up');
+    $mirrorserverlisttemp['servers'][$host]=array('state'=>'up');
 
 function giveDirList($folder)
 {
@@ -222,15 +222,14 @@ function flushcurlcall()
     $curlmaster=curl_multi_init();
 }
 
+$time_start = microtime(true);
 $curlmaster=curl_multi_init();
 $curlList=array();
 $missingfilecache=array();
 foreach($arr as $file)
 {
-    foreach($mirrorserverlisttemp as $server=>$content)
+    foreach($mirrorserverlisttemp['servers'] as $server=>$content)
     {
-        if(!isset($mirrorserverlisttemp[$server]['time']))
-            $mirrorserverlisttemp[$server]['time']=0.0;
         if($content['state']=='up')
         {
             $ch = curl_init();
@@ -247,5 +246,7 @@ foreach($arr as $file)
         flushcurlcall();
 }
 flushcurlcall();
+$time_end = microtime(true);
+$mirrorserverlisttemp['totaltime'] = $time_end - $time_start;
 
 echo json_encode($mirrorserverlisttemp);

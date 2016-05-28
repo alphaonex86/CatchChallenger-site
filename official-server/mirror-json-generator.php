@@ -82,6 +82,7 @@ if($scantype!="onlytar")
     $arr=listFolder($datapack_path);
 sort($arr);
 
+/*$curlmasterlist=array();
 $missingfilecache=array();
 foreach($arr as $file)
 {
@@ -107,6 +108,8 @@ foreach($arr as $file)
         continue;
     foreach($mirrorserverlisttemp as $server=>$content)
     {
+        if(!isset($curlmasterlist[$server]['curlmaster']))
+            $curlmasterlist[$server]['curlmaster']=curl_multi_init();
         if(!isset($mirrorserverlisttemp[$server]['time']))
             $mirrorserverlisttemp[$server]['time']=0.0;
         if($content['state']=='up')
@@ -150,6 +153,99 @@ foreach($arr as $file)
             }
         }
     }
+}*/
+
+function flushcurlcall()
+{
+    global $curlmaster,$curlList,$datapack_path,$mirrorserverlisttemp;
+
+    do {
+        curl_multi_exec($curlmaster,$running);
+        usleep(10*1000);
+    } while($running > 0);
+
+    foreach($curlList as $file=>$chlist)
+    {
+        $contentlocal='';
+        foreach($chlist as $server=>$ch)
+        {
+            $content=curl_multi_getcontent($ch);
+            $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $errno = curl_errno($ch);
+            
+            if($errno)
+            {
+                $error_message = curl_strerror($errno);
+                $mirrorserverlisttemp[$server]['state']='down';
+                $mirrorserverlisttemp[$server]['error']="cURL error ({$errno}):\n {$error_message}";
+                $mirrorserverlisttemp[$server]['file']=$server.$file;
+            }
+            else if($httpcode!=200)
+            {
+                $mirrorserverlisttemp[$server]['state']='corrupted';
+                $mirrorserverlisttemp[$server]['error']='http code: '.$httpcode;
+                $mirrorserverlisttemp[$server]['file']=$server.$file;
+            }
+            else
+            {
+                if($contentlocal=='')
+                {
+                    if(is_file($datapack_path.$file))
+                        $contentlocal=file_get_contents($datapack_path.$file);
+                    if(isset($missingfilecache[$file]))
+                        $contentlocal=$missingfilecache[$file];
+                    else if(count($mirrorserverlisttemp)>0)
+                    {
+                        $contentlocal=$content;
+                        if($contentlocal=='')
+                        {
+                            echo 'Primary mirror is wrong, file problem on: '.$server.$file."\n";
+                            exit;
+                        }
+                        $missingfilecache[$file]=$contentlocal;
+                    }
+                }
+
+                if($contentlocal!=$content)
+                {
+                    $mirrorserverlisttemp[$server]['state']='corrupted';
+                    $mirrorserverlisttemp[$server]['error']='local and remote file are not same';
+                    $mirrorserverlisttemp[$server]['file']=$server.$file;
+                }
+            }
+        }
+    }
+    $curlList=array();
+    $missingfilecache=array();
+
+    curl_multi_close($curlmaster);
+    $curlmaster=curl_multi_init();
 }
+
+$curlmaster=curl_multi_init();
+$curlList=array();
+$missingfilecache=array();
+foreach($arr as $file)
+{
+    foreach($mirrorserverlisttemp as $server=>$content)
+    {
+        if(!isset($mirrorserverlisttemp[$server]['time']))
+            $mirrorserverlisttemp[$server]['time']=0.0;
+        if($content['state']=='up')
+        {
+            $ch = curl_init();
+            curl_setopt($ch,CURLOPT_URL,$server.$file);
+            curl_setopt($ch, CURLOPT_HEADER,0);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT,10);
+            curl_setopt($ch, CURLOPT_TCP_NODELAY, 1); 
+            curl_multi_add_handle($curlmaster, $ch);
+            $curlList[$file][$server]=$ch;
+        }
+    }
+    if((count($curlList)*count($mirrorserverlisttemp))>100)
+        flushcurlcall();
+}
+flushcurlcall();
 
 echo json_encode($mirrorserverlisttemp);

@@ -176,15 +176,15 @@ function flushcurlcall()
             if($errno)
             {
                 $error_message = curl_strerror($errno);
-                $mirrorserverlisttemp[$server]['state']='down';
-                $mirrorserverlisttemp[$server]['error']="cURL error ({$errno}):\n {$error_message}";
-                $mirrorserverlisttemp[$server]['file']=$server.$file;
+                $mirrorserverlisttemp['servers'][$server]['state']='down';
+                $mirrorserverlisttemp['servers'][$server]['error']="cURL error ({$errno}):\n {$error_message}";
+                $mirrorserverlisttemp['servers'][$server]['file']=$server.$file;
             }
             else if($httpcode!=200)
             {
-                $mirrorserverlisttemp[$server]['state']='corrupted';
-                $mirrorserverlisttemp[$server]['error']='http code: '.$httpcode;
-                $mirrorserverlisttemp[$server]['file']=$server.$file;
+                $mirrorserverlisttemp['servers'][$server]['state']='corrupted';
+                $mirrorserverlisttemp['servers'][$server]['error']='http code: '.$httpcode;
+                $mirrorserverlisttemp['servers'][$server]['file']=$server.$file;
             }
             else
             {
@@ -194,7 +194,7 @@ function flushcurlcall()
                         $contentlocal=file_get_contents($datapack_path.$file);
                     if(isset($missingfilecache[$file]))
                         $contentlocal=$missingfilecache[$file];
-                    else if(count($mirrorserverlisttemp)>0)
+                    else if(count($mirrorserverlisttemp['servers'])>0)
                     {
                         $contentlocal=$content;
                         if($contentlocal=='')
@@ -208,9 +208,9 @@ function flushcurlcall()
 
                 if($contentlocal!=$content)
                 {
-                    $mirrorserverlisttemp[$server]['state']='corrupted';
-                    $mirrorserverlisttemp[$server]['error']='local and remote file are not same';
-                    $mirrorserverlisttemp[$server]['file']=$server.$file;
+                    $mirrorserverlisttemp['servers'][$server]['state']='corrupted';
+                    $mirrorserverlisttemp['servers'][$server]['error']='local and remote file are not same';
+                    $mirrorserverlisttemp['servers'][$server]['file']=$server.$file;
                 }
             }
         }
@@ -242,11 +242,11 @@ foreach($arr as $file)
             $curlList[$file][$server]=$ch;
         }
     }
-    if((count($curlList)*count($mirrorserverlisttemp))>100)
+    if((count($curlList)*count($mirrorserverlisttemp['servers']))>100)
         flushcurlcall();
 }
 flushcurlcall();
-$time_end = microtime(true);
-$mirrorserverlisttemp['totaltime'] = $time_end - $time_start;
+$mirrorserverlisttemp['totaltime'] = microtime(true) - $time_start;
+$mirrorserverlisttemp['totalfiles']=count($arr);
 
 echo json_encode($mirrorserverlisttemp);

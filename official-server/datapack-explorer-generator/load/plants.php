@@ -70,3 +70,4 @@ if(file_exists($datapack_path.'plants/plants.xml'))
 	}
 }
 ksort($plant_meta);
+ksort($item_to_plant);

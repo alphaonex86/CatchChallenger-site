@@ -270,6 +270,14 @@ foreach($temp_monsters as $monster_file)
 	}
 }
 ksort($monster_meta);
+ksort($exclusive_monster);
+ksort($exclusive_monster_reverse);
+ksort($item_to_monster);
+ksort($item_to_evolution);
+ksort($reverse_evolution);
+ksort($type_to_monster);
+ksort($skill_to_monster);
+ksort($item_to_skill_of_monster);
 
 foreach($monster_meta as $id=>$monster)
 {
@@ -281,6 +289,9 @@ foreach($monster_meta as $id=>$monster)
             {
                 $exclusive_monster[$maindatapackcode][$values[0]][]=$id;
                 $exclusive_monster_reverse[$id]=array('maindatapackcode'=>$maindatapackcode,'subdatapackcode'=>$values[0]);
+                ksort($exclusive_monster[$maindatapackcode][$values[0]]);
+                ksort($exclusive_monster[$maindatapackcode]);
+                ksort($exclusive_monster_reverse);
             }
         }
     }

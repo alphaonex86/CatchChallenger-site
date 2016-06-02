@@ -236,3 +236,9 @@ foreach($bots_file_list as $maindatapackcode=>$value)
         echo $datapack_path.'map/'.$maindatapackcode.'/'.$file.' not found for the map: '.$value['map']."\n";
 }
 ksort($bots_meta);
+ksort($bots_found_in);
+ksort($fight_to_bot);
+ksort($bots_name_count);
+ksort($industry_to_bot);
+ksort($team_to_bot);
+ksort($item_to_bot_shop);

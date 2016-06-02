@@ -43,6 +43,8 @@ while (false !== ($maindatapackcode = readdir($dh)))
                             if(!isset($item_to_shop[$item][$maindatapackcode]))
                                 $item_to_shop[$item][$maindatapackcode]=array();
                             $item_to_shop[$item][$maindatapackcode][]=$id;
+                            ksort($item_to_shop[$item][$maindatapackcode]);
+                            ksort($item_to_shop[$item]);
                         }
                         else
                         {
@@ -64,3 +66,4 @@ while (false !== ($maindatapackcode = readdir($dh)))
 }
 closedir($dh);
 ksort($shop_meta);
+ksort($item_to_shop);

@@ -215,3 +215,4 @@ if(is_file($datapack_path.'informations.xml'))
     closedir($dh);
     ksort($informations_meta['main']);
 }
+ksort($informations_meta);

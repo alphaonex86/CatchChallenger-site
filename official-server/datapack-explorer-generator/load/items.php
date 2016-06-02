@@ -182,3 +182,8 @@ foreach($temp_items as $item_file)
 	}
 }
 ksort($item_meta);
+ksort($item_group);
+ksort($duplicate_item_name);
+ksort($item_meta);
+ksort($item_to_trap);
+ksort($item_to_regeneration);

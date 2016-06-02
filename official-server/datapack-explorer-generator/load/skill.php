@@ -105,6 +105,8 @@ foreach($temp_skills as $skill_file)
         if(!isset($skill_type_to_id[$type]))
             $skill_type_to_id[$type]=array();
         $skill_type_to_id[$type][]=$id;
+        ksort($skill_type_to_id[$type]);
 	}
 }
 ksort($skill_meta);
+ksort($skill_type_to_id);

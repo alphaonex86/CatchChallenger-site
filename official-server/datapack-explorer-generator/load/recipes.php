@@ -85,9 +85,13 @@ if(file_exists($datapack_path.'crafting/recipes.xml'))
             if(!isset($doItemId_to_crafting[$doItemId]))
                 $doItemId_to_crafting[$doItemId]=array();
             $doItemId_to_crafting[$doItemId][]=$itemToLearn;
+            ksort($doItemId_to_crafting[$doItemId]);
         }
         else
             echo 'material list is empty for recipe '.$id."\n";
 	}
 }
 ksort($crafting_meta);
+ksort($item_to_crafting);
+ksort($doItemId_to_crafting);
+ksort($material_to_crafting);

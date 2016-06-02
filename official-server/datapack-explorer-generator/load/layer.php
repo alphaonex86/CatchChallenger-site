@@ -74,3 +74,7 @@ if(file_exists($datapack_path.'map/layers.xml'))
         }
     }
 }
+
+ksort($layer_meta);
+ksort($layer_event);
+ksort($layer_toSearch);

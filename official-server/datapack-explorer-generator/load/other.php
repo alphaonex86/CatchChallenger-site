@@ -236,6 +236,7 @@ if(file_exists($datapack_path.'player/start.xml'))
         $start_meta[$profile_id]=array('description'=>$description_in_other_lang,'forcedskin'=>$forcedskin,'cash'=>$cash,'monstergroup'=>$monstergroup,'reputations'=>$reputations,'items'=>$items,'name'=>$name_in_other_lang);
     }
 }
+ksort($start_meta);
 
 $start_map_meta=array();
 $dir = $datapack_path.'map/main/';
@@ -265,6 +266,7 @@ while (false !== ($maindatapackcode = readdir($dh)))
         }
     }
 }
+ksort($start_map_meta);
 
 $dir = $datapack_path.'map/main/';
 $dh  = opendir($dir);
@@ -300,7 +302,11 @@ while (false !== ($maindatapackcode = readdir($dh)))
                     }
 
                     if(isset($start_meta[$profile_id]))
+                    {
                         $start_meta[$profile_id]['map_list'][$maindatapackcode]=$map_list;
+                        ksort($start_meta[$profile_id]['map_list']);
+                        ksort($start_meta);
+                    }
                     else
                         echo 'Profile to put the main code map not found: '.$profile_id."\n";
                 }
@@ -421,11 +427,15 @@ while (false !== ($maindatapackcode = readdir($dh)))
                                 $monster_to_quests[$monster][$maindatapackcode]=array();
                             $monster_to_quests[$monster][$maindatapackcode][]=array('quest'=>$id,'item'=>$item,'quantity'=>$quantity,'rate'=>$rate);
                             $items_to_quests_for_step[$item][$maindatapackcode][]=array('quest'=>$id,'quantity'=>$quantity,'monster'=>$monster,'rate'=>$rate);
+                            ksort($items_to_quests_for_step[$item][$maindatapackcode]);
+                            ksort($items_to_quests_for_step[$item]);
                         }
                         else
                         {
                             $items[]=array('item'=>$item,'quantity'=>$quantity);
                             $items_to_quests_for_step[$item][$maindatapackcode][]=array('quest'=>$id,'quantity'=>$quantity);
+                            ksort($items_to_quests_for_step[$item][$maindatapackcode]);
+                            ksort($items_to_quests_for_step[$item]);
                         }
                     }
                     $tempbot=preg_replace("#[\n\r\t]+#is",'',$tempbot);
@@ -436,6 +446,7 @@ while (false !== ($maindatapackcode = readdir($dh)))
                             $bot_start_to_quests[$tempbot]=array();
                         if(!in_array($id,$bot_start_to_quests[$tempbot]))
                             $bot_start_to_quests[$tempbot][]=$id;
+                        ksort($bot_start_to_quests[$tempbot]);
                     }
                 }
 
@@ -458,6 +469,7 @@ while (false !== ($maindatapackcode = readdir($dh)))
                         if(!isset($items_to_quests[$item]))
                             $items_to_quests[$item]=array();
                         $items_to_quests[$item][$maindatapackcode][$id]=$quantity;
+                        ksort($items_to_quests[$item]);
                         $rewards['items'][]=array('item'=>$item,'quantity'=>$quantity);
                     }
                     preg_match_all('#<allow ([^>]+)/>#isU',$entry,$item_text_list);
@@ -490,6 +502,10 @@ while (false !== ($maindatapackcode = readdir($dh)))
 }
 closedir($dh);
 ksort($quests_meta);
+ksort($monster_to_quests);
+ksort($items_to_quests);
+ksort($items_to_quests_for_step);
+ksort($bot_start_to_quests);
 
 $visualcategory_meta=array();
 if(!file_exists($datapack_path.'/map/visualcategory.xml'))

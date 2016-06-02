@@ -115,3 +115,6 @@ if(is_dir($datapack_path.'industries/'))
 	}
 }
 ksort($industrie_meta);
+ksort($industrie_link_meta);
+ksort($item_produced_by);
+ksort($item_consumed_by);

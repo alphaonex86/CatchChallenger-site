@@ -80,3 +80,4 @@ if(file_exists($datapack_path.'player/reputation.xml'))
 		}
 	}
 }
+ksort($reputation_meta);

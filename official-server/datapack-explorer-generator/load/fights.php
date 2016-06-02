@@ -40,6 +40,7 @@ while (false !== ($maindatapackcode = readdir($dh)))
                     if(!isset($item_to_fight[$item]))
                         $item_to_fight[$item]=array();
                     $item_to_fight[$item][$maindatapackcode][]=$id;
+                    ksort($item_to_fight[$item]);
                 }
                 if(preg_match('#<start( lang="en")?>(<!\\[CDATA\\[)?(.*)(]]>)?</start>#isU',$entry))
                     $start=preg_replace('#^.*<start( lang="en")?>(<!\\[CDATA\\[)?(.*)(]]>)?</start>.*$#isU','$3',$entry);
@@ -62,3 +63,4 @@ while (false !== ($maindatapackcode = readdir($dh)))
 }
 closedir($dh);
 ksort($fight_meta);
+ksort($item_to_fight);

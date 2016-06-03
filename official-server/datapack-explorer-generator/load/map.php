@@ -360,11 +360,13 @@ while (false !== ($maindatapackcode = readdir($dh)))
                 {
                     if(preg_match('#<'.preg_quote($toSearch).'>(.*)</'.preg_quote($toSearch).'>#isU',$content_meta_map))
                     {
+                        /*why this code? $layer_meta[$toSearch]['layer']=='' is for cave
                         $search=false;
                         if(isset($layer_meta[$toSearch]))
                             $search=($layer_meta[$toSearch]['layer']=='' || preg_match('#<layer name="'.preg_quote($layer_meta[$toSearch]['layer']).'"#isU',$content));
                         else if(isset($layer_event[$toSearch]))
-                            $search=($layer_event[$toSearch]['layer']=='' || preg_match('#<layer name="'.preg_quote($layer_event[$toSearch]['layer']).'"#isU',$content));
+                            $search=($layer_event[$toSearch]['layer']=='' || preg_match('#<layer name="'.preg_quote($layer_event[$toSearch]['layer']).'"#isU',$content));*/
+                        $search=true;
                         if($search)
                         {
                             $text=preg_replace('#^.*<'.preg_quote($toSearch).'>(.*)</'.preg_quote($toSearch).'>.*$#isU','$1',$content_meta_map);
@@ -419,6 +421,21 @@ while (false !== ($maindatapackcode = readdir($dh)))
                                     echo 'Monster: '.$id.' not found on the map: '.$map."\n";
                             }
                         }
+                        else
+                        {
+                            /*if(isset($layer_meta[$toSearch]))
+                                echo '2 Not search because no layer '.$toSearch.' detected, layer meta: '.$layer_meta[$toSearch]['layer'].', with name: '.
+                                (preg_match('#<layer name="'.preg_quote($layer_meta[$toSearch]['layer']).'"#isU',$content)).', regex used: '.
+                                '#<layer name="'.preg_quote($layer_meta[$toSearch]['layer']).'"#isU'
+                                .' for map: '.$map."\n";
+                            else if(isset($layer_event[$toSearch]))
+                                echo '2 Not search because no layer '.$toSearch.' detected, layer meta: '.$layer_event[$toSearch]['layer'].', with name: '.
+                                (preg_match('#<layer name="'.preg_quote($layer_event[$toSearch]['layer']).'"#isU',$content)).', regex used: '.
+                                '#<layer name="'.preg_quote($layer_event[$toSearch]['layer']).'"#isU'
+                                .' for map: '.$map."\n";
+                            else
+                                echo '2 Not search because no layer '.$toSearch.' detected for map: '.$map."\n";*/
+                        }
                     }
                 }
             }
@@ -439,11 +456,13 @@ while (false !== ($maindatapackcode = readdir($dh)))
                         {
                             if(preg_match('#<'.preg_quote($toSearch).'>(.*)</'.preg_quote($toSearch).'>#isU',$content_meta_map))
                             {
+                                /*why this code? $layer_meta[$toSearch]['layer']=='' is for cave
                                 $search=false;
                                 if(isset($layer_meta[$toSearch]))
                                     $search=($layer_meta[$toSearch]['layer']=='' || preg_match('#<layer name="'.preg_quote($layer_meta[$toSearch]['layer']).'"#isU',$content));
                                 else if(isset($layer_event[$toSearch]))
-                                    $search=($layer_event[$toSearch]['layer']=='' || preg_match('#<layer name="'.preg_quote($layer_event[$toSearch]['layer']).'"#isU',$content));
+                                    $search=($layer_event[$toSearch]['layer']=='' || preg_match('#<layer name="'.preg_quote($layer_event[$toSearch]['layer']).'"#isU',$content));*/
+                                $search=true;
                                 if($search)
                                 {
                                     $text=preg_replace('#^.*<'.preg_quote($toSearch).'>(.*)</'.preg_quote($toSearch).'>.*$#isU','$1',$content_meta_map);
@@ -498,7 +517,24 @@ while (false !== ($maindatapackcode = readdir($dh)))
                                             echo 'Monster: '.$id.' not found on the map: '.$map."\n";
                                     }
                                 }
+                                else
+                                {
+                                    if(isset($layer_meta[$toSearch]))
+                                        echo '[Meta] Not search because no layer '.$toSearch.' detected, layer meta: '.$layer_meta[$toSearch]['layer'].', with name: '.
+                                        (preg_match('#<layer name="'.preg_quote($layer_meta[$toSearch]['layer']).'"#isU',$content)).', regex used: '.
+                                        '#<layer name="'.preg_quote($layer_meta[$toSearch]['layer']).'"#isU'
+                                        .' for map: '.$map."\n";
+                                    else if(isset($layer_event[$toSearch]))
+                                        echo '[Event] Not search because no layer '.$toSearch.' detected, layer meta: '.$layer_event[$toSearch]['layer'].', with name: '.
+                                        (preg_match('#<layer name="'.preg_quote($layer_event[$toSearch]['layer']).'"#isU',$content)).', regex used: '.
+                                        '#<layer name="'.preg_quote($layer_event[$toSearch]['layer']).'"#isU'
+                                        .' for map: '.$map."\n";
+                                    else
+                                        echo 'Not search because no layer '.$toSearch.' detected for map: '.$map."\n";
+                                }
                             }
+                            /*else
+                                echo 'No layer '.$toSearch.' detected for map: '.$map."\n";*/
                             if(isset($monsters[$toSearch]['']) && !isset($monsters[$toSearch][$subdatapackcode]))
                             {
                                 if(isset($monsters[$toSearch]['']))
@@ -580,12 +616,16 @@ while (false !== ($maindatapackcode = readdir($dh)))
             $maps_list[$maindatapackcode][$map]=array('folder'=>$map_folder,'borders'=>$borders,'tp'=>$tp,'doors'=>$doors,'bots'=>$bots,'type'=>$type,'monsters'=>$monsters,'monsters_list'=>$monsters_list,
             'width'=>$width,'height'=>$height,'pixelwidth'=>$pixelwidth,'pixelheight'=>$pixelheight,'dropcount'=>$dropcount,'zone'=>$zone,'items'=>$items,'name'=>$name_in_other_lang,'shortdescription'=>$description_in_other_lang,'description'=>$name_in_other_lang,
             'mapgroup'=>$mapgroup);
+            ksort($maps_list[$maindatapackcode]);
             if(!isset($zone_to_map[$maindatapackcode]))
                 $zone_to_map[$maindatapackcode]=array();
             if(!isset($zone_to_map[$maindatapackcode][$zone]))
                 $zone_to_map[$maindatapackcode][$zone]=array();
             $zone_to_map[$maindatapackcode][$zone][$map]=$name_in_other_lang;
+            ksort($zone_to_map[$maindatapackcode][$zone]);
+            ksort($zone_to_map[$maindatapackcode]);
             $maps_name_to_map[$maindatapackcode][$name]=$map;
+            ksort($maps_name_to_map[$maindatapackcode]);
         }
         ksort($map_short_path_to_name);
         ksort($zone_to_map);

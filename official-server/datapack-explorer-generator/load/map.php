@@ -360,13 +360,11 @@ while (false !== ($maindatapackcode = readdir($dh)))
                 {
                     if(preg_match('#<'.preg_quote($toSearch).'>(.*)</'.preg_quote($toSearch).'>#isU',$content_meta_map))
                     {
-                        /*why this code? $layer_meta[$toSearch]['layer']=='' is for cave
                         $search=false;
                         if(isset($layer_meta[$toSearch]))
-                            $search=($layer_meta[$toSearch]['layer']=='' || preg_match('#<layer name="'.preg_quote($layer_meta[$toSearch]['layer']).'"#isU',$content));
+                            $search=($layer_meta[$toSearch]['layer']=='' /*Cave*/ || preg_match('#<layer( [^>]+)? name="'.preg_quote($layer_meta[$toSearch]['layer']).'"#isU',$content)/*Have layer into the tmx*/);
                         else if(isset($layer_event[$toSearch]))
-                            $search=($layer_event[$toSearch]['layer']=='' || preg_match('#<layer name="'.preg_quote($layer_event[$toSearch]['layer']).'"#isU',$content));*/
-                        $search=true;
+                            $search=($layer_event[$toSearch]['layer']=='' /*Cave*/ || preg_match('#<layer( [^>]+)? name="'.preg_quote($layer_event[$toSearch]['layer']).'"#isU',$content)/*Have layer into the tmx*/);
                         if($search)
                         {
                             $text=preg_replace('#^.*<'.preg_quote($toSearch).'>(.*)</'.preg_quote($toSearch).'>.*$#isU','$1',$content_meta_map);
@@ -423,7 +421,7 @@ while (false !== ($maindatapackcode = readdir($dh)))
                         }
                         else
                         {
-                            /*if(isset($layer_meta[$toSearch]))
+                            if(isset($layer_meta[$toSearch]))
                                 echo '2 Not search because no layer '.$toSearch.' detected, layer meta: '.$layer_meta[$toSearch]['layer'].', with name: '.
                                 (preg_match('#<layer name="'.preg_quote($layer_meta[$toSearch]['layer']).'"#isU',$content)).', regex used: '.
                                 '#<layer name="'.preg_quote($layer_meta[$toSearch]['layer']).'"#isU'
@@ -434,7 +432,8 @@ while (false !== ($maindatapackcode = readdir($dh)))
                                 '#<layer name="'.preg_quote($layer_event[$toSearch]['layer']).'"#isU'
                                 .' for map: '.$map."\n";
                             else
-                                echo '2 Not search because no layer '.$toSearch.' detected for map: '.$map."\n";*/
+                                echo '2 Not search because no layer '.$toSearch.' detected for map: '.$map."\n";
+                            echo 'Mostly due '.$toSearch.' is into '.$map_xml_meta.' but no layer into: '.$map."\n";
                         }
                     }
                 }
@@ -456,13 +455,11 @@ while (false !== ($maindatapackcode = readdir($dh)))
                         {
                             if(preg_match('#<'.preg_quote($toSearch).'>(.*)</'.preg_quote($toSearch).'>#isU',$content_meta_map))
                             {
-                                /*why this code? $layer_meta[$toSearch]['layer']=='' is for cave
                                 $search=false;
                                 if(isset($layer_meta[$toSearch]))
-                                    $search=($layer_meta[$toSearch]['layer']=='' || preg_match('#<layer name="'.preg_quote($layer_meta[$toSearch]['layer']).'"#isU',$content));
+                                    $search=($layer_meta[$toSearch]['layer']=='' /*Cave*/ || preg_match('#<layer( [^>]+)? name="'.preg_quote($layer_meta[$toSearch]['layer']).'"#isU',$content)/*Have layer into the tmx*/);
                                 else if(isset($layer_event[$toSearch]))
-                                    $search=($layer_event[$toSearch]['layer']=='' || preg_match('#<layer name="'.preg_quote($layer_event[$toSearch]['layer']).'"#isU',$content));*/
-                                $search=true;
+                                    $search=($layer_event[$toSearch]['layer']=='' /*Cave*/ || preg_match('#<layer( [^>]+)? name="'.preg_quote($layer_event[$toSearch]['layer']).'"#isU',$content)/*Have layer into the tmx*/);
                                 if($search)
                                 {
                                     $text=preg_replace('#^.*<'.preg_quote($toSearch).'>(.*)</'.preg_quote($toSearch).'>.*$#isU','$1',$content_meta_map);
@@ -531,6 +528,7 @@ while (false !== ($maindatapackcode = readdir($dh)))
                                         .' for map: '.$map."\n";
                                     else
                                         echo 'Not search because no layer '.$toSearch.' detected for map: '.$map."\n";
+                                    echo 'Mostly due '.$toSearch.' is into '.$map_xml_meta.' but no layer into: '.$map."\n";
                                 }
                             }
                             /*else

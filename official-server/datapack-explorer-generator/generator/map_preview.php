@@ -21,7 +21,7 @@ foreach($map_list as $map)
 }
 
 $temprand=rand(10000,99999);
-if(isset($map_generator) && $map_generator!='')
+if(isset($map_generator) && $map_generator!='' && file_exists($map_generator))
 {
     $pwd=getcwd();
     $return_var=0;
@@ -115,5 +115,12 @@ if(isset($map_generator) && $map_generator!='')
         echo 'zopfli for png don\'t installed, prefed install it'."\n";*/
 
     chdir($pwd);
+}
+else
+{
+    if(!isset($map_generator) || $map_generator=='')
+        echo 'Map generator not found or disabled'."\n";
+    else
+        echo 'Map generator not found: '.$map_generator."\n";
 }
  

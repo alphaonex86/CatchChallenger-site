@@ -182,15 +182,27 @@ while (false !== ($maindatapackcode = readdir($dh)))
                         } while($old_bot_file!=$bot_file);
                         if(!isset($bots))
                             $bots=array();
-                        if(isset($propertyList['lookAt']) && preg_match('#^(bottom|top|left|right)$#isU',$propertyList['lookAt']) && isset($propertyList['skin']))
+                        if(isset($propertyList['lookAt']) && preg_match('#^([a-z])$#isU',$propertyList['lookAt']) && isset($propertyList['skin']))
                         {
-                            $lookAt=$propertyList['lookAt'];
+                            if(preg_match('#^(bottom|top|left|right)$#isU',$propertyList['lookAt']))
+                                $lookAt=$propertyList['lookAt'];
+                            else
+                                $lookAt='bottom';
                             $skin=$propertyList['skin'];
                             $bots[]=array('file'=>$bot_file,'id'=>$bot_id,'lookAt'=>$lookAt,'skin'=>$skin);
                             $bot_id_to_skin[$bot_id][$maindatapackcode]=$skin;
                         }
                         else
-                            $bots[]=array('file'=>$bot_file,'id'=>$bot_id);
+                        {
+                            if(isset($propertyList['skin']))
+                            {
+                                $skin=$propertyList['skin'];
+                                $bots[]=array('file'=>$bot_file,'id'=>$bot_id,'skin'=>$skin);
+                                $bot_id_to_skin[$bot_id][$maindatapackcode]=$skin;
+                            }
+                            else
+                                $bots[]=array('file'=>$bot_file,'id'=>$bot_id);
+                        }
                         $bots_file[$bot_file][$maindatapackcode]=array('map'=>$map);
                     }
                 }

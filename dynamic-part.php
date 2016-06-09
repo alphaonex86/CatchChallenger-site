@@ -231,6 +231,21 @@ if(file_exists($mirrorserverfile) && $filecurs=file_get_contents($mirrorserverfi
         $arr=json_decode($filecurs,true);
         if(is_array($arr))
         {
+            ksort($arr);
+            foreach($arr as $ip=>$server)
+            {
+                if(isset($server['state']))
+                {
+                    if($server['state']=='up')
+                        $backup_up++;
+                    else if($server['state']=='corrupted')
+                        $backup_corrupted++;
+                    else
+                        $backup_down++;
+                }
+                else
+                    $backup_down++;
+            }
         }
     }
     if($backup_up>0)

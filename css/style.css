@@ -347,6 +347,16 @@ margin: 0 auto;
     margin-right:7px;
 }
 
+.labelDatapackTop
+{
+    width:16px;
+    height:16px;
+    background-image:url('/official-server/images/top-1.png');
+    background-repeat:no-repeat;
+    float:left;
+    margin-right:7px;
+}
+
 .labelDatapackBot
 {
     width:16px;
@@ -421,3 +431,56 @@ margin: 0 auto;
     margin:5px;
 }
 
+progress {
+    background-color: #f3f3f3;
+    border: 0;
+    width: 100px;
+    height: 12px;
+    border-radius: 3px;
+}
+progress::-webkit-progress-bar {
+background-image:
+       -webkit-linear-gradient(top, 
+                               rgba(0, 0, 0, .25), 
+                               rgba(255, 255, 255, .25)),
+       -webkit-linear-gradient(left, #eee, #eee);
+    border-radius: 2px; 
+    background-size: 35px 20px, 100% 100%, 100% 100%;
+    border-radius: 3px;
+}
+progress::-webkit-progress-value {
+background-image:
+       -webkit-linear-gradient(-45deg, 
+                               transparent 33%, rgba(0, 0, 0, .1) 33%, 
+                               rgba(0,0, 0, .1) 66%, transparent 66%),
+       -webkit-linear-gradient(top, 
+                               rgba(255, 255, 255, .25), 
+                               rgba(0, 0, 0, .25)),
+       -webkit-linear-gradient(left, #4b5, #4b5);
+    border-radius: 2px; 
+    background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+.progress3::-webkit-progress-value {
+background-image:
+       -webkit-linear-gradient(-45deg, 
+                               transparent 33%, rgba(0, 0, 0, .1) 33%, 
+                               rgba(0,0, 0, .1) 66%, transparent 66%),
+       -webkit-linear-gradient(top, 
+                               rgba(255, 255, 255, .25), 
+                               rgba(0, 0, 0, .25)),
+       -webkit-linear-gradient(left, #4b5, #4b5, #ff9);
+    border-radius: 2px; 
+    background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+.progress4::-webkit-progress-value {
+background-image:
+       -webkit-linear-gradient(-45deg, 
+                               transparent 33%, rgba(0, 0, 0, .1) 33%, 
+                               rgba(0,0, 0, .1) 66%, transparent 66%),
+       -webkit-linear-gradient(top, 
+                               rgba(255, 255, 255, .25), 
+                               rgba(0, 0, 0, .25)),
+       -webkit-linear-gradient(left, #4b5, #4b5, #ff9, #f97);
+    border-radius: 2px; 
+    background-size: 35px 20px, 100% 100%, 100% 100%;
+}

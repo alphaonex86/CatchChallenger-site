@@ -32,6 +32,25 @@ if(file_exists($gameserverfile) && $filecurs=file_get_contents($gameserverfile))
                 $previously_know_server=array();
         }
         ksort($previously_know_server);
+        //do the top
+        $topListTemp=array();
+        foreach($arr as $groupIndex=>$uniqueKey_list)
+        {
+            ksort($uniqueKey_list);
+            foreach($uniqueKey_list as $uniqueKey=>$server)
+                if(isset($server['xml']) && isset($server['connectedPlayer']) && isset($server['maxPlayer']))
+                    if($server['maxPlayer']<65534 && $server['maxPlayer']>0 && $server['connectedPlayer']<=$server['maxPlayer'])
+                        $topListTemp[$groupIndex.'-'.$uniqueKey]=$server['connectedPlayer'];
+        }
+        $indexTop=1;
+        arsort($topListTemp);
+        $topList=array();
+        foreach($topListTemp as $key=>$players)
+        {
+            $topList[$key]=$indexTop;
+            $indexTop++;
+        }
+        $topListTemp=array();
 
         $db_server_found=array();
         foreach($previously_know_server as $groupIndex=>$uniqueKey_list)
@@ -67,7 +86,14 @@ if(file_exists($gameserverfile) && $filecurs=file_get_contents($gameserverfile))
                         }
                         if($server['maxPlayer']<65534 && $server['maxPlayer']>0 && $server['connectedPlayer']<=$server['maxPlayer'])
                         {
-                            echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="labelDatapackMap"></div><strong>'.htmlentities($name).'</strong> - <strong>'.playerwithunit($server['connectedPlayer']).'</strong>/'.playerwithunit($server['maxPlayer']).' players - <span style="color:green;">online</span></div></li>';
+                            $topNumber=$topList[$data['groupIndex'].'-'.$data['uniquekey']];
+                            echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="';
+                            if($topNumber<=2 || $topNumber<=(count($topList)/5))
+                                echo 'labelDatapackTop';
+                            else
+                                echo 'labelDatapackMap';
+                            echo '"></div><progress class="progress'.ceil(4*$server['connectedPlayer']/$server['maxPlayer']).'" title="'.playerwithunit($server['connectedPlayer']).'/'.playerwithunit($server['maxPlayer']).' players" value="'.$server['connectedPlayer'].'" max="'.$server['maxPlayer'].'"></progress>';
+                            echo ' <strong>'.htmlentities($name).'</strong> - <strong>'.playerwithunit($server['connectedPlayer']).'</strong> players - <span style="color:green;">online</span></div></li>'."\n";
                             $player_count+=$server['connectedPlayer'];
                             $maxplayer_count+=$server['maxPlayer'];
                         }
@@ -117,7 +143,14 @@ if(file_exists($gameserverfile) && $filecurs=file_get_contents($gameserverfile))
                         }
                         if($server['maxPlayer']<65534 && $server['maxPlayer']>0 && $server['connectedPlayer']<=$server['maxPlayer'])
                         {
-                            echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="labelDatapackMap"></div><strong>'.htmlentities($name).'</strong> - <strong>'.playerwithunit($server['connectedPlayer']).'</strong>/'.playerwithunit($server['maxPlayer']).' players - <span style="color:green;">online</span></div></li>';
+                            $topNumber=$topList[$groupIndex.'-'.$uniqueKey];
+                            echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="';
+                            if($topNumber<=2 || $topNumber<=(count($topList)/5))
+                                echo 'labelDatapackTop';
+                            else
+                                echo 'labelDatapackMap';
+                            echo '"></div><progress class="progress'.ceil(4*$server['connectedPlayer']/$server['maxPlayer']).'" title="'.playerwithunit($server['connectedPlayer']).'/'.playerwithunit($server['maxPlayer']).' players" value="'.$server['connectedPlayer'].'" max="'.$server['maxPlayer'].'"></progress>';
+                            echo ' <strong>'.htmlentities($name).'</strong> - <strong>'.playerwithunit($server['connectedPlayer']).'</strong> players - <span style="color:green;">online</span></div></li>'."\n";
                             $player_count+=$server['connectedPlayer'];
                             $maxplayer_count+=$server['maxPlayer'];
                         }

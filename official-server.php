@@ -30,7 +30,7 @@ function filewrite($file,$content)
 function playerwithunit($player)
 {
     //return ceil($player/1000).'k';//to force into k unit
-    return $player;//to force into raw unit
+    return number_format($player,0,'.',' ');//to force into raw unit
     //automatic unit
     if($player>9000000)
         return ceil($player/1000000).'M';
@@ -95,7 +95,7 @@ function playerwithunit($player)
                 if(count($total_string_array)>0)
                     echo '<p class="text">'.implode(', ',$total_string_array).'</p>';
                 ?>
-                <?php if($maxplayer_count>0) { ?><p class="text">Total: <!--<b><?php echo $server_count; ?></b> servers and --><b><?php echo playerwithunit($player_count); ?></b>/<?php echo playerwithunit($maxplayer_count); ?> players.</p><?php } ?>
+                <?php if($maxplayer_count>0) { ?><p class="text">Total: <!--<b><?php echo $server_count; ?></b> servers and --><b><?php echo playerwithunit($player_count); ?></b><!--/<?php echo playerwithunit($maxplayer_count); ?>--> players.</p><?php } ?>
 				<p class="text">Download the <a href="http://files.first-world.info/catchchallenger/1.0.0.0/catchchallenger-single-server-windows-x86-1.0.0.0-setup.exe">client for Windows</a> or the <a href="http://files.first-world.info/catchchallenger/1.0.0.0/catchchallenger-single-server-mac-os-x-1.0.0.0.dmg">client for Mac</a> to play on it</p>
                 <?php
                 if(file_exists($contentstatfile) && $filecurs=file_get_contents($contentstatfile))

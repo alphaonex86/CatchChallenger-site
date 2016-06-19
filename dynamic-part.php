@@ -88,7 +88,7 @@ if(file_exists($gameserverfile) && $filecurs=file_get_contents($gameserverfile))
                         {
                             $topNumber=$topList[$data['groupIndex'].'-'.$data['uniquekey']];
                             echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="';
-                            if($topNumber<=2 || $topNumber<=(count($topList)/5))
+                            if(($topNumber<=2 || $topNumber<=(count($topList)/5)) && $server['connectedPlayer']>0)
                                 echo 'labelDatapackTop';
                             else
                                 echo 'labelDatapackMap';
@@ -145,7 +145,7 @@ if(file_exists($gameserverfile) && $filecurs=file_get_contents($gameserverfile))
                         {
                             $topNumber=$topList[$groupIndex.'-'.$uniqueKey];
                             echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="';
-                            if($topNumber<=2 || $topNumber<=(count($topList)/5))
+                            if(($topNumber<=2 || $topNumber<=(count($topList)/5)) && $server['connectedPlayer']>0)
                                 echo 'labelDatapackTop';
                             else
                                 echo 'labelDatapackMap';

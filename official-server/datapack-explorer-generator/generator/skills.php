@@ -33,7 +33,7 @@ foreach($skill_meta as $skill_id=>$skill)
 		}
 	}
 	$map_descriptor.='<div class="map monster_type_'.$type.'">'."\n";
-		$map_descriptor.='<div class="subblock"><h1>'.$skill['name'][$current_lang].'</h1></div>'."\n";
+		$map_descriptor.='<div class="subblock"><h1>'.$skill['name'][$current_lang].'</h1><h2>#'.$skill_id.'</h2></div>'."\n";
 		$map_descriptor.='<div class="type_label_list"><span class="type_label type_label_'.$type.'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$type.'.html">'.ucfirst($type_meta[$type]['name'][$current_lang]).'</a></span></div>'."\n";
 		if(isset($effectiveness_list['2']) || isset($effectiveness_list['4']))
 		{

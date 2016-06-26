@@ -2,10 +2,19 @@
 if(!isset($datapackexplorergeneratorinclude))
 	die('abort into generator industries'."\n");
 
-foreach($industrie_meta as $id=>$industry)
+foreach($industrie_meta as $industrie_path=>$industry_list)
+foreach($industry_list as $id=>$industry)
 {
-	if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['industries/']))
-		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['industries/']);
+    if($industrie_path=='')
+    {
+        if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['industries/']))
+            mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['industries/']);
+    }
+    else
+    {
+        if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['industries/'].$industrie_path.'/'))
+            mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['industries/'].$industrie_path.'/');
+    }
 	$map_descriptor='';
 
 	$map_descriptor.='<div class="map item_details">'."\n";
@@ -64,7 +73,7 @@ foreach($industrie_meta as $id=>$industry)
                 $map_descriptor.='</div></div>'."\n";
             }
 
-        if(isset($industry_to_bot[$id]))
+        if(isset($industry_to_bot[$id][$industrie_path]))
         {
             $map_descriptor.='<div class="subblock"><div class="valuetitle">Location</div><div class="value">'."\n";
             $map_descriptor.='<table class="item_list item_list_type_normal map_list">
@@ -72,7 +81,7 @@ foreach($industrie_meta as $id=>$industry)
                         <th colspan="2">'.$translation_list[$current_lang]['Bot'].'</th>
                         <th colspan="2">'.$translation_list[$current_lang]['Map'].'</th>
                         </tr>'."\n";
-            foreach($industry_to_bot[$id] as $maindatapackcode=>$bot_id)
+            foreach($industry_to_bot[$id][$industrie_path] as $maindatapackcode=>$bot_id)
             {
                 $map_descriptor.='<tr class="value">'."\n";
                 if(isset($bots_meta[$maindatapackcode][$bot_id]))
@@ -171,7 +180,10 @@ foreach($industrie_meta as $id=>$industry)
         $content=str_replace('${CONTENT}',$map_descriptor,$content);
         $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
         $content=clean_html($content);
-        $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['industries/'].$id.'.html';
+        if($industrie_path=='')
+            $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['industries/'].$id.'.html';
+        else
+            $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['industries/'].$industrie_path.'/'.$id.'.html';
         if(file_exists($filedestination))
             die('The file already exists: '.$filedestination);
         filewrite($filedestination,$content);
@@ -188,15 +200,31 @@ foreach($industrie_meta as $id=>$industry)
                 if($wikivars2['lang']!=$temp_current_lang)
                 {
                     $current_lang=$wikivars2['lang'];
-                    $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Industries:'].str_replace('[id]',$id,$translation_list[$current_lang]['Industry [id]']).']]'."\n";
+                    if($industrie_path=='')
+                        $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Industries:'].str_replace('[id]',$id,$translation_list[$current_lang]['Industry [id]']).']]'."\n";
+                    else
+                        $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Industries:'].$industrie_path.'/'.str_replace('[id]',$id,$translation_list[$current_lang]['Industry [id]']).']]'."\n";
                 }
-            savewikipage('Template:industry_'.$id.'_LANG',$lang_template,false);$lang_template='';
+            if($industrie_path=='')
+                savewikipage('Template:industry_'.$id.'_LANG',$lang_template,false);
+            else
+                savewikipage('Template:industry_'.$industrie_path.'-'.$id.'_LANG',$lang_template,false);
+            $lang_template='';
             $current_lang=$temp_current_lang;
-            $map_descriptor.='{{Template:industry_'.$id.'_LANG}}'."\n";
+            if($industrie_path=='')
+                $map_descriptor.='{{Template:industry_'.$id.'_LANG}}'."\n";
+            else
+                $map_descriptor.='{{Template:industry_'.$industrie_path.'-'.$id.'_LANG}}'."\n";
         }
 
-        $map_descriptor.='{{Template:industry_'.$id.'}}'."\n";
-        savewikipage($translation_list[$current_lang]['Industries:'].str_replace('[id]',$id,$translation_list[$current_lang]['Industry [id]']),$map_descriptor,!$wikivars['generatefullpage']);
+        if($industrie_path=='')
+            $map_descriptor.='{{Template:industry_'.$id.'}}'."\n";
+        else
+            $map_descriptor.='{{Template:industry_'.$industrie_path.'-'.$id.'}}'."\n";
+        if($industrie_path=='')
+            savewikipage($translation_list[$current_lang]['Industries:'].str_replace('[id]',$id,$translation_list[$current_lang]['Industry [id]']),$map_descriptor,!$wikivars['generatefullpage']);
+        else
+            savewikipage($translation_list[$current_lang]['Industries:'].$industrie_path.'/'.str_replace('[id]',$id,$translation_list[$current_lang]['Industry [id]']),$map_descriptor,!$wikivars['generatefullpage']);
     }
 }
 
@@ -209,11 +237,15 @@ $map_descriptor.='<table class="item_list item_list_type_normal">
 	<th>'.$translation_list[$current_lang]['Products'].'</th>
     <th>'.$translation_list[$current_lang]['Location'].'</th>
 </tr>'."\n";
-foreach($industrie_meta as $id=>$industry)
+foreach($industrie_meta as $industrie_path=>$industry_list)
+foreach($industry_list as $id=>$industry)
 {
 	$map_descriptor.='<tr class="value">'."\n";
 	$map_descriptor.='<td>'."\n";
-	$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['industries/'].$id.'.html">#'.$id.'</a>'."\n";
+    if($industrie_path=='')
+        $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['industries/'].$id.'.html">#'.$id.'</a>'."\n";
+    else
+        $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['industries/'].$industrie_path.'/'.$id.'.html">#'.$id.'</a>'."\n";
 	$map_descriptor.='</td>'."\n";
 	$map_descriptor.='<td><center>'."\n";
 	foreach($industry['resources'] as $resources)
@@ -285,10 +317,10 @@ foreach($industrie_meta as $id=>$industry)
 			$map_descriptor.='Unknown products ('.$item.')'."\n";
 	}
 	$map_descriptor.='</center></td><td>'."\n";
-    if(isset($industry_to_bot[$id]))
+    if(isset($industry_to_bot[$id][$industrie_path]))
     {
         $map_descriptor.='<table class="item_list item_list_type_normal map_list">'."\n";
-        foreach($industry_to_bot[$id] as $maindatapackcode=>$bot_id)
+        foreach($industry_to_bot[$id][$industrie_path] as $maindatapackcode=>$bot_id)
         {
             $map_descriptor.='<tr class="value">'."\n";
             if(isset($bots_meta[$maindatapackcode][$bot_id]))

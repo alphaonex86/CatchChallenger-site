@@ -700,18 +700,29 @@ foreach($item_meta as $id=>$item)
 			<th>'.$translation_list[$current_lang]['Resource of the industry'].'</th>
 			<th>'.$translation_list[$current_lang]['Quantity'].'</th>
 		</tr>'."\n";
-		foreach($item_consumed_by[$id] as $industry_id=>$quantity)
-		{
-			if(isset($industrie_meta[$industry_id]))
-			{
-				$map_descriptor.='<tr class="value">'."\n";
-				$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['industries/'].$industry_id.'.html">'."\n";
-				$map_descriptor.=str_replace('[industryid]',$industry_id,$translation_list[$current_lang]['Industry #[industryid]']);
-				$map_descriptor.='</a></td>'."\n";
-				$map_descriptor.='<td>'.$quantity.'</td>'."\n";
-				$map_descriptor.='</tr>'."\n";
-			}
-		}
+        foreach($item_consumed_by[$id] as $industrie_path=>$id_list)
+        {
+            foreach($id_list as $industry_id=>$quantity)
+            {
+                if(isset($industrie_meta[$industrie_path][$industry_id]))
+                {
+                    $map_descriptor.='<tr class="value">'."\n";
+                    if($industrie_path=='')
+                    {
+                        $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['industries/'].$industry_id.'.html">'."\n";
+                        $map_descriptor.=str_replace('[industryid]',$industry_id,$translation_list[$current_lang]['Industry #[industryid]']);
+                    }
+                    else
+                    {
+                        $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['industries/'].$industrie_path.'/'.$industry_id.'.html">'."\n";
+                        $map_descriptor.=str_replace('[industryid]',$industry_id,$translation_list[$current_lang]['Industry #[industryid]']);
+                    }
+                    $map_descriptor.='</a></td>'."\n";
+                    $map_descriptor.='<td>'.$quantity.'</td>'."\n";
+                    $map_descriptor.='</tr>'."\n";
+                }
+            }
+        }
 		$map_descriptor.='<tr>
 			<td colspan="2" class="item_list_endline item_list_title_type_normal"></td>
 		</tr>
@@ -729,17 +740,28 @@ foreach($item_meta as $id=>$item)
 			<th>'.$translation_list[$current_lang]['Product of the industry'].'</th>
 			<th>'.$translation_list[$current_lang]['Quantity'].'</th>
 		</tr>'."\n";
-		foreach($item_produced_by[$id] as $industry_id=>$quantity)
+		foreach($item_produced_by[$id] as $industrie_path=>$id_list)
 		{
-			if(isset($industrie_meta[$industry_id]))
-			{
-				$map_descriptor.='<tr class="value">'."\n";
-				$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['industries/'].$industry_id.'.html">'."\n";
-				$map_descriptor.=str_replace('[industryid]',$industry_id,$translation_list[$current_lang]['Industry #[industryid]']);
-				$map_descriptor.='</a></td>'."\n";
-				$map_descriptor.='<td>'.$quantity.'</td>'."\n";
-				$map_descriptor.='</tr>'."\n";
-			}
+            foreach($id_list as $industry_id=>$quantity)
+            {
+                if(isset($industrie_meta[$industrie_path][$industry_id]))
+                {
+                    $map_descriptor.='<tr class="value">'."\n";
+                    if($industrie_path=='')
+                    {
+                        $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['industries/'].$industry_id.'.html">'."\n";
+                        $map_descriptor.=str_replace('[industryid]',$industry_id,$translation_list[$current_lang]['Industry #[industryid]']);
+                    }
+                    else
+                    {
+                        $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['industries/'].$industrie_path.'/'.$industry_id.'.html">'."\n";
+                        $map_descriptor.=str_replace('[industryid]',$industry_id,$translation_list[$current_lang]['Industry #[industryid]']);
+                    }
+                    $map_descriptor.='</a></td>'."\n";
+                    $map_descriptor.='<td>'.$quantity.'</td>'."\n";
+                    $map_descriptor.='</tr>'."\n";
+                }
+            }
 		}
 		$map_descriptor.='<tr>
 			<td colspan="2" class="item_list_endline item_list_title_type_normal"></td>

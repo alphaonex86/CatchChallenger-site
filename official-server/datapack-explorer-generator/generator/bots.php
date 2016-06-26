@@ -364,7 +364,7 @@ foreach($bot_list as $bot_id=>$bot)
 				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">'.$translation_list[$current_lang]['Industry'].'</div>
 				<center><div style="background-position:0px -32px;" class="flags flags16"></div></center>
 				<div class="value">'."\n";
-                if(!isset($industrie_meta[$step['industry']]))
+                if(!isset($industrie_meta[$maindatapackcode][$step['industry']]) && !isset($industrie_meta[''][$step['industry']]))
                 {
                     $map_descriptor.='Industry '.$step['industry'].' not found for bot '.$bot_id.'!</td>'."\n";
                     echo 'Industry '.$step['industry'].' not found for bot '.$bot_id.'!'."\n";
@@ -377,10 +377,16 @@ foreach($bot_list as $bot_id=>$bot)
                         <th>Resources</th>
                         <th>Products</th>
                     </tr>'."\n";
-                    $industry=$industrie_meta[$step['industry']];
+                    if(!isset($industrie_meta[$maindatapackcode][$step['industry']]))
+                        $industry=$industrie_meta[''][$step['industry']];
+                    else
+                        $industry=$industrie_meta[$maindatapackcode][$step['industry']];
                     $map_descriptor.='<tr class="value">'."\n";
                     $map_descriptor.='<td>'."\n";
-                    $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['industries/'].$step['industry'].'.html">#'.$step['industry'].'</a>'."\n";
+                    if(!isset($industrie_meta[$maindatapackcode][$step['industry']]))
+                        $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['industries/'].$step['industry'].'.html">#'.$step['industry'].'</a>'."\n";
+                    else
+                        $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['industries/'].$maindatapackcode.'/'.$step['industry'].'.html">#'.$step['industry'].'</a>'."\n";
                     $map_descriptor.='</td>'."\n";
                     $map_descriptor.='<td>'."\n";
                     foreach($industry['resources'] as $resources)

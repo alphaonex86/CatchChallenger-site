@@ -65,5 +65,6 @@ while (false !== ($maindatapackcode = readdir($dh)))
     }
 }
 closedir($dh);
+
 ksort($shop_meta);
 ksort($item_to_shop);

@@ -838,9 +838,9 @@ foreach($map_list as $map)
                         {
                             $map_descriptor.='<td><center>'.$translation_list[$current_lang]['Industry'].'<div style="background-position:0px -32px;" class="flags flags16"></div></center></td><td>'."\n";
 
-                            if(!isset($industrie_meta[$step['industry']]))
+                            if(!isset($industrie_meta[$maindatapackcode][$step['industry']]) && !isset($industrie_meta[''][$step['industry']]))
                             {
-                                $map_descriptor.='Industry '.$step['industry'].' not found for map '.$bot_id.'!</td>'."\n";
+                                $map_descriptor.='Industry '.$step['industry'].' not found for bot '.$bot_id.'!</td>'."\n";
                                 echo 'Industry '.$step['industry'].' not found for map '.$bot_id.'!'."\n";
                             }
                             else
@@ -851,10 +851,17 @@ foreach($map_list as $map)
                                     <th>'.$translation_list[$current_lang]['Resources'].'</th>
                                     <th>'.$translation_list[$current_lang]['Products'].'</th>
                                 </tr>'."\n";
-                                $industry=$industrie_meta[$step['industry']];
+                                if(isset($industrie_meta[$maindatapackcode][$step['industry']]))
+                                    $industry=$industrie_meta[$maindatapackcode][$step['industry']];
+                                else
+                                    $industry=$industrie_meta[''][$step['industry']];
                                 $map_descriptor.='<tr class="value">'."\n";
                                 $map_descriptor.='<td>'."\n";
-                                $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['industries/'].$step['industry'].'.html">#'.$step['industry'].'</a>'."\n";
+                                
+                                if(isset($industrie_meta[$maindatapackcode][$step['industry']]))
+                                    $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['industries/'].$maindatapackcode.'/'.$step['industry'].'.html">#'.$step['industry'].'</a>'."\n";
+                                else
+                                    $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['industries/'].$step['industry'].'.html">#'.$step['industry'].'</a>'."\n";
                                 $map_descriptor.='</td>'."\n";
                                 $map_descriptor.='<td>'."\n";
                                 foreach($industry['resources'] as $resources)

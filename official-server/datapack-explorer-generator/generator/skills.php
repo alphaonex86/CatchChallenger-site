@@ -15,6 +15,7 @@ foreach($skill_meta as $skill_id=>$skill)
 
 foreach($skill_meta as $skill_id=>$skill)
 {
+    $skill_monster_duplicate=array();
 	if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['monsters/']))
 		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['monsters/']);
 	if(!is_dir($datapack_explorer_local_path.'monsters/skills/'))
@@ -146,8 +147,9 @@ foreach($skill_meta as $skill_id=>$skill)
 			}
 			foreach($monster_list_content as $monster)
 			{
-				if(isset($monster_meta[$monster]))
+				if(isset($monster_meta[$monster]) && !in_array($monster,$skill_monster_duplicate))
 				{
+                    $skill_monster_duplicate[]=$monster;
 					$name=$monster_meta[$monster]['name'][$current_lang];
 					$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
 					$map_descriptor.='<tr class="value">

@@ -205,9 +205,9 @@ foreach($industry_list as $id=>$industry)
                 {
                     $current_lang=$wikivars2['lang'];
                     if($industrie_path=='')
-                        $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Industries:'].str_replace('[id]',$id,$translation_list[$current_lang]['Industry [id]']).']]'."\n";
+                        $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Industries:'].$id.']]'."\n";
                     else
-                        $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Industries:'].$industrie_path.'/'.str_replace('[id]',$id,$translation_list[$current_lang]['Industry [id]']).']]'."\n";
+                        $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Industries:'].$industrie_path.'/'.$id.']]'."\n";
                 }
             if($industrie_path=='')
                 savewikipage('Template:industry_'.$id.'_LANG',$lang_template,false);
@@ -226,9 +226,9 @@ foreach($industry_list as $id=>$industry)
         else
             $map_descriptor.='{{Template:industry_'.$industrie_path.'-'.$id.'}}'."\n";
         if($industrie_path=='')
-            savewikipage($translation_list[$current_lang]['Industries:'].str_replace('[id]',$id,$translation_list[$current_lang]['Industry [id]']),$map_descriptor,!$wikivars['generatefullpage']);
+            savewikipage($translation_list[$current_lang]['Industries:'].$id,$map_descriptor,!$wikivars['generatefullpage']);
         else
-            savewikipage($translation_list[$current_lang]['Industries:'].$industrie_path.'/'.str_replace('[id]',$id,$translation_list[$current_lang]['Industry [id]']),$map_descriptor,!$wikivars['generatefullpage']);
+            savewikipage($translation_list[$current_lang]['Industries:'].$industrie_path.'/'.$id,$map_descriptor,!$wikivars['generatefullpage']);
     }
 }
 

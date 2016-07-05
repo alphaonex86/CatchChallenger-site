@@ -32,6 +32,11 @@ function htmlToWiki($content)
         $link=str_replace($translation_list[$current_lang]['items/'],$translation_list[$current_lang]['Items:'],$link);
         $link=str_replace($translation_list[$current_lang]['zones/'],$translation_list[$current_lang]['Zones:'],$link);
         $link=str_replace('.html','',$link);
+        $link=str_replace(' ','-',$link);
+        if(preg_match('#^[a-z]+:#isU',$link))
+            $link=text_operation_lower_case_first_letter_upper($link);
+        else
+            $link=text_operation_lower_case($link);
         return '[['.$link.'|'.$title_clean.']]';
     },$content);
 }
@@ -39,7 +44,23 @@ function htmlToWiki($content)
 function savewikipage($page,$content,$createonly=false,$summary='')
 {
     global $pagetodointowiki,$pageintowikiduplicate,$base_datapack_site_http,$datapack_path_wikicache,$wikivars;
-    $page=str_replace('.html','',$page);
+    if(preg_match('#^[a-z]+:$#isU',$page))
+    {
+        debug_print_backtrace();
+        die('page name illegal '.$page."\n");
+    }
+    if(!preg_match('#^Template:#isU',$page))
+    {
+        $page=str_replace('.html','',$page);
+        $page=str_replace(' ','-',$page);
+        if(preg_match('#^[a-z]+:#isU',$page))
+            $page=text_operation_lower_case_first_letter_upper($page);
+        else
+            $page=text_operation_lower_case($page);
+    }
+    if(preg_match('#^[a-z]+:$#isU',$page))
+        die('page name destroyed '.$page."\n");
+
     if(in_array($page,$pageintowikiduplicate))
     {
         debug_print_backtrace();

@@ -92,7 +92,13 @@ foreach($temp_items as $item_file)
                 $temp_name=preg_replace('#^.*<name lang="'.$lang.'">([^<]+)</name>.*$#isU','$1',$entry);
                 $temp_name=str_replace('<![CDATA[','',str_replace(']]>','',$temp_name));
                 $temp_name=preg_replace("#[\n\r\t]+#is",'',$temp_name);
-                $name_in_other_lang[$lang]=$temp_name;
+                if(text_operation_do_for_url($temp_name)!='')
+                    $name_in_other_lang[$lang]=$temp_name;
+                else
+                {
+                    $temp_name=$name;
+                    $name_in_other_lang[$lang]=$name;
+                }
             }
             else
             {

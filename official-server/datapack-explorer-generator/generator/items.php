@@ -1022,9 +1022,9 @@ foreach($item_meta as $id=>$item)
                     $current_lang=$wikivars2['lang'];
                     $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Items:'].$item['name'][$current_lang].']]'."\n";
                 }
-            savewikipage('Template:tems/'.$id.'_LANG',$lang_template,false);$lang_template='';
+            savewikipage('Template:Items/'.$id.'_LANG',$lang_template,false);$lang_template='';
             $current_lang=$temp_current_lang;
-            $map_descriptor.='{{Template:tems/'.$id.'_LANG}}'."\n";
+            $map_descriptor.='{{Template:Items/'.$id.'_LANG}}'."\n";
         }
 
         $map_descriptor.='{{Template:Items/'.$id.'_HEADER}}'."\n";
@@ -1050,6 +1050,6 @@ foreach($item_meta as $id=>$item)
             print_r($item);
             exit;
         }
-        savewikipage($translation_list[$current_lang]['Items:'].$item['name'][$current_lang],$map_descriptor,!$wikivars['generatefullpage']);
+        savewikipage($translation_list[$current_lang]['Items:'].text_operation_do_for_url($item['name'][$current_lang]),$map_descriptor,!$wikivars['generatefullpage']);
     }
 }

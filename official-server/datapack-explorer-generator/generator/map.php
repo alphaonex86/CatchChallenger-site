@@ -1007,7 +1007,7 @@ foreach($map_list as $map)
                 if($wikivars2['lang']!=$temp_current_lang)
                 {
                     $current_lang=$wikivars2['lang'];
-                    $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Maps:'].map_to_wiki_name($map).']]'."\n";
+                    $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Maps:'].$map_html.']]'."\n";
                 }
             savewikipage('Template:Maps/'.$map_html.'_LANG',$lang_template,false);$lang_template='';
             $current_lang=$temp_current_lang;
@@ -1021,7 +1021,7 @@ foreach($map_list as $map)
             $map_descriptor.='{{Template:Maps/'.$map_html.'_MONSTER}}'."\n";
         if(isset($map_current_object['bots']) && count($map_current_object['bots'])>0)
             $map_descriptor.='{{Template:Maps/'.$map_html.'_BOT}}'."\n";
-        $savepagename=$translation_list[$current_lang]['Maps:'].map_to_wiki_name($map);
+        $savepagename=$translation_list[$current_lang]['Maps:'].$map_html;
         $savepagecontent=$map_descriptor;
         $savepagegeneratefullpage=!$wikivars['generatefullpage'];
         $count_time[6]+=microtime(true)-$temp_time_start;

@@ -254,7 +254,7 @@ foreach($type_meta as $type=>$type_content)
         $map_descriptor.='{{Template:'.$base_template.'_HEADER}}'."\n";
         if(isset($type_to_monster[$type]) && count($type_to_monster[$type])>0)
             $map_descriptor.='{{Template:'.$base_template.'_MONSTERS}}'."\n";
-        savewikipage($translation_list[$current_lang]['Monsters type:'].$type_content['name'][$current_lang],$map_descriptor,!$wikivars['generatefullpage']);
+        savewikipage($translation_list[$current_lang]['Monsters:'].'type-'.$type_content['name'][$current_lang],$map_descriptor,!$wikivars['generatefullpage']);
     }
 }
 

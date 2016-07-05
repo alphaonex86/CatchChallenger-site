@@ -63,7 +63,7 @@ foreach($quest_list as $id=>$quest)
             $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].$maindatapackcode.'/'.text_operation_do_for_url($final_url_name).'.html" title="'.$final_name.'">'.$final_name;
             if(isset($bot_id_to_map[$maindatapackcode][$bot_id]))
             {
-                $entry=$bot_id_to_map[$maindatapackcode][$bot_id];
+                $entry=$bot_id_to_map[$bot_id][$maindatapackcode]['map'];
                 if(isset($maps_list[$maindatapackcode][$entry]))
                 {
                     if(isset($zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$entry]['zone']]))
@@ -374,7 +374,7 @@ foreach($quest_list as $id=>$quest)
                 if($wikivars2['lang']!=$temp_current_lang)
                 {
                     $current_lang=$wikivars2['lang'];
-                    $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Quests:'].$id.'_'.$quest['name'][$current_lang].']]'."\n";
+                    $lang_template.='[['.$current_lang.':'.$translation_list[$current_lang]['Quests:'].$id.'-'.$quest['name'][$current_lang].']]'."\n";
                 }
             savewikipage('Template:'.$maindatapackcode.'_quest_'.$id.'_LANG',$lang_template,false);$lang_template='';
             $current_lang=$temp_current_lang;
@@ -390,7 +390,7 @@ foreach($quest_list as $id=>$quest)
             $map_descriptor.='{{Template:'.$maindatapackcode.'_quest_'.$id.'_STEPS}}'."\n";
         if(count($quest['rewards'])>0)
             $map_descriptor.='{{Template:'.$maindatapackcode.'_quest_'.$id.'_REWARDS}}'."\n";
-        savewikipage($translation_list[$current_lang]['Quests:'].$maindatapackcode.'/'.$id.'_'.$quest['name'][$current_lang],$map_descriptor,!$wikivars['generatefullpage']);
+        savewikipage($translation_list[$current_lang]['Quests:'].$maindatapackcode.'/'.$id.'-'.text_operation_do_for_url($quest['name'][$current_lang]),$map_descriptor,!$wikivars['generatefullpage']);
     }
 }
 

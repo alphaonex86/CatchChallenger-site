@@ -216,7 +216,7 @@ foreach($skill_meta as $skill_id=>$skill)
         $content=str_replace('${CONTENT}',$map_descriptor,$content);
         $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
         $content=clean_html($content);
-        $filedestination=$datapack_explorer_local_path.$base_datapack_explorer_site_path.$translation_list[$current_lang]['skills/'].text_operation_do_for_url($skill['name'][$current_lang]).'.html';
+        $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['skills/'].text_operation_do_for_url($skill['name'][$current_lang]).'.html';
         if(file_exists($filedestination))
             die('The file already exists: '.$filedestination);
         filewrite($filedestination,$content);

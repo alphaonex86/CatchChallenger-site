@@ -28,7 +28,9 @@ foreach($plant_meta as $id=>$plant)
     $plant_count++;
     if(isset($item_meta[$plant['itemUsed']]))
     {
-        $link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$plant['itemUsed']]['name'][$current_lang]).'.html';
+        $link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$plant['itemUsed']]['name'][$current_lang]);
+        if(!$wikimode)
+            $link.='.html';
         $name=$item_meta[$plant['itemUsed']]['name'][$current_lang];
         if($item_meta[$plant['itemUsed']]['image']!='' && file_exists($datapack_path.'items/'.$item_meta[$plant['itemUsed']]['image']))
             $image=$base_datapack_site_path.'/items/'.$item_meta[$plant['itemUsed']]['image'];

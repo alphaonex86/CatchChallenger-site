@@ -164,7 +164,9 @@ foreach($type_meta as $type=>$type_content)
 				{
                     $typetomonster_count++;
 					$name=$monster_meta[$monster]['name'][$current_lang];
-					$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
+					$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name);
+                    if(!$wikimode)
+                        $link.='.html';
 					$map_descriptor.='<tr class="value">
 						<td>'."\n";
 						if(file_exists($datapack_path.'monsters/'.$monster.'/small.png'))

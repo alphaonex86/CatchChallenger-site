@@ -18,8 +18,8 @@ foreach($skill_meta as $skill_id=>$skill)
     $skill_monster_duplicate=array();
 	if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['monsters/']))
 		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['monsters/']);
-	if(!is_dir($datapack_explorer_local_path.'monsters/skills/'))
-		mkdir($datapack_explorer_local_path.'monsters/skills/');
+	if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['skills/']))
+		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['skills/']);
 	$map_descriptor='';
 
 	$type=$skill['type'];
@@ -107,7 +107,7 @@ foreach($skill_meta as $skill_id=>$skill)
 					else
 						$map_descriptor.='&nbsp;'."\n";
 					$map_descriptor.='</td>'."\n";
-					$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'monsters/buffs/'.text_operation_do_for_url($buff_meta[$buff_id]['name'][$current_lang]).'.html">'.$buff_meta[$buff_id]['name'][$current_lang].'</a></td>'."\n";
+					$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['buffs/'].text_operation_do_for_url($buff_meta[$buff_id]['name'][$current_lang]).'.html">'.$buff_meta[$buff_id]['name'][$current_lang].'</a></td>'."\n";
 					$map_descriptor.='<td>'.$buff['success'].'%</td>'."\n";
 					$map_descriptor.='</tr>'."\n";
 				}
@@ -151,7 +151,9 @@ foreach($skill_meta as $skill_id=>$skill)
 				{
                     $skill_monster_duplicate[]=$monster;
 					$name=$monster_meta[$monster]['name'][$current_lang];
-					$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
+					$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name);
+                    if(!$wikimode)
+                        $link.='.html';
 					$map_descriptor.='<tr class="value">
 						<td>'."\n";
 						if(file_exists($datapack_path.'monsters/'.$monster.'/small.png'))
@@ -214,7 +216,7 @@ foreach($skill_meta as $skill_id=>$skill)
         $content=str_replace('${CONTENT}',$map_descriptor,$content);
         $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
         $content=clean_html($content);
-        $filedestination=$datapack_explorer_local_path.'monsters/skills/'.text_operation_do_for_url($skill['name'][$current_lang]).'.html';
+        $filedestination=$datapack_explorer_local_path.$base_datapack_explorer_site_path.$translation_list[$current_lang]['skills/'].text_operation_do_for_url($skill['name'][$current_lang]).'.html';
         if(file_exists($filedestination))
             die('The file already exists: '.$filedestination);
         filewrite($filedestination,$content);
@@ -261,7 +263,7 @@ foreach($skill_type_to_id as $type=>$id_list)
         if(count($skill['level_list'])>0)
         {
             $map_descriptor.='<tr class="value">'."\n";
-            $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'monsters/skills/'.text_operation_do_for_url($skill['name'][$current_lang]).'.html">'.$skill['name'][$current_lang].'</a></td>'."\n";
+            $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['skills/'].text_operation_do_for_url($skill['name'][$current_lang]).'.html">'.$skill['name'][$current_lang].'</a></td>'."\n";
             if(isset($type_meta[$skill['type']]))
                 $map_descriptor.='<td><span class="type_label type_label_'.$skill['type'].'"><a href="'.$base_datapack_explorer_site_path.'monsters/type-'.$skill['type'].'.html">'.ucfirst($type_meta[$skill['type']]['name'][$current_lang]).'</a></span></td>'."\n";
             else

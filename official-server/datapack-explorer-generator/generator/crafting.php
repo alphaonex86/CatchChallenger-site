@@ -15,7 +15,9 @@ foreach($crafting_meta as $id=>$crafting)
 {
 	if(isset($item_meta[$crafting['itemToLearn']]))
 	{
-		$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$crafting['itemToLearn']]['name'][$current_lang]).'.html';
+		$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$crafting['itemToLearn']]['name'][$current_lang]);
+        if(!$wikimode)
+            $link.='.html';
 		//$link=$base_datapack_explorer_site_path.'crafting/'.text_operation_do_for_url($item_meta[$crafting['itemToLearn']]['name'][$current_lang]).'.html';
 		$name=$item_meta[$crafting['itemToLearn']]['name'][$current_lang];
 		if($item_meta[$crafting['itemToLearn']]['image']!='')

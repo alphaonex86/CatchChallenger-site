@@ -10,10 +10,36 @@ if(!isset($pagetodointowiki))
 if(!isset($pageintowikiduplicate))
     $pageintowikiduplicate=array();
 
+function htmlToWiki($content)
+{
+    return preg_replace_callback('#<a href="([^"]+)"[^>]*>(.*)</a>#isU',function ($matches)
+    {
+        global $base_datapack_explorer_site_path,$translation_list,$current_lang;
+        $title_clean=$matches[2];
+        /*$title_clean=preg_replace("#^\n+([^<])#isU",'$1',$title_clean);
+        $title_clean=preg_replace("#([^>])\n+$#isU",'$1',$title_clean);*/
+        $title_clean=str_replace("\n",'',$title_clean);
+        $link=str_replace($base_datapack_explorer_site_path,'',$matches[1]);
+        if($title_clean=='')
+            return '';
+        $link=str_replace($translation_list[$current_lang]['bots/'],$translation_list[$current_lang]['Bots:'],$link);
+        $link=str_replace($translation_list[$current_lang]['maps/'],$translation_list[$current_lang]['Maps:'],$link);
+        $link=str_replace($translation_list[$current_lang]['industries/'],$translation_list[$current_lang]['Industries:'],$link);
+        $link=str_replace($translation_list[$current_lang]['quests/'],$translation_list[$current_lang]['Quests:'],$link);
+        $link=str_replace($translation_list[$current_lang]['monsters/'],$translation_list[$current_lang]['Monsters:'],$link);
+        $link=str_replace($translation_list[$current_lang]['skills/'],$translation_list[$current_lang]['Skills:'],$link);
+        $link=str_replace($translation_list[$current_lang]['buffs/'],$translation_list[$current_lang]['Buffs:'],$link);
+        $link=str_replace($translation_list[$current_lang]['items/'],$translation_list[$current_lang]['Items:'],$link);
+        $link=str_replace($translation_list[$current_lang]['zones/'],$translation_list[$current_lang]['Zones:'],$link);
+        $link=str_replace('.html','',$link);
+        return '[['.$link.'|'.$title_clean.']]';
+    },$content);
+}
 
 function savewikipage($page,$content,$createonly=false,$summary='')
 {
     global $pagetodointowiki,$pageintowikiduplicate,$base_datapack_site_http,$datapack_path_wikicache,$wikivars;
+    $page=str_replace('.html','',$page);
     if(in_array($page,$pageintowikiduplicate))
     {
         debug_print_backtrace();
@@ -27,6 +53,15 @@ function savewikipage($page,$content,$createonly=false,$summary='')
         $pagetodointowiki=array();
         return;
     }
+    if($content=='')
+    {
+        die('Skip an empty content: '.$page."\n");
+        return;
+    }
+    $contentparsed=htmlToWiki($content);
+    if($content=='')
+        die('htmlToWiki have destroy the content: '.$page.': '.$content."\n");
+    $content=$contentparsed;
     $hashpage=hash('sha256',$page);
     $final_cache_folder=$wikivars['cachepath'].substr($hashpage,0,2).'/';
     $final_cache_file=substr($hashpage,2,strlen($hashpage)-2);
@@ -61,6 +96,8 @@ function savewikipagereal()
         $createonly=$contententry[2];
         $summary=$contententry[3];
         /* edit page */
+        if($content=='')
+            die('Try send an empty content: '.$page."\n");
         $postdata='action=edit&format=php&title='.urlencode($page).'&text='.urlencode($content).'&token='.urlencode($finalwikitoken);
         if($summary!='')
             $postdata.='&summary='.urlencode($summary);

@@ -252,6 +252,8 @@ $translation_list[$temp_lang]['monsters/']='monstres/';
 $translation_list[$temp_lang]['items/']='items/';
 $translation_list[$temp_lang]['zones/']='zones/';
 $translation_list[$temp_lang]['bots/']='bots/';
+$translation_list[$temp_lang]['buffs/']='buffs/';
+$translation_list[$temp_lang]['skills/']='attaques/';
 //pages
 $translation_list[$temp_lang]['bots.html']='bots.html';
 $translation_list[$temp_lang]['buffs.html']='buffs.html';

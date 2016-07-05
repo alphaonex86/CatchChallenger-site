@@ -191,7 +191,9 @@ foreach($monster_meta as $id=>$monster)
 		{
 			if(isset($item_meta[$drop['item']]))
 			{
-				$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$drop['item']]['name'][$current_lang]).'.html';
+				$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$drop['item']]['name'][$current_lang]);
+                if(!$wikimode)
+                    $link.='.html';
 				$name=$item_meta[$drop['item']]['name'][$current_lang];
 				if($item_meta[$drop['item']]['image']!='')
 					$image=$base_datapack_site_path.'/items/'.$item_meta[$drop['item']]['image'];
@@ -266,7 +268,7 @@ foreach($monster_meta as $id=>$monster)
 					else
 						$map_descriptor.=$level;
 					$map_descriptor.='</td>'."\n";
-					$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'monsters/skills/'.text_operation_do_for_url($skill_meta[$attack['id']]['name'][$current_lang]).'.html">'.$skill_meta[$attack['id']]['name'][$current_lang];
+					$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['skills/'].text_operation_do_for_url($skill_meta[$attack['id']]['name'][$current_lang]).'.html">'.$skill_meta[$attack['id']]['name'][$current_lang];
 					if($attack['attack_level']>1)
 						$map_descriptor.=' at level '.$attack['attack_level'];
 					$map_descriptor.='</a></td>'."\n";
@@ -328,7 +330,9 @@ foreach($monster_meta as $id=>$monster)
 					$map_descriptor.='<tr class="value">'."\n";
 					if(isset($item_meta[$item]))
 					{
-						$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
+						$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]);
+                        if(!$wikimode)
+                            $link.='.html';
 						$name=$item_meta[$item]['name'][$current_lang];
 						if($item_meta[$item]['image']!='')
 							$image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
@@ -362,7 +366,7 @@ foreach($monster_meta as $id=>$monster)
 					if($link!='')
 						$map_descriptor.='</a>'."\n";
 					$map_descriptor.='</td>'."\n";
-					$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'monsters/skills/'.text_operation_do_for_url($skill_meta[$attack['id']]['name'][$current_lang]).'.html">'.$skill_meta[$attack['id']]['name'][$current_lang];
+					$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['skills/'].text_operation_do_for_url($skill_meta[$attack['id']]['name'][$current_lang]).'.html">'.$skill_meta[$attack['id']]['name'][$current_lang];
 					if($attack['attack_level']>1)
 						$map_descriptor.=' at level '.$attack['attack_level'];
 					$map_descriptor.='</a></td>'."\n";
@@ -401,7 +405,9 @@ foreach($monster_meta as $id=>$monster)
 			$map_descriptor.='<tr class="value"><td>'."\n";
 			if(isset($item_meta[$quests_monsters_details['item']]))
 			{
-				$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$quests_monsters_details['item']]['name'][$current_lang]).'.html';
+				$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$quests_monsters_details['item']]['name'][$current_lang]);
+                if(!$wikimode)
+                    $link.='.html';
 				$name=$item_meta[$quests_monsters_details['item']]['name'][$current_lang];
 				if($item_meta[$quests_monsters_details['item']]['image']!='')
 					$image=$base_datapack_site_path.'/items/'.$item_meta[$quests_monsters_details['item']]['image'];
@@ -479,7 +485,9 @@ foreach($monster_meta as $id=>$monster)
 				{
 					if(isset($item_meta[$evolution['level']]))
 					{
-						$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$evolution['level']]['name'][$current_lang]).'.html';
+						$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$evolution['level']]['name'][$current_lang]);
+                        if(!$wikimode)
+                            $link.='.html';
 						$name=$item_meta[$evolution['level']]['name'][$current_lang];
 						$map_descriptor.='<tr><td class="evolution_type">'.$translation_list[$current_lang]['Evolve with'].'<br /><a href="'.$link.'" title="'.$name.'">'."\n";
 						if($item_meta[$evolution['level']]['image']!='')
@@ -529,7 +537,9 @@ foreach($monster_meta as $id=>$monster)
 				{
 					if(isset($item_meta[$evolution['level']]))
 					{
-						$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$evolution['level']]['name'][$current_lang]).'.html';
+						$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$evolution['level']]['name'][$current_lang]);
+                        if(!$wikimode)
+                            $link.='.html';
 						$name=$item_meta[$evolution['level']]['name'][$current_lang];
 						$map_descriptor.='<tr><td class="evolution_type">'.$translation_list[$current_lang]['Evolve with'].'<br /><a href="'.$link.'" title="'.$name.'">'."\n";
 						if($item_meta[$evolution['level']]['image']!='')
@@ -601,7 +611,9 @@ foreach($monster_meta as $id=>$monster)
             $image='';
             if(isset($layer_meta[$monsterType_top]['item']) && $item_meta[$layer_meta[$monsterType_top]['item']])
             {
-                $link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$layer_meta[$monsterType_top]['item']]['name'][$current_lang]).'.html';
+                $link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$layer_meta[$monsterType_top]['item']]['name'][$current_lang]);
+                if(!$wikimode)
+                    $link.='.html';
                 $name=$item_meta[$layer_meta[$monsterType_top]['item']]['name'][$current_lang];
                 if($item_meta[$layer_meta[$monsterType_top]['item']]['image']!='')
                     $image=$base_datapack_site_path.'/items/'.$item_meta[$layer_meta[$monsterType_top]['item']]['image'];
@@ -745,7 +757,9 @@ foreach($monster_meta as $id=>$monster)
     $monster_count++;
 
 	$name=$monster['name'][$current_lang];
-	$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
+	$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name);
+    if(!$wikimode)
+        $link.='.html';
 	$map_descriptor.='<tr class="value">'."\n";
 	$map_descriptor.='<td>'."\n";
 	if(file_exists($datapack_path.'monsters/'.$id.'/small.png'))

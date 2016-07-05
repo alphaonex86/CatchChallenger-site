@@ -190,7 +190,11 @@ foreach($industry_list as $id=>$industry)
     }
     else
     {
-        savewikipage('Template:industry_'.$id,$map_descriptor,false);$map_descriptor='';
+        if($industrie_path=='')
+            savewikipage('Template:industry_'.$id,$map_descriptor,false);
+        else
+            savewikipage('Template:industry_'.$industrie_path.'-'.$id,$map_descriptor,false);
+        $map_descriptor='';
 
         $lang_template='';
         if(count($wikivarsapp)>1)
@@ -254,7 +258,9 @@ foreach($industry_list as $id=>$industry)
         $quantity=$resources['quantity'];
 		if(isset($item_meta[$item]))
 		{
-			$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
+			$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]);
+            if(!$wikimode)
+                $link.='.html';
 			$name=$item_meta[$item]['name'][$current_lang];
 			if($item_meta[$item]['image']!='')
 				$image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
@@ -289,7 +295,9 @@ foreach($industry_list as $id=>$industry)
         $quantity=$products['quantity'];
 		if(isset($item_meta[$item]))
 		{
-			$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
+			$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]);
+            if(!$wikimode)
+                $link.='.html';
 			$name=$item_meta[$item]['name'][$current_lang];
 			if($item_meta[$item]['image']!='')
 				$image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];

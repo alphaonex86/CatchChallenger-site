@@ -6,8 +6,8 @@ foreach($buff_meta as $buff_id=>$buff)
 {
 	if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['monsters/']))
 		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['monsters/']);
-	if(!is_dir($datapack_explorer_local_path.'monsters/buffs/'))
-		mkdir($datapack_explorer_local_path.'monsters/buffs/');
+	if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['buffs/']))
+		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['buffs/']);
 	$map_descriptor='';
 
 	$map_descriptor.='<div class="map monster_type_normal">'."\n";
@@ -79,7 +79,9 @@ foreach($buff_meta as $buff_id=>$buff)
 				if(isset($monster_meta[$monster]))
 				{
 					$name=$monster_meta[$monster]['name'][$current_lang];
-					$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name).'.html';
+					$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name);
+                    if(!$wikimode)
+                        $link.='.html';
 					$map_descriptor.='<tr class="value">
 						<td>'."\n";
 						if(file_exists($datapack_path.'monsters/'.$monster.'/small.png'))
@@ -117,7 +119,7 @@ foreach($buff_meta as $buff_id=>$buff)
         $content=str_replace('${CONTENT}',$map_descriptor,$content);
         $content=str_replace('${AUTOGEN}',$automaticallygen,$content);
         $content=clean_html($content);
-        $filedestination=$datapack_explorer_local_path.'monsters/buffs/'.text_operation_do_for_url($buff['name'][$current_lang]).'.html';
+        $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['buffs/'].text_operation_do_for_url($buff['name'][$current_lang]).'.html';
         if(file_exists($filedestination))
             die('The file already exists: '.$filedestination);
         filewrite($filedestination,$content);
@@ -160,7 +162,7 @@ foreach($buff_meta as $buff_id=>$buff)
 	else
 		$map_descriptor.='&nbsp;'."\n";
 	$map_descriptor.='</td>'."\n";
-	$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.'monsters/buffs/'.text_operation_do_for_url($buff['name'][$current_lang]).'.html">'.$buff['name'][$current_lang].'</a></td>'."\n";
+	$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['buffs/'].text_operation_do_for_url($buff['name'][$current_lang]).'.html">'.$buff['name'][$current_lang].'</a></td>'."\n";
 	$map_descriptor.='</tr>'."\n";
 }
 $map_descriptor.='<tr>

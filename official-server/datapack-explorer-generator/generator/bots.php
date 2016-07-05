@@ -155,7 +155,9 @@ foreach($bot_list as $bot_id=>$bot)
 						$map_descriptor.='<tr class="value">'."\n";
 						if(isset($item_meta[$item]))
 						{
-							$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
+							$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]);
+                            if(!$wikimode)
+                                $link.='.html';
 							$name=$item_meta[$item]['name'][$current_lang];
 							if($item_meta[$item]['image']!='')
 								$image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
@@ -220,7 +222,9 @@ foreach($bot_list as $bot_id=>$bot)
                         {
                             if(isset($item_meta[$item['item']]))
                             {
-                                $link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item['item']]['name'][$current_lang]).'.html';
+                                $link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item['item']]['name'][$current_lang]);
+                                if(!$wikimode)
+                                    $link.='.html';
                                 $name=$item_meta[$item['item']]['name'][$current_lang];
                                 if($item_meta[$item['item']]['image']!='')
                                     $image=$base_datapack_site_path.'/items/'.$item_meta[$item['item']]['image'];
@@ -395,7 +399,9 @@ foreach($bot_list as $bot_id=>$bot)
                         $quantity=$resources['quantity'];
                         if(isset($item_meta[$item]))
                         {
-                            $link_item=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
+                            $link_item=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]);
+                            if(!$wikimode)
+                                $link.='.html';
                             $name=$item_meta[$item]['name'][$current_lang];
                             if($item_meta[$item]['image']!='')
                                 $image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
@@ -430,7 +436,9 @@ foreach($bot_list as $bot_id=>$bot)
                         $quantity=$products['quantity'];
                         if(isset($item_meta[$item]))
                         {
-                            $link_item=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
+                            $link_item=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]);
+                            if(!$wikimode)
+                                $link.='.html';
                             $name=$item_meta[$item]['name'][$current_lang];
                             if($item_meta[$item]['image']!='')
                                 $image=$base_datapack_site_path.'/items/'.$item_meta[$item]['image'];
@@ -512,7 +520,7 @@ foreach($bot_list as $bot_id=>$bot)
 
         $link=bot_to_wiki_name($bot_id);
         $map_descriptor.='{{Template:'.$maindatapackcode.'-bot'.$bot_id.'}}'."\n";
-        savewikipage($translation_list[$current_lang]['Bots:'].$maindatapackcode.'-'.$link,$map_descriptor,!$wikivars['generatefullpage']);
+        savewikipage($translation_list[$current_lang]['Bots:'].$maindatapackcode.'/'.$link,$map_descriptor,!$wikivars['generatefullpage']);
     }
 }
 

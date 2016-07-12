@@ -9,6 +9,8 @@ else
 if($postgres_link_login===FALSE)
     $is_up=false;
 
+$is_up=false;
+
 require_once 'libs/class.smtp.php';
 require_once 'libs/class.phpmailer.php';
 
@@ -101,12 +103,12 @@ function send_change_password($id)
 					{
 						if(isset($_POST['new_password']))
 						{
-							$reply = pg_query('SELECT * FROM account WHERE id='.addslashes($_GET['id'])) or die(pg_last_error());
+							$reply = pg_query('SELECT encode(login,\'hex\') as login,encode(password,\'hex\') as password,date,email FROM account WHERE id='.addslashes($_GET['id'])) or die(pg_last_error());
 							if($data = pg_fetch_array($reply))
 							{
 								if($data['password']==$_GET['oldpass'])
 								{
-									pg_query('UPDATE account SET password=\''.hash("sha224",$_POST['new_password'].'AwjDvPIzfJPTTgHs').'\' WHERE id='.addslashes($_GET['id'])) or die(pg_last_error());
+									pg_query('UPDATE account SET password=decode(\''.hash("sha224",$_POST['new_password'].'AwjDvPIzfJPTTgHs'.$_POST['login']).'\',\'hex\')\' WHERE id='.addslashes($_GET['id'])) or die(pg_last_error());
 									echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Password changed</b></span><br />';
 								}
 								else
@@ -125,7 +127,7 @@ function send_change_password($id)
 					{
 						if(isset($_POST['login_or_email']))
 						{
-							$reply = pg_query('SELECT * FROM account WHERE email=\''.addslashes($_POST['login_or_email']).'\'') or die(pg_last_error());
+							$reply = pg_query('SELECT encode(login,\'hex\') as login,encode(password,\'hex\') as password,date,email FROM account WHERE email=\''.addslashes($_POST['login_or_email']).'\'') or die(pg_last_error());
 							if($data = pg_fetch_array($reply))
 							{
 								if(send_change_password($data['id']))
@@ -136,7 +138,7 @@ function send_change_password($id)
 							else
 							{
                                 $login_hash=hash("sha224",hash("sha224",$_POST['login_or_email'].'RtR3bm9Z1DFMfAC3',true));
-								$reply = pg_query('SELECT * FROM account WHERE login=\''.addslashes($login_hash).'\'') or die(pg_last_error());
+								$reply = pg_query('SELECT encode(login,\'hex\') as login,encode(password,\'hex\') as password,date,email FROM account WHERE login=\''.addslashes($login_hash).'\'') or die(pg_last_error());
 								if($data = pg_fetch_array($reply))
 								{
 									if(send_change_password($data['id']))

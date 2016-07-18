@@ -5,9 +5,9 @@ if(!isset($datapackexplorergeneratorinclude))
 foreach($buff_meta as $buff_id=>$buff)
 {
 	if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['monsters/']))
-		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['monsters/']);
+		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['monsters/'],0777,true);
 	if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['buffs/']))
-		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['buffs/']);
+		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['buffs/'],0777,true);
 	$map_descriptor='';
 
 	$map_descriptor.='<div class="map monster_type_normal">'."\n";

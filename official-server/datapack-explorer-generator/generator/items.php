@@ -5,7 +5,7 @@ if(!isset($datapackexplorergeneratorinclude))
 foreach($item_meta as $id=>$item)
 {
 	if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['items/']))
-		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['items/']);
+		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['items/'],0777,true);
 	$map_descriptor='';
 
 	$map_descriptor.='<div class="map item_details">'."\n";

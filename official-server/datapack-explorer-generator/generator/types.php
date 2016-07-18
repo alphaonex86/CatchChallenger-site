@@ -5,7 +5,7 @@ if(!isset($datapackexplorergeneratorinclude))
 foreach($type_meta as $type=>$type_content)
 {
 	if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['monsters/']))
-		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['monsters/']);
+		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['monsters/'],0777,true);
 	$map_descriptor='';
 
 	$effectiveness_list=array();

@@ -8,12 +8,12 @@ foreach($industry_list as $id=>$industry)
     if($industrie_path=='')
     {
         if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['industries/']))
-            mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['industries/']);
+            mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['industries/'],0777,true);
     }
     else
     {
         if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['industries/'].$industrie_path.'/'))
-            mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['industries/'].$industrie_path.'/');
+            mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['industries/'].$industrie_path.'/',0777,true);
     }
 	$map_descriptor='';
 

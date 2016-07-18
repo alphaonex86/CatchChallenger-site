@@ -19,7 +19,7 @@ foreach($monster_meta as $id=>$monster)
 		}
 	}
 	if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['monsters/']))
-		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['monsters/']);
+		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['monsters/'],0777,true);
 	$map_descriptor='';
 
 	$effectiveness_list=array();

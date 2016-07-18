@@ -3,7 +3,7 @@ if(!isset($datapackexplorergeneratorinclude))
     die('abort into generator map preview'."\n");
 
 if(!is_dir($datapack_explorer_local_path.'maps/'))
-    if(!mkdir($datapack_explorer_local_path.'maps/'))
+    if(!mkdir($datapack_explorer_local_path.'maps/',0777,true))
         die('Unable to make: '.$datapack_explorer_local_path.'maps/');
 
 foreach($temp_maps as $maindatapackcode=>$map_list)

@@ -17,9 +17,9 @@ foreach($skill_meta as $skill_id=>$skill)
 {
     $skill_monster_duplicate=array();
 	if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['monsters/']))
-		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['monsters/']);
+		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['monsters/'],0777,true);
 	if(!is_dir($datapack_explorer_local_path.$translation_list[$current_lang]['skills/']))
-		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['skills/']);
+		mkdir($datapack_explorer_local_path.$translation_list[$current_lang]['skills/'],0777,true);
 	$map_descriptor='';
 
 	$type=$skill['type'];

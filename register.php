@@ -86,7 +86,7 @@ function send_mail($title,$text,$to,$type,$from)
                             if ($handle)
                             {
                                 while (($buffer = fgets($handle, 4096)) !== false) {
-                                    $arrayofpass[]=strtolower($buffer);
+                                    $arrayofpass[]=$buffer;
                                 }
                                 /*if (!feof($handle)) {
                                     echo "Error: unexpected fgets() fail\n";

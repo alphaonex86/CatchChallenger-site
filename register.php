@@ -86,14 +86,14 @@ function send_mail($title,$text,$to,$type,$from)
                             if ($handle)
                             {
                                 while (($buffer = fgets($handle, 4096)) !== false) {
-                                    $arrayofpass[]=$buffer;
+                                    $arrayofpass[]=strtolower($buffer);
                                 }
                                 /*if (!feof($handle)) {
                                     echo "Error: unexpected fgets() fail\n";
                                 }*/
                                 fclose($handle);
                             }
-                            if(in_array($_POST['password'],$arrayofpass))
+                            if(in_array(strtolower($_POST['password']),$arrayofpass))
                                 echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Your password is into the most common password, it need be unique</b></span><br />';
                             else if($_POST['password']==$_POST['login'])
                                 echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Your password can\'t be same as your login</b></span><br />';

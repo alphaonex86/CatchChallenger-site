@@ -72,7 +72,7 @@ if($scantype!="onlyfile")
     {
         $arr[]='datapack-list/main-'.$maincode.'.txt';
         $arr[]='pack/datapack-main-'.$maincode.'.tar.xz';
-        if($datapack_path.'/map/main/'.$maincode.'/sub/')
+        if(is_dir($datapack_path.'/map/main/'.$maincode.'/sub/'))
         {
             $subcodelist=giveDirList($datapack_path.'/map/main/'.$maincode.'/sub/');
             foreach($subcodelist as $subcode)

@@ -8,6 +8,7 @@ if (!function_exists('curl_init')){
 
 require '../config.php';
 $mirrorserverlisttemp=array();
+$arr=array();
 foreach($mirrorserverlist as $host)
     $mirrorserverlisttemp['servers'][$host]=array('state'=>'up');
 
@@ -84,81 +85,8 @@ if($scantype!="onlyfile")
     }
 }
 if($scantype!="onlytar")
-    $arr=listFolder($datapack_path);
+    $arr=array_merge($arr,listFolder($datapack_path));
 sort($arr);
-
-/*$curlmasterlist=array();
-$missingfilecache=array();
-foreach($arr as $file)
-{
-    if(is_file($datapack_path.$file))
-        $contentlocal=file_get_contents($datapack_path.$file);
-    if(isset($missingfilecache[$file]))
-        $contentlocal=$missingfilecache[$file];
-    else if(count($mirrorserverlisttemp)>0)
-    {
-        foreach($mirrorserverlisttemp as $server=>$content)
-        {
-            $contentlocal=file_get_contents($server.$file);
-            break;
-        }
-        if($contentlocal=='')
-        {
-            echo 'Primary mirror is wrong, file problem on: '.$server.$file."\n";
-            exit;
-        }
-        $missingfilecache[$file]=$contentlocal;
-    }
-    else
-        continue;
-    foreach($mirrorserverlisttemp as $server=>$content)
-    {
-        if(!isset($curlmasterlist[$server]['curlmaster']))
-            $curlmasterlist[$server]['curlmaster']=curl_multi_init();
-        if(!isset($mirrorserverlisttemp[$server]['time']))
-            $mirrorserverlisttemp[$server]['time']=0.0;
-        if($content['state']=='up')
-        {
-            $ch = curl_init();
-            curl_setopt($ch,CURLOPT_URL,$server.$file);
-            curl_setopt($ch, CURLOPT_HEADER,0);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT,10);
-            curl_setopt($ch, CURLOPT_TCP_NODELAY, 1); 
-            $time_start = microtime(true);
-            $contentremote = curl_exec($ch);
-            $time_end = microtime(true);
-            $time = $time_end - $time_start;
-            $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            $errno = curl_errno($ch);
-            curl_close($ch);
-            $mirrorserverlisttemp[$server]['time']+=$time;
-            
-            if($errno)
-            {
-                $error_message = curl_strerror($errno);
-                $mirrorserverlisttemp[$server]['state']='down';
-                $mirrorserverlisttemp[$server]['error']="cURL error ({$errno}):\n {$error_message}";
-                $mirrorserverlisttemp[$server]['file']=$server.$file;
-            }
-            else if($httpcode!=200)
-            {
-                $mirrorserverlisttemp[$server]['state']='corrupted';
-                $mirrorserverlisttemp[$server]['error']='http code: '.$httpcode;
-                $mirrorserverlisttemp[$server]['file']=$server.$file;
-            }
-            else
-            {
-                if($contentlocal!=$contentremote)
-                {
-                    $mirrorserverlisttemp[$server]['state']='corrupted';
-                    $mirrorserverlisttemp[$server]['error']='local and remote file are not same';
-                    $mirrorserverlisttemp[$server]['file']=$server.$file;
-                }
-            }
-        }
-    }
-}*/
 
 function flushcurlcall()
 {
@@ -211,12 +139,25 @@ function flushcurlcall()
                         $missingfilecache[$file]=$contentlocal;
                     }
                 }
-
+                
                 if($contentlocal!=$content)
                 {
                     $mirrorserverlisttemp['servers'][$server]['state']='corrupted';
-                    $mirrorserverlisttemp['servers'][$server]['error']='local and remote file are not same';
+                    $mirrorserverlisttemp['servers'][$server]['error']='local (sha256: '.hash('sha256',$contentlocal).') and remote file (sha256: '.hash('sha256',$content).') are not same';
                     $mirrorserverlisttemp['servers'][$server]['file']=$server.$file;
+                }
+                else
+                {
+                    $pos = strpos($file,'datapack-list/');
+                    if($pos !== false && $pos==0)
+                    {
+                        if(strpos($content,"\n-\n")===false)
+                        {
+                            $mirrorserverlisttemp['servers'][$server]['state']='corrupted';
+                            $mirrorserverlisttemp['servers'][$server]['error']='Don\'t have valid structure';
+                            $mirrorserverlisttemp['servers'][$server]['file']=$server.$file;
+                        }
+                    }
                 }
             }
         }

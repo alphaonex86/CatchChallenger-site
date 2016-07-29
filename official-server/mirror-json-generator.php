@@ -63,6 +63,8 @@ function listFolder($folder,$foldersuffix='')
 }
 if($scantype!="onlyfile")
 {
+    if(!is_dir($datapack_path.'map/main/'))
+        die($datapack_path.'map/main/ not found');
     $arr[]='datapack-list/base.txt';
     $arr[]='pack/datapack.tar.xz';
     $maincodelist=giveDirList($datapack_path.'map/main/');
@@ -70,11 +72,14 @@ if($scantype!="onlyfile")
     {
         $arr[]='datapack-list/main-'.$maincode.'.txt';
         $arr[]='pack/datapack-main-'.$maincode.'.tar.xz';
-        $subcodelist=giveDirList($datapack_path.'/map/main/'.$maincode.'/sub/');
-        foreach($subcodelist as $subcode)
+        if($datapack_path.'/map/main/'.$maincode.'/sub/')
         {
-            $arr[]='datapack-list/sub-'.$maincode.'-'.$subcode.'.txt';
-            $arr[]='pack/datapack-sub-'.$maincode.'-'.$subcode.'.tar.xz';
+            $subcodelist=giveDirList($datapack_path.'/map/main/'.$maincode.'/sub/');
+            foreach($subcodelist as $subcode)
+            {
+                $arr[]='datapack-list/sub-'.$maincode.'-'.$subcode.'.txt';
+                $arr[]='pack/datapack-sub-'.$maincode.'-'.$subcode.'.tar.xz';
+            }
         }
     }
 }

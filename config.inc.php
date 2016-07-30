@@ -15,7 +15,7 @@ $postgres_db_tree=array(
 );
 
 $loginserverlist=array(
-    array('host'=>'localhost','port'=>3306)
+    array('host'=>'localhost','port'=>3306,'step'=>'protocol'/*can be: connect, protocol (default)*/)
 );
 $mirrorserverlist=array(
     //the first is considered as the clean and refence version

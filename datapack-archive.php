@@ -2,8 +2,6 @@
 $cachebasepath='/tmp/';
 $cache=false;
 
-header('Content-type: application/x-xz');
-
 if(!is_dir($cachebasepath))
     mkdir($cachebasepath,0755,true);
 if(!isset($_GET['main']))
@@ -43,15 +41,39 @@ if(isset($argv))
             $_GET[$e[0]]=0;
     }
 
-if($cache)
-    if(file_exists($cachetar))
-        if(filemtime($cachetar)<=time() && filemtime($cachetar)>(time()-5*60))
+$file = fopen("/tmp/cc-gen-tar","w+");
+if(flock($file,LOCK_EX))
+{
+    if($cache)
+    {
+        if(file_exists($cachetar))
         {
-            echo file_get_contents($cachetar);
-            exit;
+            if(filemtime($cachetar)<=time() && filemtime($cachetar)>(time()-5*60))
+            {
+                header('Content-type: application/x-xz');
+                header('From-cache: yes');
+                echo file_get_contents($cachetar);
+                flock($file,LOCK_UN);
+                fclose($file);
+                exit;
+            }
+            else
+                header('From-cache: too old');
         }
+        else
+            header('From-cache: no file');
+    }
+    else
+        header('From-cache: not probed');
 
-exec('./datapack-archive.sh');
+    ob_start("callback");
+    @exec('./datapack-archive.sh');
+    ob_end_flush();
+    flock($file,LOCK_UN);
+    fclose($file);
+}
+else
+    die('Error locking file!');
 
 header('Content-type: application/x-xz');
 echo file_get_contents($cachetarxz);

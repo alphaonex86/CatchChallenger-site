@@ -142,8 +142,16 @@ function flushcurlcall()
                 
                 if($contentlocal!=$content)
                 {
+                    if(strlen($contentlocal)<200)
+                        $contentlocaltext=',content: '.$contentlocal;
+                    else
+                        $contentlocaltext='';
+                    if(strlen($content)<200)
+                        $contenttext=',content: '.$content;
+                    else
+                        $contenttext='';
                     $mirrorserverlisttemp['servers'][$server]['state']='corrupted';
-                    $mirrorserverlisttemp['servers'][$server]['error']='local (sha256: '.hash('sha256',$contentlocal).', size: '.strlen($contentlocal).') and remote file (sha256: '.hash('sha256',$content).', size: '.strlen($content).') are not same';
+                    $mirrorserverlisttemp['servers'][$server]['error']='local (sha256: '.hash('sha256',$contentlocal).', size: '.strlen($contentlocal).$contentlocaltext.') and remote file (sha256: '.hash('sha256',$content).', size: '.strlen($content).$contenttext.') are not same';
                     $mirrorserverlisttemp['servers'][$server]['file']=$server.$file;
                 }
                 else

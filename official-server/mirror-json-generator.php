@@ -110,14 +110,14 @@ function flushcurlcall()
             {
                 $mirrorserverlisttemp['servers'][$server]['state']='down';
                 $mirrorserverlisttemp['servers'][$server]['error']='cURL error ('.$errno.')';
-                $mirrorserverlisttemp['servers'][$server]['curl_error']=curl_strerror($ch);
+                $mirrorserverlisttemp['servers'][$server]['curl_error']=curl_strerror($errno);
                 $mirrorserverlisttemp['servers'][$server]['file']=$server.$file;
             }
             else if($httpcode!=200)
             {
                 $mirrorserverlisttemp['servers'][$server]['state']='corrupted';
                 $mirrorserverlisttemp['servers'][$server]['error']='http code: '.$httpcode;
-                $mirrorserverlisttemp['servers'][$server]['curl_error']=curl_strerror($ch);
+                $mirrorserverlisttemp['servers'][$server]['curl_error']=curl_strerror($errno);
                 $mirrorserverlisttemp['servers'][$server]['file']=$server.$file;
             }
             else

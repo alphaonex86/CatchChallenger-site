@@ -66,7 +66,7 @@ if(flock($file,LOCK_EX))
     else
         header('From-cache: not probed');
 
-    ob_start("callback");
+    ob_start();
     @exec('./datapack-archive.sh');
     ob_end_flush();
     flock($file,LOCK_UN);

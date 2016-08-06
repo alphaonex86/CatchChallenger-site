@@ -113,7 +113,7 @@ function flushcurlcall()
                 $mirrorserverlisttemp['servers'][$server]['curl_error']=curl_strerror($errno);
                 $mirrorserverlisttemp['servers'][$server]['file']=$server.$file;
             }
-            else if($httpcode!=200)
+            else if($httpcode!=200 && $contentlocal!='')
             {
                 $mirrorserverlisttemp['servers'][$server]['state']='corrupted';
                 $mirrorserverlisttemp['servers'][$server]['error']='http code: '.$httpcode;
@@ -128,15 +128,23 @@ function flushcurlcall()
                         $contentlocal=file_get_contents($datapack_path.$file);
                     if(isset($missingfilecache[$file]))
                         $contentlocal=$missingfilecache[$file];
-                    else if(count($mirrorserverlisttemp['servers'])>0)
+                    else
                     {
-                        $contentlocal=$content;
-                        if($contentlocal=='')
+                        if(count($mirrorserverlisttemp['servers'])>0)
                         {
-                            echo 'Primary mirror is wrong, file problem on: '.$server.$file."\n";
-                            exit;
+                            $contentlocal=$content;
+                            if($contentlocal=='')
+                            {
+                                $content=file_get_contents($server.$file);
+                                $contentlocal=$content;
+                                if($contentlocal=='')
+                                {
+                                    echo 'Primary mirror is wrong, file problem on: '.$server.$file.'$contentlocal: '.$contentlocal.', $content: '.$content."\n";
+                                    exit;
+                                }
+                            }
+                            $missingfilecache[$file]=$contentlocal;
                         }
-                        $missingfilecache[$file]=$contentlocal;
                     }
                 }
                 

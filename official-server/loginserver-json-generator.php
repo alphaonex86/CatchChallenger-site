@@ -50,7 +50,7 @@ foreach($loginserverlist as $server)
                 else
                 {
                     //Protocol initialization for client
-                    $tosend=hex2bin('a0019cd6498d10');
+                    $tosend=hex2bin('a0019cd6498d11');
                     $time_start = microtime(true);
                     $returnsize=fwrite($socket,$tosend,2+5);
                     if($returnsize!=7)

@@ -71,9 +71,14 @@ foreach($loginserverlist as $server)
                         else
                         {
                             $state='down';
-                            $result[$server['host'].':'.$server['port']]=array('state'=>$state,
+                            if(isset($contents[0x00]))
+                                $result[$server['host'].':'.$server['port']]=array('state'=>$state,
                                 'time'=>array('toconnect'=>$time,'tonegociatetheprotocol'=>$timetonegociatetheprotocol),
-                            'encrypted'=>'clear','error'=>'at second round no data');
+                                'encrypted'=>'clear','error'=>'at second round no data');
+                            else
+                                $result[$server['host'].':'.$server['port']]=array('state'=>$state,
+                                'time'=>array('toconnect'=>$time,'tonegociatetheprotocol'=>$timetonegociatetheprotocol),
+                                'encrypted'=>'clear','error'=>'No data: protocol wrong?');
                         }
                     }
                 }

@@ -9,8 +9,6 @@ else
 if($postgres_link_login===FALSE)
     $is_up=false;
 
-$is_up=false;
-
 require_once 'libs/class.smtp.php';
 require_once 'libs/class.phpmailer.php';
 
@@ -37,10 +35,14 @@ function send_mail($title,$text,$to,$type,$from)
 
 function send_change_password($id)
 {
+    if(!preg_match('#^[0-9]+$#',$id))
+        return false;
 	global $admin_email,$mail,$smtp_server;
-	$reply = pg_query('SELECT * FROM account WHERE id='.addslashes($id)) or die(pg_last_error());
+	$reply = pg_query('SELECT email,encode(password,\'hex\') as password FROM account WHERE id='.addslashes($id)) or die(pg_last_error());
 	if($data = pg_fetch_array($reply))
 	{
+        if(strpos($data['email'],'@')===FALSE)
+            return false;
         if($smtp_server!='')
         {
             $mail->addAddress($data['email'], '');
@@ -108,7 +110,8 @@ function send_change_password($id)
 							{
 								if($data['password']==$_GET['oldpass'])
 								{
-									pg_query('UPDATE account SET password=decode(\''.hash("sha224",$_POST['new_password'].'AwjDvPIzfJPTTgHs'.$_POST['login']).'\',\'hex\')\' WHERE id='.addslashes($_GET['id'])) or die(pg_last_error());
+                                    $login_hash=hash("sha224",hash("sha224",$_POST['login'].'RtR3bm9Z1DFMfAC3',true));
+									pg_query('UPDATE account SET login=decode(\''.$login_hash.'\',\'hex\'),password=decode(\''.hash("sha224",$_POST['new_password'].'AwjDvPIzfJPTTgHs'.$_POST['login']).'\',\'hex\') WHERE id='.addslashes($_GET['id'])) or die(pg_last_error());
 									echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Password changed</b></span><br />';
 								}
 								else
@@ -117,17 +120,19 @@ function send_change_password($id)
 							else
 								echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Account not found</b></span><br />';
 						}
-						echo '<form name="input" method="post">
-						Change password to: <script type="text/javascript"><!--
+						echo '<form name="input" method="post">New login: <script type="text/javascript"><!--
+                        document.write("<input name=\"login\" type=\"text\">");
+                        --></script><br />
+						New password: <script type="text/javascript"><!--
 						document.write("<input name=\"new_password\" type=\"password\">");
-						--></script>';
-						echo '<input type="submit" value="Ok"></form>';
+						--></script><br />';
+						echo '<br /><input type="submit" value="Ok"></form>';
 					}
 					else
 					{
 						if(isset($_POST['login_or_email']))
 						{
-							$reply = pg_query('SELECT encode(login,\'hex\') as login,encode(password,\'hex\') as password,date,email FROM account WHERE email=\''.addslashes($_POST['login_or_email']).'\'') or die(pg_last_error());
+							$reply = pg_query('SELECT encode(login,\'hex\') as login,encode(password,\'hex\') as password,date,email,id FROM account WHERE email=\''.addslashes($_POST['login_or_email']).'\'') or die(pg_last_error());
 							if($data = pg_fetch_array($reply))
 							{
 								if(send_change_password($data['id']))
@@ -138,7 +143,7 @@ function send_change_password($id)
 							else
 							{
                                 $login_hash=hash("sha224",hash("sha224",$_POST['login_or_email'].'RtR3bm9Z1DFMfAC3',true));
-								$reply = pg_query('SELECT encode(login,\'hex\') as login,encode(password,\'hex\') as password,date,email FROM account WHERE login=\''.addslashes($login_hash).'\'') or die(pg_last_error());
+								$reply = pg_query('SELECT encode(login,\'hex\') as login,encode(password,\'hex\') as password,date,email,id FROM account WHERE login=decode(\''.addslashes($login_hash).'\',\'hex\')') or die(pg_last_error());
 								if($data = pg_fetch_array($reply))
 								{
 									if(send_change_password($data['id']))
@@ -153,8 +158,8 @@ function send_change_password($id)
 						echo 'Password change is actually <span style="color:green;"><b>open</b></span>.<br />';
 						echo '<form name="input" method="post">
 						Login or email: <script type="text/javascript"><!--
-						document.write("<input name=\"login_or_email\" type=\"text\">");
-						--></script>';
+                        document.write("<input name=\"login_or_email\" type=\"text\">");
+                        --></script>';
 						echo '<input type="submit" value="Ok"></form>';
 					}
 				}

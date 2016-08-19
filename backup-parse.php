@@ -165,4 +165,21 @@ if(file_exists($logfile))
 else
     $returnVar[$backup]=array('state'=>'down','reason'=>($logfile.' not found'));
 
+$backup='backup-date';
+$logfile='/tmp/backup-is-up.txt';
+if(file_exists($logfile))
+{
+    if($filecurs=file_get_contents($logfile))
+    {
+        if($filecurs==1)
+            $returnVar[$backup]=array('state'=>'up');
+        else
+            $returnVar[$backup]=array('state'=>'down','reason'=>'Repported number is wrong');
+    }
+    else
+        $returnVar[$backup]=array('state'=>'down','reason'=>($logfile.' not readable or empty'));
+}
+else
+    $returnVar[$backup]=array('state'=>'down','reason'=>($logfile.' not found'));
+
 echo json_encode($returnVar);

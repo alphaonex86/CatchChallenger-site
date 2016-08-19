@@ -21,6 +21,9 @@ $mirrorserverlist=array(
     //the first is considered as the clean and refence version
     'http://localhost/datapack/'
 );
+$singledatapacklisttest=array(
+    //'http://localhost/datapack-list/base.txt',
+);
 
 $postgres_db_server='catchchallenger';
 $base_datapack_explorer_site_path='/official-server/datapack-explorer/';

@@ -125,7 +125,7 @@ function flushcurlcall()
                 if($contentlocal=='')
                 {
                     if(is_file($datapack_path.$file))
-                        $contentlocal=file_get_contents($datapack_path.$file);
+                        $contentlocal=@file_get_contents($datapack_path.$file);
                     if(isset($missingfilecache[$file]))
                         $contentlocal=$missingfilecache[$file];
                     else
@@ -135,7 +135,7 @@ function flushcurlcall()
                             $contentlocal=$content;
                             if($contentlocal=='')
                             {
-                                $content=file_get_contents($server.$file);
+                                $content=@file_get_contents($server.$file);
                                 $contentlocal=$content;
                                 if($contentlocal=='')
                                 {
@@ -209,6 +209,22 @@ foreach($arr as $file)
         flushcurlcall();
 }
 flushcurlcall();
+
+if(isset($singledatapacklisttest))
+{
+    foreach($singledatapacklisttest as $url)
+    {
+        $content=@file_get_contents($url);
+        if(strpos($content,"\n-\n")===false)
+        {
+            $mirrorserverlisttemp['servers'][$url]['state']='corrupted';
+            $mirrorserverlisttemp['servers'][$url]['error']='Don\'t have valid structure';
+        }
+        else
+            $mirrorserverlisttemp['servers'][$url]['state']='up';
+    }
+}
+
 $mirrorserverlisttemp['totaltime'] = microtime(true) - $time_start;
 $mirrorserverlisttemp['totalfiles']=count($arr);
 

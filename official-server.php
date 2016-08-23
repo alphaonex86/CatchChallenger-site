@@ -8,6 +8,7 @@ else
 if($postgres_link_site===FALSE)
     $is_up=false;
 
+$otherjsonfile='other.json';
 $gameserverfile='gameserver.json';
 $loginserverfile='loginserver.json';
 $previously_know_server_file='previously_know_server.json';

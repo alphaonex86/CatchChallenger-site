@@ -291,3 +291,41 @@ if(file_exists($mirrorserverfile) && $filecurs=file_get_contents($mirrorserverfi
         $string_array[]='<strong><span style="color:red;">No backup</span></strong>';
     $total_string_array[]='Backup: '.implode(', ',$string_array);
 }
+
+{
+    $string_array=array();
+    $otherjson_up=0;
+    $otherjson_corrupted=0;
+    $otherjson_down=0;
+    if(file_exists($otherjsonfile) && $filecurs=file_get_contents($otherjsonfile))
+    {
+        $arr=json_decode($filecurs,true);
+        if(is_array($arr))
+        {
+            ksort($arr);
+            foreach($arr as $ip=>$server)
+            {
+                if(isset($server['state']))
+                {
+                    if($server['state']=='up')
+                        $otherjson_up++;
+                    else if($server['state']=='corrupted')
+                        $otherjson_corrupted++;
+                    else
+                        $otherjson_down++;
+                }
+                else
+                    $otherjson_down++;
+            }
+        }
+    }
+    if($otherjson_up>0)
+        $string_array[]='<strong>'.$otherjson_up.'</strong> <span style="color:green;">online</span>';
+    if($otherjson_corrupted>0)
+        $string_array[]='<strong>'.$otherjson_corrupted.'</strong> <span style="color:brown;">corrupted</span>';
+    if($otherjson_down>0)
+        $string_array[]='<strong>'.$otherjson_down.'</strong> <span style="color:red;">offline</span>';
+    if($otherjson_up==0 && $otherjson_corrupted==0 && $otherjson_down==0)
+        $string_array[]='No other checks';
+    $total_string_array[]='Other: '.implode(', ',$string_array);
+}

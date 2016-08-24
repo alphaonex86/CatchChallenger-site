@@ -151,11 +151,21 @@ function flushcurlcall()
                 if($contentlocal!=$content)
                 {
                     if(strlen($contentlocal)<200)
-                        $contentlocaltext=',content: '.$contentlocal;
+                    {
+                        if(preg_match('/[^\x20-\x7f]/', $contentlocal))
+                            $contentlocaltext=', content: 0x'.bin2hex($contentlocal);
+                        else
+                            $contentlocaltext=', content: '.$contentlocal;
+                    }
                     else
                         $contentlocaltext='';
                     if(strlen($content)<200)
-                        $contenttext=',content: '.$content;
+                    {
+                        if(preg_match('/[^\x20-\x7f]/', $content))
+                            $contentlocaltext=', content: 0x'.bin2hex($content);
+                        else
+                            $contentlocaltext=', content: '.$content;
+                    }
                     else
                         $contenttext='';
                     $mirrorserverlisttemp['servers'][$server]['state']='corrupted';

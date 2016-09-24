@@ -9,6 +9,7 @@
 *kate-swp
 /datapack-*
 *official-server/datapack-explorer/*
+*official-server/wikicache/*
 *benchmark-tracking/results*
 *benchmark-tracking/failed*
 key-nextcoin.txt

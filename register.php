@@ -26,6 +26,13 @@ $mail->setFrom($admin_email, 'CatchChallenger');
 $mail->addReplyTo($admin_email, 'CatchChallenger');
 $mail->isHTML(false);
 
+$reply = pg_prepare($postgres_link_login,'SELECTaccount','SELECT * FROM account WHERE login=decode($1,\'hex\')') or die(pg_last_error());
+$reply = pg_prepare($postgres_link_login,'SELECTaccount_register','SELECT * FROM account_register WHERE login=decode($1,\'hex\')') or die(pg_last_error());
+$reply = pg_prepare($postgres_link_login,'INSERTaccount_register','INSERT INTO account_register(login,password,email,key,date) VALUES(decode($1,\'hex\'),decode($2,\'hex\'),$3,$4,$5);') or die(pg_last_error());
+$reply = pg_prepare($postgres_link_login,'SELECTencode','SELECT encode(login,\'hex\') as login,encode(password,\'hex\') as password,date,email,key FROM account_register WHERE email=$1') or die(pg_last_error());
+$reply = pg_prepare($postgres_link_login,'DELETEaccount_register','DELETE FROM account_register WHERE login=decode($1,\'hex\')') or die(pg_last_error());
+$reply = pg_prepare($postgres_link_login,'INSERTaccount','INSERT INTO account(id,login,password,date,email) VALUES($1,decode($2,\'hex\'),decode($3,\'hex\'),$4,$5);') or die(pg_last_error());
+
 function send_mail($title,$text,$to,$type,$from)
 {
 	$headers = 'From: '.$from."\r\n";
@@ -99,17 +106,17 @@ function send_mail($title,$text,$to,$type,$from)
                                 echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Your password can\'t be same as your login</b></span><br />';
                             else if(!preg_match('#[a-z]#',$_POST['password']) || !preg_match('#[A-Z]#',$_POST['password']) || !preg_match('#[0-9]#',$_POST['password']) || strlen($_POST['password'])<6)
                                 echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Your password need be composed of upper and lower char and number. And need be more than 6 of lenght</b></span><br />';
-                            else if(!preg_match('#^[a-z0-9\.\-_]+@[a-z0-9\.\-_]+\.[a-z]{2,4}$#',$_POST['email']))
+                            else if(!preg_match('#^[a-z0-9\.\-_\+]+@[a-z0-9\.\-_\+]+\.[a-z]{2,4}$#',$_POST['email']))
                                 echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Your email seam wrong</b></span><br />';
                             else
                             {
                                 $login_hash=hash("sha224",hash("sha224",$_POST['login'].'RtR3bm9Z1DFMfAC3',true));
-                                $reply = pg_query('SELECT * FROM account WHERE login=decode(\''.$login_hash.'\',\'hex\')') or die(pg_last_error());
+                                $reply = pg_execute($postgres_link_login,'SELECTaccount',array($login_hash)) or die(pg_last_error());
                                 if($data = pg_fetch_array($reply))
                                     echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Login already taken</b></span><br />';
                                 else
                                 {
-                                    $reply = pg_query('SELECT * FROM account_register WHERE login=decode(\''.$login_hash.'\',\'hex\')') or die(pg_last_error());
+                                    $reply = pg_execute($postgres_link_login,'SELECTaccount_register',array($login_hash)) or die(pg_last_error());
                                     if($data = pg_fetch_array($reply))
                                         echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Login already taken (into register)</b></span><br />';
                                     else
@@ -126,14 +133,14 @@ function send_mail($title,$text,$to,$type,$from)
                                                 echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;;"><b>Mailer error: '.$mail->ErrorInfo.', contact the admin at '.$admin_email.'</b></span><br />';
                                             else
                                             {
-                                                $postgres_return=pg_query('INSERT INTO account_register(login,password,email,key,date) VALUES(decode(\''.$login_hash.'\',\'hex\'),decode(\''.hash("sha224",$_POST['password'].'AwjDvPIzfJPTTgHs'.$_POST['login']).'\',\'hex\'),\''.addslashes($_POST['email']).'\',\''.addslashes($key).'\','.time().');') or die(pg_last_error());
+                                                $postgres_return=pg_execute($postgres_link_login,'INSERTaccount_register',array($login_hash,hash("sha224",$_POST['password'].'AwjDvPIzfJPTTgHs'.$_POST['login']),$_POST['email'],$key,time())) or die(pg_last_error());
                                                 echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, check your email</b></span><br />';
                                             }
                                         }
                                         else
                                         {
                                             send_mail($_POST['login'].' enable your account into '.$_SERVER['HTTP_HOST'],'Hello '.$_POST['login'].', to enable your account into http://'.$_SERVER['HTTP_HOST'].', click here: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?key='.$key.'&email='.$_POST['email'],$_POST['email'],'text/plain',$admin_email);
-                                            $postgres_return=pg_query('INSERT INTO account_register(login,password,email,key,date) VALUES(decode(\''.$login_hash.'\',\'hex\'),decode(\''.hash("sha224",$_POST['password'].'AwjDvPIzfJPTTgHs'.$_POST['login']).'\',\'hex\'),\''.addslashes($_POST['email']).'\',\''.addslashes($key).'\','.time().');') or die(pg_last_error());
+                                            $postgres_return=pg_execute($postgres_link_login,'INSERTaccount_register',array($login_hash,hash("sha224",$_POST['password'].'AwjDvPIzfJPTTgHs'.$_POST['login']),$_POST['email'],$key,time())) or die(pg_last_error());
                                             echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, check your email</b></span><br />';
                                         }
                                     }
@@ -143,18 +150,18 @@ function send_mail($title,$text,$to,$type,$from)
 					}
 					else if(isset($_GET['key']) && isset($_GET['email']))
 					{
-						$reply = pg_query('SELECT encode(login,\'hex\') as login,encode(password,\'hex\') as password,date,email,key FROM account_register WHERE email=\''.addslashes($_GET['email']).'\'') or die(pg_last_error());
+						$reply = pg_execute($postgres_link_login,'SELECTencode',array($_GET['email'])) or die(pg_last_error());
 						if($data = pg_fetch_array($reply))
 						{
 							if($data['key']==$_GET['key'])
 							{
-                                $reply_max_id = pg_query('SELECT id FROM account ORDER BY id DESC LIMIT 1') or die(pg_last_error());
+                                $reply_max_id = pg_query($postgres_link_login,'SELECT id FROM account ORDER BY id DESC LIMIT 1') or die(pg_last_error());
                                 if($data_max_id = pg_fetch_array($reply_max_id))
                                     $max_id=$data_max_id['id']+1;
                                 else
                                     $max_id=1;
-                                pg_query('DELETE FROM account_register WHERE login=decode(\''.$data['login'].'\',\'hex\')') or die(pg_last_error());
-                                pg_query('INSERT INTO account(id,login,password,date,email) VALUES('.$max_id.',decode(\''.$data['login'].'\',\'hex\'),decode(\''.$data['password'].'\',\'hex\'),'.$data['date'].',\''.addslashes($data['email']).'\');') or die(pg_last_error());
+                                pg_execute($postgres_link_login,'DELETEaccount_register',array($data['login'])) or die(pg_last_error());
+                                pg_execute($postgres_link_login,'INSERTaccount',array($max_id,$data['login'],$data['password'],$data['date'],$data['email'])) or die(pg_last_error());
                                 echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, thanks for your validation</b></span><br /><script type="text/JavaScript">'."\n";
                                 echo '<!--'."\n";
                                 echo 'setTimeout("location.href = \'/\';",1500);'."\n";
@@ -195,5 +202,5 @@ var u=(("https:"==document.location.protocol)?"https":"http")+"://stat.first-wor
 </html>
 <?php
 if($is_up)
-    pg_query('DELETE FROM account_register WHERE date < '.(time()-24*3600).';') or die(pg_last_error());
+    pg_query($postgres_link_login,'DELETE FROM account_register WHERE date < '.(time()-24*3600).';') or die(pg_last_error());
 ?>

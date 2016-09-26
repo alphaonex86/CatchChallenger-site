@@ -43,7 +43,7 @@ function send_change_password($id)
 {
     if(!preg_match('#^[0-9]+$#',$id))
         return false;
-	global $admin_email,$mail,$smtp_server;
+	global $admin_email,$mail,$smtp_server,$postgres_link_login;
 	$reply = pg_execute($postgres_link_login,'SELECTaccount',array($id)) or die(pg_last_error());
 	if($data = pg_fetch_array($reply))
 	{

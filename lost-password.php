@@ -107,6 +107,8 @@ function send_change_password($id)
 					echo 'Password change is actually <span style="color:red;"><b>closed</b></span>.<br />';
 				else
 				{
+                    if(!preg_match('#^[0-9]+$#',$_GET['id']))
+                        exit;
 					if(isset($_GET['id']) && isset($_GET['oldpass']))
 					{
 						if(isset($_POST['new_password']))

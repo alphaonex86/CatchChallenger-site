@@ -26,8 +26,8 @@ $mail->setFrom($admin_email, 'CatchChallenger');
 $mail->addReplyTo($admin_email, 'CatchChallenger');
 $mail->isHTML(false);
 
-$reply = pg_prepare($postgres_link_login,'SELECTaccount','SELECT * FROM account WHERE login=decode($1,\'hex\')') or die(pg_last_error());
-$reply = pg_prepare($postgres_link_login,'SELECTaccount_register','SELECT * FROM account_register WHERE login=decode($1,\'hex\')') or die(pg_last_error());
+$reply = pg_prepare($postgres_link_login,'SELECTaccount','SELECT * FROM account WHERE login=decode($1,\'hex\') OR email=$2') or die(pg_last_error());
+$reply = pg_prepare($postgres_link_login,'SELECTaccount_register','SELECT * FROM account_register WHERE login=decode($1,\'hex\') OR email=$2') or die(pg_last_error());
 $reply = pg_prepare($postgres_link_login,'INSERTaccount_register','INSERT INTO account_register(login,password,email,key,date) VALUES(decode($1,\'hex\'),decode($2,\'hex\'),$3,$4,$5);') or die(pg_last_error());
 $reply = pg_prepare($postgres_link_login,'SELECTencode','SELECT encode(login,\'hex\') as login,encode(password,\'hex\') as password,date,email,key FROM account_register WHERE email=$1') or die(pg_last_error());
 $reply = pg_prepare($postgres_link_login,'DELETEaccount_register','DELETE FROM account_register WHERE login=decode($1,\'hex\')') or die(pg_last_error());
@@ -111,12 +111,12 @@ function send_mail($title,$text,$to,$type,$from)
                             else
                             {
                                 $login_hash=hash("sha224",hash("sha224",$_POST['login'].'RtR3bm9Z1DFMfAC3',true));
-                                $reply = pg_execute($postgres_link_login,'SELECTaccount',array($login_hash)) or die(pg_last_error());
+                                $reply = pg_execute($postgres_link_login,'SELECTaccount',array($login_hash,$_POST['email'])) or die(pg_last_error());
                                 if($data = pg_fetch_array($reply))
                                     echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Login already taken</b></span><br />';
                                 else
                                 {
-                                    $reply = pg_execute($postgres_link_login,'SELECTaccount_register',array($login_hash)) or die(pg_last_error());
+                                    $reply = pg_execute($postgres_link_login,'SELECTaccount_register',array($login_hash,$_POST['email'])) or die(pg_last_error());
                                     if($data = pg_fetch_array($reply))
                                         echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Login already taken (into register)</b></span><br />';
                                     else

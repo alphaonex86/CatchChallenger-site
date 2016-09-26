@@ -24,6 +24,12 @@ $mail->setFrom($admin_email, 'CatchChallenger');
 $mail->addReplyTo($admin_email, 'CatchChallenger');
 $mail->isHTML(false);
 
+$reply = pg_prepare($postgres_link_login,'SELECTaccount','SELECT email,encode(password,\'hex\') as password FROM account WHERE id=$1') or die(pg_last_error());
+$reply = pg_prepare($postgres_link_login,'SELECTencode','SELECT encode(login,\'hex\') as login,encode(password,\'hex\') as password,date,email FROM account WHERE id=$1') or die(pg_last_error());
+$reply = pg_prepare($postgres_link_login,'UPDATEaccount','UPDATE account SET login=decode($1,\'hex\'),password=decode($2,\'hex\') WHERE id=$3') or die(pg_last_error());
+$reply = pg_prepare($postgres_link_login,'SELECTemail','SELECT encode(login,\'hex\') as login,encode(password,\'hex\') as password,date,email,id FROM account WHERE email=$1') or die(pg_last_error());
+$reply = pg_prepare($postgres_link_login,'SELECTlogin','SELECT encode(login,\'hex\') as login,encode(password,\'hex\') as password,date,email,id FROM account WHERE login=decode($1,\'hex\')') or die(pg_last_error());
+
 function send_mail($title,$text,$to,$type,$from)
 {
 	$headers = 'From: '.$from."\r\n";
@@ -38,7 +44,7 @@ function send_change_password($id)
     if(!preg_match('#^[0-9]+$#',$id))
         return false;
 	global $admin_email,$mail,$smtp_server;
-	$reply = pg_query('SELECT email,encode(password,\'hex\') as password FROM account WHERE id='.addslashes($id)) or die(pg_last_error());
+	$reply = pg_execute($postgres_link_login,'SELECTaccount',array($id)) or die(pg_last_error());
 	if($data = pg_fetch_array($reply))
 	{
         if(strpos($data['email'],'@')===FALSE)
@@ -105,13 +111,13 @@ function send_change_password($id)
 					{
 						if(isset($_POST['new_password']))
 						{
-							$reply = pg_query('SELECT encode(login,\'hex\') as login,encode(password,\'hex\') as password,date,email FROM account WHERE id='.addslashes($_GET['id'])) or die(pg_last_error());
+							$reply = pg_execute($postgres_link_login,'SELECTencode',array($_GET['id'])) or die(pg_last_error());
 							if($data = pg_fetch_array($reply))
 							{
 								if($data['password']==$_GET['oldpass'])
 								{
                                     $login_hash=hash("sha224",hash("sha224",$_POST['login'].'RtR3bm9Z1DFMfAC3',true));
-									pg_query('UPDATE account SET login=decode(\''.$login_hash.'\',\'hex\'),password=decode(\''.hash("sha224",$_POST['new_password'].'AwjDvPIzfJPTTgHs'.$_POST['login']).'\',\'hex\') WHERE id='.addslashes($_GET['id'])) or die(pg_last_error());
+									pg_execute($postgres_link_login,'UPDATEaccount',array($login_hash,hash("sha224",$_POST['new_password'].'AwjDvPIzfJPTTgHs'.$_POST['login']),$_GET['id'])) or die(pg_last_error());
 									echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Password changed</b></span><br />';
 								}
 								else
@@ -132,7 +138,7 @@ function send_change_password($id)
 					{
 						if(isset($_POST['login_or_email']))
 						{
-							$reply = pg_query('SELECT encode(login,\'hex\') as login,encode(password,\'hex\') as password,date,email,id FROM account WHERE email=\''.addslashes($_POST['login_or_email']).'\'') or die(pg_last_error());
+							$reply = pg_execute($postgres_link_login,'SELECTemail',array($_POST['login_or_email'])) or die(pg_last_error());
 							if($data = pg_fetch_array($reply))
 							{
 								if(send_change_password($data['id']))
@@ -143,7 +149,7 @@ function send_change_password($id)
 							else
 							{
                                 $login_hash=hash("sha224",hash("sha224",$_POST['login_or_email'].'RtR3bm9Z1DFMfAC3',true));
-								$reply = pg_query('SELECT encode(login,\'hex\') as login,encode(password,\'hex\') as password,date,email,id FROM account WHERE login=decode(\''.addslashes($login_hash).'\',\'hex\')') or die(pg_last_error());
+								$reply = pg_execute($postgres_link_login,'SELECTlogin',array($login_hash)) or die(pg_last_error());
 								if($data = pg_fetch_array($reply))
 								{
 									if(send_change_password($data['id']))

@@ -134,14 +134,14 @@ function send_mail($title,$text,$to,$type,$from)
                                             else
                                             {
                                                 $postgres_return=pg_execute($postgres_link_login,'INSERTaccount_register',array($login_hash,hash("sha224",$_POST['password'].'AwjDvPIzfJPTTgHs'.$_POST['login']),$_POST['email'],$key,time())) or die(pg_last_error());
-                                                echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, check your email</b></span><br />';
+                                                echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registered, check your email</b></span><br />';
                                             }
                                         }
                                         else
                                         {
                                             send_mail($_POST['login'].' enable your account into '.$_SERVER['HTTP_HOST'],'Hello '.$_POST['login'].', to enable your account into http://'.$_SERVER['HTTP_HOST'].', click here: http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?key='.$key.'&email='.$_POST['email'],$_POST['email'],'text/plain',$admin_email);
                                             $postgres_return=pg_execute($postgres_link_login,'INSERTaccount_register',array($login_hash,hash("sha224",$_POST['password'].'AwjDvPIzfJPTTgHs'.$_POST['login']),$_POST['email'],$key,time())) or die(pg_last_error());
-                                            echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, check your email</b></span><br />';
+                                            echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registered, check your email</b></span><br />';
                                         }
                                     }
                                 }
@@ -162,7 +162,7 @@ function send_mail($title,$text,$to,$type,$from)
                                     $max_id=1;
                                 pg_execute($postgres_link_login,'DELETEaccount_register',array($data['login'])) or die(pg_last_error());
                                 pg_execute($postgres_link_login,'INSERTaccount',array($max_id,$data['login'],$data['password'],$data['date'],$data['email'])) or die(pg_last_error());
-                                echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registred, thanks for your validation</b></span><br /><script type="text/JavaScript">'."\n";
+                                echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Registered, thanks for your validation</b></span><br /><script type="text/JavaScript">'."\n";
                                 echo '<!--'."\n";
                                 echo 'setTimeout("location.href = \'/\';",1500);'."\n";
                                 echo '-->'."\n";

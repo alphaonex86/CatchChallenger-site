@@ -111,22 +111,28 @@ function send_change_password($id)
                         exit;
 					if(isset($_GET['id']) && isset($_GET['oldpass']))
 					{
-						if(isset($_POST['new_password']))
+						if(isset($_POST['new_password']) && isset($_POST['login']))
 						{
-							$reply = pg_execute($postgres_link_login,'SELECTencode',array($_GET['id'])) or die(pg_last_error());
-							if($data = pg_fetch_array($reply))
-							{
-								if($data['password']==$_GET['oldpass'])
-								{
-                                    $login_hash=hash("sha224",hash("sha224",$_POST['login'].'RtR3bm9Z1DFMfAC3',true));
-									pg_execute($postgres_link_login,'UPDATEaccount',array($login_hash,hash("sha224",$_POST['new_password'].'AwjDvPIzfJPTTgHs'.$_POST['login']),$_GET['id'])) or die(pg_last_error());
-									echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Password changed</b></span><br />';
-								}
-								else
-									echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Wrong key for password change</b></span><br />';
-							}
-							else
-								echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Account not found</b></span><br />';
+                            $login_hash=hash("sha224",hash("sha224",$_POST['login'].'RtR3bm9Z1DFMfAC3',true));
+                            $reply = pg_execute($postgres_link_login,'SELECTlogin',array($login_hash)) or die(pg_last_error());
+                            if($data = pg_fetch_array($reply) && $data['id']!=$_GET['id']))
+                                echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Other account already found with same login</b></span><br />';
+                            else
+                            {
+                                $reply = pg_execute($postgres_link_login,'SELECTencode',array($_GET['id'])) or die(pg_last_error());
+                                if($data = pg_fetch_array($reply))
+                                {
+                                    if($data['password']==$_GET['oldpass'])
+                                    {
+                                        pg_execute($postgres_link_login,'UPDATEaccount',array($login_hash,hash("sha224",$_POST['new_password'].'AwjDvPIzfJPTTgHs'.$_POST['login']),$_GET['id'])) or die(pg_last_error());
+                                        echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Password changed</b></span><br />';
+                                    }
+                                    else
+                                        echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Wrong key for password change</b></span><br />';
+                                }
+                                else
+                                    echo '<span style="background-color:#FFCC83;border:1px solid #FF8000;padding:2px;"><b>Account not found</b></span><br />';
+                            }
 						}
 						echo '<form name="input" method="post">New login: <script type="text/javascript"><!--
                         document.write("<input name=\"login\" type=\"text\">");

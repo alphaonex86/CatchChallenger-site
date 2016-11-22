@@ -1,4 +1,5 @@
 <?php
+$PROTOCOL_HEADER_VERSION=/*0x*/12;
 require '../config.php';
 $result=array();
 if($argc==3)
@@ -50,7 +51,7 @@ foreach($loginserverlist as $server)
                 else
                 {
                     //Protocol initialization for client
-                    $tosend=hex2bin('a0019cd6498d11');
+                    $tosend=hex2bin('a0019cd6498d'.$PROTOCOL_HEADER_VERSION);
                     $time_start = microtime(true);
                     $returnsize=fwrite($socket,$tosend,2+5);
                     if($returnsize!=7)

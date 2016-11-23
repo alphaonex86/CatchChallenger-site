@@ -85,7 +85,7 @@ if($scantype!="onlyfile")
     }
 }
 if($scantype!="onlytar")
-    $arr=array_merge($arr,listFolder($datapack_path));
+    $arr=array_merge(listFolder($datapack_path),$arr);
 sort($arr);
 
 function flushcurlcall()

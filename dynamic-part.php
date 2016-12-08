@@ -178,7 +178,7 @@ if(file_exists($gameserverfile) && $filecurs=file_get_contents($gameserverfile))
             $string_array[]='<strong>'.$gameserver_up.'</strong> <span style="color:green;">online</span>';
         if($gameserver_down>0)
             $string_array[]='<strong>'.$gameserver_down.'</strong> <span style="color:red;">offline</span>';
-        $total_string_array[]='Game server: '.implode(', ',$string_array);
+        $total_string_array[]='Game server: '.implode('/',$string_array);
 
         if(!$is_up && $previously_know_server_changed)
             filewrite($previously_know_server_file,json_encode($previously_know_server));
@@ -216,7 +216,7 @@ if(file_exists($loginserverfile) && $filecurs=file_get_contents($loginserverfile
             $string_array[]='<strong>'.$loginserver_up.'</strong> <span style="color:green;">online</span>';
         if($loginserver_down>0)
             $string_array[]='<strong>'.$loginserver_down.'</strong> <span style="color:red;">offline</span>';
-        $total_string_array[]='Login server: '.implode(', ',$string_array);
+        $total_string_array[]='Login server: '.implode('/',$string_array);
     }
 }
 
@@ -250,7 +250,7 @@ if(file_exists($mirrorserverfile) && $filecurs=file_get_contents($mirrorserverfi
             $string_array[]='<strong>'.$mirrorserver_corrupted.'</strong> <span style="color:brown;">corrupted</span>';
         if($mirrorserver_down>0)
             $string_array[]='<strong>'.$mirrorserver_down.'</strong> <span style="color:red;">offline</span>';
-        $total_string_array[]='Mirror server: '.implode(', ',$string_array);
+        $total_string_array[]='Mirror server: '.implode('/',$string_array);
     }
 }
 
@@ -289,7 +289,7 @@ if(file_exists($mirrorserverfile) && $filecurs=file_get_contents($mirrorserverfi
         $string_array[]='<strong>'.$backup_down.'</strong> <span style="color:red;">offline</span>';
     if($backup_up==0 && $backup_corrupted==0 && $backup_down==0)
         $string_array[]='<strong><span style="color:red;">No backup</span></strong>';
-    $total_string_array[]='Backup: '.implode(', ',$string_array);
+    $total_string_array[]='Backup: '.implode('/',$string_array);
 }
 
 {
@@ -327,5 +327,5 @@ if(file_exists($mirrorserverfile) && $filecurs=file_get_contents($mirrorserverfi
         $string_array[]='<strong>'.$otherjson_down.'</strong> <span style="color:red;">offline</span>';
     if($otherjson_up==0 && $otherjson_corrupted==0 && $otherjson_down==0)
         $string_array[]='No other checks';
-    $total_string_array[]='Other: '.implode(', ',$string_array);
+    $total_string_array[]='Other: '.implode('/',$string_array);
 }

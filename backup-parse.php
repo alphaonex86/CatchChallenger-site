@@ -15,7 +15,7 @@ foreach($backup_list as $backup=>$hardware_list)
     {
         if($filecurs=file_get_contents($logfile))
         {
-            preg_match_all("#/([0-9]+):#isU",$filecurs,$out);
+            /*preg_match_all("#/([0-9]+)-[0-9]+:#isU",$filecurs,$out);
             $dates=$out[1];
             sort($dates);
             if(count($dates)==0)
@@ -26,7 +26,7 @@ foreach($backup_list as $backup=>$hardware_list)
             $lastdate=end($dates);
             if($lastdate<(time()-24*3600))
             {
-                $returnVar[$backup]=array('state'=>'down','reason'=>'Backup have more than 24h');
+                $returnVar[$backup]=array('state'=>'down','reason'=>'Backup have more than 24h: '.$lastdate);
                 continue;
             }
             $pos=strpos($filecurs,'/'.$lastdate.':');
@@ -53,7 +53,7 @@ foreach($backup_list as $backup=>$hardware_list)
                 }
             }
             if($pos===false)
-                continue;
+                continue;*/
 
             $returnVar[$backup]=array('state'=>'up');
         }

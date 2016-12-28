@@ -7,10 +7,19 @@ $index=1;
 $loadSkinPreview=array();
 foreach($start_meta as $entry)
 {
-	$map_descriptor.='
-	<fieldset>
-	<legend><h2><strong>'.htmlspecialchars($entry['name'][$current_lang]).'</strong></h2></legend>
-	<b>'.htmlspecialchars($entry['description'][$current_lang]).'</b><br />'."\n";
+    if(!$wikimode)
+    {
+        $map_descriptor.='
+        <fieldset>
+        <legend><h2><strong>'.htmlspecialchars($entry['name'][$current_lang]).'</strong></h2></legend>
+        <b>'.htmlspecialchars($entry['description'][$current_lang]).'</b><br />'."\n";
+    }
+    else
+    {
+        $map_descriptor.='
+        <h2><strong>'.htmlspecialchars($entry['name'][$current_lang]).'</strong></h2>
+        <b>'.htmlspecialchars($entry['description'][$current_lang]).'</b><br />'."\n";
+    }
 	$map_name='';
 	$zone_code='';
 /*	$map_meta='datapack/map/'.str_replace('.tmx','.xml',$entry['map']);
@@ -93,7 +102,6 @@ foreach($start_meta as $entry)
         $map_descriptor.='<br style="clear:both" /></li>'."\n";
     }
 	$map_descriptor.='</ul>'."\n";
-    $map_descriptor.='</fieldset>'."\n";
 
     if($wikimode)
     {
@@ -152,6 +160,11 @@ foreach($start_meta as $entry)
             savewikipage('Template:Starter_'.$index.'_ITEMS',$map_descriptor,false);$map_descriptor='';
         }
 	}
+
+    if(!$wikimode)
+    {
+        $map_descriptor.='</fieldset>'."\n";
+    }
 	$index++;
 }
 

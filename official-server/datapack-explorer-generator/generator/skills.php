@@ -149,6 +149,28 @@ foreach($skill_meta as $skill_id=>$skill)
 			{
 				if(isset($monster_meta[$monster]) && !in_array($monster,$skill_monster_duplicate))
 				{
+                    $monster_count++;
+                    if($monster_count>20)
+                    {
+                        $map_descriptor.='<tr>
+                            <td colspan="';
+                            if(count($skill_to_monster[$skill_id])>1)
+                                $map_descriptor.='4';
+                            else
+                                $map_descriptor.='3';
+                            $map_descriptor.='" class="item_list_endline item_list_title_type_'.$type.'"></td>
+                        </tr>
+                        </table>'."\n";
+                        $map_descriptor.='<table class="item_list item_list_type_'.$type.' skill_list">
+                        <tr class="item_list_title item_list_title_type_'.$type.'">
+                            <th colspan="2">'.$translation_list[$current_lang]['Monster'].'</th>
+                            <th>'.$translation_list[$current_lang]['Type'].'</th>'."\n";
+                            if(count($skill_to_monster[$skill_id])>1)
+                                $map_descriptor.='<th>'.$translation_list[$current_lang]['Skill level'].'</th>'."\n";
+                        $map_descriptor.='</tr>'."\n";
+                        $monster_count=1;
+                    }
+
                     $skill_monster_duplicate[]=$monster;
 					$name=$monster_meta[$monster]['name'][$current_lang];
 					$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name);
@@ -170,27 +192,6 @@ foreach($skill_meta as $skill_id=>$skill)
 						if(count($skill_to_monster[$skill_id])>1)
 							$map_descriptor.='<td>'.$skill_level.'</td>'."\n";
 					$map_descriptor.='</tr>'."\n";
-
-                    $monster_count++;
-                    if($monster_count%20==0)
-                    {
-                        $map_descriptor.='<tr>
-                            <td colspan="';
-                            if(count($skill_to_monster[$skill_id])>1)
-                                $map_descriptor.='4';
-                            else
-                                $map_descriptor.='3';
-                            $map_descriptor.='" class="item_list_endline item_list_title_type_'.$type.'"></td>
-                        </tr>
-                        </table>'."\n";
-                        $map_descriptor.='<table class="item_list item_list_type_'.$type.' skill_list">
-                        <tr class="item_list_title item_list_title_type_'.$type.'">
-                            <th colspan="2">'.$translation_list[$current_lang]['Monster'].'</th>
-                            <th>'.$translation_list[$current_lang]['Type'].'</th>'."\n";
-                            if(count($skill_to_monster[$skill_id])>1)
-                                $map_descriptor.='<th>'.$translation_list[$current_lang]['Skill level'].'</th>'."\n";
-                        $map_descriptor.='</tr>'."\n";
-                    }
 				}
 			}
 		}
@@ -248,7 +249,8 @@ foreach($skill_meta as $skill_id=>$skill)
 $map_descriptor='';
 foreach($skill_type_to_id as $type=>$id_list)
 {
-    $map_descriptor.='<table class="item_list item_list_type_'.$type.' skill_list">
+    $skill_count=0;
+    $map_descriptor.='<div class="divfixedwithlist"><table class="item_list item_list_type_'.$type.' skill_list">
     <tr class="item_list_title item_list_title_type_'.$type.'">
         <th>'.$translation_list[$current_lang]['Skill'].'</th>
         <th>'.$translation_list[$current_lang]['Type'].'</th>
@@ -256,12 +258,33 @@ foreach($skill_type_to_id as $type=>$id_list)
     if(!$only_one_level)
         $map_descriptor.='<th>'.$translation_list[$current_lang]['Number of level'].'</th>'."\n";
     $map_descriptor.='</tr>'."\n";
-    $skill_count=0;
     foreach($id_list as $skill_id)
     {
         $skill=$skill_meta[$skill_id];
         if(count($skill['level_list'])>0)
         {
+            $skill_count++;
+            if($skill_count>20)
+            {
+                $map_descriptor.='<tr>
+                    <td colspan="';
+                if(!$only_one_level)
+                    $map_descriptor.='4';
+                else
+                    $map_descriptor.='3';
+                $map_descriptor.='" class="item_list_endline item_list_title_type_'.$type.'"></td>
+                </tr>
+                </table></div>'."\n";
+                $map_descriptor.='<div class="divfixedwithlist"><table class="item_list item_list_type_'.$type.' skill_list">
+                <tr class="item_list_title item_list_title_type_'.$type.'">
+                    <th>'.$translation_list[$current_lang]['Skill'].'</th>
+                    <th>'.$translation_list[$current_lang]['Type'].'</th>
+                    <th>'.$translation_list[$current_lang]['Endurance'].'</th>'."\n";
+                if(!$only_one_level)
+                    $map_descriptor.='<th>'.$translation_list[$current_lang]['Number of level'].'</th>'."\n";
+                $map_descriptor.='</tr>'."\n";
+                $skill_count=1;
+            }
             $map_descriptor.='<tr class="value">'."\n";
             $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['skills/'].text_operation_do_for_url($skill['name'][$current_lang]).'.html">'.$skill['name'][$current_lang].'</a></td>'."\n";
             if(isset($type_meta[$skill['type']]))
@@ -275,27 +298,6 @@ foreach($skill_type_to_id as $type=>$id_list)
             if(!$only_one_level)
                 $map_descriptor.='<td>'.count($skill['level_list']).'</td>'."\n";
             $map_descriptor.='</tr>'."\n";
-            $skill_count++;
-            if($skill_count%20==0)
-            {
-                $map_descriptor.='<tr>
-                    <td colspan="';
-                if(!$only_one_level)
-                    $map_descriptor.='4';
-                else
-                    $map_descriptor.='3';
-                $map_descriptor.='" class="item_list_endline item_list_title_type_'.$type.'"></td>
-                </tr>
-                </table>'."\n";
-                $map_descriptor.='<table class="item_list item_list_type_'.$type.' skill_list">
-                <tr class="item_list_title item_list_title_type_'.$type.'">
-                    <th>'.$translation_list[$current_lang]['Skill'].'</th>
-                    <th>'.$translation_list[$current_lang]['Type'].'</th>
-                    <th>'.$translation_list[$current_lang]['Endurance'].'</th>'."\n";
-                if(!$only_one_level)
-                    $map_descriptor.='<th>'.$translation_list[$current_lang]['Number of level'].'</th>'."\n";
-                $map_descriptor.='</tr>'."\n";
-            }
         }
     }
     $map_descriptor.='<tr>
@@ -306,7 +308,7 @@ foreach($skill_type_to_id as $type=>$id_list)
         $map_descriptor.='3';
     $map_descriptor.='" class="item_list_endline item_list_title_type_'.$type.'"></td>
     </tr>
-    </table>'."\n";
+    </table></div>'."\n";
 }
 
 if(!$wikimode)

@@ -12,7 +12,8 @@ $map_descriptor.='<table class="item_list item_list_type_normal plant_list">
 $plant_count=0;
 foreach($plant_meta as $id=>$plant)
 {
-    if($plant_count%15==0 && $plant_count!=0)
+    $plant_count++;
+    if($plant_count>15)
     {
         $map_descriptor.='<tr>
             <td colspan="5" class="item_list_endline item_list_title_type_normal"></td>
@@ -24,8 +25,8 @@ foreach($plant_meta as $id=>$plant)
             <th colspan="2">'.$translation_list[$current_lang]['Time to grow'].'</th>
             <th>'.$translation_list[$current_lang]['Fruits produced'].'</th>
         </tr>'."\n";
+        $plant_count=1;
     }
-    $plant_count++;
     if(isset($item_meta[$plant['itemUsed']]))
     {
         $link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$plant['itemUsed']]['name'][$current_lang]);

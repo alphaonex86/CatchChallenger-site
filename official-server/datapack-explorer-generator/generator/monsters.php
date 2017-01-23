@@ -310,7 +310,8 @@ foreach($monster_meta as $id=>$monster)
 			{
 				if(isset($skill_meta[$attack['id']]))
 				{
-                    if($attack_list_count%10==0 && $attack_list_count!=0)
+                    $attack_list_count++;
+                    if($attack_list_count>10)
                     {
                         $map_descriptor.='<tr>
                             <td colspan="5" class="item_list_endline item_list_title_type_'.$resolved_type.'"></td>
@@ -324,8 +325,8 @@ foreach($monster_meta as $id=>$monster)
                             <th>'.$translation_list[$current_lang]['Type'].'</th>
                             <th>'.$translation_list[$current_lang]['Endurance'].'</th>
                         </tr>'."\n";
+                        $attack_list_count=1;
                     }
-                    $attack_list_count++;
 
 					$map_descriptor.='<tr class="value">'."\n";
 					if(isset($item_meta[$item]))
@@ -743,7 +744,8 @@ $map_descriptor.='<table class="item_list item_list_type_normal monster_list">
 $monster_count=0;
 foreach($monster_meta as $id=>$monster)
 {
-    if($monster_count%20==0 && $monster_count!=0)
+    $monster_count++;
+    if($monster_count>20)
     {
         $map_descriptor.='<tr>
             <td colspan="3" class="item_list_endline item_list_title_type_normal"></td>
@@ -753,8 +755,8 @@ foreach($monster_meta as $id=>$monster)
         <tr class="item_list_title item_list_title_type_normal">
             <th colspan="3">'.$translation_list[$current_lang]['Monster'].'</th>
         </tr>'."\n";
+        $monster_count=1;
     }
-    $monster_count++;
 
 	$name=$monster['name'][$current_lang];
 	$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name);

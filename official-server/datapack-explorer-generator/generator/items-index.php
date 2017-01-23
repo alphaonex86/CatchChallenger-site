@@ -28,7 +28,7 @@ foreach($item_meta as $id=>$item)
 foreach($item_by_group as $group_name=>$item_meta_temp)
 {
 	$item_count_list=0;
-	$map_descriptor.='<table class="item_list item_list_type_normal map_list">
+	$map_descriptor.='<div class="divfixedwithlist"><table class="item_list item_list_type_normal map_list">
 	<tr class="item_list_title item_list_title_type_normal">
 		<th colspan="3">'.$group_name.'</th>
 	</tr>
@@ -37,11 +37,11 @@ foreach($item_by_group as $group_name=>$item_meta_temp)
 		<th>'.$translation_list[$current_lang]['Price'].'</th>
 	</tr>'."\n";
 	$max=15;
-	if(count($item_meta_temp)>$max)
+	/*if(count($item_meta_temp)>$max)
 	{
 		$number_of_table=(int)ceil((float)count($item_meta_temp)/(float)$max);
 		$max=(int)ceil((float)count($item_meta_temp)/(float)$number_of_table);
-	}
+	}*/
 	foreach($item_meta_temp as $id=>$item)
 	{
 		$item_count_list++;
@@ -51,8 +51,8 @@ foreach($item_by_group as $group_name=>$item_meta_temp)
 			$map_descriptor.='<tr>
 				<td colspan="3" class="item_list_endline item_list_title_type_normal"></td>
 			</tr>
-			</table>'."\n";
-			$map_descriptor.='<table class="item_list item_list_type_normal map_list">
+			</table></div>'."\n";
+			$map_descriptor.='<div class="divfixedwithlist"><table class="item_list item_list_type_normal map_list">
 			<tr class="item_list_title item_list_title_type_normal">
 				<th colspan="3">'.$group_name.'</th>
 			</tr>
@@ -101,7 +101,7 @@ foreach($item_by_group as $group_name=>$item_meta_temp)
 	$map_descriptor.='<tr>
 		<td colspan="3" class="item_list_endline item_list_title_type_normal"></td>
 	</tr>
-	</table>'."\n";
+	</table></div>'."\n";
 }
 
 if(!$wikimode)

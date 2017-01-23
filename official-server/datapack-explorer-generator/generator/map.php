@@ -1088,7 +1088,7 @@ foreach($zonetempthis as $zone=>$map_by_zone)
 	else
 		$zone_name=$zone;
 
-	$map_descriptor.='<table class="item_list item_list_type_outdoor map_list"><tr class="item_list_title item_list_title_type_outdoor">
+	$map_descriptor.='<div class="divfixedwithlist"><table class="item_list item_list_type_outdoor map_list"><tr class="item_list_title item_list_title_type_outdoor">
 	<th><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['zones/'].$maindatapackcode.'/'.text_operation_do_for_url($zone_name).'.html" title="'.$zone_name.'">'."\n";
 	$map_descriptor.=$zone_name;
 	$map_descriptor.='</a></th>'."\n";
@@ -1124,9 +1124,59 @@ foreach($zonetempthis as $zone=>$map_by_zone)
         $map_descriptor.='</th>'."\n";
     }
     $map_descriptor.='</tr>'."\n";
+    $map_count=0;
 	asort($map_by_zone);
 	foreach($map_by_zone as $map=>$name)
 	{
+        $map_count++;
+        if($map_count>21)
+        {
+            $map_descriptor.='<tr>
+            <td ';
+            if($additionnal_function)
+                $map_descriptor.=' colspan="2"';
+            $map_descriptor.=' class="item_list_endline item_list_title_type_outdoor"></td>
+            </tr></table></div>'."\n";
+
+            $map_descriptor.='<div class="divfixedwithlist"><table class="item_list item_list_type_outdoor map_list"><tr class="item_list_title item_list_title_type_outdoor">
+            <th><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['zones/'].$maindatapackcode.'/'.text_operation_do_for_url($zone_name).'.html" title="'.$zone_name.'">'."\n";
+            $map_descriptor.=$zone_name;
+            $map_descriptor.='</a></th>'."\n";
+            if(isset($zone_to_function[$maindatapackcode][$zone]))
+                $additionnal_function=count($zone_to_function[$maindatapackcode][$zone])>0;
+            else
+                $additionnal_function=false;
+            if($additionnal_function)
+            {
+                $map_descriptor.='<th>'."\n";
+                if(isset($zone_to_function[$maindatapackcode][$zone]['shop']))
+                    $map_descriptor.='<div style="float:left;background-position:-32px 0px;" class="flags flags16" title="Shop"></div>'."\n";
+                if(isset($zone_to_function[$maindatapackcode][$zone]['fight']))
+                    $map_descriptor.='<div style="float:left;background-position:-16px -16px;" class="flags flags16" title="Fight"></div>'."\n";
+                if(isset($zone_to_function[$maindatapackcode][$zone]['heal']))
+                    $map_descriptor.='<div style="float:left;background-position:0px 0px;" class="flags flags16" title="Heal"></div>'."\n";
+                if(isset($zone_to_function[$maindatapackcode][$zone]['learn']))
+                    $map_descriptor.='<div style="float:left;background-position:-48px 0px;" class="flags flags16" title="Learn"></div>'."\n";
+                if(isset($zone_to_function[$maindatapackcode][$zone]['warehouse']))
+                    $map_descriptor.='<div style="float:left;background-position:0px -16px;" class="flags flags16" title="Warehouse"></div>'."\n";
+                if(isset($zone_to_function[$maindatapackcode][$zone]['market']))
+                    $map_descriptor.='<div style="float:left;background-position:0px -16px;" class="flags flags16" title="Market"></div>'."\n";
+                if(isset($zone_to_function[$maindatapackcode][$zone]['clan']))
+                    $map_descriptor.='<div style="float:left;background-position:-48px -16px;" class="flags flags16" title="Clan"></div>'."\n";
+                if(isset($zone_to_function[$maindatapackcode][$zone]['sell']))
+                    $map_descriptor.='<div style="float:left;background-position:-32px 0px;" class="flags flags16" title="Sell"></div>'."\n";
+                if(isset($zone_to_function[$maindatapackcode][$zone]['zonecapture']))
+                    $map_descriptor.='<div style="float:left;background-position:-32px -16px;" class="flags flags16" title="Zone capture"></div>'."\n";
+                if(isset($zone_to_function[$maindatapackcode][$zone]['industry']))
+                    $map_descriptor.='<div style="float:left;background-position:0px -32px;" class="flags flags16" title="Industry"></div>'."\n";
+                if(isset($zone_to_function[$maindatapackcode][$zone]['quests']))
+                    $map_descriptor.='<div style="float:left;background-position:-16px 0px;" class="flags flags16" title="Quests"></div>'."\n";
+                $map_descriptor.='</th>'."\n";
+            }
+            $map_descriptor.='</tr>'."\n";
+
+            $map_count=1;
+        }
 		$map_descriptor.='<tr class="value"><td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$map).'" title="'.$name[$current_lang].'">'.$name[$current_lang].'</a></td>'."\n";
         if($additionnal_function)
         {
@@ -1162,7 +1212,7 @@ foreach($zonetempthis as $zone=>$map_by_zone)
     if($additionnal_function)
         $map_descriptor.=' colspan="2"';
     $map_descriptor.=' class="item_list_endline item_list_title_type_outdoor"></td>
-	</tr></table>'."\n";
+	</tr></table></div>'."\n";
 }
 
 if(!$wikimode)

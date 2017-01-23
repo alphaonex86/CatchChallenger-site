@@ -18,7 +18,7 @@ $mail = new PHPMailer();
 $mail->isSMTP();
 $mail->SMTPSecure='tls';
 $mail->Host = $smtp_server;
-$mail->Port = 25;
+$mail->Port = 587;
 $mail->SMTPAuth = true;
 $mail->Username = $smtp_login;
 $mail->Password = $smtp_password;

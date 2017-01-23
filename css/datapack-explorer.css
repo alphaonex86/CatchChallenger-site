@@ -659,3 +659,7 @@
     font-weight:bold;
     padding:2px 4px;
 }
+.divfixedwithlist
+{
+    float:left;height:580px;
+}

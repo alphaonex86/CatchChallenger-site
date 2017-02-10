@@ -1,6 +1,7 @@
 #!/bin/bash
 echo Lag:
-CONTENT=`ssh root@catchchallenger-db-common-1-a-slave 'psql -c "SELECT CASE WHEN pg_last_xlog_receive_location() = pg_last_xlog_replay_location() THEN 0  ELSE EXTRACT (EPOCH FROM now() - pg_last_xact_replay_timestamp())::INTEGER END AS replication_lag;" postgres' | tail -n 3 | head -n 1 | sed 's/[^0-9]//g'`
+CONTENT=`ssh root@catchchallenger-db-common-1-a-slave 'psql -c "SELECT CASE WHEN pg_last_xlog_receive_location() = pg_last_xlog_replay_location() THEN 0  ELSE EXTRACT (EPOCH FROM now() - pg_last_xact_replay_timestamp())::INTEGER END AS replication_lag;" postgres' | grep -E 'row'`
+#execpted output: (1 row)
 if [ "${CONTENT}" != "" ]
 then
     echo -n catchchallenger-db-common-1-a-slave:

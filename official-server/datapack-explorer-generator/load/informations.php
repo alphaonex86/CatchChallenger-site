@@ -26,7 +26,7 @@ if(is_file($datapack_path.'informations.xml'))
             $name_in_other_lang[$lang]=$name;
     }
     if(!preg_match('#<description( lang="en")?>.*</description>#isU',$content))
-        continue;
+        exit;
     $description=text_operation_first_letter_upper(preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$content));
     $description=str_replace('<![CDATA[','',str_replace(']]>','',$description));
     $description=preg_replace("#[\n\r\t]+#is",'',$description);

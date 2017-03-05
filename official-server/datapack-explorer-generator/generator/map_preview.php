@@ -77,11 +77,13 @@ if(isset($map_generator) && $map_generator!='' && file_exists($map_generator))
     //single map preview
     echo exec($map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/main/',$output,$return_var);
     echo implode($output,"\n");
-    if($return_var!=0)
+    /*
+    if(!file_exists($datapack_explorer_local_path.'maps/preview-1.png'))
+    //if($return_var!=0)
     {
         echo 'exec failed';
         exit;
-    }
+    }*/
     if(is_executable('/usr/bin/mogrify'))
     {
         $before = microtime(true);

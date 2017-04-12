@@ -97,6 +97,9 @@ if($is_up)
 					echo '<img src="/official-server/images/top-2.png" alt="Top 2" title="Top 2" width="16" height="16" style="float:left" /> Top 2<br />';
 					echo '<img src="/official-server/images/top-3.png" alt="Top 3" title="Top 3" width="16" height="16" style="float:left" /> Top 3<br />';
 					echo '<img src="/official-server/images/leader.png" alt="" width="16" height="16" alt="Clan leader" title="Clan leader" style="float:left" /> Clan leader<br />';
+					$reply = pg_query($postgres_link_common,'SELECT COUNT(id) as count FROM character;') or die(pg_last_error());
+					if($data = pg_fetch_array($reply))
+                        echo 'Number of player registred: '.$data['count'].'<br />';
 					echo '<table>';
 					echo '<tr class="tiers_img">';
 					echo '<td></td>';

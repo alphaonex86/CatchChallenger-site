@@ -161,6 +161,20 @@ h2
 	text-decoration: underline;
 }
 
+.title:first-letter  {
+	font-size: 1.2em;
+	color: #00C8F2;
+}
+.title  {
+	border: 0;
+	display: block;
+	color: #BFBFBF;
+	text-align:center;
+	font-size: 18px;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
 .text {
 	color: #606060;
 	font-size: 13px;

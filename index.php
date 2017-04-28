@@ -49,7 +49,7 @@ if(preg_match('#^.*<content.*/>(.*)</content>.*$#isU',$filecurs))
     echo '<img src="/images/hr.png" width="632" height="19" class="separation" style="clear:both;" />
     <br />
     <img src="/images/chip.png" width="64" height="64" style="float:left; margin-right:7px;" class="tiers_img" alt="" />
-    <div id="title">News</div>
+    <div class="title">News</div>
     <p class="text">';
     $filecurs=preg_replace('#^.*<content.*/>(.*)</content>.*$#isU','$1',$filecurs);
     $filecurs=preg_replace('#<p>Statistics:.*$#isU','',$filecurs);
@@ -72,6 +72,16 @@ if(preg_match('#^.*<content.*/>(.*)</content>.*$#isU',$filecurs))
                     <li>Your bots on autorised server</li>
 				</ul>
 				</p>
+				<img src="/images/hr.png" width="632" height="19" class="separation" />
+				<div class="title">Parteners</div>
+				<center>
+				<table>
+				<tr>
+				<td>&nbsp;<a href="//www.confiared.com/"><img src="/images/confiared-header.png" alt="VPS without connectivity problem, into bolivia, PaaS, backup and more solution" title="VPS without connectivity problem, into bolivia, PaaS, backup and more solution" /></a>&nbsp;</td>
+				<td>&nbsp;<img src="/images/IPv6.png" alt="IPv6 full support" title="IPv6 full support" />&nbsp;</td>
+				</tr>
+				</table>
+				</center>
 			</div>
 			<div id="footer">
 				<div id="copyright">CatchChallenger - <span style="color:#777;font-size:80%">Donate Bitcoin: </span><span style="color:#999;font-size:70%">1C4VLs16HX5YBoUeCLxEMJq8TpP24dcUJN</span> <span style="color:#777;font-size:80%">Nextcoin: </span><span style="color:#999;font-size:70%">NXT-MY96-548U-A5V5-BSR7R</span></div>

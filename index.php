@@ -79,6 +79,7 @@ if(preg_match('#^.*<content.*/>(.*)</content>.*$#isU',$filecurs))
 				<tr>
 				<td>&nbsp;<a href="//www.confiared.com/"><img src="/images/confiared-header.png" alt="VPS without connectivity problem, into bolivia, PaaS, backup and more solution" title="VPS without connectivity problem, into bolivia, PaaS, backup and more solution" /></a>&nbsp;</td>
 				<td>&nbsp;<img src="/images/IPv6.png" alt="IPv6 full support" title="IPv6 full support" />&nbsp;</td>
+				<td>&nbsp;<a href="//ultracopier.first-world.info/"><img src="/images/ultracopier.png" alt="Ultracopier is free and open source software licensed under GPL3 that acts as a replacement for files copy dialogs. Main features include: play/pause, speed limitation, on-error resume, error/collision management ..." title="Ultracopier is free and open source software licensed under GPL3 that acts as a replacement for files copy dialogs. Main features include: play/pause, speed limitation, on-error resume, error/collision management ..." /></a>&nbsp;</td>
 				</tr>
 				</table>
 				</center>

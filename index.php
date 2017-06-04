@@ -43,6 +43,7 @@
 				<br />
 
 <?php
+date_default_timezone_set('Europe/Paris');
 $filecurs=file_get_contents('http://catchchallenger.first-world.info/forum/feed.php?f=7');
 if(preg_match('#^.*<content.*/>(.*)</content>.*$#isU',$filecurs))
 {

@@ -69,6 +69,7 @@ if(preg_match('#^.*<content.*/>(.*)</content>.*$#isU',$filecurs))
 					<li>Free to play with multiple account</li>
 					<li>You can simply re-open you own server with the same content (like a mirror of the official server, <a href="download.html">see download</a>). Exists multiples mirrors on the web to access of the download if all the officials sources are down.</li>
 					<li>Warranty of life by small cost. <strong><u>I pledge to keep open as long as possible the server</u></strong> (<a href="rules.html">see the rules</a>), else see above</li>
+					<li><span class="important"><b><?php echo (date('Y')-2012); ?> years</b> working and server up</span></li>
                     <li>Your bots on autorised server</li>
 				</ul>
 				</p>

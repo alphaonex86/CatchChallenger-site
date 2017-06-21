@@ -70,26 +70,26 @@ if(file_exists($logfile))
 {
     if($filecurs=file_get_contents($logfile))
     {
-        $posLog=strpos($filecurs,'Log:'."\n");
+        $posLag=strpos($filecurs,'Lag:'."\n");
         $posProcessOnSlave=strpos($filecurs,'Process on slave:'."\n");
         $posSlaveOnMaster=strpos($filecurs,'Slave connected on master:'."\n");
-        if($posLog===false)
-            $returnVar[$backup]=array('state'=>'down','reason'=>'String "Log:" not found');
+        if($posLag===false)
+            $returnVar[$backup]=array('state'=>'down','reason'=>'String "Lag:" not found');
         else if($posProcessOnSlave===false)
             $returnVar[$backup]=array('state'=>'down','reason'=>'String "Process on slave:" not found');
         else if($posSlaveOnMaster===false)
             $returnVar[$backup]=array('state'=>'down','reason'=>'String "Slave connected on master:" not found');
-        else if($posLog>=$posProcessOnSlave)
-            $returnVar[$backup]=array('state'=>'down','reason'=>'String "Log:" out of scope');
+        else if($posLag>=$posProcessOnSlave)
+            $returnVar[$backup]=array('state'=>'down','reason'=>'String "Lag:" out of scope');
         else if($posProcessOnSlave>=$posSlaveOnMaster)
             $returnVar[$backup]=array('state'=>'down','reason'=>'String "Process on slave:" out of scope');
         else 
         {
-            $stringLog=substr($filecurs,$posLog+strlen('Log:'."\n"),$posProcessOnSlave-$posLog-strlen('Log:'."\n"));
+            $stringLag=substr($filecurs,$posLag+strlen('Lag:'."\n"),$posProcessOnSlave-$posLag-strlen('Lag:'."\n"));
             $stringProcessOnSlave=substr($filecurs,$posProcessOnSlave+strlen('Process on slave:'."\n"),$posSlaveOnMaster-$posProcessOnSlave-strlen('Process on slave:'."\n"));
             $stringSlaveOnMaster=substr($filecurs,$posSlaveOnMaster+strlen('Slave connected on master:'."\n"),strlen($filecurs)-$posSlaveOnMaster+strlen('Slave connected on master:'."\n"));
-            $stringLogLine=explode("\n",$stringLog);
-            $stringLogLine=array_filter($stringLogLine, function($value) { return $value !== ''; });
+            $stringLagLine=explode("\n",$stringLag);
+            $stringLagLine=array_filter($stringLagLine, function($value) { return $value !== ''; });
             $stringProcessOnSlaveLine=explode("\n",$stringProcessOnSlave);
             $stringProcessOnSlaveLine=array_filter($stringProcessOnSlaveLine, function($value) { return $value !== ''; });
             $stringSlaveOnMasterLine=explode("\n",$stringSlaveOnMaster);
@@ -97,15 +97,15 @@ if(file_exists($logfile))
 
             $inError=array();
             
-            $stringLogArray=array();
-            foreach($stringLogLine as $line)
+            $stringLagArray=array();
+            foreach($stringLagLine as $line)
             {
                 $posDelim=strpos($line,':');
                 if($posDelim===false)
                     die('File format error for '.$logfile);
                 $item=substr($line,0,$posDelim);
                 $value=substr($line,$posDelim+1,strlen($line)-$posDelim-1);
-                $stringLogArray[$item]=$value;
+                $stringLagArray[$item]=$value;
                 if($value>3600)
                     $inError[$item]='Sync time too big';
             }
@@ -134,7 +134,7 @@ if(file_exists($logfile))
 
             foreach($postgresql_replication as $slave)
             {
-                if(!isset($stringLogArray[$slave]))
+                if(!isset($stringLagArray[$slave]))
                     $inError[$slave]='Not found in lag';
                 else if(!isset($stringProcessOnSlaveArray[$slave]))
                     $inError[$slave]='Not found in ProcessOnSlave';

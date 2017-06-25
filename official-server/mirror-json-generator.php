@@ -180,7 +180,7 @@ function flushcurlcall()
                         if(strpos($content,"\n-\n")===false)
                         {
                             $mirrorserverlisttemp['servers'][$server]['state']='corrupted';
-                            $mirrorserverlisttemp['servers'][$server]['error']='Don\'t have valid structure';
+                            $mirrorserverlisttemp['servers'][$server]['error']='Don\'t have valid structure (1), sha256: '.hash('sha256',$content).', size: '.strlen($content);
                             $mirrorserverlisttemp['servers'][$server]['file']=$server.$file;
                         }
                     }
@@ -224,14 +224,40 @@ if(isset($singledatapacklisttest))
 {
     foreach($singledatapacklisttest as $url)
     {
-        $content=@file_get_contents($url);
-        if(strpos($content,"\n-\n")===false)
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_TIMEOUT,10);
+        curl_setopt($ch, CURLOPT_TCP_NODELAY, 1); 
+        $content = curl_exec($curl);
+        $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $errno = curl_errno($curl);
+        curl_close($curl);
+        if($errno)
+        {
+            $mirrorserverlisttemp['servers'][$url]['state']='down';
+            $mirrorserverlisttemp['servers'][$url]['error']='cURL error ('.$errno.')';
+            $mirrorserverlisttemp['servers'][$url]['curl_error']=curl_strerror($errno);
+            $mirrorserverlisttemp['servers'][$url]['file']=$url;
+        }
+        else if($httpcode!=200)
         {
             $mirrorserverlisttemp['servers'][$url]['state']='corrupted';
-            $mirrorserverlisttemp['servers'][$url]['error']='Don\'t have valid structure';
+            $mirrorserverlisttemp['servers'][$url]['error']='http code: '.$httpcode;
+            $mirrorserverlisttemp['servers'][$url]['curl_error']=curl_strerror($errno);
+            $mirrorserverlisttemp['servers'][$url]['file']=$url;
         }
         else
-            $mirrorserverlisttemp['servers'][$url]['state']='up';
+        {
+            if(strpos($content,"\n-\n")===false)
+            {
+                $mirrorserverlisttemp['servers'][$url]['state']='corrupted';
+                $mirrorserverlisttemp['servers'][$url]['error']='Don\'t have valid structure (2), sha256: '.hash('sha256',$content).', size: '.strlen($content);
+            }
+            else
+                $mirrorserverlisttemp['servers'][$url]['state']='up';
+        }
     }
 }
 

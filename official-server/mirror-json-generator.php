@@ -12,6 +12,18 @@ $arr=array();
 foreach($mirrorserverlist as $host)
     $mirrorserverlisttemp['servers'][$host]=array('state'=>'up');
 
+function filewrite($file,$content)
+{
+	if($filecurs=fopen($file, 'w'))
+	{
+		if(fwrite($filecurs,$content) === false)
+			die('Unable to write the file: '.$file);
+		fclose($filecurs);
+	}
+	else
+		die('Unable to write or create the file: '.$file);
+}
+    
 function giveDirList($folder)
 {
     if(!preg_match('#/$#',$folder))
@@ -171,6 +183,7 @@ function flushcurlcall()
                     $mirrorserverlisttemp['servers'][$server]['state']='corrupted';
                     $mirrorserverlisttemp['servers'][$server]['error']='local (sha256: '.hash('sha256',$contentlocal).', size: '.strlen($contentlocal).$contentlocaltext.') and remote file (sha256: '.hash('sha256',$content).', size: '.strlen($content).$contenttext.') are not same';
                     $mirrorserverlisttemp['servers'][$server]['file']=$server.$file;
+                    filewrite('/tmp/bug',$contentlocal);
                 }
                 else
                 {

@@ -1,6 +1,6 @@
 <?php
 $cachebasepath='/tmp/';
-$cache=false;
+$cache=true;
 
 function filewrite($file,$content)
 {
@@ -53,31 +53,60 @@ if(isset($argv))
             $_GET[$e[0]]=0;
     }
 
-$file = fopen("/tmp/cc-gen-tar","w+");
+if($cache)
+{
+    if(file_exists($cachetar))
+    {
+        if(filemtime($cachetar)<=time())
+        {
+            if(filemtime($cachetar)>(time()-5*60))
+            {
+                header('Content-type: application/x-xz');
+                header('From-cache: yes');
+                echo file_get_contents($cachetarxz);
+                exit;
+            }
+            else
+                header('From-cache: too old: '.filemtime($cachetar).'>'.(time()-5*60).' for '.$cachetar);
+        }
+        else
+            header('From-cache: into the future');
+    }
+    else
+        header('From-cache: no file');
+}
+else
+    header('From-cache: not probed');
+    
+$file = fopen("/tmp/cc-gen-tar56465","w+");
 if(flock($file,LOCK_EX))
 {
     if($cache)
     {
         if(file_exists($cachetar))
         {
-            if(filemtime($cachetar)<=time() && filemtime($cachetar)>(time()-5*60))
+            if(filemtime($cachetar)<=time())
             {
-                header('Content-type: application/x-xz');
-                header('From-cache: yes');
-                echo file_get_contents($cachetar);
-                flock($file,LOCK_UN);
-                fclose($file);
-                exit;
+                if(filemtime($cachetar)>(time()-5*60))
+                {
+                    header('Content-type: application/x-xz');
+                    header('From-cache: yes');
+                    echo file_get_contents($cachetarxz);
+                    flock($file,LOCK_UN);
+                    fclose($file);
+                    exit;
+                }
+                else
+                    header('From-cache: too old: '.filemtime($cachetar).'>'.(time()-5*60).' for '.$cachetar);
             }
             else
-                header('From-cache: too old');
+                header('From-cache: into the future');
         }
         else
             header('From-cache: no file');
     }
     else
         header('From-cache: not probed');
-
     ob_start();
     @exec('./datapack-archive.sh',$output);
     ob_end_flush();

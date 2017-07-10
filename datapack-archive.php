@@ -121,4 +121,10 @@ if($cachetarxz<3*1024*1024)
     filewrite('/tmp/bug2',implode("\n",$output));
 else if(count($output)>0)
     filewrite('/tmp/bug3',implode("\n",$output));
-echo file_get_contents($cachetarxz);
+if(file_exists($cachetarxz))
+    echo file_get_contents($cachetarxz);
+else
+{
+    header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found", true, 404);
+    die();
+}

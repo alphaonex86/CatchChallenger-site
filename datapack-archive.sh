@@ -15,6 +15,7 @@ then
     mv /tmp/datapack.tar.xz${RANDOMNUMBERTOKEN} /tmp/datapack.tar.xz
 else
     echo 'already ok datapack'
+    rm /tmp/datapack-new.tar${RANDOMNUMBERTOKEN}
 fi
 PATHB=`pwd`
 for main in $(ls ${PATHB}/datapack/map/main); do
@@ -30,6 +31,7 @@ for main in $(ls ${PATHB}/datapack/map/main); do
             mv /tmp/datapack-main-${main}.tar.xz${RANDOMNUMBERTOKEN} /tmp/datapack-main-${main}.tar.xz
         else
             echo 'already ok datapack main' ${main}
+            rm /tmp/datapack-main-${main}-new.tar${RANDOMNUMBERTOKEN}
         fi
         for sub in $(ls ${PATHB}/datapack/map/main/${main}/sub/); do
                 cd ${PATHB}/datapack/map/main/${main}/sub/
@@ -44,6 +46,7 @@ for main in $(ls ${PATHB}/datapack/map/main); do
                     mv /tmp/datapack-sub-${main}-${sub}.tar.xz${RANDOMNUMBERTOKEN} /tmp/datapack-sub-${main}-${sub}.tar.xz
                 else
                     echo 'already ok datapack sub' ${main} ${sub}
+                    rm /tmp/datapack-sub-${main}-${sub}-new.tar${RANDOMNUMBERTOKEN}
                 fi
         done
 done

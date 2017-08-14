@@ -3,6 +3,7 @@ if(!isset($datapackexplorergeneratorinclude))
 	die('abort into load fights'."\n");
 
 $fight_meta=array();
+$monster_to_fight=array();
 $item_to_fight=array();
 
 $dir = $datapack_path.'map/main/';
@@ -55,6 +56,7 @@ while (false !== ($maindatapackcode = readdir($dh)))
                     $monster=preg_replace('#^.*id="([0-9]+)".*$#isU','$1',$monster_text);
                     $level=preg_replace('#^.*level="([0-9]+)".*$#isU','$1',$monster_text);
                     $monsters[]=array('monster'=>$monster,'level'=>$level);
+                    $monster_to_fight[$monster][$maindatapackcode][]=$id;
                 }
                 $fight_meta[$maindatapackcode][$id]=array('start'=>$start,'win'=>$win,'cash'=>$cash,'monsters'=>$monsters,'items'=>$items);
             }

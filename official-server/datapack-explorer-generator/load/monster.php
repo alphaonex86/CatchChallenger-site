@@ -3,8 +3,6 @@ if(!isset($datapackexplorergeneratorinclude))
 	die('abort into load monster'."\n");
 
 $monster_meta=array();
-$exclusive_monster=array();
-$exclusive_monster_reverse=array();
 $item_to_monster=array();
 $item_to_evolution=array();
 $reverse_evolution=array();
@@ -270,29 +268,9 @@ foreach($temp_monsters as $monster_file)
 	}
 }
 ksort($monster_meta);
-ksort($exclusive_monster);
-ksort($exclusive_monster_reverse);
 ksort($item_to_monster);
 ksort($item_to_evolution);
 ksort($reverse_evolution);
 ksort($type_to_monster);
 ksort($skill_to_monster);
 ksort($item_to_skill_of_monster);
-
-foreach($monster_meta as $id=>$monster)
-{
-    if(count($monster['game'])==1)
-    {
-        foreach($monster['game'] as $maindatapackcode=>$values)
-        {
-            if(count($values)==1)
-            {
-                $exclusive_monster[$maindatapackcode][$values[0]][]=$id;
-                $exclusive_monster_reverse[$id]=array('maindatapackcode'=>$maindatapackcode,'subdatapackcode'=>$values[0]);
-                ksort($exclusive_monster[$maindatapackcode][$values[0]]);
-                ksort($exclusive_monster[$maindatapackcode]);
-                ksort($exclusive_monster_reverse);
-            }
-        }
-    }
-}

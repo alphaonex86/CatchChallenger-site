@@ -116,7 +116,7 @@ foreach($monster_meta as $id=>$monster)
             else
             {
                 $percent=100*($monster_to_rarity[$id]['position'])/count($monster_to_rarity);
-                if($percent>10)
+                if($percent>90)
                     $map_descriptor.=$translation_list[$current_lang]['Very common'];
                 else if($percent>70)
                     $map_descriptor.=$translation_list[$current_lang]['Common'];
@@ -927,21 +927,31 @@ foreach($monster_meta as $id=>$monster)
         $link.='.html';
 	$map_descriptor.='<tr class="value"';
 	
-	if(isset($monster_to_rarity[$id]))
+    if(!isset($monster_to_map[$id]))
+    {}
+    else
     {
-        $percent=100*($monster_to_rarity[$id]['position'])/count($monster_to_rarity);
-        if($percent>10)
-            $map_descriptor.=' style="background-color:#e5eaff;"';
-        else if($percent>70)
-            $map_descriptor.=' style="background-color:#e0ffdd;"';
-        else if($percent>40)
-            $map_descriptor.=' style="background-color:#fbfdd3;"';
-        else if($percent>10)
-            $map_descriptor.=' style="background-color:#ffefdb;"';
-        else
+        if(!isset($monster_to_rarity[$id]))
             $map_descriptor.=' style="background-color:#ffe5e5;"';
+        else
+        {
+            if(isset($monster_to_rarity[$id]))
+            {
+                $percent=100*($monster_to_rarity[$id]['position'])/count($monster_to_rarity);
+                if($percent>90)
+                    $map_descriptor.=' style="background-color:#e5eaff;"';
+                else if($percent>70)
+                    $map_descriptor.=' style="background-color:#e0ffdd;"';
+                else if($percent>40)
+                    $map_descriptor.=' style="background-color:#fbfdd3;"';
+                else if($percent>10)
+                    $map_descriptor.=' style="background-color:#ffefdb;"';
+                else
+                    $map_descriptor.=' style="background-color:#ffe5e5;"';
+            }
+        }
     }
-	
+    
 	$map_descriptor.='>'."\n";
 	$map_descriptor.='<td>'."\n";
 	if(file_exists($datapack_path.'monsters/'.$id.'/small.png'))

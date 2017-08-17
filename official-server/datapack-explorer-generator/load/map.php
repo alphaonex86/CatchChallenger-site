@@ -711,3 +711,24 @@ ksort($duplicate_detection_name_and_zone);
 ksort($temp_maps);
 ksort($monster_to_rarity);
 ksort($mapsgroup_meta);
+
+$exclusive_monster=array();
+$exclusive_monster_reverse=array();
+foreach($monster_meta as $id=>$monster)
+{
+    if(count($monster['game'])==1)
+    {
+        foreach($monster['game'] as $maindatapackcode=>$values)
+        {
+            if(count($values)==1)
+            {
+                $exclusive_monster[$maindatapackcode][$values[0]][]=$id;
+                $exclusive_monster_reverse[$id]=array('maindatapackcode'=>$maindatapackcode,'subdatapackcode'=>$values[0]);
+                ksort($exclusive_monster[$maindatapackcode][$values[0]]);
+                ksort($exclusive_monster[$maindatapackcode]);
+            }
+        }
+    }
+}
+ksort($exclusive_monster_reverse);
+ksort($exclusive_monster);

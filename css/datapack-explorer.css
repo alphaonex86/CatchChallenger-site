@@ -663,3 +663,9 @@
 {
     float:left;height:580px;
 }
+.monsterlistflag
+{
+    min-width:32px;
+    height:32px;
+    overflow:hidden;
+}

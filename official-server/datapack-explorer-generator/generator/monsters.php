@@ -998,7 +998,7 @@ foreach($monster_meta as $id=>$monster)
         $flagsstring[]='<img src="/official-server/images/top-1.png" alt="" class="locationimg" width="16px" height="16px">';
 	if(count($flagsstring)>0)
 	{
-        $map_descriptor.='<td>'."\n";
+        $map_descriptor.='<td class="monsterlistflag">'."\n";
         $map_descriptor.=implode('',$flagsstring);
         $map_descriptor.='</td>'."\n";
 	}

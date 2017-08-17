@@ -891,6 +891,14 @@ $map_descriptor='';
 $map_descriptor.='<img src="/images/datapack-explorer/Grass.png" alt="" class="locationimg" width="16px" height="16px">: Wild monster<br style="clear:both" />';
 $map_descriptor.='<img src="/images/datapack-explorer/GrassUp.png" alt="" class="locationimg" width="16px" height="16px">: Evole from wild monster<br style="clear:both" />';
 $map_descriptor.='<div style="background-position:-16px -16px;" class="flags flags16" class="locationimg"></div>: Used in bot fight<br style="clear:both" />';
+$map_descriptor.='<img src="/official-server/images/top-1.png" alt="" class="locationimg" width="16px" height="16px">: Unique to a version<br style="clear:both" />';
+
+$map_descriptor.='<div style="width:16px;height:16px;float:left;background-color:#e5eaff;"></div>: Very common<br style="clear:both" />';
+$map_descriptor.='<div style="width:16px;height:16px;float:left;background-color:#e0ffdd;"></div>: Common<br style="clear:both" />';
+$map_descriptor.='<div style="width:16px;height:16px;float:left;background-color:#fbfdd3;"></div>: Less common<br style="clear:both" />';
+$map_descriptor.='<div style="width:16px;height:16px;float:left;background-color:#ffefdb;"></div>: Rare<br style="clear:both" />';
+$map_descriptor.='<div style="width:16px;height:16px;float:left;background-color:#ffe5e5;"></div>: Very rare<br style="clear:both" />';
+
 $map_descriptor.='<br style="clear:both" />';
 $map_descriptor.='<table class="item_list item_list_type_normal monster_list">
 <tr class="item_list_title item_list_title_type_normal">
@@ -917,7 +925,24 @@ foreach($monster_meta as $id=>$monster)
 	$link=$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($name);
     if(!$wikimode)
         $link.='.html';
-	$map_descriptor.='<tr class="value">'."\n";
+	$map_descriptor.='<tr class="value"';
+	
+	if(isset($monster_to_rarity[$id]))
+    {
+        $percent=100*($monster_to_rarity[$id]['position'])/count($monster_to_rarity);
+        if($percent>10)
+            $map_descriptor.=' style="background-color:#e5eaff;"';
+        else if($percent>70)
+            $map_descriptor.=' style="background-color:#e0ffdd;"';
+        else if($percent>40)
+            $map_descriptor.=' style="background-color:#fbfdd3;"';
+        else if($percent>10)
+            $map_descriptor.=' style="background-color:#ffefdb;"';
+        else
+            $map_descriptor.=' style="background-color:#ffe5e5;"';
+    }
+	
+	$map_descriptor.='>'."\n";
 	$map_descriptor.='<td>'."\n";
 	if(file_exists($datapack_path.'monsters/'.$id.'/small.png'))
 		$map_descriptor.='<div class="monstericon"><a href="'.$link.'"><img src="'.$base_datapack_site_path.'monsters/'.$id.'/small.png" width="32" height="32" alt="'.$monster['name'][$current_lang].'" title="'.$monster['name'][$current_lang].'" /></a></div>'."\n";
@@ -959,6 +984,8 @@ foreach($monster_meta as $id=>$monster)
     }
     if(isset($monster_to_fight[$id]))
         $flagsstring[]='<div style="background-position:-16px -16px;" class="flags flags16" class="locationimg"></div>';
+    if(isset($exclusive_monster_reverse[$id]))
+        $flagsstring[]='<img src="/official-server/images/top-1.png" alt="" class="locationimg" width="16px" height="16px">';
 	if(count($flagsstring)>0)
 	{
         $map_descriptor.='<td>'."\n";

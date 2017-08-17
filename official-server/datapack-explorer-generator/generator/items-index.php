@@ -4,6 +4,12 @@ if(!isset($datapackexplorergeneratorinclude))
 
 $map_descriptor='';
 
+$map_descriptor.='<div style="width:16px;height:16px;float:left;background-color:#e5eaff;"></div>: Buy into shop<br style="clear:both" />';
+$map_descriptor.='<div style="width:16px;height:16px;float:left;background-color:#e0ffdd;"></div>: Drop or crafting<br style="clear:both" />';
+$map_descriptor.='<div style="width:16px;height:16px;float:left;background-color:#fbfdd3;"></div>: Quest or industry<br style="clear:both" />';
+$map_descriptor.='<div style="width:16px;height:16px;float:left;background-color:#ffefdb;"></div>: Hidden on map<br style="clear:both" />';
+$map_descriptor.='<div style="width:16px;height:16px;float:left;background-color:#ffe5e5;"></div>: Fight<br style="clear:both" />';
+
 $item_by_group=array();
 foreach($item_meta as $id=>$item)
 {
@@ -70,7 +76,34 @@ foreach($item_by_group as $group_name=>$item_meta_temp)
 			$image=$base_datapack_site_path.'/items/'.$item['image'];
 		else
 			$image='';
-		$map_descriptor.='<tr class="value">
+		$map_descriptor.='<tr class="value"';
+		
+		//color flags
+		$arraycolor=array();
+        if(isset($item_to_shop[$id]))
+            $arraycolor[]='#e5eaff';
+        if(isset($item_to_monster[$id]) || isset($doItemId_to_crafting[$id]))
+            $arraycolor[]='#e0ffdd';
+        if(isset($items_to_quests[$id]) || isset($item_produced_by[$id]))
+            $arraycolor[]='#fbfdd3';
+        if(isset($item_to_map[$id]))
+            $arraycolor[]='#ffefdb';
+        if(isset($item_to_fight[$id]))
+            $arraycolor[]='#ffe5e5';
+        if(count($arraycolor)>0)
+        {
+            $map_descriptor.=' style="background: repeating-linear-gradient(-45deg, ';
+            $colorlist=array();
+            $px=0;
+            foreach($arraycolor as $color)
+            {
+                $colorlist[]=$color.' '.$px.'px, '.$color.' '.($px+4).'px';
+                $px+=5;
+            }
+            $map_descriptor.=implode(', ',$colorlist);
+            $map_descriptor.=');"';
+        }
+		$map_descriptor.='>
 		<td>'."\n";
 		if($image!='')
 		{

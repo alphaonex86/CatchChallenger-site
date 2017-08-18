@@ -279,3 +279,7 @@ $translation_list[$temp_lang]['Quests:']='Quêtes:';
 $translation_list[$temp_lang]['Buffs:']='Buffs:';
 $translation_list[$temp_lang]['Skills:']='Compétances:';
 $translation_list[$temp_lang]['Monsters type:']='Type de monstres:';
+
+$translation_list[$temp_lang]['Map description']='Description de la map';
+$translation_list[$temp_lang]['Average wild level']='Niveau moyen';
+$translation_list[$temp_lang]['Max fight level']='Niveau max de combat';

@@ -66,3 +66,4 @@ while (false !== ($maindatapackcode = readdir($dh)))
 closedir($dh);
 ksort($fight_meta);
 ksort($item_to_fight);
+

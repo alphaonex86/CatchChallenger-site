@@ -32,6 +32,8 @@ while (false !== ($maindatapackcode = readdir($dh)))
         $temp_maps[$maindatapackcode]=getTmxList($datapack_path.'map/main/'.$maindatapackcode.'/');
         foreach($temp_maps[$maindatapackcode] as $map)
         {
+            $averagelevel=(float)0.0;
+            $averagelevelType='';
             $mapgroup=0;
             $width=0;
             $height=0;
@@ -381,6 +383,9 @@ while (false !== ($maindatapackcode = readdir($dh)))
                         {
                             $text=preg_replace('#^.*<'.preg_quote($toSearch).'>(.*)</'.preg_quote($toSearch).'>.*$#isU','$1',$content_meta_map);
                             preg_match_all('#<monster[^>]+/>#isU',$text,$temp_text_list);
+                            
+                            $averagelevelTemp=(float)0.0;
+                            $monsterCount=0;
                             foreach($temp_text_list[0] as $text_entry)
                             {
                                 if(preg_match('# level="([0-9]+)"#isU',$text_entry))
@@ -426,9 +431,20 @@ while (false !== ($maindatapackcode = readdir($dh)))
                                     $monster_to_map_count[$id][$maindatapackcode.'/'.$map]['']=0;
                                     $monster_meta[$id]['rarity']+=$luck;
                                     $dropcount+=count($monster_meta[$id]['drops']);
+                                    $averagelevelTemp+=$minLevel+$maxLevel;
+                                    $monsterCount++;
                                 }
                                 else
                                     echo 'Monster: '.$id.' not found on the map: '.$map."\n";
+                            }
+                            if(
+                            ($toSearch=='cave' || $toSearch=='grass') && 
+                            ($averagelevelType=='' || ($averagelevelType=='cave' && $toSearch=='grass')) && 
+                            $monsterCount>0
+                            )
+                            {
+                                $averagelevel=(float)$averagelevelTemp/(2*$monsterCount);
+                                $averagelevelType=$toSearch;
                             }
                         }
                         else
@@ -474,6 +490,8 @@ while (false !== ($maindatapackcode = readdir($dh)))
                                     $search=($layer_event[$toSearch]['layer']=='' /*Cave*/ || preg_match('#<layer( [^>]+)? name="'.preg_quote($layer_event[$toSearch]['layer']).'"#isU',$content)/*Have layer into the tmx*/);
                                 if($search)
                                 {
+                                    $averagelevelTemp=(float)0.0;
+                                    $monsterCount=0;
                                     $text=preg_replace('#^.*<'.preg_quote($toSearch).'>(.*)</'.preg_quote($toSearch).'>.*$#isU','$1',$content_meta_map);
                                     preg_match_all('#<monster[^>]+/>#isU',$text,$temp_text_list);
                                     foreach($temp_text_list[0] as $text_entry)
@@ -521,9 +539,20 @@ while (false !== ($maindatapackcode = readdir($dh)))
                                             $monster_to_map_count[$id][$maindatapackcode.'/'.$map][$subdatapackcode]=0;
                                             $monster_meta[$id]['rarity']+=$luck;
                                             $dropcount+=count($monster_meta[$id]['drops']);
+                                            $averagelevelTemp+=$minLevel+$maxLevel;
+                                            $monsterCount++;
                                         }
                                         else
                                             echo 'Monster: '.$id.' not found on the map: '.$map."\n";
+                                    }
+                                    if(
+                                    ($toSearch=='cave' || $toSearch=='grass') && 
+                                    ($averagelevelType=='' || ($averagelevelType=='cave' && $toSearch=='grass')) && 
+                                    $monsterCount>0
+                                    )
+                                    {
+                                        $averagelevel=(float)$averagelevelTemp/(2*$monsterCount);
+                                        $averagelevelType=$toSearch;
                                     }
                                 }
                                 else
@@ -549,6 +578,8 @@ while (false !== ($maindatapackcode = readdir($dh)))
                             {
                                 if(isset($monsters[$toSearch]['']))
                                 {
+                                    $averagelevelTemp=(float)0.0;
+                                    $monsterCount=0;
                                     $monsters[$toSearch][$subdatapackcode]=$monsters[$toSearch][''];
                                     foreach($monsters[$toSearch][$subdatapackcode] as $tempMonsterList)
                                     {
@@ -574,7 +605,18 @@ while (false !== ($maindatapackcode = readdir($dh)))
                                             $monster_to_map_count[$id][$maindatapackcode.'/'.$map][$subdatapackcode]=0;
                                             $dropcount+=count($monster_meta[$id]['drops']);
                                             $monster_meta[$id]['rarity']+=$tempMonsterList['luck'];
+                                            $averagelevelTemp+=$minLevel+$maxLevel;
+                                            $monsterCount++;
                                         }
+                                    }
+                                    if(
+                                    ($toSearch=='cave' || $toSearch=='grass') && 
+                                    ($averagelevelType=='' || ($averagelevelType=='cave' && $toSearch=='grass')) && 
+                                    $monsterCount>0
+                                    )
+                                    {
+                                        $averagelevel=(float)$averagelevelTemp/(2*$monsterCount);
+                                        $averagelevelType=$toSearch;
                                     }
                                 }
                             }
@@ -586,6 +628,8 @@ while (false !== ($maindatapackcode = readdir($dh)))
                         {
                             if(isset($monsters[$toSearch]['']))
                             {
+                                $averagelevelTemp=(float)0.0;
+                                $monsterCount=0;
                                 $monsters[$toSearch][$subdatapackcode]=$monsters[$toSearch][''];
                                 foreach($monsters[$toSearch][$subdatapackcode] as $tempMonsterList)
                                 {
@@ -611,7 +655,18 @@ while (false !== ($maindatapackcode = readdir($dh)))
                                         $monster_to_map_count[$id][$maindatapackcode.'/'.$map][$subdatapackcode]=0;
                                         $dropcount+=count($monster_meta[$id]['drops']);
                                         $monster_meta[$tempMonsterList['id']]['rarity']+=$tempMonsterList['luck'];
+                                        $averagelevelTemp+=$minLevel+$maxLevel;
+                                        $monsterCount++;
                                     }
+                                }
+                                if(
+                                ($toSearch=='cave' || $toSearch=='grass') && 
+                                ($averagelevelType=='' || ($averagelevelType=='cave' && $toSearch=='grass')) && 
+                                $monsterCount>0
+                                )
+                                {
+                                    $averagelevel=(float)$averagelevelTemp/(2*$monsterCount);
+                                    $averagelevelType=$toSearch;
                                 }
                             }
                         }
@@ -625,7 +680,7 @@ while (false !== ($maindatapackcode = readdir($dh)))
             }
             $maps_list[$maindatapackcode][$map]=array('folder'=>$map_folder,'borders'=>$borders,'tp'=>$tp,'doors'=>$doors,'bots'=>$bots,'type'=>$type,'monsters'=>$monsters,'monsters_list'=>$monsters_list,
             'width'=>$width,'height'=>$height,'pixelwidth'=>$pixelwidth,'pixelheight'=>$pixelheight,'dropcount'=>$dropcount,'zone'=>$zone,'items'=>$items,'name'=>$name_in_other_lang,'shortdescription'=>$description_in_other_lang,'description'=>$name_in_other_lang,
-            'mapgroup'=>$mapgroup);
+            'mapgroup'=>$mapgroup,'averagelevel'=>$averagelevel,'maxfightlevel'=>0.0);
             ksort($maps_list[$maindatapackcode]);
             if(!isset($zone_to_map[$maindatapackcode]))
                 $zone_to_map[$maindatapackcode]=array();

@@ -82,7 +82,13 @@ foreach($item_by_group as $group_name=>$item_meta_temp)
 		$arraycolor=array();
         if(isset($item_to_shop[$id]))
             $arraycolor[]='#e5eaff';
-        if(isset($item_to_monster[$id]) || isset($doItemId_to_crafting[$id]))
+        $fromwild=false;
+        if(isset($item_to_monster[$id]))
+            foreach($item_to_monster[$id] as $item_to_monster_list)
+                if(isset($monster_meta[$item_to_monster_list['monster']]))
+                    if(isset($monster_to_map[$item_to_monster_list['monster']]))
+                        $fromwild=true;
+        if($fromwild || isset($doItemId_to_crafting[$id]))
             $arraycolor[]='#e0ffdd';
         if(isset($items_to_quests[$id]) || isset($item_produced_by[$id]))
             $arraycolor[]='#fbfdd3';

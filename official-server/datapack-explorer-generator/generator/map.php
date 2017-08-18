@@ -58,6 +58,11 @@ foreach($map_list as $map)
 		}
 		if($map_current_object['description'][$current_lang]!='')
 			$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Map description'].'</div><div class="value">'.$map_current_object['description'][$current_lang].'</div></div>'."\n";
+        
+        if($map_current_object['averagelevel']>0.0)
+            $map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Average wild level'].'</div><div class="value">'.(int)$map_current_object['averagelevel'].'</div></div>'."\n";
+        if($map_current_object['maxfightlevel']>0.0)
+            $map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Max fight level'].'</div><div class="value">'.(int)$map_current_object['maxfightlevel'].'</div></div>'."\n";
 
 		if(isset($zone_meta[$maindatapackcode][$map_current_object['zone']]))
 			$zone_name=$zone_meta[$maindatapackcode][$map_current_object['zone']]['name'][$current_lang];

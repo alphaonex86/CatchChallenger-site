@@ -252,3 +252,23 @@ ksort($bots_name_count);
 ksort($industry_to_bot);
 ksort($team_to_bot);
 ksort($item_to_bot_shop);
+
+//scan each map to set average fight level
+foreach($maps_list as $maindatapackcode=>$map_list)
+foreach($map_list as $mapTempId=>$map)
+{
+    $maxlevel=0;
+    if(isset($map['bots']) && count($map['bots'])>0)
+		foreach($map['bots'] as $bot_on_map)
+			if(isset($bots_meta[$maindatapackcode][$bot_on_map['id']]))
+			{
+                $bot=$bots_meta[$maindatapackcode][$bot_on_map['id']];
+                foreach($bot['step'] as $step_id=>$step)
+                    if($step['type']=='fight')
+                        if(isset($fight_meta[$maindatapackcode][$step['fightid']]))
+                            foreach($fight_meta[$maindatapackcode][$step['fightid']]['monsters'] as $monster)
+                                if($maxlevel<$monster['level'])
+                                    $maxlevel=$monster['level'];
+            }
+    $maps_list[$maindatapackcode][$mapTempId]['maxfightlevel']=$maxlevel;
+}

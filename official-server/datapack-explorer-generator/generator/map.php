@@ -6,6 +6,10 @@ $map_to_function=array();
 $zone_to_function=array();
 $zone_to_bot_count=array();
 $count_time=array(0,0,0,0,0,0,0,0);
+$minwildlevel=0;
+$maxwildlevel=0;
+$minfightlevel=0;
+$maxfightlevel=0;
 foreach($temp_maps as $maindatapackcode=>$map_list)
 foreach($map_list as $map)
 {
@@ -30,6 +34,20 @@ foreach($map_list as $map)
             mkpath($datapack_explorer_local_path.$translation_list[$current_lang]['maps/'].$map_folder);
     }
 	$map_descriptor='';
+	if($map_current_object['averagelevel']>0)
+	{
+        if($minwildlevel==0 || $minwildlevel>$map_current_object['averagelevel'])
+            $minwildlevel=$map_current_object['averagelevel'];
+        if($maxwildlevel==0 || $maxwildlevel<$map_current_object['averagelevel'])
+            $maxwildlevel=$map_current_object['averagelevel'];
+    }
+    if($map_current_object['maxfightlevel']>0)
+    {
+        if($minfightlevel==0 || $minfightlevel>$map_current_object['maxfightlevel'])
+            $minfightlevel=$map_current_object['maxfightlevel'];
+        if($maxfightlevel==0 || $maxfightlevel<$map_current_object['maxfightlevel'])
+            $maxfightlevel=$map_current_object['maxfightlevel'];
+    }
 
     $count_time[0]+=microtime(true)-$temp_time_start;
     $temp_time_start=microtime(true);
@@ -1048,6 +1066,54 @@ echo '- bot + save: '.ceil($count_time[5]*1000).'ms'."\n";
 echo '- preformat to save: '.ceil($count_time[6]*1000).'ms'."\n";
 echo '- save: '.ceil($count_time[7]*1000).'ms'."\n";*/
 
+$wildLevelRange=array();
+if($minwildlevel>0 && ($maxwildlevel-$minwildlevel)>=4/*have 2 kind at least*/)
+{
+    $fullrange=$maxwildlevel-$minwildlevel;
+    $numberOfWildLevel=(int)floor(((float)$fullrange)/2);
+    if($numberOfWildLevel>4)
+        $numberOfWildLevel=4;
+    $partialrange=(int)($fullrange/$numberOfWildLevel);
+    $wildLevelRange[0]=array((int)$minwildlevel,(int)($minwildlevel+$partialrange));
+    $wildLevelRange[1]=array((int)($minwildlevel+$partialrange+1),(int)($minwildlevel+$partialrange*2));
+    $map_descriptor.='<div style="float:left"><div style="width:16px;height:16px;float:left;background-color:#e5eaff;"></div>: Wild '.$wildLevelRange[0][0].'-'.$wildLevelRange[0][1].'</div> ';
+    $map_descriptor.='<div style="float:left"><div style="width:16px;height:16px;float:left;background-color:#e0ffdd;"></div>: Wild '.$wildLevelRange[1][0].'-'.$wildLevelRange[1][1].'</div> ';
+    if($numberOfWildLevel>=3)
+    {
+        $wildLevelRange[2]=array((int)($minwildlevel+$partialrange*2+1),(int)($minwildlevel+$partialrange*3));
+        $map_descriptor.='<div style="float:left"><div style="width:16px;height:16px;float:left;background-color:#fbfdd3;"></div>: Wild '.$wildLevelRange[2][0].'-'.$wildLevelRange[2][1].'</div> ';
+        if($numberOfWildLevel>=3)
+        {
+            $wildLevelRange[3]=array((int)($minwildlevel+$partialrange*3+1),(int)($minwildlevel+$partialrange*4));
+            $map_descriptor.='<div style="float:left"><div style="width:16px;height:16px;float:left;background-color:#ffe5e5;"></div>: Wild '.$wildLevelRange[3][0].'-'.$wildLevelRange[3][1].'</div> ';
+        }
+    }
+}
+$fightLevelRange=array();
+if($minfightlevel>0 && ($maxfightlevel-$minfightlevel)>=4/*have 2 kind at least*/)
+{
+    $fullrange=$maxfightlevel-$minfightlevel;
+    $numberOfWildLevel=(int)floor(((float)$fullrange)/2);
+    if($numberOfWildLevel>4)
+        $numberOfWildLevel=4;
+    $partialrange=(int)($fullrange/$numberOfWildLevel);
+    $fightLevelRange[0]=array((int)$minfightlevel,(int)($minfightlevel+$partialrange));
+    $fightLevelRange[1]=array((int)($minfightlevel+$partialrange+1),(int)($minfightlevel+$partialrange*2));
+    if($numberOfWildLevel>=3)
+    {
+        if($numberOfWildLevel>=3)
+        {
+            $fightLevelRange[3]=array((int)($minfightlevel+$partialrange*3+1),(int)($minfightlevel+$partialrange*4));
+            $map_descriptor.='<div style="float:right"><div style="width:16px;height:16px;float:left;background-color:#ffe5e5;"></div>: Fight '.$fightLevelRange[3][0].'-'.$fightLevelRange[3][1].'</div> ';
+        }
+        $fightLevelRange[2]=array((int)($minfightlevel+$partialrange*2+1),(int)($minfightlevel+$partialrange*3));
+        $map_descriptor.='<div style="float:right"><div style="width:16px;height:16px;float:left;background-color:#fbfdd3;"></div>: Fight '.$fightLevelRange[2][0].'-'.$fightLevelRange[2][1].'</div> ';
+    }
+    $map_descriptor.='<div style="float:right"><div style="width:16px;height:16px;float:left;background-color:#e0ffdd;"></div>: Fight '.$fightLevelRange[1][0].'-'.$fightLevelRange[1][1].'</div> ';
+    $map_descriptor.='<div style="float:right"><div style="width:16px;height:16px;float:left;background-color:#e5eaff;"></div>: Fight '.$fightLevelRange[0][0].'-'.$fightLevelRange[0][1].'</div> ';
+}
+$map_descriptor.='<br style="clear:both" />';
+
 $mapoverviewindex=1;
 while(file_exists($datapack_explorer_local_path.'maps/overview-'.$mapoverviewindex.'.png') && file_exists($datapack_explorer_local_path.'maps/preview-'.$mapoverviewindex.'.png'))
 {
@@ -1182,7 +1248,35 @@ foreach($zonetempthis as $zone=>$map_by_zone)
 
             $map_count=1;
         }
-		$map_descriptor.='<tr class="value"><td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$map).'" title="'.$name[$current_lang].'">'.$name[$current_lang].'</a></td>'."\n";
+		$map_descriptor.='<tr class="value" style="background: linear-gradient(-45deg, ';
+		$maxfightlevel=$maps_list[$maindatapackcode][$map]['maxfightlevel'];
+		if($maxfightlevel<=0 || $maxfightlevel<$fightLevelRange[0][0])
+            $map_descriptor.='white';
+		else if($maxfightlevel>=$fightLevelRange[0][0] && $maxfightlevel<$fightLevelRange[0][1])
+            $map_descriptor.='#e5eaff';
+        else if($maxfightlevel>=$fightLevelRange[1][0] && $maxfightlevel<$fightLevelRange[1][1])
+            $map_descriptor.='#e0ffdd';
+        else if(isset($fightLevelRange[2]) && $maxfightlevel>=$fightLevelRange[2][0] && $maxfightlevel<$fightLevelRange[2][1])
+            $map_descriptor.='#fbfdd3';
+        else if(isset($fightLevelRange[3]) && $maxfightlevel>=$fightLevelRange[3][0] && $maxfightlevel<$fightLevelRange[3][1])
+            $map_descriptor.='#ffe5e5';
+        else
+            $map_descriptor.='#ffe5e5';
+		$map_descriptor.=', ';
+        $averagelevel=$maps_list[$maindatapackcode][$map]['averagelevel'];
+		if($averagelevel<=0 || $averagelevel<$wildLevelRange[0][0])
+            $map_descriptor.='white';
+		else if($averagelevel>=$wildLevelRange[0][0] && $averagelevel<$wildLevelRange[0][1])
+            $map_descriptor.='#e5eaff';
+        else if($averagelevel>=$wildLevelRange[1][0] && $averagelevel<$wildLevelRange[1][1])
+            $map_descriptor.='#e0ffdd';
+        else if(isset($wildLevelRange[2]) && $averagelevel>=$wildLevelRange[2][0] && $averagelevel<$wildLevelRange[2][1])
+            $map_descriptor.='#fbfdd3';
+        else if(isset($wildLevelRange[3]) && $averagelevel>=$wildLevelRange[3][0] && $averagelevel<$wildLevelRange[3][1])
+            $map_descriptor.='#ffe5e5';
+        else
+            $map_descriptor.='#ffe5e5';
+		$map_descriptor.=' 90%)"><td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$map).'" title="'.$name[$current_lang].'">'.$name[$current_lang].'</a></td>'."\n";
         if($additionnal_function)
         {
             $map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$map).'" title="'.$name[$current_lang].'">'."\n";

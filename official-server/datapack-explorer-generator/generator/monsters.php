@@ -702,6 +702,7 @@ foreach($monster_meta as $id=>$monster)
         foreach($monster_to_fight[$id] as $maindatapackcode=>$fights_list)
         foreach($fights_list as $fightid)
         {
+            if(isset($fight_to_bot[$maindatapackcode][$fightid]))
             foreach($fight_to_bot[$maindatapackcode][$fightid] as $bot_id)
             {
                 $bot=$bots_meta[$maindatapackcode][$bot_id];

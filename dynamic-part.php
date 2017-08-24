@@ -7,7 +7,27 @@ $player_count=0;
 $maxplayer_count=0;
 $previously_know_server_changed=false;
 
-if(file_exists($gameserverfile) && $filecurs=file_get_contents($gameserverfile))
+$filecurs='';
+if(isset($gameserverfile))
+{
+    if(file_exists($gameserverfile) && $filecurs=file_get_contents($gameserverfile))
+    {}
+    else
+    $filecurs='';
+}
+if(isset($gameserversock))
+{
+    $fp = fsockopen('unix://'.$gameserversock,0,$errno, $errstr, 30);
+    if (!$fp) {
+        echo "$errstr ($errno)<br />\n";
+    } else {
+        while (!feof($fp)) {
+            $filecurs.=fgets($fp, 4096);
+        }
+        fclose($fp);
+    }
+}
+if($filecurs!='')
 {
     $arr=json_decode($filecurs,true);
     if(is_array($arr))

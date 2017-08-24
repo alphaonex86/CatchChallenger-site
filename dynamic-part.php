@@ -17,9 +17,9 @@ if(isset($gameserverfile))
 }
 if(isset($gameserversock))
 {
-    $fp = fsockopen('unix://'.$gameserversock,0,$errno, $errstr, 30);
+    $fp = @fsockopen('unix://'.$gameserversock,0,$errno, $errstr, 30);
     if (!$fp) {
-        echo "$errstr ($errno)<br />\n";
+        echo "<!-- $errstr ($errno) -->\n";
     } else {
         while (!feof($fp)) {
             $filecurs.=fgets($fp, 4096);

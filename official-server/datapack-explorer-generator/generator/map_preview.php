@@ -28,9 +28,10 @@ if(isset($map_generator) &&
     )
 )
 {
+    $qtargs=' -platform offscreen';
     $pwd=getcwd();
     $return_var=0;
-    //echo 'cd '.$datapack_explorer_local_path.'maps/ && '.$map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/';
+    //echo 'cd '.$datapack_explorer_local_path.'maps/ && '.$map_generator.$qtargs.'  '.$pwd.'/'.$datapack_path.'map/';
     chdir($datapack_explorer_local_path.'maps/');
     
     //all map preview
@@ -46,11 +47,12 @@ if(isset($map_generator) &&
             @unlink('overview-'.$overviweid.'.png');
             @unlink('preview-'.$overviweid.'.png');
             $before = microtime(true);
-            echo exec($map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/main/'.$maindatapackcode.'/'.$map.' overview-'.$overviweid.'.png --renderAll',$output,$return_var);
+            //echo 'cd '.getcwd().';'.$map_generator.$qtargs.' '.$pwd.'/'.$datapack_path.'map/main/'.$maindatapackcode.'/'.$map.' overview-'.$overviweid.'.png --renderAll'."\n";
+            echo exec($map_generator.$qtargs.' '.$pwd.'/'.$datapack_path.'map/main/'.$maindatapackcode.'/'.$map.' overview-'.$overviweid.'.png --renderAll',$output,$return_var);
             if($return_var!=0)
             {
                 echo implode($output,"\n");
-                echo 'Bug with ('.$return_var.'): cd '.$datapack_explorer_local_path.'maps/ && '.$map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/main/'.$maindatapackcode.'/'.$map.' overview-'.$overviweid.'.png --renderAll'."\n";
+                echo 'Bug with ('.$return_var.'): cd '.$datapack_explorer_local_path.'maps/ && '.$map_generator.$qtargs.' '.$pwd.'/'.$datapack_path.'map/main/'.$maindatapackcode.'/'.$map.' overview-'.$overviweid.'.png --renderAll'."\n";
             }
             //echo implode($output,"\n");
             $after = microtime(true);
@@ -75,7 +77,7 @@ if(isset($map_generator) &&
             else
             {
                 echo 'overview.png not found'."\n";
-                echo 'cd '.$pwd.' && '.$map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/main/'.$maindatapackcode.'/'.$map.' overview-'.$overviweid.'.png --renderAll'."\n";
+                echo 'cd '.$pwd.' && '.$map_generator.$qtargs.' '.$pwd.'/'.$datapack_path.'map/main/'.$maindatapackcode.'/'.$map.' overview-'.$overviweid.'.png --renderAll'."\n";
             }
         }
         else
@@ -85,10 +87,11 @@ if(isset($map_generator) &&
         echo 'starter to do overview map missing'."\n";
 
     //single map preview
-    echo exec($map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/main/',$output,$return_var);
+    //echo 'cd '.getcwd().';'.$map_generator.$qtargs.' '.$pwd.'/'.$datapack_path.'map/main/'."\n";
+    echo exec($map_generator.$qtargs.' '.$pwd.'/'.$datapack_path.'map/main/',$output,$return_var);
     echo implode($output,"\n");
     if($return_var!=0)
-        echo 'Bug with ('.$return_var.'): cd '.$datapack_explorer_local_path.'maps/ && '.$map_generator.' -platform offscreen '.$pwd.'/'.$datapack_path.'map/main/'.$maindatapackcode.'/'.$map.' overview-'.$overviweid.'.png --renderAll'."\n";
+        echo 'Bug with ('.$return_var.'): cd '.$datapack_explorer_local_path.'maps/ && '.$map_generator.$qtargs.' '.$pwd.'/'.$datapack_path.'map/main/'.$maindatapackcode.'/'.$map.' overview-'.$overviweid.'.png --renderAll'."\n";
     /*
     if(!file_exists($datapack_explorer_local_path.'maps/preview-1.png'))
     //if($return_var!=0)

@@ -110,18 +110,22 @@ foreach($bot_list as $bot_id=>$bot)
 		if(isset($bot_id_to_map[$bot_id]))
 		{
             $bottemp=$bot_id_to_map[$bot_id];
-			if(isset($maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]))
-			{
-				$map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Map'].'</div><div class="value">'."\n";
-				if(isset($zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['zone']]))
-				{
-					$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$bottemp[$maindatapackcode]['map']).'" title="'.$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['name'][$current_lang].'">'.$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['name'][$current_lang].'</a>&nbsp;'."\n";
-					$zone_name=$zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['zone']]['name'][$current_lang];
-					$map_descriptor.='(Zone: <a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['zones/'].$maindatapackcode.'/'.text_operation_do_for_url($zone_name).'.html" title="'.$zone_name.'">'.$zone_name.'</a>)'."\n";
-				}
-				else
-					$map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$bottemp[$maindatapackcode]['map']).'" title="'.$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['name'][$current_lang].'">'.$maps_list[$maindatapackcode][$bottemp[$maindatapackcode]['map']]['name'][$current_lang].'</a>'."\n";
-				$map_descriptor.='</div></div>'."\n";
+            if(isset($bottemp[$maindatapackcode]))
+            {
+                $mapTemp=$bottemp[$maindatapackcode]['map'];
+                if(isset($maps_list[$maindatapackcode][$mapTemp]))
+                {
+                    $map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Map'].'</div><div class="value">'."\n";
+                    if(isset($zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$mapTemp]['zone']]))
+                    {
+                        $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$mapTemp).'" title="'.$maps_list[$maindatapackcode][$mapTemp]['name'][$current_lang].'">'.$maps_list[$maindatapackcode][$mapTemp]['name'][$current_lang].'</a>&nbsp;'."\n";
+                        $zone_name=$zone_meta[$maindatapackcode][$maps_list[$maindatapackcode][$mapTemp]['zone']]['name'][$current_lang];
+                        $map_descriptor.='(Zone: <a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['zones/'].$maindatapackcode.'/'.text_operation_do_for_url($zone_name).'.html" title="'.$zone_name.'">'.$zone_name.'</a>)'."\n";
+                    }
+                    else
+                        $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$maindatapackcode.'/'.str_replace('.tmx','.html',$mapTemp).'" title="'.$maps_list[$maindatapackcode][$mapTemp]['name'][$current_lang].'">'.$maps_list[$maindatapackcode][$mapTemp]['name'][$current_lang].'</a>'."\n";
+                    $map_descriptor.='</div></div>'."\n";
+                }
 			}
 		}
         if(isset($bot_start_to_quests[$bot_id]))

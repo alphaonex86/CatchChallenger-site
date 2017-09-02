@@ -30,7 +30,7 @@ if(isset($gameserversock))
 if($filecurs!='')
 {
     $arr=json_decode($filecurs,true);
-    if(is_array($arr))
+    if($arr!==NULL && is_array($arr))
     {
         ksort($arr);
         $previously_know_server=array();
@@ -216,7 +216,7 @@ $loginserver_down=0;
 if(file_exists($loginserverfile) && $filecurs=file_get_contents($loginserverfile))
 {
     $arr=json_decode($filecurs,true);
-    if(is_array($arr))
+    if($arr!==NULL && is_array($arr))
     {
         ksort($arr);
         foreach($arr as $ip=>$server)
@@ -238,6 +238,8 @@ if(file_exists($loginserverfile) && $filecurs=file_get_contents($loginserverfile
             $string_array[]='<strong>'.$loginserver_down.'</strong> <span style="color:red;">offline</span>';
         $total_string_array[]='Login server: '.implode('/',$string_array);
     }
+    else
+        $total_string_array[]='Login server: <span style="color:red;">bug</span>';
 }
 
 $mirrorserver_up=0;
@@ -246,7 +248,7 @@ $mirrorserver_corrupted=0;
 if(file_exists($mirrorserverfile) && $filecurs=file_get_contents($mirrorserverfile))
 {
     $arr=json_decode($filecurs,true);
-    if(is_array($arr))
+    if($arr!==NULL && is_array($arr))
     {
         ksort($arr['servers']);
         foreach($arr['servers'] as $ip=>$server)
@@ -272,6 +274,8 @@ if(file_exists($mirrorserverfile) && $filecurs=file_get_contents($mirrorserverfi
             $string_array[]='<strong>'.$mirrorserver_down.'</strong> <span style="color:red;">offline</span>';
         $total_string_array[]='Mirror server: '.implode('/',$string_array);
     }
+    else
+        $total_string_array[]='Mirror server: <span style="color:red;">bug</span>';
 }
 
 {
@@ -282,7 +286,7 @@ if(file_exists($mirrorserverfile) && $filecurs=file_get_contents($mirrorserverfi
     if(file_exists($backupfile) && $filecurs=file_get_contents($backupfile))
     {
         $arr=json_decode($filecurs,true);
-        if(is_array($arr))
+        if($arr!==NULL && is_array($arr))
         {
             ksort($arr);
             foreach($arr as $ip=>$server)
@@ -320,7 +324,7 @@ if(file_exists($mirrorserverfile) && $filecurs=file_get_contents($mirrorserverfi
     if(file_exists($otherjsonfile) && $filecurs=file_get_contents($otherjsonfile))
     {
         $arr=json_decode($filecurs,true);
-        if(is_array($arr))
+        if($arr!==NULL && is_array($arr))
         {
             ksort($arr);
             foreach($arr as $ip=>$server)
@@ -338,6 +342,8 @@ if(file_exists($mirrorserverfile) && $filecurs=file_get_contents($mirrorserverfi
                     $otherjson_down++;
             }
         }
+        else
+            $otherjson_down++;
     }
     if($otherjson_up>0)
         $string_array[]='<strong>'.$otherjson_up.'</strong> <span style="color:green;">online</span>';

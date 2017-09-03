@@ -147,11 +147,11 @@ function flushcurlcall()
                             $contentlocal=$content;
                             if($contentlocal=='')
                             {
-                                $content=@file_get_contents($server.$file);
+                                $content=file_get_contents($server.$file);
                                 $contentlocal=$content;
                                 if($contentlocal=='')
                                 {
-                                    echo 'Primary mirror is wrong, file problem on: '.$server.$file.'$contentlocal: '.$contentlocal.', $content: '.$content."\n";
+                                    echo 'Primary mirror is wrong, file problem on: '.$server.$file.' $contentlocal: '.$contentlocal.' , $content: '.$content."\n";
                                     exit;
                                 }
                             }

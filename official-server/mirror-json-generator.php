@@ -147,12 +147,41 @@ function flushcurlcall()
                             $contentlocal=$content;
                             if($contentlocal=='')
                             {
-                                $content=file_get_contents($server.$file);
-                                $contentlocal=$content;
-                                if($contentlocal=='')
+                                $url = $server.$file;
+                                
+                                $curl = curl_init();
+                                curl_setopt($curl, CURLOPT_URL, $url);
+                                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                                curl_setopt($curl, CURLOPT_HEADER, false);
+                                curl_setopt($ch, CURLOPT_TIMEOUT,10);
+                                curl_setopt($ch, CURLOPT_TCP_NODELAY, 1); 
+                                $content = curl_exec($curl);
+                                $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                                $errno = curl_errno($curl);
+                                curl_close($curl);
+
+                                if($errno)
                                 {
-                                    echo 'Primary mirror is wrong, file problem on: '.$server.$file.' $contentlocal: '.$contentlocal.' , $content: '.$content."\n";
-                                    exit;
+                                    $mirrorserverlisttemp['servers'][$server]['state']='down';
+                                    $mirrorserverlisttemp['servers'][$server]['error']='cURL error ('.$errno.')';
+                                    $mirrorserverlisttemp['servers'][$server]['curl_error']=curl_strerror($errno);
+                                    $mirrorserverlisttemp['servers'][$server]['file']=$server.$file;
+                                }
+                                else if($httpcode!=200 && $contentlocal!='')
+                                {
+                                    $mirrorserverlisttemp['servers'][$server]['state']='corrupted';
+                                    $mirrorserverlisttemp['servers'][$server]['error']='http code: '.$httpcode;
+                                    $mirrorserverlisttemp['servers'][$server]['curl_error']=curl_strerror($errno);
+                                    $mirrorserverlisttemp['servers'][$server]['file']=$server.$file;
+                                }
+                                else
+                                {
+                                    $contentlocal=$content;
+                                    if($contentlocal=='')
+                                    {
+                                        echo 'Primary mirror is wrong, file problem on: '.$server.$file.' $contentlocal: '.$contentlocal.' , $content: '.$content."\n";
+                                        exit;
+                                    }
                                 }
                             }
                             $missingfilecache[$file]=$contentlocal;

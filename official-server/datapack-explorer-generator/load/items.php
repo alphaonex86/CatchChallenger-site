@@ -182,9 +182,6 @@ foreach($temp_items as $item_file)
 			else
 				$item_meta[$id]=array('group'=>$group,'price'=>$price,'image'=>$image,'name'=>$name_in_other_lang,'description'=>$description_in_other_lang);
 		}
-        if($id==576)
-        {
-        }
 	}
 }
 ksort($item_meta);

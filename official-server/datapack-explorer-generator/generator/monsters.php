@@ -531,7 +531,16 @@ foreach($monster_meta as $id=>$monster)
 					$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($monster_meta[$evolution['evolveTo']]['name'][$current_lang]).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$evolution['evolveTo'].'/front.png" width="80" height="80" alt="'.$monster_meta[$evolution['evolveTo']]['name'][$current_lang].'" title="'.$monster_meta[$evolution['evolveTo']]['name'][$current_lang].'" /></a></td></tr>'."\n";
 				else if(file_exists($datapack_path.'monsters/'.$evolution['evolveTo'].'/front.gif'))
 					$map_descriptor.='<tr><td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($monster_meta[$evolution['evolveTo']]['name'][$current_lang]).'.html"><img src="'.$base_datapack_site_path.'monsters/'.$evolution['evolveTo'].'/front.gif" width="80" height="80" alt="'.$monster_meta[$evolution['evolveTo']]['name'][$current_lang].'" title="'.$monster_meta[$evolution['evolveTo']]['name'][$current_lang].'" /></a></td></tr>'."\n";
-				$map_descriptor.='<tr><td class="evolution_name"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($monster_meta[$evolution['evolveTo']]['name'][$current_lang]).'.html">'.$monster_meta[$evolution['evolveTo']]['name'][$current_lang].'</a></td></tr>'."\n";
+                $evolutionname='???';
+                if(isset($monster_meta[$evolution['evolveTo']]))
+                    $evolutionname=$monster_meta[$evolution['evolveTo']]['name'][$current_lang];
+				$map_descriptor.='<tr><td class="evolution_name">';
+				if($evolutionname!='???')
+                    $map_descriptor.='<a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($evolutionname).'.html">';
+				$map_descriptor.=$evolutionname;
+				if($evolutionname!='???')
+                    $map_descriptor.='</a>';
+				$map_descriptor.='</td></tr>'."\n";
 				if($evolution['type']=='level')
 					$map_descriptor.='<tr><td class="evolution_type">'.$translation_list[$current_lang]['At level'].' '.$evolution['level'].'</td></tr>'."\n";
 				elseif($evolution['type']=='item')

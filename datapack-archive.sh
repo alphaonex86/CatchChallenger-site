@@ -11,8 +11,15 @@ if [ ! -e /tmp/datapack-new.tar${RANDOMNUMBERTOKEN} ] || [ "`sha256sum /tmp/data
 then
     echo 'regen datapack'
     mv /tmp/datapack-new.tar${RANDOMNUMBERTOKEN} /tmp/datapack.tar
-    cat /tmp/datapack.tar | xz -9 --check=crc32 > /tmp/datapack.tar.xz${RANDOMNUMBERTOKEN}
-    mv /tmp/datapack.tar.xz${RANDOMNUMBERTOKEN} /tmp/datapack.tar.xz
+    cat /tmp/datapack.tar | xz -9 --check=crc32 > /tmp/datapack.tar.xz${RANDOMNUMBERTOKEN} 2> /tmp/cc-datapack-xz.log
+    xz -tv /tmp/datapack.tar.xz${RANDOMNUMBERTOKEN} > /dev/null 2>&1
+    if [ $? -eq 0 ]
+    then
+        mv /tmp/datapack.tar.xz${RANDOMNUMBERTOKEN} /tmp/datapack.tar.xz
+    else
+        rm /tmp/datapack.tar.xz
+        cat /tmp/cc-datapack-xz.log >> /tmp/cc-datapack-xz-bug.log
+    fi
 else
     echo 'already ok datapack'
     rm /tmp/datapack-new.tar${RANDOMNUMBERTOKEN}
@@ -27,8 +34,15 @@ for main in $(ls ${PATHB}/datapack/map/main); do
         then
             echo 'regen datapack main' ${main}
             mv /tmp/datapack-main-${main}-new.tar${RANDOMNUMBERTOKEN} /tmp/datapack-main-${main}.tar
-            cat /tmp/datapack-main-${main}.tar | xz -9 --check=crc32 > /tmp/datapack-main-${main}.tar.xz${RANDOMNUMBERTOKEN}
-            mv /tmp/datapack-main-${main}.tar.xz${RANDOMNUMBERTOKEN} /tmp/datapack-main-${main}.tar.xz
+            cat /tmp/datapack-main-${main}.tar | xz -9 --check=crc32 > /tmp/datapack-main-${main}.tar.xz${RANDOMNUMBERTOKEN} 2> /tmp/cc-datapack-xz.log
+            xz -tv /tmp/datapack-main-${main}.tar.xz${RANDOMNUMBERTOKEN} > /dev/null 2>&1
+            if [ $? -eq 0 ]
+            then
+                mv /tmp/datapack-main-${main}.tar.xz${RANDOMNUMBERTOKEN} /tmp/datapack-main-${main}.tar.xz
+            else
+                rm /tmp/datapack-main-${main}.tar.xz
+                cat /tmp/cc-datapack-xz.log >> /tmp/cc-datapack-xz-bug.log
+            fi
         else
             echo 'already ok datapack main' ${main}
             rm /tmp/datapack-main-${main}-new.tar${RANDOMNUMBERTOKEN}
@@ -42,8 +56,15 @@ for main in $(ls ${PATHB}/datapack/map/main); do
                 then
                     echo 'regen datapack sub' ${main} ${sub}
                     mv /tmp/datapack-sub-${main}-${sub}-new.tar${RANDOMNUMBERTOKEN} /tmp/datapack-sub-${main}-${sub}.tar
-                    cat /tmp/datapack-sub-${main}-${sub}.tar | xz -9 --check=crc32 > /tmp/datapack-sub-${main}-${sub}.tar.xz${RANDOMNUMBERTOKEN}
-                    mv /tmp/datapack-sub-${main}-${sub}.tar.xz${RANDOMNUMBERTOKEN} /tmp/datapack-sub-${main}-${sub}.tar.xz
+                    cat /tmp/datapack-sub-${main}-${sub}.tar | xz -9 --check=crc32 > /tmp/datapack-sub-${main}-${sub}.tar.xz${RANDOMNUMBERTOKEN} 2> /tmp/cc-datapack-xz.log
+                    xz -tv /tmp/datapack-sub-${main}-${sub}.tar.xz${RANDOMNUMBERTOKEN} > /dev/null 2>&1
+                    if [ $? -eq 0 ]
+                    then
+                        mv /tmp/datapack-sub-${main}-${sub}.tar.xz${RANDOMNUMBERTOKEN} /tmp/datapack-sub-${main}-${sub}.tar.xz
+                    else
+                        rm /tmp/datapack-sub-${main}-${sub}.tar.xz
+                        cat /tmp/cc-datapack-xz.log >> /tmp/cc-datapack-xz-bug.log
+                    fi
                 else
                     echo 'already ok datapack sub' ${main} ${sub}
                     rm /tmp/datapack-sub-${main}-${sub}-new.tar${RANDOMNUMBERTOKEN}

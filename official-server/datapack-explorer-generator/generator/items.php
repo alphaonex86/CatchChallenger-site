@@ -385,6 +385,7 @@ foreach($item_meta as $id=>$item)
 			{
 				if(isset($monster_meta[$evolution['from']]) && isset($monster_meta[$evolution['to']]))
 				{
+                    $link='#';
 					$map_descriptor.='<table class="item_list item_list_type_normal map_list">
 					<tr class="item_list_title item_list_title_type_normal">
 						<th colspan="'.$count_evol.'">'.$translation_list[$current_lang]['Evolve from'].'</th>
@@ -615,7 +616,7 @@ foreach($item_meta as $id=>$item)
 			if(isset($quests_meta[$maindatapackcode][$quest_id]))
 			{
 				$map_descriptor.='<tr class="value">'."\n";
-				$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['quests/'].$quest_id.'-'.text_operation_do_for_url($quests_meta[$maindatapackcode][$quest_id]['name'][$current_lang]).'.html" title="'.$quests_meta[$maindatapackcode][$quest_id]['name'][$current_lang].'">'."\n";
+				$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['quests/'].$maindatapackcode.'/'.$quest_id.'-'.text_operation_do_for_url($quests_meta[$maindatapackcode][$quest_id]['name'][$current_lang]).'.html" title="'.$quests_meta[$maindatapackcode][$quest_id]['name'][$current_lang].'">'."\n";
 				$map_descriptor.=$quests_meta[$maindatapackcode][$quest_id]['name'][$current_lang];
 				$map_descriptor.='</a></td>'."\n";
 				$map_descriptor.='<td>'.$quantity.'</td>'."\n";

@@ -139,7 +139,18 @@ foreach($bot_list as $bot_id=>$bot)
 			if($step['type']=='text')
 			{
 				$map_descriptor.='<div class="subblock"><div class="valuetitle" id="step'.$step_id.'">'.$translation_list[$current_lang]['Text'].'</div><div class="value">'."\n";
-				$map_descriptor.=preg_replace('#a href="([0-9]+)#isU','a href="#step$1',$step['text'][$current_lang]);
+				$tempText=$step['text'][$current_lang];
+				preg_match_all('#a href="([^"]+)"#isU',$tempText,$matches);
+				foreach($matches[1] as $link)
+				{
+                    if($link=='next')
+                        $tempText=str_replace('a href="'.$link.'"','a href="#step'.($step_id+1).'"',$tempText);
+                    else if(preg_match('#^[0-9]+$#',$link))
+                        $tempText=str_replace('a href="'.$link.'"','a href="#step'.$link.'"',$tempText);
+                    else
+                        $tempText=str_replace('a href="'.$link.'"','a href=""',$tempText);
+				}
+				$map_descriptor.=$tempText;
 				$map_descriptor.='</div></div>'."\n";
 			}
 			else if($step['type']=='shop')
@@ -403,7 +414,7 @@ foreach($bot_list as $bot_id=>$bot)
                         $quantity=$resources['quantity'];
                         if(isset($item_meta[$item]))
                         {
-                            $link_item=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]);
+                            $link_item=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
                             if(!$wikimode)
                                 $link.='.html';
                             $name=$item_meta[$item]['name'][$current_lang];
@@ -440,7 +451,7 @@ foreach($bot_list as $bot_id=>$bot)
                         $quantity=$products['quantity'];
                         if(isset($item_meta[$item]))
                         {
-                            $link_item=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]);
+                            $link_item=$base_datapack_explorer_site_path.$translation_list[$current_lang]['items/'].text_operation_do_for_url($item_meta[$item]['name'][$current_lang]).'.html';
                             if(!$wikimode)
                                 $link.='.html';
                             $name=$item_meta[$item]['name'][$current_lang];

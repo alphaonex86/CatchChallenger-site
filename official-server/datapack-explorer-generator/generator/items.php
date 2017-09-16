@@ -662,7 +662,7 @@ foreach($item_meta as $id=>$item)
 			if(isset($quests_meta[$maindatapackcode][$items_to_quests_for_step_details['quest']]))
 			{
 				$map_descriptor.='<tr class="value">'."\n";
-				$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['quests/'].$items_to_quests_for_step_details['quest'].'-'.text_operation_do_for_url($quests_meta[$maindatapackcode][$items_to_quests_for_step_details['quest']]['name'][$current_lang]).'.html" title="'.$quests_meta[$maindatapackcode][$items_to_quests_for_step_details['quest']]['name'][$current_lang].'">'."\n";
+				$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['quests/'].$maindatapackcode.'/'.$items_to_quests_for_step_details['quest'].'-'.text_operation_do_for_url($quests_meta[$maindatapackcode][$items_to_quests_for_step_details['quest']]['name'][$current_lang]).'.html" title="'.$quests_meta[$maindatapackcode][$items_to_quests_for_step_details['quest']]['name'][$current_lang].'">'."\n";
 				$map_descriptor.=$quests_meta[$maindatapackcode][$items_to_quests_for_step_details['quest']]['name'][$current_lang];
 				$map_descriptor.='</a></td>'."\n";
 				$map_descriptor.='<td>'.$items_to_quests_for_step_details['quantity'].'</td>'."\n";

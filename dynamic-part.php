@@ -20,10 +20,11 @@ if(isset($gameserverfile))
 }
 if(isset($gameserversock))
 {
-    $fp = @fsockopen('unix://'.$gameserversock,0,$errno, $errstr, 30);
+    $fp = @fsockopen('unix://'.$gameserversock,0,$errno, $errstr, 1);
     if (!$fp) {
         echo "<!-- $errstr ($errno) -->\n";
     } else {
+        stream_set_blocking($fp,FALSE);
         while (!feof($fp)) {
             $filecurs.=fgets($fp, 4096);
         }

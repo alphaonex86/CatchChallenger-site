@@ -30,7 +30,7 @@ if(isset($gameserversock))
         fclose($fp);
     }
 }
-function displayServer($server,$topList)
+function displayServer($server,$topList,$charactersGroup)
 {
     if(is_array($server) && isset($server['charactersGroup']) && isset($server['state']) && isset($server['uniqueKey']) && isset($server['xml']))
     {
@@ -48,7 +48,10 @@ function displayServer($server,$topList)
             $description=preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$server['xml']);
             $description=str_replace('<![CDATA[','',str_replace(']]>','',$description));
         }
-        $flag='<div style="width:18px;height:12px;background-image:url(/images/charGroupFlags.png);background-repeat:no-repeat;background-position:'.(-18*($server['charactersGroup']%4)).'px 0px;float:left;margin-right:7px;" title="Character group '.($server['charactersGroup']+1).'"></div>';
+        if(count($charactersGroup)>1)
+            $flag='<div style="width:18px;height:12px;background-image:url(/images/charGroupFlags.png);background-repeat:no-repeat;background-position:'.(-18*($server['charactersGroup']%4)).'px 0px;float:left;margin-right:7px;" title="Character group '.($server['charactersGroup']+1).'"></div>';
+        else
+            $flag='';
         if($server['state']!='up')//not found
             echo '<div class="divBackground" title="'.htmlspecialchars($description).'">'.$flag.'<strong>'.htmlspecialchars($name).'</strong> - <span style="color:red;">down</span></div>';
         else
@@ -80,7 +83,7 @@ function displayServer($server,$topList)
     }
     return;
 }
-function displayServerTree($treeServer,$topList)
+function displayServerTree($treeServer,$topList,$charactersGroup)
 {
     echo '<div class="divBackground">';
     if(isset($treeServer['xml']))
@@ -96,7 +99,7 @@ function displayServerTree($treeServer,$topList)
         foreach($treeServer['servers'] as $server)
         {
             echo '<li>';
-            displayServer($server,$topList);
+            displayServer($server,$topList,$charactersGroup);
             echo '</li>';
         }
     }
@@ -105,7 +108,7 @@ function displayServerTree($treeServer,$topList)
         foreach($treeServer['groups'] as $group)
         {
             echo '<li>';
-            displayServerTree($group,$topList);
+            displayServerTree($group,$topList,$charactersGroup);
             echo '</li>';
         }
     }
@@ -215,10 +218,12 @@ if($filecurs!='')
         $treeServer=genTreeServer($treeServer,$arrDB);
         
         //save the server list
+        $charactersGroup=array();
         foreach($uniqueKeysGameServer as $uniqueKeyMerge=>$data)
         {
             if(isset($data['uniqueKey']) && isset($data['charactersGroup']) && isset($data['xml']) && isset($data['logicalGroup']))
             {
+                $charactersGroup[$data['charactersGroup']]=true;
                 if(!isset($uniqueKeysDbServer[$uniqueKeyMerge]))
                 {
                     //save the new server
@@ -260,6 +265,7 @@ if($filecurs!='')
         {
             if(isset($data['uniqueKey']) && isset($data['charactersGroup']) && isset($data['xml']) && isset($data['logicalGroup']))
             {
+                $charactersGroup[$data['charactersGroup']]=true;
                 if(!isset($uniqueKeysGameServer[$uniqueKeyMerge]))
                 {
                     $previously_know_server[$data['logicalGroup']]['servers'][]=array(
@@ -279,7 +285,7 @@ if($filecurs!='')
             filewrite($previously_know_server_file,json_encode($previously_know_server));
         
         arsort($topList);
-        displayServerTree($treeServer,$topList);
+        displayServerTree($treeServer,$topList,$charactersGroup);
         
         $string_array=array();
         if($gameserver_up>0)

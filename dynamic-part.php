@@ -1,4 +1,4 @@
-<ul><?php
+<?php
 $total_string_array=array();
 $gameserver_up=0;
 $gameserver_down=0;
@@ -6,6 +6,9 @@ $server_count=0;
 $player_count=0;
 $maxplayer_count=0;
 $previously_know_server_changed=false;
+$version = explode('.', PHP_VERSION);
+if($version[0]<7)
+    die('this script use reference, for this it need php7+');
 
 $filecurs='';
 if(isset($gameserverfile))
@@ -27,171 +30,256 @@ if(isset($gameserversock))
         fclose($fp);
     }
 }
+function displayServer($server,$topList)
+{
+    if(is_array($server) && isset($server['charactersGroup']) && isset($server['state']) && isset($server['uniqueKey']) && isset($server['xml']))
+    {
+        $name='';
+        if(preg_match('#<name( lang="en")?>.*</name>#isU',$server['xml']))
+        {
+            $name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$server['xml']);
+            $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
+        }
+        if($name=='')
+            $name='Default server';
+        $description='';
+        if(preg_match('#<description( lang="en")?>.*</description>#isU',$server['xml']))
+        {
+            $description=preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$server['xml']);
+            $description=str_replace('<![CDATA[','',str_replace(']]>','',$description));
+        }
+        $flag='<div style="width:18px;height:12px;background-image:url(/images/charGroupFlags.png);background-repeat:no-repeat;background-position:'.(-18*($server['charactersGroup']%4)).'px 0px;float:left;margin-right:7px;" title="Character group '.($server['charactersGroup']+1).'"></div>';
+        if($server['state']!='up')//not found
+            echo '<div class="divBackground" title="'.htmlspecialchars($description).'">'.$flag.'<strong>'.htmlspecialchars($name).'</strong> - <span style="color:red;">down</span></div>';
+        else
+        {
+            if(isset($server['connectedPlayer']))
+            {
+                if(isset($server['maxPlayer']) && $server['maxPlayer']<65534 && $server['maxPlayer']>0 && $server['connectedPlayer']<=$server['maxPlayer'])
+                {
+                    echo '<div class="divBackground" title="'.htmlentities($description).'">';
+                    
+                    //display the top mark
+                    if(isset($topList[$server['charactersGroup'].'-'.$server['uniqueKey']]))
+                    {
+                        $topNumber=$topList[$server['charactersGroup'].'-'.$server['uniqueKey']];
+                        if(($topNumber<=2 || $topNumber<=(count($topList)/5)) && $server['connectedPlayer']>0)
+                            echo '<div class="labelDatapackTop"></div>';
+                    }
+                        
+                    echo $flag;
+                    echo '<progress class="progress'.ceil(4*$server['connectedPlayer']/$server['maxPlayer']).'" title="'.playerwithunit($server['connectedPlayer']).'/'.playerwithunit($server['maxPlayer']).' players" value="'.$server['connectedPlayer'].'" max="'.$server['maxPlayer'].'"></progress>';
+                    echo ' <strong>'.htmlentities($name).'</strong> - <strong>'.playerwithunit($server['connectedPlayer']).'</strong> players - <span style="color:green;">online</span></div>'."\n";
+                }
+                else
+                    echo '<div class="divBackground" title="'.htmlentities($description).'">'.$flag.'<strong>'.htmlentities($name).'</strong> - <span style="color:green;">online</span></div>';
+            }
+            else
+                echo '<div class="divBackground" title="'.htmlentities($description).'">'.$flag.'<strong>'.htmlentities($name).'</strong></div>';
+        }
+    }
+    return;
+}
+function displayServerTree($treeServer,$topList)
+{
+    echo '<div class="divBackground">';
+    if(isset($treeServer['xml']))
+        if(preg_match('#<name( lang="en")?>.*</name>#isU',$treeServer['xml']))
+        {
+            $name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$treeServer['xml']);
+            $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
+            echo '<strong>'.$name.'</strong>';
+        }
+    echo '<ul>';
+    if(isset($treeServer['servers']))
+    {
+        foreach($treeServer['servers'] as $server)
+        {
+            echo '<li>';
+            displayServer($server,$topList);
+            echo '</li>';
+        }
+    }
+    if(isset($treeServer['groups']))
+    {
+        foreach($treeServer['groups'] as $group)
+        {
+            echo '<li>';
+            displayServerTree($group,$topList);
+            echo '</li>';
+        }
+    }
+    echo '</ul></div>';
+    return;
+}
+function serverTreeToUniqueId($arr)
+{
+    $serverTreeUniqueId=array();
+    foreach($arr as $logicalGroup=>$entry_list)
+        if(isset($entry_list['servers']))
+            foreach($entry_list['servers'] as $entry)
+                if(is_array($entry))
+                    if(isset($entry['charactersGroup']) && isset($entry['uniqueKey']))
+                    {
+                        $entry['logicalGroup']=$logicalGroup;
+                        $serverTreeUniqueId[$entry['charactersGroup'].'-'.$entry['uniqueKey']]=$entry;
+                    }
+    return $serverTreeUniqueId;
+}
+function genTreeServer($treeServer,$arr)
+{
+    foreach($arr as $logicalGroup=>$entry_list)
+    {
+        $logicalGroupList=array_filter(explode('/',$logicalGroup), function($value) { return $value !== ''; });
+        $indexLogicalGroup=0;
+        $treeleaf=&$treeServer;//php 7+
+        while($indexLogicalGroup<count($logicalGroupList))
+        {
+            if(!isset($treeleaf['groups']))
+                $treeleaf['groups']=array();
+            if(!isset($treeleaf['groups'][$logicalGroupList[$indexLogicalGroup]]))
+                $treeleaf['groups'][$logicalGroupList[$indexLogicalGroup]]=array();
+            $treeleaf=&$treeleaf['groups'][$logicalGroupList[$indexLogicalGroup]];
+            $indexLogicalGroup++;
+        }
+        if(isset($entry_list['xml']))
+            $treeleaf['xml']=$entry_list['xml'];
+        if(isset($entry_list['servers']))
+        {
+            foreach($entry_list['servers'] as $entry)
+            {
+                if(is_array($entry) && !isset($treeleaf['servers'][$entry['charactersGroup'].'-'.$entry['uniqueKey']]))
+                {
+                    if(!isset($entry['maxPlayer']))
+                    {
+                        $entry['maxPlayer']=65535;
+                        $arr[$logicalGroup][$entry['uniqueKey']]['maxPlayer']=65535;
+                    }
+                    if(!isset($entry['state']))
+                        $entry['state']='up';
+                    if(isset($entry['charactersGroup']) && isset($entry['uniqueKey']))
+                    {
+                        $treeleaf['servers'][$entry['charactersGroup'].'-'.$entry['uniqueKey']]=$entry;
+                        ksort($treeleaf['servers'][$entry['charactersGroup'].'-'.$entry['uniqueKey']]);
+                    }
+                }
+            }
+        }
+    }
+    return $treeServer;
+}
 if($filecurs!='')
 {
     $arr=json_decode($filecurs,true);
     if($arr!==NULL && is_array($arr))
     {
         ksort($arr);
-        $previously_know_server=array();
+
+        //do the top
+        $treeServer=array();
+        $topListTemp=array();
+        
+        //load server from db too
+        $arrDB=array();
         if($is_up)
         {
-            $reply = pg_query($postgres_link_site,'SELECT uniquekey,"groupIndex",name,description FROM gameservers ORDER BY "groupIndex",uniquekey') or die(pg_last_error());
+            $reply = pg_query($postgres_link_site,'SELECT uniquekey,"charactersGroup",xml,"logicalGroup" FROM gameservers ORDER BY "charactersGroup",uniquekey') or die(pg_last_error());
             while($data = pg_fetch_array($reply))
-                $previously_know_server[$data['groupIndex']][$data['uniquekey']]=$data;
+                $arrDB[$data['logicalGroup']]['servers'][]=array(
+                    'xml'=>$data['xml'],
+                    'charactersGroup'=>$data['charactersGroup'],
+                    'uniqueKey'=>$data['uniquekey']
+                );
         }
         else
         {
             if(file_exists($previously_know_server_file) && $filecurs=file_get_contents($previously_know_server_file))
             {
-                $previously_know_server=json_decode($filecurs,true);
+                $arrDB=json_decode($filecurs,true);
                 if(!is_array($arr))
-                    $previously_know_server=array();
+                    $arrDB=array();
             }
             else
-                $previously_know_server=array();
+                $arrDB=array();
         }
-        ksort($previously_know_server);
-        //do the top
-        $topListTemp=array();
-        foreach($arr as $groupIndex=>$uniqueKey_list)
+        foreach($arrDB as $logicalGroup=>$entry_list)
+            foreach($entry_list['servers'] as $idserver=>$entry)
+                if(is_array($entry))
+                    $arrDB[$logicalGroup]['servers'][$idserver]['state']='down';
+        ksort($arrDB);
+        
+        $uniqueKeysDbServer=serverTreeToUniqueId($arrDB);
+        $uniqueKeysGameServer=serverTreeToUniqueId($arr);
+        
+        $treeServer=genTreeServer($treeServer,$arr);
+        $treeServer=genTreeServer($treeServer,$arrDB);
+        
+        //save the server list
+        foreach($uniqueKeysGameServer as $uniqueKeyMerge=>$data)
         {
-            ksort($uniqueKey_list);
-            foreach($uniqueKey_list as $uniqueKey=>$server)
-                if(isset($server['xml']) && isset($server['connectedPlayer']) && isset($server['maxPlayer']))
-                    if($server['maxPlayer']<65534 && $server['maxPlayer']>0 && $server['connectedPlayer']<=$server['maxPlayer'])
-                        $topListTemp[$groupIndex.'-'.$uniqueKey]=$server['connectedPlayer'];
-        }
-        $indexTop=1;
-        arsort($topListTemp);
-        $topList=array();
-        foreach($topListTemp as $key=>$players)
-        {
-            $topList[$key]=$indexTop;
-            $indexTop++;
-        }
-        $topListTemp=array();
-
-        $db_server_found=array();
-        foreach($previously_know_server as $groupIndex=>$uniqueKey_list)
-        {
-            ksort($uniqueKey_list);
-            foreach($uniqueKey_list as $uniqueKey=>$data)
+            if(isset($data['uniqueKey']) && isset($data['charactersGroup']) && isset($data['xml']) && isset($data['logicalGroup']))
             {
-                $db_server_found[]=$data['groupIndex'].'-'.$data['uniquekey'];
-                if(!isset($arr[$data['groupIndex']][$data['uniquekey']]))//not found
+                if(!isset($uniqueKeysDbServer[$uniqueKeyMerge]))
                 {
-                    echo '<li><div class="divBackground" title="'.htmlspecialchars($data['description']).'"><div class="labelDatapackMap"></div><strong>'.htmlspecialchars($data['name']).'</strong> - <span style="color:red;">down</span></div></li>';
-                    $gameserver_down++;
+                    //save the new server
+                    if($is_up)
+                        pg_query_params($postgres_link_site,'INSERT INTO gameservers(uniquekey,"charactersGroup",xml,"logicalGroup") VALUES ($1,$2,$3,$4);',array($data['uniqueKey'],$data['charactersGroup'],$data['xml'],$data['logicalGroup'])) or die(pg_last_error());
+                    else
+                        $previously_know_server_changed=true;
                 }
                 else
                 {
-                    $server_count++;
-                    $server=$arr[$data['groupIndex']][$data['uniquekey']];
-                    if(isset($server['xml']) && isset($server['connectedPlayer']) && isset($server['maxPlayer']))
+                    //update the current server
+                    if($data['xml']!=$uniqueKeysDbServer[$uniqueKeyMerge]['xml'] || $data['logicalGroup']!=$uniqueKeysDbServer[$uniqueKeyMerge]['logicalGroup'])
                     {
-                        $name='';
-                        if(preg_match('#<name( lang="en")?>.*</name>#isU',$server['xml']))
-                        {
-                            $name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$server['xml']);
-                            $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
-                        }
-                        if($name=='')
-                            $name='Default server';
-                        $description='';
-                        if(preg_match('#<description( lang="en")?>.*</description>#isU',$server['xml']))
-                        {
-                            $description=preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$server['xml']);
-                            $description=str_replace('<![CDATA[','',str_replace(']]>','',$description));
-                        }
-                        if($server['maxPlayer']<65534 && $server['maxPlayer']>0 && $server['connectedPlayer']<=$server['maxPlayer'])
-                        {
-                            $topNumber=$topList[$data['groupIndex'].'-'.$data['uniquekey']];
-                            echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="';
-                            if(($topNumber<=2 || $topNumber<=(count($topList)/5)) && $server['connectedPlayer']>0)
-                                echo 'labelDatapackTop';
-                            else
-                                echo 'labelDatapackMap';
-                            echo '"></div><progress class="progress'.ceil(4*$server['connectedPlayer']/$server['maxPlayer']).'" title="'.playerwithunit($server['connectedPlayer']).'/'.playerwithunit($server['maxPlayer']).' players" value="'.$server['connectedPlayer'].'" max="'.$server['maxPlayer'].'"></progress>';
-                            echo ' <strong>'.htmlentities($name).'</strong> - <strong>'.playerwithunit($server['connectedPlayer']).'</strong> players - <span style="color:green;">online</span></div></li>'."\n";
-                            $player_count+=$server['connectedPlayer'];
-                            $maxplayer_count+=$server['maxPlayer'];
-                        }
-                        else
-                            echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="labelDatapackMap"></div><strong>'.htmlentities($name).'</strong> - <span style="color:green;">online</span></div></li>';
-                        $gameserver_up++;
-                        if($data['name']!=$name || $data['description']!=$description)
-                        {
-                            if($is_up)
-                                pg_query($postgres_link_site,'UPDATE gameservers SET name=\''.addslashes($name).'\',description=\''.addslashes($description).'\' WHERE uniquekey='.$data['uniquekey']) or die(pg_last_error());
-                            else
-                            {
-                                $previously_know_server_changed=true;
-                                $previously_know_server[$groupIndex][$uniqueKey]['name']=$name;
-                                $previously_know_server[$groupIndex][$uniqueKey]['description']=$description;
-                            }
-                        }
-                    }
-                    else
-                        echo '<li><div class="divBackground" title="'.htmlentities($data['description']).'"><div class="labelDatapackMap"></div><strong>'.htmlentities($data['name']).'</strong></div></li>';
-                }
-            }
-        }
-        foreach($arr as $groupIndex=>$uniqueKey_list)
-        {
-            ksort($uniqueKey_list);
-            foreach($uniqueKey_list as $uniqueKey=>$server)
-            {
-                if(!in_array($groupIndex.'-'.$uniqueKey,$db_server_found))
-                {
-                    $server_count++;
-                    if(isset($server['xml']) && isset($server['connectedPlayer']) && isset($server['maxPlayer']))
-                    {
-                        $name='';
-                        if(preg_match('#<name( lang="en")?>.*</name>#isU',$server['xml']))
-                        {
-                            $name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$server['xml']);
-                            $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
-                        }
-                        if($name=='')
-                            $name='Default server';
-                        $description='';
-                        if(preg_match('#<description( lang="en")?>.*</description>#isU',$server['xml']))
-                        {
-                            $description=preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$server['xml']);
-                            $description=str_replace('<![CDATA[','',str_replace(']]>','',$description));
-                        }
-                        if($server['maxPlayer']<65534 && $server['maxPlayer']>0 && $server['connectedPlayer']<=$server['maxPlayer'])
-                        {
-                            $topNumber=$topList[$groupIndex.'-'.$uniqueKey];
-                            echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="';
-                            if(($topNumber<=2 || $topNumber<=(count($topList)/5)) && $server['connectedPlayer']>0)
-                                echo 'labelDatapackTop';
-                            else
-                                echo 'labelDatapackMap';
-                            echo '"></div><progress class="progress'.ceil(4*$server['connectedPlayer']/$server['maxPlayer']).'" title="'.playerwithunit($server['connectedPlayer']).'/'.playerwithunit($server['maxPlayer']).' players" value="'.$server['connectedPlayer'].'" max="'.$server['maxPlayer'].'"></progress>';
-                            echo ' <strong>'.htmlentities($name).'</strong> - <strong>'.playerwithunit($server['connectedPlayer']).'</strong> players - <span style="color:green;">online</span></div></li>'."\n";
-                            $player_count+=$server['connectedPlayer'];
-                            $maxplayer_count+=$server['maxPlayer'];
-                        }
-                        else
-                            echo '<li><div class="divBackground" title="'.htmlentities($description).'"><div class="labelDatapackMap"></div><strong>'.htmlentities($name).'</strong> - <span style="color:green;">online</span></div></li>';
-                        $gameserver_up++;
                         if($is_up)
-                            pg_query($postgres_link_site,'INSERT INTO gameservers(uniquekey,"groupIndex",name,description) VALUES ('.addslashes($uniqueKey).','.addslashes($groupIndex).',\''.addslashes($name).'\',\''.addslashes($description).'\');') or die(pg_last_error());
+                            pg_query_params($postgres_link_site,'UPDATE gameservers SET xml=$1,"logicalGroup"=$2 WHERE uniquekey=$3 AND "charactersGroup"=$4',array($data['xml'],$data['logicalGroup'],$data['uniqueKey'],$data['charactersGroup'])) or die(pg_last_error());
                         else
-                        {
                             $previously_know_server_changed=true;
-                            $previously_know_server[$groupIndex][$uniqueKey]=array('uniquekey'=>$uniqueKey,'groupIndex'=>$groupIndex,'name'=>$name,'description'=>$description);
-                            ksort($previously_know_server[$groupIndex]);
-                            ksort($previously_know_server);
-                        }
                     }
-                    else
-                        echo '<li><div class="divBackground"><div class="labelDatapackMap"></div><strong>Default server</strong></div></li>';
+                }
+                if(isset($data['connectedPlayer']))
+                {
+                    $topList[$data['charactersGroup'].'-'.$data['uniqueKey']]=$data['connectedPlayer'];
+                    $player_count+=$data['connectedPlayer'];
+                }
+                if(isset($data['maxPlayer']))
+                    $maxplayer_count+=$data['maxPlayer'];
+                $previously_know_server[$data['logicalGroup']]['servers'][]=array(
+                    'xml'=>$data['xml'],
+                    'charactersGroup'=>$data['charactersGroup'],
+                    'uniqueKey'=>$data['uniqueKey']
+                );
+                ksort($previously_know_server);
+                $gameserver_up++;
+            }
+        }
+        
+        //count the server down
+        foreach($uniqueKeysDbServer as $uniqueKeyMerge=>$data)
+        {
+            if(isset($data['uniqueKey']) && isset($data['charactersGroup']) && isset($data['xml']) && isset($data['logicalGroup']))
+            {
+                if(!isset($uniqueKeysGameServer[$uniqueKeyMerge]))
+                {
+                    $previously_know_server[$data['logicalGroup']]['servers'][]=array(
+                        'xml'=>$data['xml'],
+                        'charactersGroup'=>$data['charactersGroup'],
+                        'uniqueKey'=>$data['uniqueKey']
+                    );
+                    ksort($previously_know_server);
+                    $gameserver_down++;
                 }
             }
         }
+        $server_count=$gameserver_up+$gameserver_down;
+        
+        //if json file and have change, then add the offline server to save, and save it
+        if(!$is_up && $previously_know_server_changed)
+            filewrite($previously_know_server_file,json_encode($previously_know_server));
+        
+        arsort($topList);
+        displayServerTree($treeServer,$topList);
         
         $string_array=array();
         if($gameserver_up>0)
@@ -199,85 +287,84 @@ if($filecurs!='')
         if($gameserver_down>0)
             $string_array[]='<strong>'.$gameserver_down.'</strong> <span style="color:red;">offline</span>';
         $total_string_array[]='Game server: '.implode('/',$string_array);
-
-        if(!$is_up && $previously_know_server_changed)
-            filewrite($previously_know_server_file,json_encode($previously_know_server));
     }
     else
-        echo '<li><p class="text">The official server list is actually in <b>Unknown state</b>.</p></li>';
+        echo '<p class="text">The official server list is actually in <b>Unknown state</b>.</p>';
 }
 else
-    echo '<li><p class="text">The official server list is actually in <b>Unknown state</b>.</p></li>';
+    echo '<p class="text">The official server list is actually in <b>Unknown state</b>.</p>';
 ?>
-</ul>
 <?php
 $loginserver_up=0;
 $loginserver_down=0;
-if(file_exists($loginserverfile) && $filecurs=file_get_contents($loginserverfile))
-{
-    $arr=json_decode($filecurs,true);
-    if($arr!==NULL && is_array($arr))
+if(isset($loginserverfile))
+    if(file_exists($loginserverfile) && $filecurs=file_get_contents($loginserverfile))
     {
-        ksort($arr);
-        foreach($arr as $ip=>$server)
+        $arr=json_decode($filecurs,true);
+        if($arr!==NULL && is_array($arr))
         {
-            if(isset($server['state']))
+            ksort($arr);
+            foreach($arr as $ip=>$server)
             {
-                if($server['state']=='up')
-                    $loginserver_up++;
+                if(isset($server['state']))
+                {
+                    if($server['state']=='up')
+                        $loginserver_up++;
+                    else
+                        $loginserver_down++;
+                }
                 else
                     $loginserver_down++;
             }
-            else
-                $loginserver_down++;
+            $string_array=array();
+            if($loginserver_up>0)
+                $string_array[]='<strong>'.$loginserver_up.'</strong> <span style="color:green;">online</span>';
+            if($loginserver_down>0)
+                $string_array[]='<strong>'.$loginserver_down.'</strong> <span style="color:red;">offline</span>';
+            $total_string_array[]='Login server: '.implode('/',$string_array);
         }
-        $string_array=array();
-        if($loginserver_up>0)
-            $string_array[]='<strong>'.$loginserver_up.'</strong> <span style="color:green;">online</span>';
-        if($loginserver_down>0)
-            $string_array[]='<strong>'.$loginserver_down.'</strong> <span style="color:red;">offline</span>';
-        $total_string_array[]='Login server: '.implode('/',$string_array);
+        else
+            $total_string_array[]='Login server: <span style="color:red;">bug</span>';
     }
-    else
-        $total_string_array[]='Login server: <span style="color:red;">bug</span>';
-}
 
 $mirrorserver_up=0;
 $mirrorserver_down=0;
 $mirrorserver_corrupted=0;
-if(file_exists($mirrorserverfile) && $filecurs=file_get_contents($mirrorserverfile))
-{
-    $arr=json_decode($filecurs,true);
-    if($arr!==NULL && is_array($arr))
+if(isset($mirrorserverfile))
+    if(file_exists($mirrorserverfile) && $filecurs=file_get_contents($mirrorserverfile))
     {
-        ksort($arr['servers']);
-        foreach($arr['servers'] as $ip=>$server)
+        $arr=json_decode($filecurs,true);
+        if($arr!==NULL && is_array($arr))
         {
-            if(isset($server['state']))
+            ksort($arr['servers']);
+            foreach($arr['servers'] as $ip=>$server)
             {
-                if($server['state']=='up')
-                    $mirrorserver_up++;
-                else if($server['state']=='corrupted')
-                    $mirrorserver_corrupted++;
+                if(isset($server['state']))
+                {
+                    if($server['state']=='up')
+                        $mirrorserver_up++;
+                    else if($server['state']=='corrupted')
+                        $mirrorserver_corrupted++;
+                    else
+                        $mirrorserver_down++;
+                }
                 else
                     $mirrorserver_down++;
             }
-            else
-                $mirrorserver_down++;
+            $string_array=array();
+            if($mirrorserver_up>0)
+                $string_array[]='<strong>'.$mirrorserver_up.'</strong> <span style="color:green;">online</span>';
+            if($mirrorserver_corrupted>0)
+                $string_array[]='<strong>'.$mirrorserver_corrupted.'</strong> <span style="color:brown;">corrupted</span>';
+            if($mirrorserver_down>0)
+                $string_array[]='<strong>'.$mirrorserver_down.'</strong> <span style="color:red;">offline</span>';
+            $total_string_array[]='Mirror server: '.implode('/',$string_array);
         }
-        $string_array=array();
-        if($mirrorserver_up>0)
-            $string_array[]='<strong>'.$mirrorserver_up.'</strong> <span style="color:green;">online</span>';
-        if($mirrorserver_corrupted>0)
-            $string_array[]='<strong>'.$mirrorserver_corrupted.'</strong> <span style="color:brown;">corrupted</span>';
-        if($mirrorserver_down>0)
-            $string_array[]='<strong>'.$mirrorserver_down.'</strong> <span style="color:red;">offline</span>';
-        $total_string_array[]='Mirror server: '.implode('/',$string_array);
+        else
+            $total_string_array[]='Mirror server: <span style="color:red;">bug</span>';
     }
-    else
-        $total_string_array[]='Mirror server: <span style="color:red;">bug</span>';
-}
 
+if(isset($backupfile))
 {
     $string_array=array();
     $backup_up=0;
@@ -316,6 +403,7 @@ if(file_exists($mirrorserverfile) && $filecurs=file_get_contents($mirrorserverfi
     $total_string_array[]='Backup: '.implode('/',$string_array);
 }
 
+if(isset($otherjsonfile))
 {
     $string_array=array();
     $otherjson_up=0;

@@ -89,8 +89,6 @@ function playerwithunit($player)
 			<div id="body">
 				<div id="title">CatchChallenger official server</div>
 				<br />
-				<br />
-				<img src="/images/pixel.png" width="96" height="96" style="float:left; margin-right:7px;" class="tiers_img" alt="" />
 				<?php
                 require 'dynamic-part.php';
 

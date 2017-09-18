@@ -260,7 +260,40 @@ while (false !== ($maindatapackcode = readdir($dh)))
                     if(!isset($start_map_meta[$maindatapackcode]))
                         $start_map_meta[$maindatapackcode]=array();
                     if(!in_array($map,$start_map_meta[$maindatapackcode]))
-                        $start_map_meta[$maindatapackcode][]=$map;
+                        $start_map_meta[$maindatapackcode]['']=array();
+                    $start_map_meta[$maindatapackcode][''][]=$map;
+                    ksort($start_map_meta[$maindatapackcode]['']);
+                }
+                
+                //sub
+                $dirsub = $datapack_path.'map/main/'.$maindatapackcode.'/sub/';
+                $dhsub  = opendir($dirsub);
+                while (false !== ($subdatapackcode = readdir($dhsub)))
+                {
+                    if($subdatapackcode!='.' && $subdatapackcode!='..')
+                    {
+                        if(is_dir($datapack_path.'map/main/'.$maindatapackcode.'/sub/'.$subdatapackcode) && preg_match('#^[a-z0-9]+$#isU',$subdatapackcode))
+                        {
+                            if(file_exists($datapack_path.'map/main/'.$maindatapackcode.'/sub/'.$subdatapackcode.'/start.xml'))
+                            {
+                                $content=file_get_contents($datapack_path.'map/main/'.$maindatapackcode.'/sub/'.$subdatapackcode.'/start.xml');
+                                preg_match_all('#map.*file="([^"]+)"#isU',$content,$map_list);
+                                foreach($map_list[1] as $mapcontent)
+                                {
+                                    $map=preg_replace('#^.*<map.*file="([^"]+)".* />.*$#isU','$1',$mapcontent);
+                                    $map=preg_replace("#[\n\r\t]+#is",'',$map);
+                                    if(!preg_match('#\\.tmx$#',$map))
+                                        $map.='.tmx';
+                                    if(!isset($start_map_meta[$maindatapackcode]))
+                                        $start_map_meta[$maindatapackcode]=array();
+                                    if(!in_array($map,$start_map_meta[$maindatapackcode]))
+                                        $start_map_meta[$maindatapackcode][$subdatapackcode]=array();
+                                    $start_map_meta[$maindatapackcode][$subdatapackcode][]=$map;
+                                    ksort($start_map_meta[$maindatapackcode][$subdatapackcode]);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

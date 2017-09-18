@@ -45,7 +45,34 @@ foreach($informations_meta['main'] as $maindatapackcode=>$mainContent)
         else if(isset($mainContent['description']['en']))
             $map_descriptor.='<div class="type_label_list">'.htmlspecialchars(ucfirst($mainContent['description']['en'])).'</div>'."\n";
 
-        if(count($mainContent['monsters']))
+        if(isset($start_map_meta[$maindatapackcode]['']) && count($start_map_meta[$maindatapackcode][''])>0)
+        {
+            $map_descriptor.='<div class="subblock"><div class="value">'."\n";
+            
+            $map_descriptor.='<table class="item_list item_list_type_normal">
+            <tr class="item_list_title item_list_title_type_normal">
+                <th colspan="1">'.$translation_list[$current_lang]['Start map'].'</th>
+            </tr>'."\n";
+            foreach($start_map_meta[$maindatapackcode][''] as $map)
+            {
+                if(isset($maps_list[$maindatapackcode][$map]))
+                {
+                    $map_current_object=$maps_list[$maindatapackcode][$map];
+                    if(!$wikimode)
+                        $map_html=$maindatapackcode.'/'.str_replace('.tmx','.html',$map);
+                    else
+                        $map_html=$maindatapackcode.'/'.str_replace('.tmx','',$map);
+                    $map_descriptor.='<tr class="value"><td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$map_html.'" title="'.$map_current_object['name'][$current_lang].'">'.$map_current_object['name'][$current_lang].'</a></td></tr>'."\n";
+                }
+            }
+            $map_descriptor.='<tr>'."\n";
+                $map_descriptor.='<td colspan="1" class="item_list_endline item_list_title_type_normal"></td>'."\n";
+            $map_descriptor.='</tr>
+            </table>'."\n";
+            
+            $map_descriptor.='</div></div>'."\n";
+        }
+        /*if(count($mainContent['monsters']))
         {
             $map_descriptor.='<div class="subblock"><div class="valuetitle">Monster specific</div><div class="value">'."\n";
             $map_descriptor.='<table class="item_list item_list_type_normal">
@@ -81,7 +108,7 @@ foreach($informations_meta['main'] as $maindatapackcode=>$mainContent)
             $map_descriptor.='</tr>
             </table>'."\n";
             $map_descriptor.='</div></div>'."\n";
-        }
+        }*/
         
         if(isset($exclusive_monster[$maindatapackcode]['']))
         {
@@ -170,7 +197,34 @@ foreach($informations_meta['main'] as $maindatapackcode=>$mainContent)
                     else if(isset($subContent['description']['en']))
                         $map_descriptor.='<div class="type_label_list">'.htmlspecialchars(ucfirst($subContent['description']['en'])).'</div>'."\n";
 
-                    if(count($subContent['monsters']))
+                    if(isset($start_map_meta[$maindatapackcode][$subdatapackcode]) && count($start_map_meta[$maindatapackcode][$subdatapackcode])>0)
+                    {
+                        $map_descriptor.='<div class="subblock"><div class="value">'."\n";
+                        
+                        $map_descriptor.='<table class="item_list item_list_type_normal">
+                        <tr class="item_list_title item_list_title_type_normal">
+                            <th colspan="1">'.$translation_list[$current_lang]['Start map'].'</th>
+                        </tr>'."\n";
+                        foreach($start_map_meta[$maindatapackcode][$subdatapackcode] as $map)
+                        {
+                            if(isset($maps_list[$maindatapackcode][$map]))
+                            {
+                                $map_current_object=$maps_list[$maindatapackcode][$map];
+                                if(!$wikimode)
+                                    $map_html=$maindatapackcode.'/'.str_replace('.tmx','.html',$map);
+                                else
+                                    $map_html=$maindatapackcode.'/'.str_replace('.tmx','',$map);
+                                $map_descriptor.='<tr class="value"><td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['maps/'].$map_html.'" title="'.$map_current_object['name'][$current_lang].'">'.$map_current_object['name'][$current_lang].'</a></td></tr>'."\n";
+                            }
+                        }
+                        $map_descriptor.='<tr>'."\n";
+                            $map_descriptor.='<td colspan="1" class="item_list_endline item_list_title_type_normal"></td>'."\n";
+                        $map_descriptor.='</tr>
+                        </table>'."\n";
+                        
+                        $map_descriptor.='</div></div>'."\n";
+                    }
+                    /*if(count($subContent['monsters']))
                     {
                         $map_descriptor.='<div class="subblock"><div class="valuetitle">Monster specific</div><div class="value">'."\n";
                         $map_descriptor.='<table class="item_list item_list_type_normal">
@@ -206,7 +260,7 @@ foreach($informations_meta['main'] as $maindatapackcode=>$mainContent)
                         $map_descriptor.='</tr>
                         </table>'."\n";
                         $map_descriptor.='</div></div>'."\n";
-                    }
+                    }*/
 
                 $map_descriptor.='</div>'."\n";
                 

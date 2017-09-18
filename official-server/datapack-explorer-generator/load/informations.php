@@ -7,6 +7,8 @@ if(is_file($datapack_path.'informations.xml'))
 {
     $content=file_get_contents($datapack_path.'informations.xml');
 
+    if(!preg_match('#<name( lang="en")?>.*</name>#isU',$content))
+        exit;
     $name=preg_replace('#^.*<name( lang="en")?>(.*)</name>.*$#isU','$2',$content);
     $name=str_replace('<![CDATA[','',str_replace(']]>','',$name));
     $name=preg_replace("#[\n\r\t]+#is",'',$name);
@@ -25,26 +27,29 @@ if(is_file($datapack_path.'informations.xml'))
         else
             $name_in_other_lang[$lang]=$name;
     }
-    if(!preg_match('#<description( lang="en")?>.*</description>#isU',$content))
-        exit;
-    $description=text_operation_first_letter_upper(preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$content));
-    $description=str_replace('<![CDATA[','',str_replace(']]>','',$description));
-    $description=preg_replace("#[\n\r\t]+#is",'',$description);
-    $description_in_other_lang=array('en'=>$description);
-    foreach($lang_to_load as $lang)
+    if(preg_match('#<description( lang="en")?>.*</description>#isU',$content))
     {
-        if($lang=='en')
-            continue;
-        if(preg_match('#<description lang="'.$lang.'">([^<]+)</description>#isU',$content))
+        $description=text_operation_first_letter_upper(preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$content));
+        $description=str_replace('<![CDATA[','',str_replace(']]>','',$description));
+        $description=preg_replace("#[\n\r\t]+#is",'',$description);
+        $description_in_other_lang=array('en'=>$description);
+        foreach($lang_to_load as $lang)
         {
-            $temp_description=preg_replace('#^.*<description lang="'.$lang.'">([^<]+)</description>.*$#isU','$1',$content);
-            $temp_description=str_replace('<![CDATA[','',str_replace(']]>','',$temp_description));
-            $temp_description=preg_replace("#[\n\r\t]+#is",'',$temp_description);
-            $description_in_other_lang[$lang]=$temp_description;
+            if($lang=='en')
+                continue;
+            if(preg_match('#<description lang="'.$lang.'">([^<]+)</description>#isU',$content))
+            {
+                $temp_description=preg_replace('#^.*<description lang="'.$lang.'">([^<]+)</description>.*$#isU','$1',$content);
+                $temp_description=str_replace('<![CDATA[','',str_replace(']]>','',$temp_description));
+                $temp_description=preg_replace("#[\n\r\t]+#is",'',$temp_description);
+                $description_in_other_lang[$lang]=$temp_description;
+            }
+            else
+                $description_in_other_lang[$lang]=$description;
         }
-        else
-            $description_in_other_lang[$lang]=$description;
     }
+    else
+        $description_in_other_lang=array('en'=>'');
     $informations_meta=array('name'=>$name_in_other_lang,'description'=>$description_in_other_lang,'main'=>array());
 
     $dir = $datapack_path.'map/main/';
@@ -108,8 +113,8 @@ if(is_file($datapack_path.'informations.xml'))
                         $initial=str_replace('<![CDATA[','',str_replace(']]>','',$initial));
                         $initial=preg_replace("#[\n\r\t]+#is",'',$initial);
                     }
-                    else
-                        $initial=count($informations_meta['main'])+1;
+                    /*else need be empty to do a correct detection
+                        $initial=count($informations_meta['main'])+1;*/
 
                     $color='';
                     if(preg_match('#^.*<informations color="(.[0-9a-fA-F]{3,6})">.*$#isU',$content))
@@ -185,8 +190,8 @@ if(is_file($datapack_path.'informations.xml'))
                                             $initial=str_replace('<![CDATA[','',str_replace(']]>','',$initial));
                                             $initial=preg_replace("#[\n\r\t]+#is",'',$initial);
                                         }
-                                        else
-                                            $initial=count($informations_meta['main'])+1;
+                                        /*else need be empty to do a correct detection
+                                            $initial=count($informations_meta['main'])+1;*/
 
                                         $color='';
                                         if(preg_match('#^.*<informations color="(.[0-9a-fA-F]{3,6})">.*$#isU',$content))

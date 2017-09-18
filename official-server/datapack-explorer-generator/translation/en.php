@@ -31,6 +31,7 @@ if(!isset($datapackexplorergeneratorinclude))
  
 $translation_list[$temp_lang]['Bots list']='Bots list';
 $translation_list[$temp_lang]['Map']='Map';
+$translation_list[$temp_lang]['Start map']='Start map';
 $translation_list[$temp_lang]['Quest start']='Quest start';
 $translation_list[$temp_lang]['Text']='Text';
 $translation_list[$temp_lang]['Shop']='Shop';

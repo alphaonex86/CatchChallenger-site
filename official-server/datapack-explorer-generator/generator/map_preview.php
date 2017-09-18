@@ -38,7 +38,8 @@ if(isset($map_generator) &&
     if(count($start_map_meta)>0)
     {
         $mapgroupdisplaygenerated=array();
-        foreach($start_map_meta as $maindatapackcode=>$map_list)
+        foreach($start_map_meta as $maindatapackcode=>$subdatapackcode_list)
+        foreach($subdatapackcode_list as $subdatapackcode=>$map_list)
         foreach($map_list as $map)
         if(isset($maps_list[$maindatapackcode][$map]))
         {

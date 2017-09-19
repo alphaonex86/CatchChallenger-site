@@ -10,27 +10,6 @@ $version = explode('.', PHP_VERSION);
 if($version[0]<7)
     die('this script use reference, for this it need php7+');
 
-$filecurs='';
-if(isset($gameserverfile))
-{
-    if(file_exists($gameserverfile) && $filecurs=file_get_contents($gameserverfile))
-    {}
-    else
-    $filecurs='';
-}
-if(isset($gameserversock))
-{
-    $fp = @fsockopen('unix://'.$gameserversock,0,$errno, $errstr, 1);
-    if (!$fp) {
-        echo "<!-- $errstr ($errno) -->\n";
-    } else {
-        stream_set_blocking($fp,FALSE);
-        while (!feof($fp)) {
-            $filecurs.=fgets($fp, 4096);
-        }
-        fclose($fp);
-    }
-}
 function displayServer($server,$topList,$charactersGroup)
 {
     if(is_array($server) && isset($server['charactersGroup']) && isset($server['state']) && isset($server['uniqueKey']) && isset($server['xml']))
@@ -172,9 +151,32 @@ function genTreeServer($treeServer,$arr)
     }
     return $treeServer;
 }
+
+$filecurs='';
+if(isset($gameserverfile))
+{
+    if(file_exists($gameserverfile) && $filecurs=file_get_contents($gameserverfile))
+    {}
+    else
+    $filecurs='';
+}
+if(isset($gameserversock))
+{
+    $fp = @fsockopen('unix://'.$gameserversock,0,$errno, $errstr, 1);
+    if (!$fp) {
+        echo "<!-- $errstr ($errno) -->\n";
+    } else {
+        stream_set_blocking($fp,FALSE);
+        while (!feof($fp)) {
+            $filecurs.=fgets($fp, 4096);
+        }
+        fclose($fp);
+    }
+}
 if($filecurs!='')
 {
     $arr=json_decode($filecurs,true);
+    //echo '<!-- ';print_r($filecurs);echo ' -->';
     if($arr!==NULL && is_array($arr))
     {
         ksort($arr);

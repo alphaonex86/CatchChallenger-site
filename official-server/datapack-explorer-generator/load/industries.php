@@ -114,7 +114,7 @@ if(is_dir($datapack_path.'industries/'))
 {
 	if($handle = opendir($datapack_path.'industries/'))
     {
-		while(false !== ($entry = readdir($handle)))
+		while($handle!==FALSE && false !== ($entry = readdir($handle)))
         {
             if($entry != '.' && $entry != '..')
             {
@@ -128,7 +128,7 @@ if(is_dir($datapack_path.'industries/'))
 
 $dir = $datapack_path.'map/main/';
 $dh  = opendir($dir);
-while (false !== ($maindatapackcode = readdir($dh)))
+while ($dh!==FALSE && false !== ($maindatapackcode = readdir($dh)))
 {
     if(is_dir($datapack_path.'map/main/'.$maindatapackcode) && preg_match('#^[a-z0-9]+$#isU',$maindatapackcode))
     {
@@ -136,7 +136,7 @@ while (false !== ($maindatapackcode = readdir($dh)))
         {
             if($handle = opendir($datapack_path.'map/main/'.$maindatapackcode.'/industries/'))
             {
-                while(false !== ($entry = readdir($handle)))
+                while($handle!==FALSE && false !== ($entry = readdir($handle)))
                 {
                     if($entry != '.' && $entry != '..')
                     {

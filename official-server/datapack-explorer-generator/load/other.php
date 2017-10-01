@@ -6,7 +6,7 @@ $zone_meta=array();
 $zone_name_to_code=array();
 $dir = $datapack_path.'map/main/';
 $dh  = opendir($dir);
-while (false !== ($maindatapackcode = readdir($dh)))
+while ($dh!==FALSE && false !== ($maindatapackcode = readdir($dh)))
 {
     if($maindatapackcode!='.' && $maindatapackcode!='..')
     {
@@ -241,7 +241,7 @@ ksort($start_meta);
 $start_map_meta=array();
 $dir = $datapack_path.'map/main/';
 $dh  = opendir($dir);
-while (false !== ($maindatapackcode = readdir($dh)))
+while ($dh!==FALSE && false !== ($maindatapackcode = readdir($dh)))
 {
     if($maindatapackcode!='.' && $maindatapackcode!='..')
     {
@@ -267,29 +267,32 @@ while (false !== ($maindatapackcode = readdir($dh)))
                 
                 //sub
                 $dirsub = $datapack_path.'map/main/'.$maindatapackcode.'/sub/';
-                $dhsub  = opendir($dirsub);
-                while (false !== ($subdatapackcode = readdir($dhsub)))
+                if(is_dir($dirsub))
                 {
-                    if($subdatapackcode!='.' && $subdatapackcode!='..')
+                    $dhsub  = opendir($dirsub);
+                    while ($dhsub!==FALSE && false !== ($subdatapackcode = readdir($dhsub)))
                     {
-                        if(is_dir($datapack_path.'map/main/'.$maindatapackcode.'/sub/'.$subdatapackcode) && preg_match('#^[a-z0-9]+$#isU',$subdatapackcode))
+                        if($subdatapackcode!='.' && $subdatapackcode!='..')
                         {
-                            if(file_exists($datapack_path.'map/main/'.$maindatapackcode.'/sub/'.$subdatapackcode.'/start.xml'))
+                            if(is_dir($datapack_path.'map/main/'.$maindatapackcode.'/sub/'.$subdatapackcode) && preg_match('#^[a-z0-9]+$#isU',$subdatapackcode))
                             {
-                                $content=file_get_contents($datapack_path.'map/main/'.$maindatapackcode.'/sub/'.$subdatapackcode.'/start.xml');
-                                preg_match_all('#map.*file="([^"]+)"#isU',$content,$map_list);
-                                foreach($map_list[1] as $mapcontent)
+                                if(file_exists($datapack_path.'map/main/'.$maindatapackcode.'/sub/'.$subdatapackcode.'/start.xml'))
                                 {
-                                    $map=preg_replace('#^.*<map.*file="([^"]+)".* />.*$#isU','$1',$mapcontent);
-                                    $map=preg_replace("#[\n\r\t]+#is",'',$map);
-                                    if(!preg_match('#\\.tmx$#',$map))
-                                        $map.='.tmx';
-                                    if(!isset($start_map_meta[$maindatapackcode]))
-                                        $start_map_meta[$maindatapackcode]=array();
-                                    if(!in_array($map,$start_map_meta[$maindatapackcode]))
-                                        $start_map_meta[$maindatapackcode][$subdatapackcode]=array();
-                                    $start_map_meta[$maindatapackcode][$subdatapackcode][]=$map;
-                                    ksort($start_map_meta[$maindatapackcode][$subdatapackcode]);
+                                    $content=file_get_contents($datapack_path.'map/main/'.$maindatapackcode.'/sub/'.$subdatapackcode.'/start.xml');
+                                    preg_match_all('#map.*file="([^"]+)"#isU',$content,$map_list);
+                                    foreach($map_list[1] as $mapcontent)
+                                    {
+                                        $map=preg_replace('#^.*<map.*file="([^"]+)".* />.*$#isU','$1',$mapcontent);
+                                        $map=preg_replace("#[\n\r\t]+#is",'',$map);
+                                        if(!preg_match('#\\.tmx$#',$map))
+                                            $map.='.tmx';
+                                        if(!isset($start_map_meta[$maindatapackcode]))
+                                            $start_map_meta[$maindatapackcode]=array();
+                                        if(!in_array($map,$start_map_meta[$maindatapackcode]))
+                                            $start_map_meta[$maindatapackcode][$subdatapackcode]=array();
+                                        $start_map_meta[$maindatapackcode][$subdatapackcode][]=$map;
+                                        ksort($start_map_meta[$maindatapackcode][$subdatapackcode]);
+                                    }
                                 }
                             }
                         }
@@ -303,7 +306,7 @@ ksort($start_map_meta);
 
 $dir = $datapack_path.'map/main/';
 $dh  = opendir($dir);
-while (false !== ($maindatapackcode = readdir($dh)))
+while ($dh!==FALSE && false !== ($maindatapackcode = readdir($dh)))
 {
     if($maindatapackcode!='.' && $maindatapackcode!='..')
     {
@@ -356,7 +359,7 @@ $items_to_quests_for_step=array();
 $bot_start_to_quests=array();
 $dir = $datapack_path.'map/main/';
 $dh  = opendir($dir);
-while (false !== ($maindatapackcode = readdir($dh)))
+while ($dh!==FALSE && false !== ($maindatapackcode = readdir($dh)))
 {
     if($maindatapackcode!='.' && $maindatapackcode!='..')
     {

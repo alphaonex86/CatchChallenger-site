@@ -25,7 +25,7 @@ $mapsgroup_meta=array();
 
 $dir = $datapack_path.'map/main/';
 $dh  = opendir($dir);
-while (false !== ($maindatapackcode = readdir($dh)))
+while ($dh!==FALSE && false !== ($maindatapackcode = readdir($dh)))
 {
     if(is_dir($datapack_path.'map/main/'.$maindatapackcode) && preg_match('#^[a-z0-9]+$#isU',$maindatapackcode))
     {
@@ -472,7 +472,7 @@ while (false !== ($maindatapackcode = readdir($dh)))
             else
                 $dh2  = FALSE;
             if($dh2!==FALSE)
-            while(false !== ($subdatapackcode = readdir($dh2)))
+            while($dh2!==FALSE && false !== ($subdatapackcode = readdir($dh2)))
             {
                 if(is_dir($datapack_path.'map/main/'.$maindatapackcode.'/sub/'.$subdatapackcode) && preg_match('#^[a-z0-9]+$#isU',$subdatapackcode))
                 {

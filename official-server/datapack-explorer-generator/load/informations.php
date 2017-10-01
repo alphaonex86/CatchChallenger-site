@@ -54,7 +54,7 @@ if(is_file($datapack_path.'informations.xml'))
 
     $dir = $datapack_path.'map/main/';
     $dh  = opendir($dir);
-    while (false !== ($maindatapackcode = readdir($dh)))
+    while ($dh!==FALSE && false !== ($maindatapackcode = readdir($dh)))
     {
         if($maindatapackcode!='.' && $maindatapackcode!='..')
         {
@@ -131,7 +131,7 @@ if(is_file($datapack_path.'informations.xml'))
                     {
                         $dh2  = opendir($dir2);
                         if($dh2!==FALSE)
-                        while (false !== ($subdatapackcode = readdir($dh2)))
+                        while ($dh2!==FALSE && false !== ($subdatapackcode = readdir($dh2)))
                         {
                             if($subdatapackcode!='.' && $subdatapackcode!='..')
                             {

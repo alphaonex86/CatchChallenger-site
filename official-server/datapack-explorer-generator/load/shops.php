@@ -7,7 +7,7 @@ $item_to_shop=array();
 
 $dir = $datapack_path.'map/main/';
 $dh  = opendir($dir);
-while (false !== ($maindatapackcode = readdir($dh)))
+while ($dh!==FALSE && false !== ($maindatapackcode = readdir($dh)))
 {
     if(is_dir($datapack_path.'map/main/'.$maindatapackcode) && preg_match('#^[a-z0-9]+$#isU',$maindatapackcode))
     {

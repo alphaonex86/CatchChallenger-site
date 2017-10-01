@@ -2,6 +2,7 @@
 if(!isset($datapackexplorergeneratorinclude))
 	die('abort into load other'."\n");
 
+$informations_number=0;
 $informations_meta=array();
 if(is_file($datapack_path.'informations.xml'))
 {
@@ -125,6 +126,7 @@ if(is_file($datapack_path.'informations.xml'))
                     }
 
                     $informations_meta['main'][$maindatapackcode]=array('name'=>$name_in_other_lang,'description'=>$description_in_other_lang,'initial'=>$initial,'color'=>$color,'sub'=>array(),'monsters'=>array());
+                    $informations_number++;
 
                     $dir2 = $datapack_path.'map/main/'.$maindatapackcode.'/sub/';
                     if(is_dir($dir2))
@@ -202,6 +204,7 @@ if(is_file($datapack_path.'informations.xml'))
                                         }
 
                                         $informations_meta['main'][$maindatapackcode]['sub'][$subdatapackcode]=array('name'=>$name_in_other_lang,'description'=>$description_in_other_lang,'initial'=>$initial,'color'=>$color,'monsters'=>array());
+                                        $informations_number++;
                                     }
                                 }
                                 else
@@ -221,3 +224,9 @@ if(is_file($datapack_path.'informations.xml'))
     ksort($informations_meta['main']);
 }
 ksort($informations_meta);
+
+if($informations_number<2)
+{
+    $exclusive_monster=array();
+    $exclusive_monster_reverse=array();
+}

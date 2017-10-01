@@ -822,7 +822,7 @@ foreach($monster_meta as $id=>$monster)
                                     $map_descriptor.='</tr>'."\n";
                             }
                             $map_descriptor.='<tr>
-                                <td colspan="2" class="item_list_endline item_list_title_type_'.$resolved_type.'"></td>
+                                <td colspan="2" class="item_list_endline item_list_title_type_'.$map_current_object['type'].'"></td>
                             </tr>
                             </table></center>'."\n";
                         }

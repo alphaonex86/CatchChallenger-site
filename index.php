@@ -45,14 +45,14 @@
 <?php
 date_default_timezone_set('Europe/Paris');
 $filecurs=file_get_contents('http://catchchallenger.first-world.info/forum/feed.php?f=7');
-if(preg_match('#^.*<content.*/>(.*)</content>.*$#isU',$filecurs))
+if(preg_match('#^.*<content[^>]*>(.*)</content>.*$#isU',$filecurs))
 {
     echo '<img src="/images/hr.png" width="632" height="19" class="separation" style="clear:both;" />
     <br />
     <img src="/images/chip.png" width="64" height="64" style="float:left; margin-right:7px;" class="tiers_img" alt="" />
     <div class="title">News</div>
     <p class="text">';
-    $filecurs=preg_replace('#^.*<content.*/>(.*)</content>.*$#isU','$1',$filecurs);
+    $filecurs=preg_replace('#^.*<content[^>]*>(.*)</content>.*$#isU','$1',$filecurs);
     $filecurs=preg_replace('#<p>Statistics:.*$#isU','',$filecurs);
     $filecurs=preg_replace('#<hr />.*$#isU','',$filecurs);
     $filecurs=str_replace('<![CDATA[','',$filecurs);

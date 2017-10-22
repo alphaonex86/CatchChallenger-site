@@ -57,6 +57,8 @@ if(preg_match('#^.*<content[^>]*>(.*)</content>.*$#isU',$filecurs))
     $filecurs=preg_replace('#<hr />.*$#isU','',$filecurs);
     $filecurs=str_replace('<![CDATA[','',$filecurs);
     $filecurs=str_replace(']]>','',$filecurs);
+    if((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443)
+        $filecurs=str_replace('http://','https://',$filecurs);
     echo htmlspecialchars_decode($filecurs);
     echo '</p>';
 }

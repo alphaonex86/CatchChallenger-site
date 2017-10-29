@@ -153,6 +153,7 @@ if(file_exists($logfile))
 else
     $returnVar[$backup]=array('state'=>'down','reason'=>($logfile.' not found'));
 
+//do via user: user ssh root@server '/usr/bin/find /home/backup-1/home/backup/day/last-backup.txt -mtime -1 | wc -l', can be duplicate vm name
 $backup='backup-date';
 $logfile='/tmp/backup-is-up.txt';
 if(file_exists($logfile))

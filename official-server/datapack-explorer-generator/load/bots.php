@@ -85,17 +85,26 @@ foreach($bots_file_list as $maindatapackcode=>$value)
                                     $step_type=preg_replace('#^[^>]* type="([a-z]+)".*$#isU','$1',$step_text);
                                     if($step_type=='text')
                                     {
-                                        $step_text=preg_replace('#^.*<text( lang="en")?>('.preg_quote('<![CDATA[').')?(.*)('.preg_quote(']]>').')?</text>.*$#isU','$3',$step_text);
-                                        $step_text=str_replace(']]>','',str_replace('<![CDATA[','',$step_text));
-                                        $step_text_in_other_lang=array('en'=>$step_text);
-                                        foreach($lang_to_load as $lang)
+                                        preg_match_all('# lang="([a-z]+)"#isU',$step_text,$langlist);
+                                        $step_text_en=preg_replace('#^.*<text( lang="en")?>('.preg_quote('<![CDATA[').')?(.*)('.preg_quote(']]>').')?</text>.*$#isU','$3',$step_text);
+                                        $step_text_en=str_replace(']]>','',str_replace('<![CDATA[','',$step_text_en));
+                                        $step_text_in_other_lang=array('en'=>$step_text_en);
+                                        preg_match_all('# href="([^"]+)"#isU',$step_text_en,$linkslist);
+                                        $linkslisten=$linkslist[1];
+                                        //foreach($lang_to_load as $lang) -> disable to detect text href mismatch
+                                        foreach($langlist[1] as $lang)
                                         {
                                             if($lang=='en')
                                                 continue;
-                                            if(preg_match('#<name lang="'.$lang.'">([^<]+)</name>#isU',$entry))
+                                            if(preg_match('#<text lang="'.$lang.'">(.+)</text>#isU',$step_text))
                                             {
-                                                $temp_step_text=preg_replace('#^.*<text lang="'.$lang.'">('.preg_quote('<![CDATA[').')?(.*)('.preg_quote(']]>').')?</text>.*$#isU','$3',$step_text);
+                                                $temp_step_text=preg_replace('#^.*<text lang="'.$lang.'">('.preg_quote('<![CDATA[').')?(.*)('.preg_quote(']]>').')?</text>.*$#isU','$2',$step_text);
                                                 $temp_step_text=str_replace(']]>','',str_replace('<![CDATA[','',$temp_step_text));
+
+                                                preg_match_all('# href="([^"]+)"#isU',$temp_step_text,$linkslistsublang);
+                                                if($linkslisten!=$linkslistsublang[1])
+                                                    echo 'step with id '.$step_id.' for bot '.$id.' mismatch links into file '.$file.' for maindatapackcode: '.$maindatapackcode."\n";
+                                        
                                                 $step_text_in_other_lang[$lang]=$temp_step_text;
                                             }
                                             else

@@ -171,4 +171,21 @@ if(file_exists($logfile))
 else
     $returnVar[$backup]=array('state'=>'down','reason'=>($logfile.' not found'));
 
+$backup='backup-user';
+$logfile='/var/log/backup.log';
+if(file_exists($logfile))
+{
+    if($filecurs=file_get_contents($logfile))
+    {
+        if(strpos($filecurs, 'already running')===NULL)
+            $returnVar[$backup]=array('state'=>'up');
+        else
+            $returnVar[$backup]=array('state'=>'down','reason'=>'backup already running');
+    }
+    else
+        $returnVar[$backup]=array('state'=>'down','reason'=>($logfile.' not readable or empty'));
+}
+else
+    $returnVar[$backup]=array('state'=>'down','reason'=>($logfile.' not found'));
+    
 echo json_encode($returnVar);

@@ -33,7 +33,7 @@ function displayServer($server,$topList,$charactersGroup)
         else
             $flag='';
         if($server['state']!='up')//not found
-            echo '<div class="divBackground" title="'.htmlspecialchars($description).'">'.$flag.'<strong>'.htmlspecialchars($name).'</strong> - <span style="color:red;">down</span></div>';
+            echo '<div class="divBackground" title="'.htmlspecialchars($description).'">'.$flag.'<strong>'.htmlspecialchars($name).'</strong> - <span style="color:red;">down<!-- '.$server['uniqueKey'].' --></span></div>';
         else
         {
             if(isset($server['connectedPlayer']))

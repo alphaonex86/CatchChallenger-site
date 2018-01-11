@@ -191,5 +191,22 @@ if(file_exists($logfile))
 }
 else
     $returnVar[$backup]=array('state'=>'down','reason'=>($logfile.' not found'));
-    
+
+$backup='backup-user';
+$logfile='/tmp/check-remote-install-set-ip.log';
+if(file_exists($logfile))
+{
+    if($filecurs=file_get_contents($logfile))
+    {
+        if(strpos($filecurs, 'SohfN4ADkHByvzooEoNw3oIj')===FALSE)
+            $returnVar[$backup]=array('state'=>'down','reason'=>'SohfN4ADkHByvzooEoNw3oIj not found, check '.$logfile);
+        else
+            $returnVar[$backup]=array('state'=>'up');
+    }
+    else
+        $returnVar[$backup]=array('state'=>'down','reason'=>($logfile.' not readable or empty'));
+}
+else
+    $returnVar[$backup]=array('state'=>'down','reason'=>($logfile.' not found'));
+
 echo json_encode($returnVar);

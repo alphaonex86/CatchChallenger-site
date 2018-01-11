@@ -192,7 +192,7 @@ if(file_exists($logfile))
 else
     $returnVar[$backup]=array('state'=>'down','reason'=>($logfile.' not found'));
 
-$backup='backup-user';
+$backup='backup-test';
 $logfile='/tmp/check-remote-install-set-ip.log';
 if(file_exists($logfile))
 {

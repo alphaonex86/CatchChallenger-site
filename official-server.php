@@ -2,9 +2,9 @@
 $is_up=true;
 require 'config.php';
 if($postgres_db_site['host']!='localhost')
-    $postgres_link_site = pg_connect('dbname='.$postgres_db_site['database'].' user='.$postgres_login.' password='.$postgres_pass.' host='.$postgres_db_site['host']);
+    $postgres_link_site = @pg_connect('dbname='.$postgres_db_site['database'].' user='.$postgres_login.' password='.$postgres_pass.' host='.$postgres_db_site['host']);
 else
-    $postgres_link_site = pg_connect('dbname='.$postgres_db_site['database'].' user='.$postgres_login.' password='.$postgres_pass);
+    $postgres_link_site = @pg_connect('dbname='.$postgres_db_site['database'].' user='.$postgres_login.' password='.$postgres_pass);
 if($postgres_link_site===FALSE)
     $is_up=false;
 

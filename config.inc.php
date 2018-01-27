@@ -38,6 +38,7 @@ $datapack_explorer_local_path='datapack-explorer/';
 $smtp_server='';
 $smtp_login='';
 $smtp_password='';
+$smtp_port=587;
 //change it:
 $benchmark_key='nyZqpuuV22LlrUA0';
 $sales_email='';

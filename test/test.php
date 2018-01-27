@@ -1,7 +1,7 @@
 <?php
 if(!isset($_SERVER['REMOTE_ADDR']))
     exit;
-if($_SERVER['REMOTE_ADDR']!='190.186.245.10' && $_SERVER['REMOTE_ADDR']!='127.0.0.1' && $_SERVER['REMOTE_ADDR']!='2803:1920::2:10')
+if($_SERVER['REMOTE_ADDR']!='190.186.245.10' && $_SERVER['REMOTE_ADDR']!='127.0.0.1' && $_SERVER['REMOTE_ADDR']!='2803:1920::2:10' && $_SERVER['REMOTE_ADDR']!='::1' && $_SERVER['REMOTE_ADDR']!='2803:1920::3:6d')
     exit;
 
 $failedcount=0;

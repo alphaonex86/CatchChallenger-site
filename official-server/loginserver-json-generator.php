@@ -1,5 +1,5 @@
 <?php
-$PROTOCOL_HEADER_VERSION=/*0x*/'12';
+$PROTOCOL_HEADER_VERSION=/*0x*/'13';
 require '../config.php';
 $result=array();
 if($argc==3)

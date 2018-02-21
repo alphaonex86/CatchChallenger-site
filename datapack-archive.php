@@ -20,7 +20,7 @@ if(!isset($_GET['main']))
 {
     $folder='datapack/';
     $cachetar=$cachebasepath.'datapack.tar';
-    $cachetarxz=$cachetar.'.xz';
+    $cachetarxz=$cachetar.'.zst';
 }
 else
 {
@@ -30,7 +30,7 @@ else
     {
         $folder='datapack/map/main/'.$_GET['main'].'/';
         $cachetar=$cachebasepath.'datapack-main-'.$_GET['main'].'.tar';
-        $cachetarxz=$cachetar.'.xz';
+        $cachetarxz=$cachetar.'.zst';
     }
     else
     {
@@ -39,7 +39,7 @@ else
 
         $folder='datapack/map/main/'.$_GET['main'].'/sub/'.$_GET['sub'].'/';
         $cachetar=$cachebasepath.'datapack-sub-'.$_GET['main'].'-'.$_GET['sub'].'.tar';
-        $cachetarxz=$cachetar.'.xz';
+        $cachetarxz=$cachetar.'.zst';
     }
 }
 

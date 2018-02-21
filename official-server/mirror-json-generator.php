@@ -79,19 +79,19 @@ if($scantype!="onlyfile")
     if(!is_dir($datapack_path.'map/main/'))
         die($datapack_path.'map/main/ not found');
     $arr[]='datapack-list/base.txt';
-    $arr[]='pack/datapack.tar.xz';
+    $arr[]='pack/datapack.tar.zst';
     $maincodelist=giveDirList($datapack_path.'map/main/');
     foreach($maincodelist as $maincode)
     {
         $arr[]='datapack-list/main-'.$maincode.'.txt';
-        $arr[]='pack/datapack-main-'.$maincode.'.tar.xz';
+        $arr[]='pack/datapack-main-'.$maincode.'.tar.zst';
         if(is_dir($datapack_path.'/map/main/'.$maincode.'/sub/'))
         {
             $subcodelist=giveDirList($datapack_path.'/map/main/'.$maincode.'/sub/');
             foreach($subcodelist as $subcode)
             {
                 $arr[]='datapack-list/sub-'.$maincode.'-'.$subcode.'.txt';
-                $arr[]='pack/datapack-sub-'.$maincode.'-'.$subcode.'.tar.xz';
+                $arr[]='pack/datapack-sub-'.$maincode.'-'.$subcode.'.tar.zst';
             }
         }
     }

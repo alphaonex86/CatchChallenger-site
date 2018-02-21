@@ -37,7 +37,7 @@ for main in $(ls ${PATHB}/datapack/map/main); do
         if [ ! -e /tmp/datapack-main-${main}-new.tar${RANDOMNUMBERTOKEN} ] || [ "`sha256sum /tmp/datapack-main-${main}-new.tar${RANDOMNUMBERTOKEN} | awk '{print $1}'`" != "`sha256sum /tmp/datapack-main-${main}.tar | awk '{print $1}'`" ]
         then
             echo 'regen datapack main' ${main}
-            /usr/bin/zstd -22 --ultra /tmp/datapack-main-${main}-new.tar${RANDOMNUMBERTOKEN}
+            /usr/bin/zstd --rm -22 --ultra /tmp/datapack-main-${main}-new.tar${RANDOMNUMBERTOKEN}
             if [ $? -eq 0 ]
             then
                 mv /tmp/datapack-main-${main}-new.tar${RANDOMNUMBERTOKEN} /tmp/datapack-main-${main}.tar
@@ -63,7 +63,7 @@ for main in $(ls ${PATHB}/datapack/map/main); do
                 if [ ! -e /tmp/datapack-sub-${main}-${sub}-new.tar${RANDOMNUMBERTOKEN} ] || [ "`sha256sum /tmp/datapack-sub-${main}-${sub}-new.tar${RANDOMNUMBERTOKEN} | awk '{print $1}'`" != "`sha256sum /tmp/datapack-sub-${main}-${sub}.tar | awk '{print $1}'`" ]
                 then
                     echo 'regen datapack sub' ${main} ${sub}
-                    /usr/bin/zstd -22 --ultra /tmp/datapack-sub-${main}-${sub}-new.tar${RANDOMNUMBERTOKEN}
+                    /usr/bin/zstd --rm -22 --ultra /tmp/datapack-sub-${main}-${sub}-new.tar${RANDOMNUMBERTOKEN}
                     if [ $? -eq 0 ]
                     then
                         mv /tmp/datapack-sub-${main}-${sub}-new.tar${RANDOMNUMBERTOKEN} /tmp/datapack-sub-${main}-${sub}.tar

@@ -59,33 +59,33 @@ cd ${BINPATH}
 
 testtogameserver 0 ${BINPATH}/bot-test-connect-to-gameserver
 RETURNCODE=$?
-if [ ${RETURNCODE} -ne 0 ]
+if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '{"bot-test-connect-to-gameserver1":{"state":"up"}' >> ${CURRENTPATH}/../other.json
+    echo '{"bot-test-connect-to-gameserver1":{"state":"up"}}' >> ${CURRENTPATH}/../other.json
 else
-    echo '{"bot-test-connect-to-gameserver1":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> ${CURRENTPATH}/../other.json
+    echo '{"bot-test-connect-to-gameserver1":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}}' >> ${CURRENTPATH}/../other.json
 fi
 echo ',' >> ${CURRENTPATH}/../other.json
 
 
 testtogameserver 1 ${BINPATH}/bot-test-connect-to-gameserver
 RETURNCODE=$?
-if [ ${RETURNCODE} -ne 0 ]
+if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '{"bot-test-connect-to-gameserver2":{"state":"up"}' >> ${CURRENTPATH}/../other.json
+    echo '{"bot-test-connect-to-gameserver2":{"state":"up"}}' >> ${CURRENTPATH}/../other.json
 else
-    echo '{"bot-test-connect-to-gameserver2":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> ${CURRENTPATH}/../other.json
+    echo '{"bot-test-connect-to-gameserver2":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}}' >> ${CURRENTPATH}/../other.json
 fi
 echo ',' >> ${CURRENTPATH}/../other.json
 
 
 testtogameserver 2 ${BINPATH}/bot-test-connect-to-gameserver
 RETURNCODE=$?
-if [ ${RETURNCODE} -ne 0 ]
+if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '{"bot-test-connect-to-gameserver3":{"state":"up"}' >> ${CURRENTPATH}/../other.json
+    echo '{"bot-test-connect-to-gameserver3":{"state":"up"}}' >> ${CURRENTPATH}/../other.json
 else
-    echo '{"bot-test-connect-to-gameserver3":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> ${CURRENTPATH}/../other.json
+    echo '{"bot-test-connect-to-gameserver3":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}}' >> ${CURRENTPATH}/../other.json
 fi
 echo ',' >> ${CURRENTPATH}/../other.json
 
@@ -96,33 +96,33 @@ cd ${BINPATH}
 
 testtogameserver 0 ${BINPATH}/bot-test-connect-to-gameserver
 RETURNCODE=$?
-if [ ${RETURNCODE} -ne 0 ]
+if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '{"bot-test-connect-to-gameserver4":{"state":"up"}' >> ${CURRENTPATH}/../other.json
+    echo '{"bot-test-connect-to-gameserver4":{"state":"up"}}' >> ${CURRENTPATH}/../other.json
 else
-    echo '{"bot-test-connect-to-gameserver4":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> ${CURRENTPATH}/../other.json
+    echo '{"bot-test-connect-to-gameserver4":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}}' >> ${CURRENTPATH}/../other.json
 fi
 echo ',' >> ${CURRENTPATH}/../other.json
 
 
 testtogameserver 1 ${BINPATH}/bot-test-connect-to-gameserver
 RETURNCODE=$?
-if [ ${RETURNCODE} -ne 0 ]
+if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '{"bot-test-connect-to-gameserver5":{"state":"up"}' >> ${CURRENTPATH}/../other.json
+    echo '{"bot-test-connect-to-gameserver5":{"state":"up"}}' >> ${CURRENTPATH}/../other.json
 else
-    echo '{"bot-test-connect-to-gameserver5":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> ${CURRENTPATH}/../other.json
+    echo '{"bot-test-connect-to-gameserver5":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}}' >> ${CURRENTPATH}/../other.json
 fi
 echo ',' >> ${CURRENTPATH}/../other.json
 
 
 testtogameserver 2 ${BINPATH}/bot-test-connect-to-gameserver
 RETURNCODE=$?
-if [ ${RETURNCODE} -ne 0 ]
+if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '{"bot-test-connect-to-gameserver6":{"state":"up"}' >> ${CURRENTPATH}/../other.json
+    echo '{"bot-test-connect-to-gameserver6":{"state":"up"}}' >> ${CURRENTPATH}/../other.json
 else
-    echo '{"bot-test-connect-to-gameserver6":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> ${CURRENTPATH}/../other.json
+    echo '{"bot-test-connect-to-gameserver6":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}}' >> ${CURRENTPATH}/../other.json
 fi
 #echo ',' >> ${CURRENTPATH}/../other.json
 

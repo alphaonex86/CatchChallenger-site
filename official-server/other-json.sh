@@ -1,62 +1,132 @@
 #!/bin/bash
 CURRENTPATH=`pwd`
+
+testtogameserver () {
+    mode=$1
+    BINPATHFULL=$2
+    echo Mode ${mode}
+    
+    if [ "${mode}" -eq 0 ]
+    then
+        echo '-----------------------------------------------------------'
+        echo -e '-------------------\e[1mTry empty datapack\e[0m----------------------'
+        echo '-----------------------------------------------------------'
+        rm -Rf ${BINPATH}/datapack/
+        mkdir ${BINPATH}/datapack/
+    else
+        if [ "${mode}" -eq 1 ]
+        then
+            echo '-----------------------------------------------------------'
+            echo -e '--------------------\e[1mTry full datapack\e[0m----------------------'
+            echo '-----------------------------------------------------------'
+            rsync -art --delete ${BINPATH}/datapack-full/ ${BINPATH}/datapack/
+        else
+            if [ "${mode}" -eq 2 ]
+            then
+                echo '-----------------------------------------------------------'
+                echo -e '--------------------\e[1mTry semi datapack\e[0m----------------------'
+                echo '-----------------------------------------------------------'
+                rsync -art --delete ${BINPATH}/datapack/ ${BINPATH}/datapack-full/
+                rm ${BINPATH}/datapack/informations.xml
+            else
+                echo wrong mode
+                exit 123
+            fi
+        fi
+    fi
+    
+    sleep 30
+    ${BINPATHFULL}
+    RETURNCODE=$?
+    if [ ${RETURNCODE} -ne 0 ]
+    then
+        echo "${BINPATHFULL}"
+        echo -e '\e[31m\e[1mFailed\e[39m\e[0m'
+        return ${RETURNCODE}
+    fi
+    echo -e '-------------------------Done:\e[32m\e[1mok\e[39m\e[0m---------------------------'
+    
+    return 0
+}
+
+echo '{' > ${CURRENTPATH}/../other.json
+
 BINPATH=/home/user/Desktop/CatchChallenger/tools/build-bot-test-connect-to-gameserver-Desktop_llvm-Debug/
 cd ${BINPATH}
 
-echo '-----------------------------------------------------------'
-echo -e '-------------------\e[1mTry empty datapack\e[0m----------------------'
-echo '-----------------------------------------------------------'
 
-rm -Rf ${BINPATH}/datapack/
-mkdir ${BINPATH}/datapack/
-${BINPATH}/bot-test-connect-to-gameserver
+
+
+testtogameserver 0 ${BINPATH}/bot-test-connect-to-gameserver
 RETURNCODE=$?
 if [ ${RETURNCODE} -ne 0 ]
 then
-    echo "${BINPATH}/bot-test-connect-to-gameserver"
-    echo '{"bot-test-connect-to-gameserver":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}}' > ${CURRENTPATH}/../other.json
-    echo -e '\e[31m\e[1mFailed at empty datapack\e[39m\e[0m'
-    exit
+    echo '{"bot-test-connect-to-gameserver1":{"state":"up"}' >> ${CURRENTPATH}/../other.json
+else
+    echo '{"bot-test-connect-to-gameserver1":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> ${CURRENTPATH}/../other.json
 fi
-echo -e '-------------------------Done:\e[32m\e[1mok\e[39m\e[0m---------------------------'
+echo ',' >> ${CURRENTPATH}/../other.json
 
-echo -e '--------------------------\e[33m\e[1mWait\e[39m\e[0m-----------------------------'
-sleep 60
 
-echo '-----------------------------------------------------------'
-echo -e '--------------------\e[1mTry full datapack\e[0m----------------------'
-echo '-----------------------------------------------------------'
-rsync -art --delete ${BINPATH}/datapack-full/ ${BINPATH}/datapack/
-${BINPATH}/bot-test-connect-to-gameserver
+testtogameserver 1 ${BINPATH}/bot-test-connect-to-gameserver
 RETURNCODE=$?
 if [ ${RETURNCODE} -ne 0 ]
 then
-    echo "${BINPATH}/bot-test-connect-to-gameserver"
-    echo '{"bot-test-connect-to-gameserver":{"state":"down","reason":"Failed at full datapack: '${RETURNCODE}'"}}' > ${CURRENTPATH}/../other.json
-    echo -e '\e[31m\e[1mFailed at full datapack\e[39m\e[0m'
-    exit
+    echo '{"bot-test-connect-to-gameserver2":{"state":"up"}' >> ${CURRENTPATH}/../other.json
+else
+    echo '{"bot-test-connect-to-gameserver2":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> ${CURRENTPATH}/../other.json
 fi
-echo -e '-------------------------Done:\e[32m\e[1mok\e[39m\e[0m---------------------------'
+echo ',' >> ${CURRENTPATH}/../other.json
 
-echo -e '--------------------------\e[33m\e[1mWait\e[39m\e[0m-----------------------------'
-sleep 60
 
-echo '-----------------------------------------------------------'
-echo -e '--------------------\e[1mTry semi datapack\e[0m----------------------'
-echo '-----------------------------------------------------------'
-rsync -art --delete ${BINPATH}/datapack/ ${BINPATH}/datapack-full/
-rm ${BINPATH}/datapack/informations.xml
-${BINPATH}/bot-test-connect-to-gameserver
+testtogameserver 2 ${BINPATH}/bot-test-connect-to-gameserver
 RETURNCODE=$?
 if [ ${RETURNCODE} -ne 0 ]
 then
-    echo "${BINPATH}/bot-test-connect-to-gameserver"
-    echo '{"bot-test-connect-to-gameserver":{"state":"down","reason":"Failed at partial datapack: '${RETURNCODE}'"}}' > ${CURRENTPATH}/../other.json
-    echo -e '\e[31m\e[1mFailed at partial datapack\e[39m\e[0m'
-    exit
+    echo '{"bot-test-connect-to-gameserver3":{"state":"up"}' >> ${CURRENTPATH}/../other.json
+else
+    echo '{"bot-test-connect-to-gameserver3":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> ${CURRENTPATH}/../other.json
 fi
-echo -e '-------------------------Done:\e[32m\e[1mok\e[39m\e[0m---------------------------'
-echo -e '\e[32m\e[1mAll is ok\e[39m\e[0m'
+echo ',' >> ${CURRENTPATH}/../other.json
 
-echo '{"bot-test-connect-to-gameserver":{"state":"up"}}' > ${CURRENTPATH}/../other.json
-echo -e written into: "\e[1m${CURRENTPATH}/../other.json\e[0m"
+
+BINPATH=/home/user/Desktop/CatchChallenger/tools/build-bot-test-connect-to-gameserver-Desktop_llvm-Debug2/
+cd ${BINPATH}
+
+
+testtogameserver 0 ${BINPATH}/bot-test-connect-to-gameserver
+RETURNCODE=$?
+if [ ${RETURNCODE} -ne 0 ]
+then
+    echo '{"bot-test-connect-to-gameserver4":{"state":"up"}' >> ${CURRENTPATH}/../other.json
+else
+    echo '{"bot-test-connect-to-gameserver4":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> ${CURRENTPATH}/../other.json
+fi
+echo ',' >> ${CURRENTPATH}/../other.json
+
+
+testtogameserver 1 ${BINPATH}/bot-test-connect-to-gameserver
+RETURNCODE=$?
+if [ ${RETURNCODE} -ne 0 ]
+then
+    echo '{"bot-test-connect-to-gameserver5":{"state":"up"}' >> ${CURRENTPATH}/../other.json
+else
+    echo '{"bot-test-connect-to-gameserver5":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> ${CURRENTPATH}/../other.json
+fi
+echo ',' >> ${CURRENTPATH}/../other.json
+
+
+testtogameserver 2 ${BINPATH}/bot-test-connect-to-gameserver
+RETURNCODE=$?
+if [ ${RETURNCODE} -ne 0 ]
+then
+    echo '{"bot-test-connect-to-gameserver6":{"state":"up"}' >> ${CURRENTPATH}/../other.json
+else
+    echo '{"bot-test-connect-to-gameserver6":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> ${CURRENTPATH}/../other.json
+fi
+#echo ',' >> ${CURRENTPATH}/../other.json
+
+
+
+
+echo '}' >> ${CURRENTPATH}/../other.json

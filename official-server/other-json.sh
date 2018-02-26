@@ -35,7 +35,6 @@ testtogameserver () {
         fi
     fi
     
-    sleep 30
     ${BINPATHFULL}
     RETURNCODE=$?
     if [ ${RETURNCODE} -ne 0 ]
@@ -61,33 +60,33 @@ testtogameserver 0 ${BINPATH}/bot-test-connect-to-gameserver
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '{"bot-test-connect-to-gameserver1":{"state":"up"}}' >> ${CURRENTPATH}/../other.json
+    echo '"bot-test-connect-to-gameserver1":{"state":"up"}' >> ${CURRENTPATH}/../other.json
 else
-    echo '{"bot-test-connect-to-gameserver1":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}}' >> ${CURRENTPATH}/../other.json
+    echo '"bot-test-connect-to-gameserver1":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> ${CURRENTPATH}/../other.json
 fi
-echo ',' >> ${CURRENTPATH}/../other.json
+echo ',' >> ${CURRENTPATH}/../other.json;sleep 15
 
 
 testtogameserver 1 ${BINPATH}/bot-test-connect-to-gameserver
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '{"bot-test-connect-to-gameserver2":{"state":"up"}}' >> ${CURRENTPATH}/../other.json
+    echo '"bot-test-connect-to-gameserver2":{"state":"up"}' >> ${CURRENTPATH}/../other.json
 else
-    echo '{"bot-test-connect-to-gameserver2":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}}' >> ${CURRENTPATH}/../other.json
+    echo '"bot-test-connect-to-gameserver2":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> ${CURRENTPATH}/../other.json
 fi
-echo ',' >> ${CURRENTPATH}/../other.json
+echo ',' >> ${CURRENTPATH}/../other.json;sleep 15
 
 
 testtogameserver 2 ${BINPATH}/bot-test-connect-to-gameserver
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '{"bot-test-connect-to-gameserver3":{"state":"up"}}' >> ${CURRENTPATH}/../other.json
+    echo '"bot-test-connect-to-gameserver3":{"state":"up"}' >> ${CURRENTPATH}/../other.json
 else
-    echo '{"bot-test-connect-to-gameserver3":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}}' >> ${CURRENTPATH}/../other.json
+    echo '"bot-test-connect-to-gameserver3":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> ${CURRENTPATH}/../other.json
 fi
-echo ',' >> ${CURRENTPATH}/../other.json
+echo ',' >> ${CURRENTPATH}/../other.json;sleep 15
 
 
 BINPATH=/home/user/Desktop/CatchChallenger/tools/build-bot-test-connect-to-gameserver-Desktop_llvm-Debug2/
@@ -98,33 +97,33 @@ testtogameserver 0 ${BINPATH}/bot-test-connect-to-gameserver
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '{"bot-test-connect-to-gameserver4":{"state":"up"}}' >> ${CURRENTPATH}/../other.json
+    echo '"bot-test-connect-to-gameserver4":{"state":"up"}' >> ${CURRENTPATH}/../other.json
 else
-    echo '{"bot-test-connect-to-gameserver4":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}}' >> ${CURRENTPATH}/../other.json
+    echo '"bot-test-connect-to-gameserver4":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> ${CURRENTPATH}/../other.json
 fi
-echo ',' >> ${CURRENTPATH}/../other.json
+echo ',' >> ${CURRENTPATH}/../other.json;sleep 15
 
 
 testtogameserver 1 ${BINPATH}/bot-test-connect-to-gameserver
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '{"bot-test-connect-to-gameserver5":{"state":"up"}}' >> ${CURRENTPATH}/../other.json
+    echo '"bot-test-connect-to-gameserver5":{"state":"up"}' >> ${CURRENTPATH}/../other.json
 else
-    echo '{"bot-test-connect-to-gameserver5":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}}' >> ${CURRENTPATH}/../other.json
+    echo '"bot-test-connect-to-gameserver5":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> ${CURRENTPATH}/../other.json
 fi
-echo ',' >> ${CURRENTPATH}/../other.json
+echo ',' >> ${CURRENTPATH}/../other.json;sleep 15
 
 
 testtogameserver 2 ${BINPATH}/bot-test-connect-to-gameserver
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '{"bot-test-connect-to-gameserver6":{"state":"up"}}' >> ${CURRENTPATH}/../other.json
+    echo '"bot-test-connect-to-gameserver6":{"state":"up"}' >> ${CURRENTPATH}/../other.json
 else
-    echo '{"bot-test-connect-to-gameserver6":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}}' >> ${CURRENTPATH}/../other.json
+    echo '"bot-test-connect-to-gameserver6":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> ${CURRENTPATH}/../other.json
 fi
-#echo ',' >> ${CURRENTPATH}/../other.json
+#echo ',' >> ${CURRENTPATH}/../other.json;sleep 15
 
 
 

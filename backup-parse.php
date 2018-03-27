@@ -102,7 +102,7 @@ if(file_exists($logfile))
             {
                 $posDelim=strpos($line,':');
                 if($posDelim===false)
-                    die('File format error for '.$logfile);
+                    $inError[$item]='File format error for '.$logfile;
                 $item=substr($line,0,$posDelim);
                 $value=substr($line,$posDelim+1,strlen($line)-$posDelim-1);
                 $stringLagArray[$item]=$value;
@@ -115,7 +115,7 @@ if(file_exists($logfile))
             {
                 $posDelim=strpos($line,':');
                 if($posDelim===false)
-                    die('File format error for '.$logfile);
+                    $inError[$item]='File format error for '.$logfile;
                 $item=substr($line,0,$posDelim);
                 $value=substr($line,$posDelim+1,strlen($line)-$posDelim-1);
                 $stringProcessOnSlaveArray[$item]=$value;
@@ -126,7 +126,7 @@ if(file_exists($logfile))
             {
                 $posDelim=strpos($line,':');
                 if($posDelim===false)
-                    die('File format error for '.$logfile);
+                    $inError[$item]='File format error for '.$logfile;
                 $item=substr($line,0,$posDelim);
                 $value=substr($line,$posDelim+1,strlen($line)-$posDelim-1);
                 $stringSlaveOnMasterArray[$item]=$value;

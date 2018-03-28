@@ -9,9 +9,12 @@
 #fi
 
 echo Process on slave:
-CONTENT=`ssh root@catchchallenger-db-common-1-a-slave 'ps aux | grep -F "wal receiver" | grep -F -v grep | grep -F postgres | grep -F streaming'`
+CONTENT=`ssh root@catchchallenger-db-common-1-a-slave 'echo "SELECT * FROM pg_stat_subscription;" | psql catchchallenger_common -U postgres' | grep my_sub`
 # content execpted:
-# postgres 22123  0.0  0.4 154236  5032 ?        Ss   14:16   0:00 postgres: wal receiver process   streaming 0/4B00F800
+# subid | subname |  pid  | relid | received_lsn |      last_msg_send_time       |     last_msg_receipt_time     | latest_end_lsn |        latest_end_time        
+#-------+---------+-------+-------+--------------+-------------------------------+-------------------------------+----------------+-------------------------------
+# 16424 | my_sub  | 21681 |       | 1/DB100038   | 2018-03-28 04:56:28.728831+02 | 2018-03-28 04:56:28.729587+02 | 1/DB100038     | 2018-03-28 04:56:28.728831+02
+# (1 row)
 if [ "${CONTENT}" != "" ]
 then
     echo -n catchchallenger-db-common-1-a-slave:

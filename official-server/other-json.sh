@@ -147,7 +147,7 @@ fi
 
 
 echo '}' >> /tmp/other.json
-if [ `grep -F down /tmp/other.json | wc -l` -ne ]
+if [ `grep -F down /tmp/other.json | wc -l` -ne 0 ]
 then
     exit 1
 else

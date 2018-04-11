@@ -180,7 +180,7 @@ function send_mail($title,$text,$to,$type,$from)
 					Login: <script type="text/javascript"><!--
 					document.write("<input name=\"login\" type=\"text\">");
 					--></script><br />
-					Password: <input name="password" type="password"><br />
+					Password: <input name="password" type="password"> (Your password must be composed of uppercase, lowercase and numbers. Minimum 7 characters)<br />
 					Email: <input name="email" type="text"> (needed for confirmation)<br />
 					<input type="submit" value="Register"></form>';
 				}

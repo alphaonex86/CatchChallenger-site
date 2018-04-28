@@ -5,7 +5,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF8"/>
 		<meta name="robots" content="index,follow"/>
 		<meta name="description" content="CatchChallenger project, Independent Old school Opensource MMORPG/Single player game" />
-		<meta name="keywords" content="catchchallenger,pokemon,minecraft,crafting,MMORPG,Opensource,Single player,Indie,Independent,game" />
+		<meta name="keywords" content="catchchallenger,catch challenger,catch challenger,pokemon,minecraft,crafting,MMORPG,Opensource,Single player,Indie,Independent,game" />
 		<link rel="stylesheet" type="text/css" media="screen" href="/css/style.css" />
 		<link rel="alternate" type="application/atom+xml" href="/rss_global.xml" title="All news" />
         <meta name="viewport" content="width=device-width" />
@@ -34,7 +34,7 @@
 				<div id="title">CatchChallenger project</div>
 				<br />
 				<br />
-				<img src="/images/catchchallenger-logo.png" width="96" height="96" style="float:left; margin-right:7px;" class="tiers_img" alt="CatchChallenger logo" title="CatchChallenger logo" />
+				<img src="/images/catchchallenger-logo.png" width="96" height="96" style="float:left; margin-right:7px;" class="tiers_img" alt="Catch Challenger logo" title="Catch Challenger logo" />
 				<p class="text">This game is a independent <strong>MMORPG, Lan game and a single player game</strong>. You have <strong>fight, farming, explore, crafting, trading, management, competition</strong>... and you are free to play in you style.</p>
 				<p class="text">It's a pixel art and old school game. Our work is concentrated on the gameplay, creativity, performance and self hosting. The income is to paid the developing and the artwork. The game is fully <a href="https://github.com/alphaonex86/CatchChallenger">open source (<strong>GPL3</strong>)</a>.</p>
                 <p class="text">The game have no real time. That's give clear advantage on 3G/wifi connexion or into the tiers world. You can play <strong>Player vs Player, Team vs Team</strong>, your team can own city and clan hall.</p>

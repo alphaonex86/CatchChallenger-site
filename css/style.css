@@ -607,3 +607,11 @@ article {
     margin:20px 0;
     padding: 15px;
 }
+
+.bigbutton {
+    float:left;
+    margin-right:7px;
+    text-align:center;
+    font-size:200%;
+    font-weight: bold;
+}

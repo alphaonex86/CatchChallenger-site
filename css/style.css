@@ -138,6 +138,7 @@ h2
     display:none;
     }
     nav table {width: 100%;}
+    #article {width: 90%;}
 }
 
 @media screen and (max-width: 550px)
@@ -154,14 +155,15 @@ h2
     }
 }
 
-@media screen and (max-width: 830px)
+@media screen and (max-width: 850px)
 {
     #sbanner {
     display:none;
     }
-    #footer {
+    .footerlowwidth {
     display:none;
     }
+    #footer {height: 20px;}
 }
 
 @media screen and (max-height: 450px)

@@ -288,7 +288,9 @@ if($filecurs!='')
             filewrite($previously_know_server_file,json_encode($previously_know_server));
         
         arsort($topList);
+        echo '<div id="ServerTree">';
         displayServerTree($treeServer,$topList,$charactersGroup);
+        echo '</div>';
         
         $string_array=array();
         if($gameserver_up>0)

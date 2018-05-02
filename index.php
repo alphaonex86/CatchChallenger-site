@@ -1,57 +1,47 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-	<head>
-		<title>CatchChallenger - Old school Opensource MMORPG/Single player with multiple gameplay</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF8"/>
-		<meta name="robots" content="index,follow"/>
-		<meta name="description" content="CatchChallenger project, Independent Old school Opensource MMORPG/Single player game" />
-		<meta name="keywords" content="catchchallenger,catch challenger,catch challenger,pokemon,minecraft,crafting,MMORPG,Opensource,Single player,Indie,Independent,game" />
-		<link rel="stylesheet" type="text/css" media="screen" href="/css/style.css" />
-		<link rel="alternate" type="application/atom+xml" href="/rss_global.xml" title="All news" />
-        <meta name="viewport" content="width=device-width" />
-        <meta name="Language" content="en" />
-        <meta http-equiv="content-language" content="english" />
-	</head>
-	<body>
-		<div id="container">
-			<div id="header">
-				<div id="logo"></div>
-				<div id="back_menu">
-					<table>
-					<tr>
-						<td><a href="/">Home</a></td>
-						<td><a href="/official-server.html">Official server</a></td>
-						<td><a href="/download.html">Download</a></td>
-						<td><a href="/screenshot.html">Screenshot</a></td>
-						<td><a href="/shop/">Shop</a></td>
-						<td><a href="/community.html">Community</a></td>
-						<td><a href="/contact.html">Contact</a></td>
-					</tr>
-					</table>
-				</div>
-			</div>
-			<div id="body">
-				<div id="title">CatchChallenger project</div>
-				<br />
-				<br />
-				<img src="/images/catchchallenger-logo.png" width="96" height="96" style="float:left; margin-right:7px;" class="tiers_img" alt="Catch Challenger logo" title="Catch Challenger logo" />
-				<p class="text">This game is a independent <strong>MMORPG, Lan game and a single player game</strong>. You have <strong>fight, farming, explore, crafting, trading, management, competition</strong>... and you are free to play in you style.</p>
-				<p class="text">It's a pixel art and old school game. Our work is concentrated on the gameplay, creativity, performance and self hosting. The income is to paid the developing and the artwork. The game is fully <a href="https://github.com/alphaonex86/CatchChallenger">open source (<strong>GPL3</strong>)</a>.</p>
-                <p class="text">The game have no real time. That's give clear advantage on 3G/wifi connexion or into the tiers world. You can play <strong>Player vs Player, Team vs Team</strong>, your team can own city and clan hall.</p>
-                <p class="text">This project offer a scope to developing new technologies, innovate and analyze into the area of networking, cryptography, compression of datas, cloud/cluster/server/client, performance and protocol.</p>
-				<br />
-				<br />
+<?php
+$title='CatchChallenger - Old school Opensource MMORPG/Single player with multiple gameplay';
+$description='CatchChallenger project, Independent Old school Opensource MMORPG/Single player game';
+$keywords='catchchallenger,catch challenger,catch challenger,pokemon,minecraft,crafting,MMORPG,Opensource,Single player,Indie,Independent,game';
+$css_list=array('/css/index.css');
+include 'template/top.php';
+?>
+
+<section id="banner">
+<img src="/images/catchchallenger-line.png" width="551" height="81" alt="Catch Challenger logo" title="Catch Challenger logo" />
+This game is a independent MMORPG or a single player game. You can fight, farming, crafting, trading, ...<br />
+<b><?php echo (date('Y')-2012); ?> years</b> working and server up. The game is fully open source (GPL3). <a href="/rules.html">(Read more)</a>
+</section>
+
+<section id="link">
+<table>
+    <tr>
+        <td><img src="/images/free-to-play.png" width="267" height="104" alt="Free to play open source" title="Free to play open source" /></td>
+        <td><a href="/rules.html"><img src="/images/rules.png" width="267" height="104" alt="Rules of Catch challenger" title="Rules of Catch challenger" /></a></td>
+        <td id="download"><a href="/download.html"><img src="/images/download.png" width="266" height="116" alt="Download this open source MMORPG" title="Download this open source MMORPG" /></a></td>
+    </tr>
+</table>
+</section>
+
+<section class="subsec">
+    <div class="header sh"><a href="/screenshot.html"><span class="fh">Screen</span>shot</a></div>
+    <div class="mscreenl"><a href="/screenshot/catchchallenger-ingame.png"><img src="/screenshot/catchchallenger-ingame-mini.jpg" class="screenshot" alt="ingame into the mmorpg client" title="ingame into the mmorpg client" width="200" height="150" /></a>
+
+    <a href="/screenshot/catchchallenger-battle.png"><img src="/screenshot/catchchallenger-battle-mini.png" class="screenshot" alt="battle" title="battle" width="200" height="150" /></a>
+
+    <a href="/screenshot/catchchallenger-crafting.png"><img src="/screenshot/catchchallenger-crafting-mini.jpg" class="screenshot" alt="catchchallenger crafting" title="catchchallenger crafting" width="200" height="150" /></a>
+
+    <br style="clear:both;" />
+    </div>
+</section>
 
 <?php
 date_default_timezone_set('Europe/Paris');
 $filecurs=file_get_contents('http://catchchallenger.first-world.info/forum/feed.php?f=7');
 if(preg_match('#^.*<content[^>]*>(.*)</content>.*$#isU',$filecurs))
 {
-    echo '<img src="/images/hr.png" width="632" height="19" class="separation" style="clear:both;" />
-    <br />
-    <img src="/images/chip.png" width="64" height="64" style="float:left; margin-right:7px;" class="tiers_img" alt="" />
-    <div class="title">News</div>
-    <p class="text">';
+    echo '    <section class="subsec">
+    <div class="header sh"><a href="/forum/viewforum.php?f=7"><span class="fh">Ne</span>ws</a></div>
+    <div class="bodynews"><p class="text">';
     $filecurs=preg_replace('#^.*<content[^>]*>(.*)</content>.*$#isU','$1',$filecurs);
     $filecurs=preg_replace('#<p>Statistics:.*$#isU','',$filecurs);
     $filecurs=preg_replace('#<hr />.*$#isU','',$filecurs);
@@ -60,43 +50,10 @@ if(preg_match('#^.*<content[^>]*>(.*)</content>.*$#isU',$filecurs))
     if((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443))
         $filecurs=str_replace('http://','https://',$filecurs);
     echo htmlspecialchars_decode($filecurs);
-    echo '</p>';
+    echo '</p>    </div>
+</section>';
 }
 ?>
-				<img src="/images/hr.png" width="632" height="19" class="separation" />
-				<br />
-				<img src="/images/chip.png" width="64" height="64" style="float:left; margin-right:7px;" class="tiers_img" alt="" />
-				<p class="text">Against the other MMORPG:
-				<ul>
-					<li><strong><u>Farming for resell with real money is allowed</u></strong> (<a href="rules.html">see the rules</a>)</li>
-					<li>Free to play with multiple account</li>
-					<li>You can simply re-open you own server with the same content (like a mirror of the official server, <a href="download.html">see download</a>). Exists multiples mirrors on the web to access of the download if all the officials sources are down.</li>
-					<li>Warranty of life by small cost. <strong><u>I pledge to keep open as long as possible the server</u></strong> (<a href="rules.html">see the rules</a>), else see above</li>
-					<li><span class="important"><b><?php echo (date('Y')-2012); ?> years</b> working and server up</span></li>
-                    <li>Your bots on autorised server</li>
-				</ul>
-				</p>
-				<img src="/images/hr.png" width="632" height="19" class="separation" />
-				<div class="title">Parteners</div>
-				<center>
-				<table>
-				<tr>
-				<td>&nbsp;<a href="//www.confiared.com/"><img src="/images/confiared-header.png" alt="VPS without connectivity problem, into bolivia, PaaS, backup and more solution" title="VPS without connectivity problem, into bolivia, PaaS, backup and more solution" /></a>&nbsp;</td>
-				<td>&nbsp;<img src="/images/IPv6.png" alt="IPv6 full support" title="IPv6 full support" />&nbsp;</td>
-				<td>&nbsp;<a href="//ultracopier.first-world.info/"><img src="/images/ultracopier.png" alt="Ultracopier is free and open source software licensed under GPL3 that acts as a replacement for files copy dialogs. Main features include: play/pause, speed limitation, on-error resume, error/collision management ..." title="Ultracopier is free and open source software licensed under GPL3 that acts as a replacement for files copy dialogs. Main features include: play/pause, speed limitation, on-error resume, error/collision management ..." /></a>&nbsp;</td>
-				</tr>
-				</table>
-				</center>
-			</div>
-			<div id="footer">
-				<div id="copyright">CatchChallenger - <span style="color:#777;font-size:80%">Donate Bitcoin: </span><span style="color:#999;font-size:70%">1C4VLs16HX5YBoUeCLxEMJq8TpP24dcUJN</span> <span style="color:#777;font-size:80%">Nextcoin: </span><span style="color:#999;font-size:70%">NXT-MY96-548U-A5V5-BSR7R</span></div>
-			</div>
-		</div>
-<script type="text/javascript">
-var _paq=_paq || [];_paq.push(["trackPageView"]);_paq.push(["enableLinkTracking"]);
-(function() {
-var u=(("https:"==document.location.protocol)?"https":"http")+"://stat.first-world.info/";_paq.push(["setTrackerUrl",u+"piwik.php"]);_paq.push(["setSiteId","22"]);var d=document,g=d.createElement("script"),s=d.getElementsByTagName("script")[0];g.type="text/javascript";g.defer=true;g.async=true;g.src=u+"piwik.js";s.parentNode.insertBefore(g,s);
-})();
-</script>
-	</body>
-</html>
+
+<?php
+include 'template/bottom.php';

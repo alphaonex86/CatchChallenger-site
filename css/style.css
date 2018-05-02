@@ -1,12 +1,17 @@
 body {
 	color: #606060;
 	font-size: 13px;
-	font-family: tahoma,"Times New Roman",Georgia,Serif;
+	font-family: Arial, tahoma,"Times New Roman",Georgia,Serif;
 	text-decoration:none;
 	margin: 0;
 	padding: 0;
 	background-color: #ffffff;
 	min-width:400px;
+    background: url('/images/fond.png') no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
 a:link {
@@ -28,6 +33,41 @@ a:active {
 	text-decoration: none;
 	color: #000000;
 }
+
+nav table {
+    background: linear-gradient(to bottom, #32bef3 0%,#32bef3 50%,#00a1df 51%,#00a1df 100%);
+    width:80%;
+    margin:0 auto;
+    text-align: center;
+    border-collapse: collapse;
+    font-size: 14px;
+	font-family: Arial, tahoma,"Times New Roman",Georgia,Serif;
+    height:40px;
+}
+
+.menuselected
+{
+    background: #1e5799;
+    background: linear-gradient(to bottom, #32bef3 0%,#32bef3 50%,#00a1df 51%,#00a1df 100%);
+}
+
+nav td {
+    width:17%;
+    background-color:#222;
+    -webkit-transition: background 200ms ease-put 100ms; /* property duration timing-function delay */
+    -moz-transition: background 200ms ease-in 100ms;
+    -o-transition: background 200ms ease-in 100ms;
+    transition: background 200ms ease-in 100ms;
+}
+
+nav td:hover {
+    background: linear-gradient(to bottom, #32bef3 0%,#32bef3 50%,#00a1df 51%,#00a1df 100%);
+}
+
+nav a:link {color: #fff;}
+nav a:visited {color: #fff;}
+nav a:hover {color: #fff;}
+nav a:active {color: #fff;}
 
 #container {
     border: 0;
@@ -123,13 +163,6 @@ h2
 	padding-top:0px;
 }
 
-#body {
-	border: 0;
-	margin-left:23px;
-	margin-right:23px;
-	display: block;
-}
-
 #body a:link {
 	text-decoration: underline;
 }
@@ -188,12 +221,22 @@ h2
 	color: #00C8F2;
 }
 
-#footer  {
-	height: 47px;
+footer  {
+	height: 130px;
 	border: 0;
 	text-align:center;
 	clear:both;
 	display: block;
+    color:#eee;
+    background-color:#222;
+    padding:10px;
+}
+#partners
+{
+    margin:5px;
+}
+#partners td { 
+    padding: 15px;
 }
 
 @media screen and (max-width: 700px)
@@ -286,6 +329,10 @@ img {
 	box-shadow: 0 0 7px #555;
 	margin: 10px;
 	float:left;
+}
+.screenshot:hover
+{
+	filter: contrast(120%) drop-shadow(0 0 5px #88d);
 }
 .separation
 {
@@ -542,4 +589,21 @@ background-image:
 
 .important {
     background-color:#fff598;
+}
+
+#sbanner {
+    text-align: left;
+    background-image: url(/images/widget01-inside.png);
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    width:626px;
+    padding: 10px 100px;
+}
+article {
+    text-align: left;
+    background:#def;
+    border-radius: 15px; 
+    width:80%;
+    margin:20px 0;
+    padding: 15px;
 }

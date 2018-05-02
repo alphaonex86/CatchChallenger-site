@@ -1,0 +1,52 @@
+#banner {
+    background-image: url(/images/monsters.png), url(/images/widget01.png);
+    background-position: center top, center bottom;
+    background-repeat: no-repeat, no-repeat;
+    width:826px;
+    height:140px;
+    padding:200px 0 0 0;
+    margin:20px 0;
+    color:#fff;
+    font-size:120%;
+}
+
+#banner a:link {color: #000;}
+#banner a:visited {color: #000;}
+#banner a:hover {color: #000;}
+#banner a:active {color: #000;}
+#link a img:hover {filter: contrast(150%);}
+
+@keyframes shake {
+    0% { filter: brightness(100%); }
+    25% { filter: brightness(110%); }
+    50% { filter: brightness(120%); }
+    75% { filter: brightness(110%); }
+    100% { filter: brightness(100%); }
+    }
+
+#link td {vertical-align: text-bottom;}
+
+#download {vertical-align: text-bottom;
+animation-delay: 1s;
+animation-name: shake;
+animation-duration: 5s;
+animation-iteration-count: infinite; 
+}
+
+.subsec {width:823px;display:block;margin:15px 0;text-align: left;color:#000;background-color:#fff;border-radius: 15px;}
+.header {background-repeat: no-repeat;height:32px;width:783px;vertical-align: middle;padding:20px;font-weight: bold;font-size:32px;color:#333;
+    text-shadow:
+   -2px -2px 0 #fff,  
+    2px -2px 0 #fff,
+    -2px 2px 0 #fff,
+     2px 2px 0 #fff; 
+}
+.header a:link {color: #333;}
+.header a:visited {color: #333;}
+.header a:hover {color: #333;}
+.header a:active {color: #333;}
+.mscreenl {padding:0 80px;}
+.fh {color:#3A3;}
+.sh {background-image: url(/images/widget05.png);}
+.nh {background-image: url(/images/widget07-community.png);}
+.bodynews {padding:5px 30px;font-size:150%;}

@@ -30,34 +30,15 @@ foreach($postgres_db_tree as $common_server_content)
     break;
 }
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-	<head>
-		<title>Captured city on CatchChallenger</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF8"/>
-		<meta name="robots" content="index,follow"/>
-		<meta name="description" content="Captured city on CatchChallenger list" />
-		<meta name="keywords" content="clan,catchchallenger,pokemon,minecraft,crafting,official server" />
-		<link rel="stylesheet" type="text/css" media="screen" href="/css/style.css" />
-        <meta name="viewport" content="width=device-width" />
-	</head>
-	<body>
-		<div id="container">
-			<div id="header">
-				<div id="logo"></div>
-				<div id="back_menu">
-					<table>
-					<tr>
-						<td><a href="/">Home</a></td>
-						<td><a href="/official-server.html">Official server</a></td>
-						<td><a href="/download.html">Download</a></td>
-						<td><a href="/screenshot.html">Screenshot</a></td>
-						<td><a href="/shop/">Shop</a></td>
-						<td><a href="/community.html">Community</a></td>
-						<td><a href="/contact.html">Contact</a></td>
-					</tr>
-					</table>
-				</div>
+
+<?php
+$title='Captured city - CatchChallenger MMORPG';
+$description='Captured city - CatchChallenger, Independent Old school Opensource MMORPG/Single player game';
+$keywords='Captured city,catchchallenger,catch challenger,catch challenger,community';
+include '../template/top.php';
+include '../template/top2.php';
+?>
+
 				<div id="back_menu">
 					<table>
 					<tr>
@@ -72,7 +53,6 @@ foreach($postgres_db_tree as $common_server_content)
 					</table>
 				</div>
 			</div>
-			<div id="body">
 				<div id="title">Captured city on CatchChallenger</div>
 				<br />
 				<br />
@@ -118,19 +98,6 @@ foreach($postgres_db_tree as $common_server_content)
 				}
 				?>
 				</p>
-			</div>
-			<br />
-			<div id="footer">
-				<div id="copyright">CatchChallenger - <span style="color:#777;font-size:80%">Donate Bitcoin: </span><span style="color:#999;font-size:70%">1C4VLs16HX5YBoUeCLxEMJq8TpP24dcUJN</span></div>
-			</div>
-		</div>
-<script type="text/javascript" src="/js/jquery.js"></script>
-<script type="text/javascript" src="/js/register.js"></script>
-<script type="text/javascript">
-var _paq=_paq || [];_paq.push(["trackPageView"]);_paq.push(["enableLinkTracking"]);
-(function() {
-var u=(("https:"==document.location.protocol)?"https":"http")+"://stat.first-world.info/";_paq.push(["setTrackerUrl",u+"piwik.php"]);_paq.push(["setSiteId","22"]);var d=document,g=d.createElement("script"),s=d.getElementsByTagName("script")[0];g.type="text/javascript";g.defer=true;g.async=true;g.src=u+"piwik.js";s.parentNode.insertBefore(g,s);
-})();
-</script>
-	</body>
-</html>
+<?php
+include '../template/bottom2.php';
+include '../template/bottom.php';

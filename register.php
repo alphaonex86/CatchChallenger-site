@@ -42,36 +42,15 @@ function send_mail($title,$text,$to,$type,$from)
 	return $return;
 }
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-	<head>
-		<title>Register catchchallenger account</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF8"/>
-		<meta name="robots" content="index,follow"/>
-		<meta name="description" content="Register catchchallenger account" />
-		<meta name="keywords" content="catchchallenger,pokemon,minecraft,crafting,official server" />
-		<link rel="stylesheet" type="text/css" media="screen" href="/css/style.css" />
-        <meta name="viewport" content="width=device-width" />
-	</head>
-	<body>
-		<div id="container">
-			<div id="header">
-				<div id="logo"></div>
-				<div id="back_menu">
-					<table>
-					<tr>
-						<td><a href="/">Home</a></td>
-						<td><a href="/official-server.html">Official server</a></td>
-						<td><a href="/download.html">Download</a></td>
-						<td><a href="/screenshot.html">Screenshot</a></td>
-						<td><a href="/shop/">Shop</a></td>
-						<td><a href="/community.html">Community</a></td>
-						<td><a href="/contact.html">Contact</a></td>
-					</tr>
-					</table>
-				</div>
-			</div>
-			<div id="body">
+
+<?php
+$title='CatchChallenger register';
+$description='CatchChallenger register';
+$keywords='catchchallenger,catch challenger,catch challenger,register';
+include 'template/top.php';
+include 'template/top2.php';
+?>
+
 				<div id="title">Register catchchallenger account</div>
 				<br />
 				<br />
@@ -186,21 +165,11 @@ function send_mail($title,$text,$to,$type,$from)
 				}
 				?>
 				</p>
-			</div>
-			<br />
-			<div id="footer">
-				<div id="copyright">CatchChallenger - <span style="color:#777;font-size:80%">Donate Bitcoin: </span><span style="color:#999;font-size:70%">1C4VLs16HX5YBoUeCLxEMJq8TpP24dcUJN</span> <span style="color:#777;font-size:80%">Nextcoin: </span><span style="color:#999;font-size:70%">NXT-MY96-548U-A5V5-BSR7R</span></div>
-			</div>
-		</div>
-<script type="text/javascript">
-var _paq=_paq || [];_paq.push(["trackPageView"]);_paq.push(["enableLinkTracking"]);
-(function() {
-var u=(("https:"==document.location.protocol)?"https":"http")+"://stat.first-world.info/";_paq.push(["setTrackerUrl",u+"piwik.php"]);_paq.push(["setSiteId","22"]);var d=document,g=d.createElement("script"),s=d.getElementsByTagName("script")[0];g.type="text/javascript";g.defer=true;g.async=true;g.src=u+"piwik.js";s.parentNode.insertBefore(g,s);
-})();
-</script>
-	</body>
-</html>
-<?php
+
+				<?php
+include 'template/bottom2.php';
+include 'template/bottom.php';
+
 if($is_up)
     pg_query($postgres_link_login,'DELETE FROM account_register WHERE date < '.(time()-24*3600).';') or die(pg_last_error());
 ?>

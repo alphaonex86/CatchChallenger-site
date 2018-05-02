@@ -1,5 +1,5 @@
     </center>
-	<footer>
+	<footer id="footer">
 	<center>
 	Partners:
 	<table id="partners">

@@ -66,6 +66,7 @@ include 'template/top2.php';
                 if(count($total_string_array)>0)
                     echo '<p class="text">'.implode(', ',$total_string_array).'</p>';
                 ?>
+                <div class="droplowheight droplowwidth">
                 <?php if($maxplayer_count>0) { ?><p class="text">Total: <!--<b><?php echo $server_count; ?></b> servers and --><b><?php echo playerwithunit($player_count); ?></b><!--/<?php echo playerwithunit($maxplayer_count); ?>-->/23M players. Internationnal cluster: <img src="/images/multiflags.png" alt="" width="108px" height="12px" /></p><?php } ?>
 				<p class="text">Download the <a href="http://files.first-world.info/catchchallenger/2.0.4.3/catchchallenger-single-server-windows-x86-2.0.4.3-setup.exe">client for Windows</a> or the <a href="http://files.first-world.info/catchchallenger/2.0.4.3/catchchallenger-single-server-mac-os-x-2.0.4.3.dmg">client for Mac</a> to play on it</p>
                 <?php
@@ -95,6 +96,7 @@ include 'template/top2.php';
 				To be premium user you need support the server developping by donation of 5€/month. You can buy too object into the game via you bitcoin account.
 				</p>
 				<p class="text">We provide <a href="hosting.html"><strong>hosting</strong></a> for your private server. We can work on custom part (features, optimisation, security, ...) out of the roadmap, contact us to know the price.</p>-->
+				</div>
 <?php
 include 'template/bottom2.php';
 include 'template/bottom.php';

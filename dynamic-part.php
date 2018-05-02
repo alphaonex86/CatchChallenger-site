@@ -51,7 +51,7 @@ function displayServer($server,$topList,$charactersGroup)
                     }
                         
                     echo $flag;
-                    echo '<progress class="progress'.ceil(4*$server['connectedPlayer']/$server['maxPlayer']).'" title="'.playerwithunit($server['connectedPlayer']).'/'.playerwithunit($server['maxPlayer']).' players" value="'.$server['connectedPlayer'].'" max="'.$server['maxPlayer'].'"></progress>';
+                    echo '<progress class="progress'.ceil(4*$server['connectedPlayer']/$server['maxPlayer']).' droplowwidth" title="'.playerwithunit($server['connectedPlayer']).'/'.playerwithunit($server['maxPlayer']).' players" value="'.$server['connectedPlayer'].'" max="'.$server['maxPlayer'].'"></progress>';
                     echo ' <strong>'.htmlentities($name).'</strong> - <strong>'.playerwithunit($server['connectedPlayer']).'</strong> players - <span style="color:green;">online</span></div>'."\n";
                 }
                 else

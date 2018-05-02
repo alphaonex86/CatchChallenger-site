@@ -50,3 +50,5 @@ animation-iteration-count: infinite;
 .sh {background-image: url(/images/widget05.png);}
 .nh {background-image: url(/images/widget07-community.png);}
 .bodynews {padding:5px 30px;font-size:150%;}
+
+body {min-width:850px;}

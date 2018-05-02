@@ -134,6 +134,10 @@ h2
     #back_menu table {
     border-spacing:20px 0;
     }
+    .droplowwidth {
+    display:none;
+    }
+    nav table {width: 100%;}
 }
 
 @media screen and (max-width: 550px)
@@ -147,6 +151,23 @@ h2
 {
     #back_menu table {
     border-spacing:1px 0;
+    }
+}
+
+@media screen and (max-width: 830px)
+{
+    #sbanner {
+    display:none;
+    }
+    #footer {
+    display:none;
+    }
+}
+
+@media screen and (max-height: 450px)
+{
+    .droplowheight {
+    display:none;
     }
 }
 

@@ -60,7 +60,6 @@ include '../template/top2.php';
 					</tr>
 					</table>
 				</div>
-			</div>
 			
 				<div id="title">Clan on CatchChallenger</div>
 				<br />

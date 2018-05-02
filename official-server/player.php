@@ -61,7 +61,6 @@ include '../template/top2.php';
 					</tr>
 					</table>
 				</div>
-			</div>
 			<div id="title">Player on Catchchallenger</div>
 				<br />
 				<br />

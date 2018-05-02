@@ -137,7 +137,6 @@ include '../template/top2.php';
 					</tr>
 					</table>
 				</div>
-			</div>
 				<div id="title">Market Catchchallenger</div>
 				<br />
 				<br />

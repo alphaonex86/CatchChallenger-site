@@ -7,7 +7,7 @@ body {
 	padding: 0;
 	background-color: #ffffff;
 	min-width:400px;
-    background: url('/images/fond.jpg') no-repeat center center fixed; 
+    background: url('/images/fond.jpg') no-repeat center center fixed #3df; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;

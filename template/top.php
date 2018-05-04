@@ -6,7 +6,7 @@
 		<meta name="robots" content="index,follow"/>
 		<meta name="description" content="<?php if(isset($title)){echo $title;}?>" />
 		<meta name="keywords" content="<?php if(isset($title)){echo $title;}?>" />
-		<link rel="stylesheet" type="text/css" media="screen" href="/css/style.css" />
+		<link rel="stylesheet" type="text/css" media="screen" href="/css/style.min.css" />
         <?php
         if(isset($css_list))
             foreach($css_list as $css)

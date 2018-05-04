@@ -33,7 +33,7 @@ This game is a independent MMORPG or a single player game. You can fight, farmin
 </section>
 
 <?php
-/*date_default_timezone_set('Europe/Paris');
+date_default_timezone_set('Europe/Paris');
 $filecurs=file_get_contents('http://catchchallenger.first-world.info/forum/feed.php?f=7');
 if(preg_match('#^.*<content[^>]*>(.*)</content>.*$#isU',$filecurs))
 {
@@ -50,7 +50,7 @@ if(preg_match('#^.*<content[^>]*>(.*)</content>.*$#isU',$filecurs))
     echo htmlspecialchars_decode($filecurs);
     echo '</p>    </div>
 </section>';
-}*/
+}
 ?>
 
 <?php

@@ -14,7 +14,7 @@
 #banner a:visited {color: #000;}
 #banner a:hover {color: #000;}
 #banner a:active {color: #000;}
-#link a img:hover {filter: contrast(130%);}
+#rules img:hover {filter: contrast(130%);}
 
 @keyframes shake {
     0% { filter: brightness(100%); }

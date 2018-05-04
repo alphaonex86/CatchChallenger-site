@@ -16,7 +16,7 @@ This game is a independent MMORPG or a single player game. You can fight, farmin
 <table>
     <tr>
         <td><img src="/images/free-to-play.png" width="267" height="104" alt="Free to play open source" title="Free to play open source" /></td>
-        <td><a href="/rules.html"><img src="/images/rules.png" width="267" height="104" alt="Rules of Catch challenger" title="Rules of Catch challenger" /></a></td>
+        <td><a href="/rules.html" id="rules"><img src="/images/rules.png" width="267" height="104" alt="Rules of Catch challenger" title="Rules of Catch challenger" /></a></td>
         <td id="download"><a href="/download.html"><img src="/images/d.png" width="266" height="116" alt="Download this open source MMORPG" title="Download this open source MMORPG" /><img src="/images/a.png" width="59" height="43" alt="" class="bounce" /></a></td>
     </tr>
 </table>

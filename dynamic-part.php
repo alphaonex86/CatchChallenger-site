@@ -52,7 +52,7 @@ function displayServer($server,$topList,$charactersGroup)
                         
                     echo $flag;
                     echo '<progress class="progress'.ceil(4*$server['connectedPlayer']/$server['maxPlayer']).' droplowwidth" title="'.playerwithunit($server['connectedPlayer']).'/'.playerwithunit($server['maxPlayer']).' players" value="'.$server['connectedPlayer'].'" max="'.$server['maxPlayer'].'"></progress>';
-                    echo ' <strong>'.htmlentities($name).'</strong> - <strong>'.playerwithunit($server['connectedPlayer']).'</strong> players - <span style="color:green;">online</span></div>'."\n";
+                    echo ' <strong>'.htmlentities($name).'</strong><span class="droplowwidth"> - <strong>'.playerwithunit($server['connectedPlayer']).'</strong> players</span> - <span style="color:green;">online</span></div>'."\n";
                 }
                 else
                     echo '<div class="divBackground" title="'.htmlentities($description).'">'.$flag.'<strong>'.htmlentities($name).'</strong> - <span style="color:green;">online</span></div>';
@@ -304,8 +304,7 @@ if($filecurs!='')
 }
 else
     echo '<p class="text">The official server list is actually in <b>Unknown state</b>.</p>';
-?>
-<?php
+
 $loginserver_up=0;
 $loginserver_down=0;
 if(isset($loginserverfile))
@@ -375,12 +374,12 @@ if(isset($mirrorserverfile))
             $total_string_array[]='Mirror server: <span style="color:red;">bug</span>';
     }
 
+$backup_up=0;
+$backup_corrupted=0;
+$backup_down=0;
 if(isset($backupfile))
 {
     $string_array=array();
-    $backup_up=0;
-    $backup_corrupted=0;
-    $backup_down=0;
     if(file_exists($backupfile) && $filecurs=file_get_contents($backupfile))
     {
         $arr=json_decode($filecurs,true);
@@ -404,22 +403,22 @@ if(isset($backupfile))
         }
     }
     if($backup_up>0)
-        $string_array[]='<strong>'.$backup_up.'</strong> <span style="color:green;">online</span>';
+        $string_array[]='<strong>'.$backup_up.'</strong> <span style="color:green;">ok</span>';
     if($backup_corrupted>0)
         $string_array[]='<strong>'.$backup_corrupted.'</strong> <span style="color:brown;">corrupted</span>';
     if($backup_down>0)
-        $string_array[]='<strong>'.$backup_down.'</strong> <span style="color:red;">offline</span>';
+        $string_array[]='<strong>'.$backup_down.'</strong> <span style="color:red;">bad</span>';
     if($backup_up==0 && $backup_corrupted==0 && $backup_down==0)
         $string_array[]='<strong><span style="color:red;">No backup</span></strong>';
     $total_string_array[]='Backup: '.implode('/',$string_array);
 }
 
+$otherjson_up=0;
+$otherjson_corrupted=0;
+$otherjson_down=0;
 if(isset($otherjsonfile))
 {
     $string_array=array();
-    $otherjson_up=0;
-    $otherjson_corrupted=0;
-    $otherjson_down=0;
     if(file_exists($otherjsonfile) && $filecurs=file_get_contents($otherjsonfile))
     {
         $arr=json_decode($filecurs,true);
@@ -445,11 +444,11 @@ if(isset($otherjsonfile))
             $otherjson_down++;
     }
     if($otherjson_up>0)
-        $string_array[]='<strong>'.$otherjson_up.'</strong> <span style="color:green;">online</span>';
+        $string_array[]='<strong>'.$otherjson_up.'</strong> <span style="color:green;">ok</span>';
     if($otherjson_corrupted>0)
         $string_array[]='<strong>'.$otherjson_corrupted.'</strong> <span style="color:brown;">corrupted</span>';
     if($otherjson_down>0)
-        $string_array[]='<strong>'.$otherjson_down.'</strong> <span style="color:red;">offline</span>';
+        $string_array[]='<strong>'.$otherjson_down.'</strong> <span style="color:red;">bad</span>';
     if($otherjson_up==0 && $otherjson_corrupted==0 && $otherjson_down==0)
         $string_array[]='No other checks';
     $total_string_array[]='Other: '.implode('/',$string_array);

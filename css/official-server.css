@@ -1,0 +1,7 @@
+#fullserver {display:inline;}
+#compactserver {display:none;}
+@media screen and (max-width: 650px)
+{
+    #fullserver {display:none;}
+    #compactserver {display:inline;}
+}

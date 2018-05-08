@@ -52,6 +52,6 @@ if(preg_match('#^.*<content[^>]*>(.*)</content>.*$#isU',$filecurs))
 </section>';
 }
 ?>
-
+<img src="/images/widget01-inside.png" alt="" width="0" height="0" />
 <?php
 include 'template/bottom.php';

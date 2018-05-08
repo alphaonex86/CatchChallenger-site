@@ -53,7 +53,7 @@ if(isset($map_generator) &&
             if($return_var!=0)
             {
                 echo implode($output,"\n");
-                echo 'Bug with ('.$return_var.'): cd '.$datapack_explorer_local_path.'maps/ && '.$map_generator.$qtargs.' '.$pwd.'/'.$datapack_path.'map/main/'.$maindatapackcode.'/'.$map.' overview-'.$overviweid.'.png --renderAll'."\n";
+                echo 'Bug with ('.$return_var.'): cd '.getcwd().'/ && '.$map_generator.$qtargs.' '.$pwd.'/'.$datapack_path.'map/main/'.$maindatapackcode.'/'.$map.' overview-'.$overviweid.'.png --renderAll'."\n";
             }
             //echo implode($output,"\n");
             $after = microtime(true);

@@ -32,13 +32,19 @@ a:active {
 }
 
 nav table {
-    background: linear-gradient(to bottom, #32bef3 0%,#32bef3 50%,#00a1df 51%,#00a1df 100%);
+    background: #000;
     margin:0 auto;
     text-align: center;
     border-collapse: collapse;
     font-size: 14px;
 	font-family: Arial, tahoma,"Times New Roman",Georgia,Serif;
     height:40px;
+    min-width:800px;
+}
+
+nav td {
+    /*background: linear-gradient(to bottom, #32bef3 0%,#32bef3 50%,#00a1df 51%,#00a1df 100%);*/
+    background: #000;
 }
 
 .menutext {
@@ -53,9 +59,6 @@ nav table {
 
 nav td {
     background-color:#222;
-    -webkit-transition: background 200ms ease-put 100ms; /* property duration timing-function delay */
-    -moz-transition: background 200ms ease-in 100ms;
-    -o-transition: background 200ms ease-in 100ms;
     transition: background 200ms ease-in 100ms;
 }
 
@@ -148,6 +151,12 @@ h2
     border-spacing:0;
     font-size:80%;
     }
+    .menutext {
+    padding:0;
+    }
+    nav table {
+        width:100%;
+    }
 }
 
 @media screen and (max-width: 850px)
@@ -161,6 +170,9 @@ h2
     #footer {height: 20px;}
     #back_menu table {
     border-spacing:8px 0;
+    }
+    nav table {
+        min-width:0px;
     }
 }
 

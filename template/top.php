@@ -21,7 +21,7 @@
     <nav>
         <table>
             <tr>
-                <td class="menuselected" style="width:40px;display:block"><a href="/"><img src="/images/home.png" alt="Home" title="Home" width="40" height="40" /></a></td>
+                <td class="menuselected" style="width:40px"><a href="/"><img src="/images/home.png" alt="Home" title="Home" width="40" height="40" /></a></td>
                 <td class="menutext"><a href="/official-server.html">Official server</a></td>
                 <td class="menutext"><a href="/download.html">Download</a></td>
                 <td class="menutext"><a href="/screenshot.html">Screenshots</a></td>

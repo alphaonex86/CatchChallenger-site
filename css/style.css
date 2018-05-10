@@ -33,13 +33,16 @@ a:active {
 
 nav table {
     background: linear-gradient(to bottom, #32bef3 0%,#32bef3 50%,#00a1df 51%,#00a1df 100%);
-    width:80%;
     margin:0 auto;
     text-align: center;
     border-collapse: collapse;
     font-size: 14px;
 	font-family: Arial, tahoma,"Times New Roman",Georgia,Serif;
     height:40px;
+}
+
+.menutext {
+    padding:0 40px;
 }
 
 .menuselected
@@ -49,7 +52,6 @@ nav table {
 }
 
 nav td {
-    width:17%;
     background-color:#222;
     -webkit-transition: background 200ms ease-put 100ms; /* property duration timing-function delay */
     -moz-transition: background 200ms ease-in 100ms;
@@ -129,26 +131,22 @@ h2
 @media screen and (max-width: 650px)
 {
     #back_menu table {
-    border-spacing:20px 0;
+    border-spacing:4px 0;
     }
     .droplowwidth {
     display:none;
     }
-    nav table {width: 100%;}
-    #article {width: 90%;}
+    #article {width: 90%;margin:10px 0;}
+        .menutext {
+    padding:5px;
+    }
 }
 
 @media screen and (max-width: 550px)
 {
     #back_menu table {
-    border-spacing:8px 0;
-    }
-}
-
-@media screen and (max-width: 480px)
-{
-    #back_menu table {
-    border-spacing:1px 0;
+    border-spacing:0;
+    font-size:80%;
     }
 }
 
@@ -161,6 +159,9 @@ h2
     display:none;
     }
     #footer {height: 20px;}
+    #back_menu table {
+    border-spacing:8px 0;
+    }
 }
 
 @media screen and (max-height: 450px)

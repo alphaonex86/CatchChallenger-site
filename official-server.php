@@ -34,9 +34,9 @@ function playerwithunit($player)
 }
 ?>
 <?php
-$title='CatchChallenger community - Old school Opensource MMORPG/Single player with multiple gameplay';
-$description='CatchChallenger community, Independent Old school Opensource MMORPG/Single player game';
-$keywords='catchchallenger,catch challenger,catch challenger,community';
+$title='CatchChallenger community and official server - Old school Opensource MMORPG/Single player with multiple gameplay';
+$description='CatchChallenger community and official server, Independent Old school Opensource MMORPG/Single player game';
+$keywords='catchchallenger,catch challenger,catch challenger,community, community';
 $css_list=array('/css/official-server.css');
 include 'template/top.php';
 include 'template/top2.php';
@@ -59,7 +59,7 @@ include 'template/top2.php';
 			
 			
 			
-				<div id="title">CatchChallenger official server</div>
+				<div id="title">Official server</div>
 				<br />
 				<?php
                 require 'dynamic-part.php';
@@ -80,24 +80,6 @@ echo ', <strong>'.playerwithunit($player_count).'</strong> players</p>';
                 ?>
                 <div class="droplowheight droplowwidth">
                 <?php if($maxplayer_count>0) { ?><p class="text">Total: <!--<b><?php echo $server_count; ?></b> servers and --><b><?php echo playerwithunit($player_count); ?></b><!--/<?php echo playerwithunit($maxplayer_count); ?>-->/23M players. Internationnal cluster: <img src="/images/multiflags.png" alt="" width="108px" height="12px" /></p><?php } ?>
-				<p class="text">Download the <a href="http://files.first-world.info/catchchallenger/2.0.4.3/catchchallenger-single-server-windows-x86-2.0.4.3-setup.exe">client for Windows</a> or the <a href="http://files.first-world.info/catchchallenger/2.0.4.3/catchchallenger-single-server-mac-os-x-2.0.4.3.dmg">client for Mac</a> to play on it</p>
-                <?php
-                if(file_exists($contentstatfile) && $filecurs=file_get_contents($contentstatfile))
-                {
-                    $arr=json_decode($filecurs,true);
-                    if(is_array($arr))
-                    {
-                        if(isset($arr['map_count']))
-                            echo '<div class="labelDatapack"><div class="labelDatapackMap"></div><strong>'.$arr['map_count'].' maps</strong></div>';
-                        if(isset($arr['bot_count']))
-                            echo '<div class="labelDatapack"><div class="labelDatapackBot"></div><strong>'.$arr['bot_count'].' bots</strong></div>';
-                        if(isset($arr['monster_count']))
-                            echo '<div class="labelDatapack"><div class="labelDatapackMonster"></div><strong>'.$arr['monster_count'].' monsters</strong></div>';
-                        if(isset($arr['item_count']))
-                            echo '<div class="labelDatapack"><div class="labelDatapackItem"></div><strong>'.$arr['item_count'].' items</strong></div>';
-                    }
-                }
-                ?>
                 <br style="clear:both;" />
 				<!--<p class="text">The premium user have this advantage:
 				<ul>
@@ -109,6 +91,14 @@ echo ', <strong>'.playerwithunit($player_count).'</strong> players</p>';
 				</p>
 				<p class="text">We provide <a href="hosting.html"><strong>hosting</strong></a> for your private server. We can work on custom part (features, optimisation, security, ...) out of the roadmap, contact us to know the price.</p>-->
 				</div>
+				
+								<div id="title">Community</div>
+				<br />
+				<br />
+				<div class="tiers_img bigbutton"><center><a href="/forum/"><img src="/images/pixel.png" width="96" height="96" alt="" />Forum</a></center></div>
+				<div class="tiers_img bigbutton"><center><a href="/wiki/"><img src="/images/wiki.png" width="96" height="96" alt="" />Developer's wiki</a></center></div>
+				<div class="tiers_img bigbutton"><center><a href="/wiki-en/"><img src="/images/user-wiki.png" width="96" height="96" alt="" />User's wiki (en)</a></center></div>
+				<div class="tiers_img bigbutton"><center><a href="/wiki-fr/"><img src="/images/user-wiki.png" width="96" height="96" alt="" />User's wiki (fr)</a></center></div>
 <?php
 include 'template/bottom2.php';
 include 'template/bottom.php';

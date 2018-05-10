@@ -5,9 +5,8 @@
         Partners:
         <table id="partners">
             <tr>
-            <td><a href="http://www.confiared.com/"><img src="/images/confiared.png" title="Confiared" alt="confia red" width="283" height="36" /></a></td>
-            <td><img src="/images/IPv6.png" title="IPv6" alt="IPv6" width="73" height="50" /></td>
-            <td><a href="https://ultracopier.first-world.info/"><img src="/images/ultracopier.png" title="Ultracopier" alt="Ultracopier" width="216" height="50" /></a></td>
+            <td><a href="http://www.confiared.com/"><img src="/images/confiared.png" title="Confiared, company of VPS in Bolivia" alt="confia red, company of VPS in Bolivia" width="283" height="36" /></a></td>
+            <td><a href="https://ultracopier.first-world.info/"><img src="/images/ultracopier.png" title="Ultracopier is like Teracopy" alt="Ultracopier is like Teracopy" width="216" height="50" /></a></td>
             </tr>
         </table>
     </span>

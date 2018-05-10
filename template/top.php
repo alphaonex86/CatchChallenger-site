@@ -21,13 +21,12 @@
     <nav>
         <table>
             <tr>
-                <td class="menuselected" style="width:40px;display:block"><a href="/"><img src="/images/home.png" alt="Home" width="40" height="40" /></a></td>
-                <td><a href="/official-server.html">Official server</a></td>
-                <td><a href="/download.html">Download</a></td>
-                <td><a href="/screenshot.html">Screenshots</a></td>
-                <td><a href="/shop/">Shop</a></td>
-                <td><a href="/community.html">Community</a></td>
-                <td><a href="/contact.html">Contact</a></td>
+                <td class="menuselected" style="width:40px;display:block"><a href="/"><img src="/images/home.png" alt="Home" title="Home" width="40" height="40" /></a></td>
+                <td class="menutext"><a href="/official-server.html">Official server</a></td>
+                <td class="menutext"><a href="/download.html">Download</a></td>
+                <td class="menutext"><a href="/screenshot.html">Screenshots</a></td>
+                <td class="menutext"><a href="/shop/">Shop</a></td>
+                <td style="width:40px"><a href="/contact.html"><img src="/images/contact.png" alt="Contact" title="Contact" width="40" height="40" /></a></td>
             </tr>
         </table>
     </nav>

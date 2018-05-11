@@ -29,7 +29,7 @@ function displayServer($server,$topList,$charactersGroup)
             $description=str_replace('<![CDATA[','',str_replace(']]>','',$description));
         }
         if(count($charactersGroup)>1)
-            $flag='<div style="width:18px;height:12px;background-image:url(/images/charGroupFlags.png);background-repeat:no-repeat;background-position:'.(-18*($server['charactersGroup']%4)).'px 0px;float:left;margin-right:7px;" title="Character group '.($server['charactersGroup']+1).'"></div>';
+            $flag='<div class="flagsoff" style="background-position:'.(-18*($server['charactersGroup']%4)).'px 0px;" title="Character group '.($server['charactersGroup']+1).'"></div>';
         else
             $flag='';
         if($server['state']!='up')//not found

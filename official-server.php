@@ -37,7 +37,7 @@ function playerwithunit($player)
 $title='CatchChallenger community and official server - Old school Opensource MMORPG/Single player with multiple gameplay';
 $description='CatchChallenger community and official server, Independent Old school Opensource MMORPG/Single player game';
 $keywords='catchchallenger,catch challenger,catch challenger,community, community';
-$css_list=array('/css/official-server.css');
+$css_list=array('/css/official-server.min.css');
 include 'template/top.php';
 include 'template/top2.php';
 ?>

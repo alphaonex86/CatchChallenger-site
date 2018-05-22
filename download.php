@@ -24,7 +24,8 @@ include 'template/top2.php';
 				<br />
 				<br />
 				<a href="/shop/"><b>Ultracopier Ultimate</b> (MMORPG personal server + Extra) on <b>the shop</b></a><br />
-				The sources of the client/server: <a href="https://github.com/alphaonex86/CatchChallenger">https://github.com/alphaonex86/CatchChallenger</a><br />
+				The sources of the client/server: <a href="https://github.com/alphaonex86/CatchChallenger">https://github.com/alphaonex86/CatchChallenger</a> and 
+				<a href="http://files.first-world.info/catchchallenger/2.0.4.3/catchchallenger-src-2.0.4.3.tar.xz">catchchallenger-src-2.0.4.3.tar.xz</a><br />
 
 <?php
 include 'template/bottom2.php';

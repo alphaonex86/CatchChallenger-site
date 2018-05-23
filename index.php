@@ -50,7 +50,7 @@ if(1)
     {
         echo '    <section class="subsec">
         <div class="header"><a href="/forum/viewforum.php?f=7"><span class="fh">Ne</span>ws</a></div>
-        <div class="bodynews"><p class="text">';
+        <div class="bodynews"><span class="text">';
         $filecurs=preg_replace('#^.*<content[^>]*>(.*)</content>.*$#isU','$1',$filecurs);
         $filecurs=preg_replace('#<p>Statistics:.*$#isU','',$filecurs);
         $filecurs=preg_replace('#<hr />.*$#isU','',$filecurs);
@@ -59,7 +59,7 @@ if(1)
         if((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443))
             $filecurs=str_replace('http://','https://',$filecurs);
         echo htmlspecialchars_decode($filecurs);
-        echo '</p>    </div>
+        echo '</span><br /><br />    </div>
     </section>';
     }
 }

@@ -10,7 +10,7 @@
         <?php
         if(isset($css_list))
             foreach($css_list as $css)
-                echo '<link rel="stylesheet" type="text/css" media="screen" href="'.$css.'" /';
+                echo '<link rel="stylesheet" type="text/css" media="screen" href="'.$css.'" />';
         ?>
 		<link rel="alternate" type="application/atom+xml" href="/rss_global.xml" title="All news" />
         <meta name="viewport" content="width=device-width" />

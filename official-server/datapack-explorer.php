@@ -7,6 +7,19 @@ include '../template/top.php';
 include '../template/top2.php';
 include '../template/topdatapack.php';
 ?>
+				<div id="back_menu">
+					<table>
+					<tr>
+						<td><a href="/official-server/datapack-explorer/maps.html">Maps</a></td>
+						<td><a href="/official-server/datapack-explorer/monsters.html">Monsters</a></td>
+						<td><a href="/official-server/datapack-explorer/items.html">Items</a></td>
+						<td><a href="/official-server/datapack-explorer/crafting.html">Crafting</a></td>
+						<td><a href="/official-server/datapack-explorer/industries.html">Industries</a></td>
+						<td><a href="/official-server/datapack-explorer/quests.html">Quests</a></td>
+					</tr>
+					</table>
+				</div>
+				
 				<div id="title">Datapack explorer</div>
 				<br />
 				<br />

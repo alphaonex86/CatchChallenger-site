@@ -80,8 +80,12 @@ if(file_exists($logfile))
             $returnVar[$backup]=array('state'=>'down','reason'=>'String "Process on slave:" out of scope');
         else 
         {
+            //wait catchchallenger-db-common-1-a-slave:16424 | my_sub | | | | | | |
             $stringProcessOnSlave=substr($filecurs,$posProcessOnSlave+strlen('Process on slave:'."\n"),$posSlaveOnMaster-$posProcessOnSlave-strlen('Process on slave:'."\n"));
+            //wait ?
             $stringSlaveOnMaster=substr($filecurs,$posSlaveOnMaster+strlen('Slave connected on master:'."\n"),strlen($filecurs)-$posSlaveOnMaster+strlen('Slave connected on master:'."\n"));
+            /*if($stringSlaveOnMaster=='')
+                die('bug on $stringSlaveOnMaster: .substr($filecurs,'.$posSlaveOnMaster.'+'.strlen('Slave connected on master:'."\n").','.strlen($filecurs).'-'.$posSlaveOnMaster.'+'.strlen('Slave connected on master:'."\n").');');*/
             $stringProcessOnSlaveLine=explode("\n",$stringProcessOnSlave);
             $stringProcessOnSlaveLine=array_filter($stringProcessOnSlaveLine, function($value) { return $value !== ''; });
             $stringSlaveOnMasterLine=explode("\n",$stringSlaveOnMaster);

@@ -141,6 +141,41 @@ then
 else
     echo '"bot-test-connect-to-gameserver9":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other.json
 fi
+echo ',' >> /tmp/other.json;sleep 15
+
+
+
+
+
+
+BINPATH=/home/user/Desktop/CatchChallenger/tools/build-bot-test-connect-to-gameserver-Desktop_llvm-Debug4/
+cd ${BINPATH}
+testtogameserver 0 ${BINPATH}/bot-test-connect-to-gameserver
+RETURNCODE=$?
+if [ ${RETURNCODE} -eq 0 ]
+then
+    echo '"bot-test-connect-to-gameserver7":{"state":"up"}' >> /tmp/other.json
+else
+    echo '"bot-test-connect-to-gameserver7":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other.json
+fi
+echo ',' >> /tmp/other.json;sleep 15
+testtogameserver 1 ${BINPATH}/bot-test-connect-to-gameserver
+RETURNCODE=$?
+if [ ${RETURNCODE} -eq 0 ]
+then
+    echo '"bot-test-connect-to-gameserver8":{"state":"up"}' >> /tmp/other.json
+else
+    echo '"bot-test-connect-to-gameserver8":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other.json
+fi
+echo ',' >> /tmp/other.json;sleep 15
+testtogameserver 2 ${BINPATH}/bot-test-connect-to-gameserver
+RETURNCODE=$?
+if [ ${RETURNCODE} -eq 0 ]
+then
+    echo '"bot-test-connect-to-gameserver9":{"state":"up"}' >> /tmp/other.json
+else
+    echo '"bot-test-connect-to-gameserver9":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other.json
+fi
 #echo ',' >> /tmp/other.json;sleep 15
 
 

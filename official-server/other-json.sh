@@ -2,28 +2,25 @@
 testtogameserver () {
     mode=$1
     BINPATHFULL=$2
+    NAME=$3
     echo Mode ${mode}
-    
+
+    echo '-----------------------------------------------------------'
+    echo -e "--------------------------\e[1m${NAME}\e[0m-----------------------"
     if [ "${mode}" -eq 0 ]
     then
-        echo '-----------------------------------------------------------'
         echo -e '-------------------\e[1mTry empty datapack\e[0m----------------------'
-        echo '-----------------------------------------------------------'
         rm -Rf ${BINPATH}/datapack/
         mkdir ${BINPATH}/datapack/
     else
         if [ "${mode}" -eq 1 ]
         then
-            echo '-----------------------------------------------------------'
             echo -e '--------------------\e[1mTry full datapack\e[0m----------------------'
-            echo '-----------------------------------------------------------'
             rsync -art --delete ${BINPATH}/datapack-full/ ${BINPATH}/datapack/
         else
             if [ "${mode}" -eq 2 ]
             then
-                echo '-----------------------------------------------------------'
                 echo -e '--------------------\e[1mTry semi datapack\e[0m----------------------'
-                echo '-----------------------------------------------------------'
                 rsync -art --delete ${BINPATH}/datapack/ ${BINPATH}/datapack-full/
                 rm ${BINPATH}/datapack/informations.xml
             else
@@ -32,6 +29,7 @@ testtogameserver () {
             fi
         fi
     fi
+    echo '-----------------------------------------------------------'
     
     ${BINPATHFULL}
     RETURNCODE=$?
@@ -48,9 +46,10 @@ testtogameserver () {
 
 echo '{' > /tmp/other.json
 
+NAME="internal"
 BINPATH=/home/user/Desktop/CatchChallenger/tools/build-bot-test-connect-to-gameserver-Desktop_llvm-Debug/
 cd ${BINPATH}
-testtogameserver 0 ${BINPATH}/bot-test-connect-to-gameserver
+testtogameserver 0 ${BINPATH}/bot-test-connect-to-gameserver ${NAME}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
@@ -59,7 +58,7 @@ else
     echo '"bot-test-connect-to-gameserver1":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other.json
 fi
 echo ',' >> /tmp/other.json;sleep 15
-testtogameserver 1 ${BINPATH}/bot-test-connect-to-gameserver
+testtogameserver 1 ${BINPATH}/bot-test-connect-to-gameserver ${NAME}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
@@ -68,7 +67,7 @@ else
     echo '"bot-test-connect-to-gameserver2":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other.json
 fi
 echo ',' >> /tmp/other.json;sleep 15
-testtogameserver 2 ${BINPATH}/bot-test-connect-to-gameserver
+testtogameserver 2 ${BINPATH}/bot-test-connect-to-gameserver ${NAME}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
@@ -79,9 +78,14 @@ fi
 echo ',' >> /tmp/other.json;sleep 15
 
 
+
+
+
+
+NAME="proxy"
 BINPATH=/home/user/Desktop/CatchChallenger/tools/build-bot-test-connect-to-gameserver-Desktop_llvm-Debug2/
 cd ${BINPATH}
-testtogameserver 0 ${BINPATH}/bot-test-connect-to-gameserver
+testtogameserver 0 ${BINPATH}/bot-test-connect-to-gameserver ${NAME}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
@@ -90,7 +94,7 @@ else
     echo '"bot-test-connect-to-gameserver4":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other.json
 fi
 echo ',' >> /tmp/other.json;sleep 15
-testtogameserver 1 ${BINPATH}/bot-test-connect-to-gameserver
+testtogameserver 1 ${BINPATH}/bot-test-connect-to-gameserver ${NAME}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
@@ -99,7 +103,7 @@ else
     echo '"bot-test-connect-to-gameserver5":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other.json
 fi
 echo ',' >> /tmp/other.json;sleep 15
-testtogameserver 2 ${BINPATH}/bot-test-connect-to-gameserver
+testtogameserver 2 ${BINPATH}/bot-test-connect-to-gameserver ${NAME}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
@@ -112,10 +116,10 @@ echo ',' >> /tmp/other.json;sleep 15
 
 
 
-
+NAME="allinone"
 BINPATH=/home/user/Desktop/CatchChallenger/tools/build-bot-test-connect-to-gameserver-Desktop_llvm-Debug3/
 cd ${BINPATH}
-testtogameserver 0 ${BINPATH}/bot-test-connect-to-gameserver
+testtogameserver 0 ${BINPATH}/bot-test-connect-to-gameserver ${NAME}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
@@ -124,7 +128,7 @@ else
     echo '"bot-test-connect-to-gameserver7":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other.json
 fi
 echo ',' >> /tmp/other.json;sleep 15
-testtogameserver 1 ${BINPATH}/bot-test-connect-to-gameserver
+testtogameserver 1 ${BINPATH}/bot-test-connect-to-gameserver ${NAME}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
@@ -133,7 +137,7 @@ else
     echo '"bot-test-connect-to-gameserver8":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other.json
 fi
 echo ',' >> /tmp/other.json;sleep 15
-testtogameserver 2 ${BINPATH}/bot-test-connect-to-gameserver
+testtogameserver 2 ${BINPATH}/bot-test-connect-to-gameserver ${NAME}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
@@ -147,10 +151,10 @@ echo ',' >> /tmp/other.json;sleep 15
 
 
 
-
+NAME="official"
 BINPATH=/home/user/Desktop/CatchChallenger/tools/build-bot-test-connect-to-gameserver-Desktop_llvm-Debug4/
 cd ${BINPATH}
-testtogameserver 0 ${BINPATH}/bot-test-connect-to-gameserver
+testtogameserver 0 ${BINPATH}/bot-test-connect-to-gameserver ${NAME}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
@@ -159,7 +163,7 @@ else
     echo '"bot-test-connect-to-gameserver7":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other.json
 fi
 echo ',' >> /tmp/other.json;sleep 15
-testtogameserver 1 ${BINPATH}/bot-test-connect-to-gameserver
+testtogameserver 1 ${BINPATH}/bot-test-connect-to-gameserver ${NAME}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
@@ -168,7 +172,7 @@ else
     echo '"bot-test-connect-to-gameserver8":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other.json
 fi
 echo ',' >> /tmp/other.json;sleep 15
-testtogameserver 2 ${BINPATH}/bot-test-connect-to-gameserver
+testtogameserver 2 ${BINPATH}/bot-test-connect-to-gameserver ${NAME}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then

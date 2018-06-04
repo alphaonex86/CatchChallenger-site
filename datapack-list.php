@@ -16,7 +16,7 @@ function listFolder($folder)
                 {
                     if(is_file($folder.$entry))
                     {
-                        if(preg_match('#\\.(tmx|xml|tsx|js|png|jpg|gif|ogg|opus|qml|qm|ts|txt)$#',$entry))
+                        if(preg_match('#\\.(tmx|xml|tsx|js|png|jpg|gif|ogg|opus)$#',$entry))
                         {
                             if(preg_match('#^[0-9/a-z\\.\\- _]*[0-9a-z]\\.[a-z]{2,4}$#',$folder.$entry))
                                 $arr[]=$folder.$entry;

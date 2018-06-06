@@ -45,7 +45,7 @@ This MMORPG is open source game with multiple gameplay, <b><?php echo (date('Y')
 if(1)
 {
     date_default_timezone_set('Europe/Paris');
-    $filecurs=file_get_contents('http://catchchallenger.first-world.info/forum/feed.php?f=7');
+    $filecurs=@file_get_contents('http://catchchallenger.first-world.info/forum/feed.php?f=7');
     if(preg_match('#^.*<content[^>]*>(.*)</content>.*$#isU',$filecurs))
     {
         echo '    <section class="subsec">

@@ -153,15 +153,132 @@ include 'template/top2.php';
 						else
 							echo '<span style="background-color:rgb(255,169,169);border:1px solid rgb(255,77,77);padding:2px;"><b>Registration not found, already validated?</b></span><br />';
 					}
-					echo 'The registration is actually <span style="color:green;"><b>open</b></span>.<br />';
-					echo '<a href="lost-password.html"><span style="font-size:0.7em;">Lost password</span></a><br />';
-					echo '<form name="input" method="post">
-					Login: <script type="text/javascript"><!--
-					document.write("<input name=\"login\" type=\"text\">");
-					--></script><br />
-					Password: <input name="password" type="password"> (Your password must be composed of uppercase, lowercase and numbers. Minimum 7 characters)<br />
-					Email: <input name="email" type="text"> (needed for confirmation)<br />
-					<input type="submit" value="Register"></form>';
+					?>The registration is actually <span style="color:green;"><b>open</b></span>.<br />
+					Click here to recorver your: <a href="lost-password.html"><span style="font-size:0.7em;">Lost password</span></a><br />
+					<form name="input" method="post" id="registerForm">
+					<table>
+					<tr><td>Login: </td><td><script type="text/javascript"><!--
+					document.write('<input name="login" id="login" type="text" onfocusout="checklogin()" onchange="checklogin()" onkeypress="checklogin()" onkeyup="checklogin()">');
+					--></script></td></tr>
+					<tr><td>Password: </td><td><input name="password" type="password" id="password" onfocusout="checkpass()" onchange="checkpass()" onkeypress="checkpass()" onkeyup="checkpass()"></td></tr>
+					<tr><td></td><td><span style="font-size:0.7em;"><span id="lowercase">Must be with lowercase</span><br />
+                    <span id="uppercase">Must be with uppercase</span><br />
+                    <span id="number">Must be with number</span><br />
+                    <span id="char">Must be with more than 7 characters</span></span></td></tr>
+					<tr><td>Email: </td><td><input name="email" type="text" id="emailregister" onfocusout="checkemail()" onchange="checkemail()" onkeypress="checkemail()" onkeyup="checkemail()"></td></tr>
+					<tr><td colspan="2"><center><input type="submit" value="Register" onclick="register()" id="submitregister"></center></td></tr>
+					</table>
+					</form>
+					
+					<script>
+                    function checklogin()
+                    {
+                        var login=document.getElementById("login").value.length>=1;
+                        
+                        if(!login)
+                            document.getElementById("login").style="border:1px inset #f88;background-color:#fee";
+                        else
+                            document.getElementById("login").style="border:1px inset #8f8;background-color:#cfc";
+                    }
+                    function checkemail()
+                    {
+                        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                        var emailval= re.test(String(document.getElementById("emailregister").value).toLowerCase());
+                        
+                        if(!emailval)
+                            document.getElementById("emailregister").style="border:1px inset #f88;background-color:#fee";
+                        else
+                            document.getElementById("emailregister").style="border:1px inset #8f8;background-color:#cfc";
+                    }
+                    function checkpass()
+                    {
+                        var pass=document.getElementById("password").value;
+                        var lowercase=/[a-z]/.test(pass);
+                        var uppercase=/[A-Z]/.test(pass);
+                        var numberb=/[0-9]/.test(pass);
+                        var char=pass.length>=7;
+                        
+                        if(lowercase)
+                            document.getElementById("lowercase").style="color:#090";
+                        else
+                            document.getElementById("lowercase").style="color:#f00";
+                        if(uppercase)
+                            document.getElementById("uppercase").style="color:#090";
+                        else
+                            document.getElementById("uppercase").style="color:#f00";
+                        if(numberb)
+                            document.getElementById("number").style="color:#090";
+                        else
+                            document.getElementById("number").style="color:#f00";
+                        if(char)
+                            document.getElementById("char").style="color:#090";
+                        else
+                            document.getElementById("char").style="color:#f00";
+                        if(!lowercase || !uppercase || !number || !char)
+                            document.getElementById("password").style="border:1px inset #f88;background-color:#fee";
+                        else
+                            document.getElementById("password").style="border:1px inset #8f8;background-color:#8f8";
+                    }
+                    function register()
+                    {
+                        var lowercase=/[a-z]/.test(document.getElementById("password").value);
+                        var uppercase=/[A-Z]/.test(document.getElementById("password").value);
+                        var number=/[0-9]/.test(document.getElementById("password").value);
+                        var char=document.getElementById("password").value.length>=7;
+                        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                        var emailval= re.test(String(document.getElementById("emailregister").value).toLowerCase());
+                        var login=document.getElementById("login").value.length>=1;
+                        if(lowercase && uppercase && number && char && emailval && login)
+                            document.getElementById("registerForm").submit();
+                        else
+                        {
+                            if(!login)
+                                document.getElementById("login").style="border:1px inset #f88;background-color:#fee";
+                            else
+                                document.getElementById("login").style="border:1px inset #8f8;background-color:#cfc";
+                            if(lowercase)
+                                document.getElementById("lowercase").style="color:#090";
+                            else
+                                document.getElementById("lowercase").style="color:#f00";
+                            if(uppercase)
+                                document.getElementById("uppercase").style="color:#090";
+                            else
+                                document.getElementById("uppercase").style="color:#f00";
+                            if(number)
+                                document.getElementById("number").style="color:#090";
+                            else
+                                document.getElementById("number").style="color:#f00";
+                            if(char)
+                                document.getElementById("char").style="color:#090";
+                            else
+                                document.getElementById("char").style="color:#f00";
+                            if(!lowercase || !uppercase || !number || !char)
+                                document.getElementById("password").style="border:2px inset #f88;background-color:#fee";
+                            else
+                                document.getElementById("password").style="border:2px inset #8f8;background-color:#8f8";
+                            if(!emailval)
+                                document.getElementById("emailregister").style="border:2px inset #f88;background-color:#fee";
+                            else
+                                document.getElementById("emailregister").style="border:2px inset #8f8;background-color:#cfc";
+                        }
+                    }
+                    document.getElementById("submitregister").type='button';
+                    if(document.getElementById("emailregister").value != '')
+                        checkemail();
+                    if(document.getElementById("login").value != '')
+                        checklogin();
+                    if(document.getElementById("password").value != '')
+                        checkpass();
+                    window.onload = function () {
+                        if(document.getElementById("emailregister").value != '')
+                            checkemail();
+                        if(document.getElementById("password").value != '')
+                            checkpass();
+                        if(document.getElementById("login").value != '')
+                            checklogin();
+                    }
+                    </script>
+					<?php
 				}
 				?>
 				</p>

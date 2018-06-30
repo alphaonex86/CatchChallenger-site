@@ -1,5 +1,5 @@
 <?php
-$title='CatchChallenger - Old school Opensource MMORPG/Single player with multiple gameplay';
+$title='CatchChallenger - MMORPG with multiple gameplay';
 $description='CatchChallenger project, Independent Old school Opensource MMORPG/Single player game';
 $keywords='catchchallenger,catch challenger,catch challenger,pokemon,minecraft,crafting,MMORPG,Opensource,Single player,Indie,Independent,game';
 $css_list=array('/css/index.min.css');

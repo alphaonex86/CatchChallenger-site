@@ -10,7 +10,9 @@
             </tr>
         </table>
     </span>
-	CatchChallenger 2011-<?php echo date('Y'); ?>
+	CatchChallenger<script type="text/javascript">
+  document.write(" 2011-"+new Date().getFullYear());
+</script>
 	</center>
 	</footer>
 	<script type="text/javascript">

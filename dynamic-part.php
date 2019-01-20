@@ -116,7 +116,7 @@ function genTreeServer($treeServer,$arr)
         $logicalGroupList=array_filter(explode('/',$logicalGroup), function($value) { return $value !== ''; });
         $indexLogicalGroup=0;
         $treeleaf=&$treeServer;//php 7+
-        while($indexLogicalGroup<count($logicalGroupList))
+        while($indexLogicalGroup<count($logicalGroupList) && $indexLogicalGroup<99)
         {
             if(!isset($treeleaf['groups']))
                 $treeleaf['groups']=array();
@@ -167,8 +167,10 @@ if(isset($gameserversock))
         echo "<!-- $errstr ($errno) -->\n";
     } else {
         stream_set_blocking($fp,FALSE);
-        while (!feof($fp)) {
+        $i=0;
+        while (!feof($fp) && $i<1024/* limit file size to 4MB */) {
             $filecurs.=fgets($fp, 4096);
+            $i++;
         }
         fclose($fp);
     }
@@ -190,12 +192,16 @@ if($filecurs!='')
         if($is_up)
         {
             $reply = pg_query($postgres_link_site,'SELECT uniquekey,"charactersGroup",xml,"logicalGroup" FROM gameservers ORDER BY "charactersGroup",uniquekey') or die(pg_last_error());
-            while($data = pg_fetch_array($reply))
+            $i=0;
+            while($data = pg_fetch_array($reply) && $i<1024/*Limit to 1024 entry*/)
+            {
                 $arrDB[$data['logicalGroup']]['servers'][]=array(
                     'xml'=>$data['xml'],
                     'charactersGroup'=>$data['charactersGroup'],
                     'uniqueKey'=>$data['uniquekey']
                 );
+                $i++;
+            }
         }
         else
         {

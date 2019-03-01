@@ -407,6 +407,8 @@ if(isset($backupfile))
                     $backup_down++;
             }
         }
+        else
+            $backup_down++;
     }
     if($backup_up>0)
         $string_array[]='<strong>'.$backup_up.'</strong> <span style="color:green;">ok</span>';

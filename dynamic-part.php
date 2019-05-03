@@ -176,6 +176,7 @@ if(isset($gameserversock))
         if ($fp===FALSE)
             echo "<!-- $errstr ($errno) -->\n";
     } else {
+        $filecurs.=fgets($fp, 4096);
         stream_set_blocking($fp,FALSE);
         $i=0;
         while (!feof($fp) && $i<1024/* limit file size to 4MB */) {
@@ -320,10 +321,15 @@ if($filecurs!='')
 }
 else
 {
-    if($_SERVER['HTTP_HOST']=='amber')
-        echo '<p class="text">The official server list is actually in <b>Unknown state</b> ('.$errstr.', errno '.$errno.').</p>';
+    if($fp==FALSE)
+    {
+        if($_SERVER['HTTP_HOST']=='amber')
+            echo '<p class="text">The official server list is actually in <b>Unknown state</b> ('.$errstr.', errno '.$errno.').</p>';
+        else
+            echo '<p class="text">The official server list is actually in <b>Unknown state</b> (1).</p>';
+    }
     else
-        echo '<p class="text">The official server list is actually in <b>Unknown state</b> (1).</p>';
+        echo '<p class="text">The official server list is actually in <b>Unknown state</b> (3).</p>';
 }
 
 $loginserver_up=0;

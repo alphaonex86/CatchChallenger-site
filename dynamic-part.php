@@ -162,9 +162,19 @@ if(isset($gameserverfile))
 }
 if(isset($gameserversock))
 {
-    $fp = @fsockopen('unix://'.$gameserversock,0,$errno, $errstr, 1);
-    if (!$fp) {
-        echo "<!-- $errstr ($errno) -->\n";
+    if($_SERVER['HTTP_HOST']=='amber')
+        $fp = fsockopen('unix://'.$gameserversock,0,$errno, $errstr, 5);
+    else
+        $fp = @fsockopen('unix://'.$gameserversock,0,$errno, $errstr, 5);
+    if ($fp===FALSE)
+    {
+        //second try
+        if($_SERVER['HTTP_HOST']=='amber')
+            $fp = fsockopen('unix://'.$gameserversock,0,$errno, $errstr, 5);
+        else
+            $fp = @fsockopen('unix://'.$gameserversock,0,$errno, $errstr, 5);
+        if ($fp===FALSE)
+            echo "<!-- $errstr ($errno) -->\n";
     } else {
         stream_set_blocking($fp,FALSE);
         $i=0;
@@ -306,10 +316,15 @@ if($filecurs!='')
         $total_string_array[]='Game server: '.implode('/',$string_array);
     }
     else
-        echo '<p class="text">The official server list is actually in <b>Unknown state</b>.</p>';
+        echo '<p class="text">The official server list is actually in <b>Unknown state</b> (2).</p>';
 }
 else
-    echo '<p class="text">The official server list is actually in <b>Unknown state</b>.</p>';
+{
+    if($_SERVER['HTTP_HOST']=='amber')
+        echo '<p class="text">The official server list is actually in <b>Unknown state</b> ('.$errstr.', errno '.$errno.').</p>';
+    else
+        echo '<p class="text">The official server list is actually in <b>Unknown state</b> (1).</p>';
+}
 
 $loginserver_up=0;
 $loginserver_down=0;

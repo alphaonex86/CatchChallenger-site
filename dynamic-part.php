@@ -317,7 +317,17 @@ if($filecurs!='')
         $total_string_array[]='Game server: '.implode('/',$string_array);
     }
     else
-        echo '<p class="text">The official server list is actually in <b>Unknown state</b> (2).</p>';
+    {
+        if($_SERVER['HTTP_HOST']=='amber')
+        {
+            echo '<p class="text">The official server list is actually in <b>Unknown state</b> (4).</p>';
+            echo gettype($arr);
+            print_r($arr);
+            print_r($filecurs);
+        }
+        else
+            echo '<p class="text">The official server list is actually in <b>Unknown state</b> (2).</p>';
+    }
 }
 else
 {

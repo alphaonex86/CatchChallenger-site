@@ -39,10 +39,17 @@ while ($dh!==FALSE && false !== ($maindatapackcode = readdir($dh)))
             $height=0;
             $pixelwidth=0;
             $pixelheight=0;
-            if(preg_match('#/[^/]+$#',$map))
-                $map_folder=preg_replace('#/[^/]+$#','',$map).'/';
-            else
+            $pos=strrpos($map,'/');
+            if ($pos === false)
+            {
                 $map_folder='';
+                $map_file=$map;
+            }
+            else
+            {
+                $map_folder=substr($map,0,$pos+1);
+                $map_file=substr($map,$pos+1);
+            }
             $map_xml_meta=str_replace('.tmx','.xml',$map);
             $borders=array();
             $tp=array();
@@ -121,24 +128,21 @@ while ($dh!==FALSE && false !== ($maindatapackcode = readdir($dh)))
             foreach($temp_text_list[0] as $border_text)
             {
                 $propertyList=textToProperty($border_text);
-                if(isset($propertyList['map']))
+                if(!isset($propertyList['map']))
+                    $propertyList['map']=$map_file;
+                $border_map=$propertyList['map'];
+                if($border_map=='')
                 {
-                    $border_map=$propertyList['map'];
-                    if($border_map=='')
-                    {
-                        echo '$border_map can\'t be empty for '.$datapack_path.'map/main/'.$maindatapackcode.'/'.$map."\n";
-                        exit;
-                    }
-                    $border_map=$map_folder.$border_map;
-                    if(!preg_match('#\\.tmx$#',$border_map))
-                        $border_map.='.tmx';
-                    $border_map=preg_replace('#/[^/]+/\\.\\./#isU','/',$border_map);
-                    $border_map=preg_replace('#^[^/]+/\\.\\./#isU','',$border_map);
-                    $border_map=preg_replace("#[\n\r\t]+#is",'',$border_map);
-                    $tp[]=$border_map;
+                    echo '$border_map can\'t be empty for '.$datapack_path.'map/main/'.$maindatapackcode.'/'.$map."\n";
+                    exit;
                 }
-                else
-                    echo 'No map property for teleport on '.$map."\n";
+                $border_map=$map_folder.$border_map;
+                if(!preg_match('#\\.tmx$#',$border_map))
+                    $border_map.='.tmx';
+                $border_map=preg_replace('#/[^/]+/\\.\\./#isU','/',$border_map);
+                $border_map=preg_replace('#^[^/]+/\\.\\./#isU','',$border_map);
+                $border_map=preg_replace("#[\n\r\t]+#is",'',$border_map);
+                $tp[]=$border_map;
             }
             preg_match_all('#<object[^>]+type="door".*</object>#isU',$content,$temp_text_list);
             foreach($temp_text_list[0] as $door_text)
@@ -146,19 +150,16 @@ while ($dh!==FALSE && false !== ($maindatapackcode = readdir($dh)))
                 if(preg_match('#type="door"#isU',$door_text))
                 {
                     $propertyList=textToProperty($door_text);
-                    if(isset($propertyList['map']))
-                    {
-                        $door_map=$propertyList['map'];
-                        $door_map=$map_folder.$door_map;
-                        if(!preg_match('#\\.tmx$#',$door_map))
-                            $door_map.='.tmx';
-                        $door_map=preg_replace('#/[^/]+/\\.\\./#isU','/',$door_map);
-                        $door_map=preg_replace('#^[^/]+/\\.\\./#isU','',$door_map);
-                        $door_map=preg_replace("#[\n\r\t]+#is",'',$door_map);
-                        $doors[]=array('map'=>$door_map);
-                    }
-                    else
-                        echo 'No map property for door on '.$map."\n";
+                    if(!isset($propertyList['map']))
+                        $propertyList['map']=$map_file;
+                    $door_map=$propertyList['map'];
+                    $door_map=$map_folder.$door_map;
+                    if(!preg_match('#\\.tmx$#',$door_map))
+                        $door_map.='.tmx';
+                    $door_map=preg_replace('#/[^/]+/\\.\\./#isU','/',$door_map);
+                    $door_map=preg_replace('#^[^/]+/\\.\\./#isU','',$door_map);
+                    $door_map=preg_replace("#[\n\r\t]+#is",'',$door_map);
+                    $doors[]=array('map'=>$door_map);
                 }
             }
             preg_match_all('#<object[^>]+type="bot".*</object>#isU',$content,$temp_text_list);

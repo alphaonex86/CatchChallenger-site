@@ -11,8 +11,8 @@ include 'template/top2.php';
 				<br />
 				<table>
                     <tr>
-                        <td class="tiers_img bigbutton"><a href="http://files.first-world.info/catchchallenger/2.2.0.0/catchchallenger-windows-x86-2.2.0.0-setup.exe"><center><img src="/images/windows.png" width="96" height="96" alt="" />Windows</center></a></td>
-                        <td class="tiers_img bigbutton"><a href="http://files.first-world.info/catchchallenger/2.2.0.0/catchchallenger-mac-os-x-2.2.0.0.zip"><center><img src="/images/mac.png" width="96" height="96" alt="" />Mac</center></a></td>
+                        <td class="tiers_img bigbutton"><a href="http://files.first-world.info/catchchallenger/2.2.5.4/catchchallenger-windows-x86-2.2.5.4-setup.exe"><center><img src="/images/windows.png" width="96" height="96" alt="" />Windows</center></a></td>
+                        <td class="tiers_img bigbutton"><a href="http://files.first-world.info/catchchallenger/2.2.5.4/catchchallenger-mac-os-x-2.2.5.4.zip"><center><img src="/images/mac.png" width="96" height="96" alt="" />Mac</center></a></td>
                     </tr>
                 </table>
 				<br />

@@ -72,6 +72,7 @@ while ($dh!==FALSE && false !== ($maindatapackcode = readdir($dh)))
                 $pixelwidth=$width*$tilewidth;
                 $pixelheight=$height*$tileheight;
             }
+            $name_in_other_lang=array('en'=>'Unknown name ('.$map.')');
             preg_match_all('#<object[^>]+type="border-(left|right|top|bottom)".*</object>#isU',$content,$temp_text_list);
             foreach($temp_text_list[0] as $border_text)
             {

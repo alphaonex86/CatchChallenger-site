@@ -1250,7 +1250,7 @@ foreach($zonetempthis as $zone=>$map_by_zone)
         }
 		$map_descriptor.='<tr class="value" style="background: linear-gradient(-45deg, ';
 		$maxfightlevel=$maps_list[$maindatapackcode][$map]['maxfightlevel'];
-		if($maxfightlevel<=0 || $maxfightlevel<$fightLevelRange[0][0])
+		if($maxfightlevel<=0 || !isset($fightLevelRange[0][0]) || $maxfightlevel<$fightLevelRange[0][0])
             $map_descriptor.='white';
 		else if($maxfightlevel>=$fightLevelRange[0][0] && $maxfightlevel<$fightLevelRange[0][1])
             $map_descriptor.='#e5eaff';
@@ -1264,7 +1264,7 @@ foreach($zonetempthis as $zone=>$map_by_zone)
             $map_descriptor.='#ffe5e5';
 		$map_descriptor.=', ';
         $averagelevel=$maps_list[$maindatapackcode][$map]['averagelevel'];
-		if($averagelevel<=0 || $averagelevel<$wildLevelRange[0][0])
+		if($averagelevel<=0 || !isset($wildLevelRange[0][0]) || $averagelevel<$wildLevelRange[0][0])
             $map_descriptor.='white';
 		else if($averagelevel>=$wildLevelRange[0][0] && $averagelevel<$wildLevelRange[0][1])
             $map_descriptor.='#e5eaff';

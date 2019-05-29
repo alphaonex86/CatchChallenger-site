@@ -226,6 +226,7 @@ $translation_list[$temp_lang]['with luck of [luck]%']='with luck of [luck]%';
 $translation_list[$temp_lang]['Cave']='Cave';
 $translation_list[$temp_lang]['Water']='Water';
 $translation_list[$temp_lang]['Grass']='Grass';
+$translation_list[$temp_lang]['Lava']='Lava';
 $translation_list[$temp_lang]['at night']='at night';
 $translation_list[$temp_lang][' condition [condition] at [value]']=' condition [condition] at [value]';
 $translation_list[$temp_lang]['in']='in';

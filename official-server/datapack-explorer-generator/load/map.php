@@ -405,7 +405,7 @@ while ($dh!==FALSE && false !== ($maindatapackcode = readdir($dh)))
                                 if(preg_match('#luck="([0-9]+)"#isU',$text_entry))
                                     $luck=preg_replace('#^.*luck="([0-9]+)".*$#isU','$1',$text_entry);
                                 else
-                                    continue;
+                                    $luck=100;
                                 if(preg_match('#id="([0-9]+)"#isU',$text_entry))
                                     $id=preg_replace('#^.*id="([0-9]+)".*$#isU','$1',$text_entry);
                                 else

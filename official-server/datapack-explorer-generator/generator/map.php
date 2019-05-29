@@ -406,7 +406,12 @@ foreach($map_list as $map)
                 $map_descriptor.='</tr></table></center>'."\n";
             }
             else
-                $map_descriptor.=$translation_list[$current_lang][$full_monsterType_name]."\n";
+            {
+                if(isset($translation_list[$current_lang][$full_monsterType_name]))
+                    $map_descriptor.=$translation_list[$current_lang][$full_monsterType_name]."\n";
+                else
+                    $map_descriptor.=$full_monsterType_name."\n";
+            }
             if(isset($layer_event[$monsterType]))
             {
                 if($layer_event[$monsterType]['id']=='day' && $layer_event[$monsterType]['value']=='night')
@@ -466,9 +471,12 @@ foreach($map_list as $map)
                         $map_descriptor.='</td>
                         <td><a href="'.$link.'">'.$name.'</a></td>
                         <td>'."\n";
-                        $map_descriptor.='<img src="/images/datapack-explorer/'.$full_monsterType_name_top.'.png" alt="" class="locationimg">'.$translation_list[$current_lang][$full_monsterType_name_top];
+                        $map_descriptor.='<img src="/images/datapack-explorer/'.$full_monsterType_name_top.'.png" alt="" class="locationimg">';
+                        if(isset($translation_list[$current_lang][$full_monsterType_name_top]))
+                            $map_descriptor.=$translation_list[$current_lang][$full_monsterType_name_top];
+                        else
+                            $map_descriptor.=$full_monsterType_name_top;
                         $map_descriptor.='</td>'."\n";
-                        
                         if($specversion)
                         {
                             $map_descriptor.='<td>'."\n";

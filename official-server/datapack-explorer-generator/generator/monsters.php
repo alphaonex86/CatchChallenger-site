@@ -647,7 +647,12 @@ foreach($monster_meta as $id=>$monster)
                 $map_descriptor.='</tr></table></center>'."\n";
             }
             else
-                $map_descriptor.=$translation_list[$current_lang][$full_monsterType_name]."\n";
+            {
+                if(isset($translation_list[$current_lang][$full_monsterType_name]))
+                    $map_descriptor.=$translation_list[$current_lang][$full_monsterType_name]."\n";
+                else
+                    $map_descriptor.=$full_monsterType_name."\n";
+            }
             if(isset($layer_event[$monsterType]))
             {
                 if($layer_event[$monsterType]['id']=='day' && $layer_event[$monsterType]['value']=='night')

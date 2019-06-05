@@ -64,19 +64,27 @@ include 'template/top2.php';
 				<?php
                 require 'dynamic-part.php';
 
-echo '<p class="text" id="compactserver">';
-echo 'Status: ';
-$total_up=$loginserver_up+$mirrorserver_up+$mirrorserver_up+$backup_up+$otherjson_up;
-$total_down=$loginserver_down+$mirrorserver_down+$mirrorserver_down+$backup_down+$otherjson_down;
-$total_corrupted=$mirrorserver_corrupted+$backup_corrupted+$otherjson_corrupted;
-echo '<strong>'.$total_up.'</strong> <span style="color:green;">ok</span>';
-if($total_down>0)
-    echo ', <strong>'.$total_down.'</strong> <span style="color:brown;">bad</span>';
-if($total_corrupted>0)
-    echo ', <strong>'.$total_corrupted.'</strong> <span style="color:brown;">corrupted</span>';
-echo ', <strong>'.playerwithunit($player_count).'</strong> players</p>';
+                if($_SERVER['HTTP_HOST']!='amber')
+                {
+                    echo '<p class="text" id="compactserver">';
+                    echo 'Status: ';
+                    $total_up=$loginserver_up+$mirrorserver_up+$mirrorserver_up+$backup_up+$otherjson_up;
+                    $total_down=$loginserver_down+$mirrorserver_down+$mirrorserver_down+$backup_down+$otherjson_down;
+                    $total_corrupted=$mirrorserver_corrupted+$backup_corrupted+$otherjson_corrupted;
+                    echo '<strong>'.$total_up.'</strong> <span style="color:green;">ok</span>';
+                    if($total_down>0)
+                        echo ', <strong>'.$total_down.'</strong> <span style="color:brown;">bad</span>';
+                    if($total_corrupted>0)
+                        echo ', <strong>'.$total_corrupted.'</strong> <span style="color:brown;">corrupted</span>';
+                    echo ', <strong>'.playerwithunit($player_count).'</strong> players</p>';
+                }
                 if(count($total_string_array)>0)
-                    echo '<p class="text" id="fullserver">'.implode(', ',$total_string_array).'</p>';
+                {
+                    if($_SERVER['HTTP_HOST']!='amber')
+                        echo '<p class="text" id="fullserver">'.implode(', ',$total_string_array).'</p>';
+                    else
+                        echo '<p class="text">'.implode(', ',$total_string_array).'</p>';
+                }
                 ?>
                 <div class="droplowheight droplowwidth">
                 <?php if($maxplayer_count>0) { ?><p class="text">Total: <!--<b><?php echo $server_count; ?></b> servers and --><b><?php echo playerwithunit($player_count); ?></b><!--/<?php echo playerwithunit($maxplayer_count); ?>-->/23M players. Internationnal cluster: <img src="/images/multiflags.png" alt="" width="108px" height="12px" /></p><?php } ?>

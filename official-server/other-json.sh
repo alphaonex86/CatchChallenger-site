@@ -91,7 +91,7 @@ echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
 
 
 
-NAME="catchchallenger-login-proxy-1.xml"
+NAME="catchchallenger-login-proxy-1-16Bits.xml"
 BINPATH=/home/user/Desktop/CatchChallenger/tools/build-bot-test-connect-to-gameserver-Desktop-Debug/
 DATAPACK=/home/user/Desktop/CatchChallenger/.test/
 cd ${BINPATH}
@@ -230,6 +230,43 @@ else
     echo '"bot-test-connect-to-gameserver15":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
 fi
 #echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
+
+
+
+
+
+NAME="catchchallenger-login-proxy-1-8Bits.xml"
+BINPATH=/home/user/Desktop/CatchChallenger/tools/build-bot-test-connect-to-gameserver-Desktop-Debug/
+DATAPACK=/home/user/Desktop/CatchChallenger/.test/
+cd ${BINPATH}
+testtogameserver 0 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
+RETURNCODE=$?
+if [ ${RETURNCODE} -eq 0 ]
+then
+    echo '"bot-test-connect-to-gameserver16":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
+else
+    echo '"bot-test-connect-to-gameserver16":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
+fi
+echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
+testtogameserver 1 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
+RETURNCODE=$?
+if [ ${RETURNCODE} -eq 0 ]
+then
+    echo '"bot-test-connect-to-gameserver17":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
+else
+    echo '"bot-test-connect-to-gameserver17":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
+fi
+echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
+testtogameserver 2 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
+RETURNCODE=$?
+if [ ${RETURNCODE} -eq 0 ]
+then
+    echo '"bot-test-connect-to-gameserver18":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
+else
+    echo '"bot-test-connect-to-gameserver18":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
+fi
+echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
+
 
 
 

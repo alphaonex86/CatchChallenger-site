@@ -73,7 +73,12 @@ include 'template/top2.php';
                     $total_corrupted=$mirrorserver_corrupted+$backup_corrupted+$otherjson_corrupted;
                     echo '<strong>'.$total_up.'</strong> <span style="color:green;">ok</span>';
                     if($total_down>0)
-                        echo ', <strong>'.$total_down.'</strong> <span style="color:brown;">bad</span>';
+                    {
+                        if($_SERVER['HTTP_HOST']=='amber')
+                            echo ', <strong>'.$loginserver_down.'/'.$mirrorserver_down.'/'.$mirrorserver_down.'/'.$backup_down.'/'.$otherjson_down.'</strong> <span style="color:brown;">bad</span>';
+                        else
+                            echo ', <strong>'.$total_down.'</strong> <span style="color:brown;">bad</span>';
+                    }
                     if($total_corrupted>0)
                         echo ', <strong>'.$total_corrupted.'</strong> <span style="color:brown;">corrupted</span>';
                     echo ', <strong>'.playerwithunit($player_count).'</strong> players</p>';

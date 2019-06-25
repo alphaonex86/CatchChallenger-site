@@ -17,13 +17,19 @@ testtogameserver () {
         if [ "${mode}" -eq 1 ]
         then
             echo -e '--------------------\e[1mTry full datapack\e[0m----------------------'
-            rsync -art --delete ${DATAPACK} ${BINPATH}/datapack/
+            rsync -art --delete ${DATAPACK} ${BINPATH}/datapack/ --exclude=.git --exclude=/.git* --exclude=*.xcf --exclude=*.md
         else
             if [ "${mode}" -eq 2 ]
             then
                 echo -e '--------------------\e[1mTry semi datapack\e[0m----------------------'
-                rsync -art --delete ${DATAPACK} ${BINPATH}/datapack/
+                rsync -art --delete ${DATAPACK} ${BINPATH}/datapack/ --exclude=.git --exclude=/.git* --exclude=*.xcf --exclude=*.md
                 rm ${BINPATH}/datapack/informations.xml
+                if [ $? -ne 0 ]
+                then
+                    echo no file into ${DATAPACK}
+                    echo wrong mode
+                    exit 123
+                fi
             else
                 echo wrong mode
                 exit 123
@@ -48,7 +54,7 @@ testtogameserver () {
 RANDTOKEN=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${1:-32} | head -n 1`
 echo '{' > /tmp/other${RANDTOKEN}.json
 
-NAME="bottest.xml"
+NAME="catchchallenger-login-1.xml"
 BINPATH=/home/user/Desktop/CatchChallenger/tools/build-bot-test-connect-to-gameserver-Desktop-Debug/
 DATAPACK=/home/user/Desktop/CatchChallenger/.test/
 cd ${BINPATH}
@@ -85,7 +91,7 @@ echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
 
 
 
-NAME="bottest2.xml"
+NAME="catchchallenger-login-proxy-1.xml"
 BINPATH=/home/user/Desktop/CatchChallenger/tools/build-bot-test-connect-to-gameserver-Desktop-Debug/
 DATAPACK=/home/user/Desktop/CatchChallenger/.test/
 cd ${BINPATH}
@@ -120,7 +126,7 @@ echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
 
 
 
-NAME="bottest3.xml"
+NAME="catchchallenger-server-allinone.xml"
 BINPATH=/home/user/Desktop/CatchChallenger/tools/build-bot-test-connect-to-gameserver-Desktop-Debug/
 DATAPACK=/home/user/Desktop/CatchChallenger/.test/
 cd ${BINPATH}
@@ -157,7 +163,7 @@ echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
 
 
 
-NAME="bottest4.xml"
+NAME="cathchallenger-official.xml"
 DATAPACK=/home/user/Desktop/CatchChallenger/CatchChallenger-datapack/
 BINPATH=/home/user/Desktop/CatchChallenger/tools/build-bot-test-connect-to-gameserver-Desktop-Debug/
 cd ${BINPATH}
@@ -193,7 +199,7 @@ echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
 
 
 
-NAME="bottest5.xml"
+NAME="catchchallenger-server-imageprod.xml"
 DATAPACK=/home/user/Desktop/CatchChallenger/CatchChallenger-datapack/
 BINPATH=/home/user/Desktop/CatchChallenger/tools/build-bot-test-connect-to-gameserver-Desktop-Debug/
 cd ${BINPATH}

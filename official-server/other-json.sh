@@ -38,7 +38,7 @@ testtogameserver () {
     fi
     echo '-----------------------------------------------------------'
     
-    ${BINPATHFULL} ${BINPATH}/${NAME}
+    ${BINPATHFULL} ${BINPATH}/${NAME}.xml
     RETURNCODE=$?
     if [ ${RETURNCODE} -ne 0 ]
     then
@@ -54,7 +54,7 @@ testtogameserver () {
 RANDTOKEN=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${1:-32} | head -n 1`
 echo '{' > /tmp/other${RANDTOKEN}.json
 
-NAME="catchchallenger-login-1.xml"
+NAME="catchchallenger-login-1"
 BINPATH=/home/user/Desktop/CatchChallenger/tools/build-bot-test-connect-to-gameserver-Desktop-Debug/
 DATAPACK=/home/user/Desktop/CatchChallenger/.test/
 cd ${BINPATH}
@@ -62,27 +62,27 @@ testtogameserver 0 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '"bot-test-connect-to-gameserver1":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-empty":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
 else
-    echo '"bot-test-connect-to-gameserver1":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-empty":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
 fi
 echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
 testtogameserver 1 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '"bot-test-connect-to-gameserver2":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-full":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
 else
-    echo '"bot-test-connect-to-gameserver2":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-full":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
 fi
 echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
 testtogameserver 2 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '"bot-test-connect-to-gameserver3":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-partial":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
 else
-    echo '"bot-test-connect-to-gameserver3":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-partial":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
 fi
 echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
 
@@ -91,7 +91,7 @@ echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
 
 
 
-NAME="catchchallenger-login-proxy-1-16Bits.xml"
+NAME="catchchallenger-login-proxy-1-16Bits"
 BINPATH=/home/user/Desktop/CatchChallenger/tools/build-bot-test-connect-to-gameserver-Desktop-Debug/
 DATAPACK=/home/user/Desktop/CatchChallenger/.test/
 cd ${BINPATH}
@@ -99,34 +99,34 @@ testtogameserver 0 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '"bot-test-connect-to-gameserver4":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-empty":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
 else
-    echo '"bot-test-connect-to-gameserver4":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-empty":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
 fi
 echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
 testtogameserver 1 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '"bot-test-connect-to-gameserver5":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-full":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
 else
-    echo '"bot-test-connect-to-gameserver5":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-full":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
 fi
 echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
 testtogameserver 2 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '"bot-test-connect-to-gameserver6":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-partial":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
 else
-    echo '"bot-test-connect-to-gameserver6":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-partial":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
 fi
 echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
 
 
 
 
-NAME="catchchallenger-server-allinone.xml"
+NAME="catchchallenger-server-allinone"
 BINPATH=/home/user/Desktop/CatchChallenger/tools/build-bot-test-connect-to-gameserver-Desktop-Debug/
 DATAPACK=/home/user/Desktop/CatchChallenger/.test/
 cd ${BINPATH}
@@ -134,27 +134,27 @@ testtogameserver 0 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '"bot-test-connect-to-gameserver7":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-empty":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
 else
-    echo '"bot-test-connect-to-gameserver7":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-empty":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
 fi
 echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
 testtogameserver 1 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '"bot-test-connect-to-gameserver8":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-full":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
 else
-    echo '"bot-test-connect-to-gameserver8":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-full":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
 fi
 echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
 testtogameserver 2 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '"bot-test-connect-to-gameserver9":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-partial":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
 else
-    echo '"bot-test-connect-to-gameserver9":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-partial":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
 fi
 echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
 
@@ -163,7 +163,7 @@ echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
 
 
 
-NAME="cathchallenger-official.xml"
+NAME="cathchallenger-official"
 DATAPACK=/home/user/Desktop/CatchChallenger/CatchChallenger-datapack/
 BINPATH=/home/user/Desktop/CatchChallenger/tools/build-bot-test-connect-to-gameserver-Desktop-Debug/
 cd ${BINPATH}
@@ -171,27 +171,27 @@ testtogameserver 0 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '"bot-test-connect-to-gameserver10":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-empty":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
 else
-    echo '"bot-test-connect-to-gameserver10":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-empty":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
 fi
 echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
 testtogameserver 1 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '"bot-test-connect-to-gameserver11":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-full":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
 else
-    echo '"bot-test-connect-to-gameserver11":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-full":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
 fi
 echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
 testtogameserver 2 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '"bot-test-connect-to-gameserver12":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-partial":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
 else
-    echo '"bot-test-connect-to-gameserver12":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-partial":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
 fi
 echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
 
@@ -199,7 +199,7 @@ echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
 
 
 
-NAME="catchchallenger-server-imageprod.xml"
+NAME="catchchallenger-server-imageprod"
 DATAPACK=/home/user/Desktop/CatchChallenger/CatchChallenger-datapack/
 BINPATH=/home/user/Desktop/CatchChallenger/tools/build-bot-test-connect-to-gameserver-Desktop-Debug/
 cd ${BINPATH}
@@ -207,65 +207,65 @@ testtogameserver 0 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '"bot-test-connect-to-gameserver13":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-empty":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
 else
-    echo '"bot-test-connect-to-gameserver13":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-empty":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
 fi
 echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
 testtogameserver 1 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '"bot-test-connect-to-gameserver14":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-full":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
 else
-    echo '"bot-test-connect-to-gameserver14":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-full":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
 fi
 echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
 testtogameserver 2 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
 RETURNCODE=$?
 if [ ${RETURNCODE} -eq 0 ]
 then
-    echo '"bot-test-connect-to-gameserver15":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-partial":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
 else
-    echo '"bot-test-connect-to-gameserver15":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
+    echo '"'${NAME}'-partial":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
+fi
+echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
+
+
+
+
+
+NAME="catchchallenger-login-proxy-1-8Bits"
+BINPATH=/home/user/Desktop/CatchChallenger/tools/build-bot-test-connect-to-gameserver-Desktop-Debug/
+DATAPACK=/home/user/Desktop/CatchChallenger/.test/
+cd ${BINPATH}
+testtogameserver 0 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
+RETURNCODE=$?
+if [ ${RETURNCODE} -eq 0 ]
+then
+    echo '"'${NAME}'-empty":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
+else
+    echo '"'${NAME}'-empty":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
+fi
+echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
+testtogameserver 1 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
+RETURNCODE=$?
+if [ ${RETURNCODE} -eq 0 ]
+then
+    echo '"'${NAME}'-full":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
+else
+    echo '"'${NAME}'-full":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
+fi
+echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
+testtogameserver 2 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
+RETURNCODE=$?
+if [ ${RETURNCODE} -eq 0 ]
+then
+    echo '"'${NAME}'-partial":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
+else
+    echo '"'${NAME}'-partial":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
 fi
 #echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
-
-
-
-
-
-NAME="catchchallenger-login-proxy-1-8Bits.xml"
-BINPATH=/home/user/Desktop/CatchChallenger/tools/build-bot-test-connect-to-gameserver-Desktop-Debug/
-DATAPACK=/home/user/Desktop/CatchChallenger/.test/
-cd ${BINPATH}
-testtogameserver 0 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
-RETURNCODE=$?
-if [ ${RETURNCODE} -eq 0 ]
-then
-    echo '"bot-test-connect-to-gameserver16":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
-else
-    echo '"bot-test-connect-to-gameserver16":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
-fi
-echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
-testtogameserver 1 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
-RETURNCODE=$?
-if [ ${RETURNCODE} -eq 0 ]
-then
-    echo '"bot-test-connect-to-gameserver17":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
-else
-    echo '"bot-test-connect-to-gameserver17":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
-fi
-echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
-testtogameserver 2 ${BINPATH}/bot-test-connect-to-gameserver ${NAME} ${DATAPACK}
-RETURNCODE=$?
-if [ ${RETURNCODE} -eq 0 ]
-then
-    echo '"bot-test-connect-to-gameserver18":{"state":"up"}' >> /tmp/other${RANDTOKEN}.json
-else
-    echo '"bot-test-connect-to-gameserver18":{"state":"down","reason":"Failed at empty datapack: '${RETURNCODE}'"}' >> /tmp/other${RANDTOKEN}.json
-fi
-echo ',' >> /tmp/other${RANDTOKEN}.json;sleep 15
 
 
 

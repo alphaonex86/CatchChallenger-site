@@ -443,7 +443,7 @@ foreach($monster_meta as $id=>$monster)
 				$map_descriptor.='</a>'."\n";
 			$map_descriptor.='</td>'."\n";
 
-			$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['quests/'].$quests_monsters_details['quest'].'-'.text_operation_do_for_url($quests_meta[$maindatapackcode][$quests_monsters_details['quest']]['name'][$current_lang]).'.html" title="'.$quests_meta[$maindatapackcode][$quests_monsters_details['quest']]['name'][$current_lang].'">'."\n";
+			$map_descriptor.='<td><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['quests/'].$maindatapackcode.'/'.$quests_monsters_details['quest'].'-'.text_operation_do_for_url($quests_meta[$maindatapackcode][$quests_monsters_details['quest']]['name'][$current_lang]).'.html" title="'.$quests_meta[$maindatapackcode][$quests_monsters_details['quest']]['name'][$current_lang].'">'."\n";
 			$map_descriptor.=$quests_meta[$maindatapackcode][$quests_monsters_details['quest']]['name'][$current_lang];
 			$map_descriptor.='</a></td>'."\n";
 			$map_descriptor.='<td>'.$quests_monsters_details['rate'].'%</td>'."\n";

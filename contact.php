@@ -17,7 +17,7 @@ include 'template/top2.php';
 					<li>Email i2p: <u>alphaonex86<i></i>&#64;<b></b>mail.i2p</u></li>
 					<li>GTalk: <u>brule.herman<i></i>&#64;<b></b>gmail.com</u></li>
 					<li>Jabber: <u>alpha_one_x86<i></i>&#64;<b></b>jappix.com</u></li>
-					<li>Site: <a href="http://www.first-world.info/">www.first-world.info</a> and <a href="http://ultracopier.first-world.info/">ultracopier.first-world.info</a></li>
+					<li>Site: <a href="https://www.first-world.info/">www.first-world.info</a> and <a href="https://ultracopier.first-world.info/">ultracopier.first-world.info</a></li>
 				</ul>
 
 <?php

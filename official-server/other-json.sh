@@ -42,9 +42,14 @@ testtogameserver () {
     RETURNCODE=$?
     if [ ${RETURNCODE} -ne 0 ]
     then
-        echo "${BINPATHFULL}"
-        echo -e '\e[31m\e[1mFailed\e[39m\e[0m'
-        return ${RETURNCODE}
+        ${BINPATHFULL} ${BINPATH}/${NAME}.xml
+        RETURNCODE=$?
+        if [ ${RETURNCODE} -ne 0 ]
+        then
+            echo "${BINPATHFULL}"
+            echo -e '\e[31m\e[1mFailed\e[39m\e[0m'
+            return ${RETURNCODE}
+        fi
     fi
     echo -e '-------------------------Done:\e[32m\e[1mok\e[39m\e[0m---------------------------'
     

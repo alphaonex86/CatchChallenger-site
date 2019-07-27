@@ -38,7 +38,7 @@ testtogameserver () {
     fi
     echo '-----------------------------------------------------------'
     
-    ${BINPATHFULL} ${BINPATH}/${NAME}.xml
+    /usr/bin/gdb --batch --quiet -ex "handle SIGPIPE nostop" -ex "run" -ex "bt full" -ex "quit" --args ${BINPATHFULL} ${BINPATH}/${NAME}.xml
     RETURNCODE=$?
     if [ ${RETURNCODE} -ne 0 ]
     then

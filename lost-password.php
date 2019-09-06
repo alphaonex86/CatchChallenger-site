@@ -9,8 +9,14 @@ else
 if($postgres_link_login===FALSE)
     $is_up=false;
 
-require_once 'libs/class.smtp.php';
-require_once 'libs/class.phpmailer.php';
+require_once 'libs/PHPMailer/Exception.php';
+require_once 'libs/PHPMailer/OAuth.php';
+require_once 'libs/PHPMailer/PHPMailer.php';
+require_once 'libs/PHPMailer/POP3.php';
+require_once 'libs/PHPMailer/SMTP.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 $mail = new PHPMailer();
 $mail->isSMTP();

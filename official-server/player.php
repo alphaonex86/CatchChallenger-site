@@ -85,7 +85,7 @@ include '../template/topdatapack.php';
                             $skin=$skin_list[$data['skin']];
                         else
                         {
-                            $reply_skin = pg_query($postgres_link_base,'SELECT skin FROM dictionary_skin WHERE id='.$data['skin']) or die(pg_last_error());
+                            $reply_skin = pg_query_params($postgres_link_base,'SELECT skin FROM dictionary_skin WHERE id=$1',array($data['skin'])) or die(pg_last_error());
                             if($data_skin = pg_fetch_array($reply_skin))
                                 $skin=$data_skin['skin'];
                             else
@@ -96,7 +96,7 @@ include '../template/topdatapack.php';
 							echo '<div style="width:16px;height:24px;background-image:url(\'../datapack/skin/fighter/'.htmlspecialchars($skin).'/trainer.png\');background-repeat:no-repeat;background-position:-16px -48px;float:left;"></div>';
 						elseif(file_exists('../datapack/skin/fighter/'.$skin.'/trainer.gif'))
 							echo '<div style="width:16px;height:24px;background-image:url(\'../datapack/skin/fighter/'.htmlspecialchars($skin).'/trainer.gif\');background-repeat:no-repeat;background-position:-16px -48px;float:left;"></div>';
-						echo '</td><td>'.htmlspecialchars($data['pseudo']).'</td>';
+						echo '</td><td><a href="/player/'.bin2hex($data['pseudo']).'">'.htmlspecialchars($data['pseudo']).'</a></td>';
 						echo '<td>'.date('jS \of F Y',$data['date']).'</td>';
 						$reply_clan = pg_query($postgres_link_common,'SELECT name FROM clan WHERE id='.$data['clan']) or die(pg_last_error());
 						if($data_clan = pg_fetch_array($reply_clan))

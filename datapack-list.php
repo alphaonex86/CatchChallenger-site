@@ -1,4 +1,5 @@
 <?php
+//require 'xxhash/V32.php';
 header('Content-type: text/plain');
 function listFolder($folder)
 {
@@ -16,7 +17,7 @@ function listFolder($folder)
                 {
                     if(is_file($folder.$entry))
                     {
-                        if(preg_match('#\\.(tmx|xml|tsx|js|png|jpg|gif|ogg|opus)$#',$entry))
+                        if(preg_match('#\\.(tmx|xml|tsx|png|jpg|gif|opus)$#',$entry))
                         {
                             if(preg_match('#^[0-9/a-z\\.\\- _]*[0-9a-z]\\.[a-z]{2,4}$#',$folder.$entry))
                                 $arr[]=$folder.$entry;
@@ -76,14 +77,37 @@ Mostly is for main:
 * 500Bytes is for the file size
 * 2200Bytes for partial hash (non compressible)
 */
-
 function partialhashfile($file)
 {
-    $binary=true;
-    if($binary==true)
-        return substr(hash_file('sha224',$file,true),0,4);
+    //security problem, leak file date for tracking: return pack("H*",dechex(filemtime($file)%4294967296));
+    if(true)//xxhsum
+    {
+        //return substr(hash_file('sha224',$file,true),0,4);
+        //$h2=V32::hash(file_get_contents($file));
+        $output=array();
+        $result_code=0;
+        exec('xxh32sum '.$file,$output,$result_code);
+        $output=implode("\n",$output);
+        if($result_code!=0)
+            die('xxh32sum failed, command found? :'.$output);
+        $output_final=substr($output,0,8);
+        $h2_final=str_pad($output_final,8,'0',STR_PAD_LEFT);
+    }
     else
-        return substr(hash_file('sha224',$file),0,8);
+    {
+    /*
+    xxHash Binary 	0.081s
+    Pure PHP 	49.218s and lot of more memory
+    */
+        //return substr(hash_file('sha224',$file,true),0,4);
+        $h2=V32::hash(file_get_contents($file));
+        $h2_final=str_pad($h2,8,'0',STR_PAD_LEFT);
+    }
+    if(strlen($h2_final)!=8)
+        die('Hash bug on '.$file.': '.$h2_final);
+    $hash=hex2bin($h2_final);
+    //$hash=$h2_final;
+    return $hash;
 }
 
 $arr=listFolder($folder);

@@ -43,7 +43,7 @@ function monsterMapOrderGreater($monsterA,$monsterB)
     {
         if($countMonsterA==0)
             return 0;
-        if(implode($monsterA['sub'],'')<implode($monsterB['sub'],''))
+        if(implode('',$monsterA['sub'])<implode('',$monsterB['sub']))
             return 1;
         else
             return -1;

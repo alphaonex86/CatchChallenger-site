@@ -60,7 +60,7 @@ $wikivarsapp=array(
 
 $otherjsonfile='other.json';
 //$gameserverfile='gameserver.json';
-$gameserversock='/tmp/catchchallenger-stats.sock';
+$statsserversock='/tmp/catchchallenger-stats.sock';
 $loginserverfile='loginserver.json';
 $previously_know_server_file='previously_know_server.json';
 $mirrorserverfile='mirrorserver.json';

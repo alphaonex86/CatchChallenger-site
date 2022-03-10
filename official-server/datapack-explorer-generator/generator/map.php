@@ -94,8 +94,9 @@ foreach($map_list as $map)
             $map_descriptor.='<div class="subblock"><div class="valuetitle">'.$translation_list[$current_lang]['Zone'].'</div><div class="value"><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['zones/'].$maindatapackcode.'/'.text_operation_do_for_url($zone_name).'.html" title="'.$zone_name.'">'."\n";
             $map_descriptor.=$zone_name.'</a></div></div>'."\n";
 		}
-		else
-            echo $map_html.' with wrong zone: '.$map_current_object['zone']."\n";
+		/*empty zone, not zone attache, all is well?
+        else
+            echo $map_html.' with wrong zone: '.$map_current_object['zone']."\n";*/
 
 		if(count($map_current_object['borders'])>0 || count($map_current_object['doors'])>0 || count($map_current_object['tp'])>0)
 		{

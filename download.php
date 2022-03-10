@@ -4,6 +4,7 @@ $description='CatchChallenger download, Independent Old school Opensource MMORPG
 $keywords='catchchallenger,catch challenger,catch challenger,download';
 include 'template/top.php';
 include 'template/top2.php';
+$version=file_get_contents('updater.txt');
 ?>
 
 				<div id="title">Download <b>CatchChallenger</b></div>
@@ -11,8 +12,8 @@ include 'template/top2.php';
 				<br />
 				<table>
                     <tr>
-                        <td class="tiers_img bigbutton"><a href="http://files.first-world.info/catchchallenger/2.2.5.4/catchchallenger-windows-x86-2.2.5.4-setup.exe"><center><img src="/images/windows.png" width="96" height="96" alt="" />Windows</center></a></td>
-                        <td class="tiers_img bigbutton"><a href="http://files.first-world.info/catchchallenger/2.2.5.4/catchchallenger-mac-os-x-2.2.5.4.zip"><center><img src="/images/mac.png" width="96" height="96" alt="" />Mac</center></a></td>
+                        <td class="tiers_img bigbutton"><a href="//cdn.confiared.com/catchchallenger.first-world.info/files/<?php echo $version; ?>/catchchallenger-qtcpu800x600-windows-x86-<?php echo $version; ?>-setup.exe"><center><img src="/images/windows.png" width="96" height="96" alt="" />Windows</center></a></td>
+                        <td class="tiers_img bigbutton"><a href="//cdn.confiared.com/catchchallenger.first-world.info/files/<?php echo $version; ?>/catchchallenger-mac-os-x-<?php echo $version; ?>.dmg"><center><img src="/images/mac.png" width="96" height="96" alt="" />Mac</center></a></td>
                     </tr>
                 </table>
 				<br />

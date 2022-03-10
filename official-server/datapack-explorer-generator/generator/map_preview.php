@@ -52,7 +52,7 @@ if(isset($map_generator) &&
             echo exec($map_generator.$qtargs.' '.$pwd.'/'.$datapack_path.'map/main/'.$maindatapackcode.'/'.$map.' overview-'.$overviweid.'.png --renderAll',$output,$return_var);
             if($return_var!=0)
             {
-                echo implode($output,"\n");
+                echo implode("\n",$output);
                 echo 'Bug with ('.$return_var.'): cd '.getcwd().'/ && '.$map_generator.$qtargs.' '.$pwd.'/'.$datapack_path.'map/main/'.$maindatapackcode.'/'.$map.' overview-'.$overviweid.'.png --renderAll'."\n";
             }
             //echo implode($output,"\n");
@@ -65,7 +65,7 @@ if(isset($map_generator) &&
                 if(is_executable('/usr/bin/convert'))
                 {
                     $before = microtime(true);
-                    exec('/usr/bin/ionice -c 3 /usr/bin/nice -n 19 /usr/bin/convert overview-'.$overviweid.'.png -resize 256x256 preview-'.$overviweid.'.png');
+                    exec('/usr/bin/ionice -c 3 /usr/bin/nice -n 19 /usr/bin/convert -limit memory 2GiB -limit map 2GiB -limit disk 4GiB overview-'.$overviweid.'.png -resize 256x256 preview-'.$overviweid.'.png');
                     $after = microtime(true);
                     echo 'Preview resize generation '.(int)($after-$before)."s\n";
 
@@ -90,7 +90,7 @@ if(isset($map_generator) &&
     //single map preview
     //echo 'cd '.getcwd().';'.$map_generator.$qtargs.' '.$pwd.'/'.$datapack_path.'map/main/'."\n";
     echo exec($map_generator.$qtargs.' '.$pwd.'/'.$datapack_path.'map/main/',$output,$return_var);
-    echo implode($output,"\n");
+    echo implode("\n",$output);
     if($return_var!=0)
         echo 'Bug with ('.$return_var.'): cd '.$datapack_explorer_local_path.'maps/ && '.$map_generator.$qtargs.' '.$pwd.'/'.$datapack_path.'map/main/'.$maindatapackcode.'/'.$map.' overview-'.$overviweid.'.png --renderAll'."\n";
     /*
@@ -104,7 +104,7 @@ if(isset($map_generator) &&
     {
         $before = microtime(true);
         echo exec('/usr/bin/find ./ -name \'*.png\' -exec /usr/bin/ionice -c 3 /usr/bin/nice -n 19 /usr/bin/mogrify -trim +repage {} \;',$output,$return_var);
-        echo implode($output,"\n");
+        echo implode("\n",$output);
         $after = microtime(true);
         echo 'Png trim and repage into '.(int)($after-$before)."s\n";
     }

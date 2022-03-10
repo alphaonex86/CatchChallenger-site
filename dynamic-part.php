@@ -160,21 +160,21 @@ if(isset($gameserverfile))
     else
     $filecurs='';
 }
-if(isset($gameserversock))
+if(isset($statsserversock))
 {
     if($_SERVER['HTTP_HOST']=='amber')
-        $fp = fsockopen('unix://'.$gameserversock,0,$errno, $errstr, 5);
+        $fp = fsockopen('unix://'.$statsserversock,0,$errno, $errstr, 5);
     else
-        $fp = @fsockopen('unix://'.$gameserversock,0,$errno, $errstr, 5);
+        $fp = @fsockopen('unix://'.$statsserversock,0,$errno, $errstr, 5);
     if ($fp===FALSE)
     {
         //second try
         if($_SERVER['HTTP_HOST']=='amber')
-            $fp = fsockopen('unix://'.$gameserversock,0,$errno, $errstr, 5);
+            $fp = fsockopen('unix://'.$statsserversock,0,$errno, $errstr, 5);
         else
-            $fp = @fsockopen('unix://'.$gameserversock,0,$errno, $errstr, 5);
-        if ($fp===FALSE)
-            echo "<!-- $errstr ($errno) -->\n";
+            $fp = @fsockopen('unix://'.$statsserversock,0,$errno, $errstr, 5);
+        /*if ($fp===FALSE)
+            echo "<!-- $errstr ($errno) on ".$statsserversock." -->\n";*/
     } else {
         $filecurs.=fgets($fp, 4096);
         stream_set_blocking($fp,FALSE);
@@ -320,13 +320,13 @@ if($filecurs!='')
     {
         if($_SERVER['HTTP_HOST']=='amber')
         {
-            echo '<p class="text">The official server list is actually in <b>Unknown state</b> (4).</p>';
+            echo '<p class="text">The official server list is actually in <b>Unknown state</b> (4).<!-- ('.$errstr.', errno '.$errno.') '.$statsserversock.': '.$filecurs.'--></p>';
             echo gettype($arr);
             print_r($arr);
             print_r($filecurs);
         }
         else
-            echo '<p class="text">The official server list is actually in <b>Unknown state</b> (2).</p>';
+            echo '<p class="text">The official server list is actually in <b>Unknown state</b> (2).<!-- ('.$errstr.', errno '.$errno.') '.$statsserversock.': '.$filecurs.'--></p>';
     }
 }
 else
@@ -334,12 +334,12 @@ else
     if($fp==FALSE)
     {
         if($_SERVER['HTTP_HOST']=='amber')
-            echo '<p class="text">The official server list is actually in <b>Unknown state</b> ('.$errstr.', errno '.$errno.').</p>';
+            echo '<p class="text">The official server list is actually in <b>Unknown state</b> ('.$errstr.', errno '.$errno.').<!-- '.$statsserversock.': '.$filecurs.'--></p>';
         else
-            echo '<p class="text">The official server list is actually in <b>Unknown state</b> (1).</p>';
+            echo '<p class="text">The official server list is actually in <b>Unknown state</b> (1).<!-- ('.$errstr.', errno '.$errno.') '.$statsserversock.': '.$filecurs.'--></p>';
     }
     else
-        echo '<p class="text">The official server list is actually in <b>Unknown state</b> (3).</p>';
+        echo '<p class="text">The official server list is actually in <b>Unknown state</b> (3).<!-- ('.$errstr.', errno '.$errno.') '.$statsserversock.': '.$filecurs.'--></p>';
 }
 
 $loginserver_up=0;

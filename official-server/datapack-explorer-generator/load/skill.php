@@ -70,7 +70,7 @@ foreach($temp_skills as $skill_file)
 		{
 			if(!preg_match('#number="[0-9]+"#isU',$level_text))
             {
-                echo 'The level for skill '.$id.' don\'t have number'."\n";
+                echo 'The level for skill '.$id.' don\'t have number into file '.$skill_file."\n";
 				continue;
             }
 			$number=preg_replace('#^.*number="([0-9]+)".*$#isU','$1',$level_text);
@@ -84,8 +84,14 @@ foreach($temp_skills as $skill_file)
 			if(preg_match('#sp="[0-9]+"#isU',$level_text))
 				$sp=preg_replace('#^.*sp="([0-9]+)".*$#isU','$1',$level_text);
 			$life_quantity=0;
-			if(preg_match('#life[^>]+quantity="(-?[0-9]+%?)"#isU',$level_text))
-				$life_quantity=preg_replace('#^.*life[^>]+quantity="(-?[0-9]+%?)".*$#isU','$1',$level_text);
+            $life_quantity_clean='0';
+			if(preg_match('#life[^>]+quantity="([-+]?[0-9]+%?)"#isU',$level_text))
+            {
+				$life_quantity=str_replace('+','',preg_replace('#^.*life[^>]+quantity="([-+]?[0-9]+%?)".*$#isU','$1',$level_text));
+                $life_quantity_clean=str_replace('%','',$life_quantity);
+            }
+            if($life_quantity==0)
+                echo 'Take care life_quantity is 0 for skill '.$id.' file '.$skill_file.', string var: '.preg_replace('#^.*life[^>]+quantity="([-+]?[0-9]+%?)".*$#isU','$1',$level_text)."\n";
 			$buff_list=array();
 			preg_match_all('#(<buff[^>]+>)#isU',$level_text,$temp_buff_list);
 			foreach($temp_buff_list[0] as $buff)

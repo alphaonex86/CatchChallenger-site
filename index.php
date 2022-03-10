@@ -10,12 +10,12 @@ include 'template/top.php';
 <span class="droplowwidth">
 <img src="/images/catchchallenger-line.png" width="551" height="81" alt="Catch Challenger logo" title="Catch Challenger logo" />
 This game is a independent MMORPG or a single player game. You can fight, farming, crafting, trading, ...<br />
-<b><?php echo (date('Y')-2012); ?> years</b> working and server up. The game is fully open source (GPL3). <a href="/rules.html">(Read more)</a>
+<b><?php echo (date('Y')-2011); ?> years</b> working and server up. The game is fully open source (GPL3). <a href="/rules.html">(Read more)</a>
 </span>
 
 <span class="showlowwidth">
 <img src="/images/catchchallenger-2line.png" width="252" height="116" alt="Catch Challenger logo" title="Catch Challenger logo" />
-This MMORPG is open source game with multiple gameplay, <b><?php echo (date('Y')-2012); ?> years</b> up. <a href="/rules.html">(Read more)</a>
+This MMORPG is open source game with multiple gameplay, <b><?php echo (date('Y')-2011); ?> years</b> up. <a href="/rules.html">(Read more)</a>
 </span>
 </section>
 

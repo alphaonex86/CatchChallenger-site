@@ -1,5 +1,5 @@
 <?php
-$PROTOCOL_HEADER_VERSION=/*0x*/'13';
+$PROTOCOL_HEADER_VERSION=/*0x*/'14';
 require '../config.php';
 $result=array();
 if($argc==3)
@@ -32,6 +32,7 @@ foreach($loginserverlist as $server)
         }
         else
         {
+            //get if server connexion is encrypted or not
             $contents=fread($socket,1);
             if(!isset($contents[0x00]))
             {
@@ -50,8 +51,10 @@ foreach($loginserverlist as $server)
                 }
                 else
                 {
-                    //Protocol initialization for client
-                    $tosend=hex2bin('a0019cd6498d'.$PROTOCOL_HEADER_VERSION);
+                    /*Protocol initialization for client: a0
+                     * query id 0x0f
+                     * protocol header: 0x9cd6498d */
+                    $tosend=hex2bin('a00f9cd6498d'.$PROTOCOL_HEADER_VERSION);
                     $time_start = microtime(true);
                     $returnsize=fwrite($socket,$tosend,2+5);
                     if($returnsize!=7)

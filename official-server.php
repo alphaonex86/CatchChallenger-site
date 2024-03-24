@@ -1,4 +1,4 @@
-<?php
+// <?php
 $is_up=true;
 require 'config.php';
 if($postgres_db_site['host']!='localhost')
@@ -92,7 +92,7 @@ include 'template/top2.php';
                 }
                 ?>
                 <div class="droplowheight droplowwidth">
-                <?php if($maxplayer_count>0) { ?><p class="text">Total: <!--<b><?php echo $server_count; ?></b> servers and --><b><?php echo playerwithunit($player_count); ?></b><!--/<?php echo playerwithunit($maxplayer_count); ?>-->/23M players. Internationnal cluster: <img src="/images/multiflags.png" alt="" width="108px" height="12px" /></p><?php } ?>
+                <?php if($maxplayer_count>0) { ?><p class="text">Total: <!--<b><?php echo $server_count; ?></b> servers and --><b><?php echo playerwithunit($player_count); ?></b><!--/<?php echo playerwithunit($maxplayer_count); ?>-->/23M players.</p><?php } ?>
                 <br style="clear:both;" />
 				<!--<p class="text">The premium user have this advantage:
 				<ul>
@@ -104,14 +104,16 @@ include 'template/top2.php';
 				</p>
 				<p class="text">We provide <a href="hosting.html"><strong>hosting</strong></a> for your private server. We can work on custom part (features, optimisation, security, ...) out of the roadmap, contact us to know the price.</p>-->
 				</div>
+
+				<?php /*
+				<div id="title">Community</div>
+				<br />
+				<br />
 				
-								<div id="title">Community</div>
-				<br />
-				<br />
 				<!--<div class="tiers_img bigbutton"><center><a href="/forum/"><img src="/images/pixel.png" width="96" height="96" alt="" />Forum</a></center></div>-->
-				<div class="tiers_img bigbutton"><center><a href="/wiki/"><img src="/images/wiki.png" width="96" height="96" alt="" />Developer's wiki</a></center></div>
+				<!--<div class="tiers_img bigbutton"><center><a href="/wiki/"><img src="/images/wiki.png" width="96" height="96" alt="" />Developer's wiki</a></center></div>
 				<div class="tiers_img bigbutton"><center><a href="/wiki-en/"><img src="/images/user-wiki.png" width="96" height="96" alt="" />User's wiki (en)</a></center></div>
-				<div class="tiers_img bigbutton"><center><a href="/wiki-fr/"><img src="/images/user-wiki.png" width="96" height="96" alt="" />User's wiki (fr)</a></center></div>
-<?php
+				<div class="tiers_img bigbutton"><center><a href="/wiki-fr/"><img src="/images/user-wiki.png" width="96" height="96" alt="" />User's wiki (fr)</a></center></div>--> */
+				
 include 'template/bottom2.php';
 include 'template/bottom.php';

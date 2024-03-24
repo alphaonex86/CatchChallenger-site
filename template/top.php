@@ -41,7 +41,7 @@
                 <td class="menutext"><a href="/official-server.html">Official server</a></td>
                 <td class="menutext"><a href="/download.html">Download</a></td>
                 <td class="menutext"><a href="/screenshot.html">Screenshots</a></td>
-                <td class="menutext"><a href="https://shop.first-world.info/en/">Shop</a></td>
+                <td class="menutext"><a href="#" onclick="buy('catchchallenger')">Buy</a></td>
                 <td style="width:40px"><a href="/contact.html"><img src="/images/contact.png" alt="Contact" title="Contact" width="40" height="40" /></a></td>
             </tr>
         </table>

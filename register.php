@@ -11,14 +11,12 @@ else
 if($postgres_link_login===FALSE)
 	$is_up=false;
 
-require_once 'libs/PHPMailer/Exception.php';
-require_once 'libs/PHPMailer/OAuth.php';
-require_once 'libs/PHPMailer/PHPMailer.php';
-require_once 'libs/PHPMailer/POP3.php';
-require_once 'libs/PHPMailer/SMTP.php';
-
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+
+require 'path/to/PHPMailer/src/Exception.php';
+require 'path/to/PHPMailer/src/PHPMailer.php';
+require 'path/to/PHPMailer/src/SMTP.php';
 
 $https=false;
 if(isset($_SERVER['HTTP_X_FORWARDED_PORT']) && $_SERVER['HTTP_X_FORWARDED_PORT']=='443')
@@ -38,10 +36,11 @@ else
 
 $mail = new PHPMailer();
 $mail->isSMTP();
-$mail->SMTPSecure='tls';
+$mail->SMTPAutoTLS = false;
+$mail->SMTPSecure=$smtp_secure;
 $mail->Host = $smtp_server;
-$mail->Port = 587;
-$mail->SMTPAuth = true;
+$mail->Port = $smtp_port;
+$mail->SMTPAuth = $smtp_login!='';
 $mail->Username = $smtp_login;
 $mail->Password = $smtp_password;
 $mail->setFrom($admin_email, 'CatchChallenger');

@@ -6,6 +6,7 @@ $monster_meta=array();
 $item_to_monster=array();
 $item_to_evolution=array();
 $reverse_evolution=array();
+$monstername_to_id=array();
 $type_to_monster=array();
 $skill_to_monster=array();
 $item_to_skill_of_monster=array();
@@ -109,6 +110,10 @@ foreach($temp_monsters as $monster_file)
             else
                 $name_in_other_lang[$lang]=$name;
         }
+		if(!isset($monstername_to_id[$name_in_other_lang[$lang]]))
+			$monstername_to_id[$name_in_other_lang[$lang]]=$id;
+		elseif($monstername_to_id[$name_in_other_lang[$lang]]!=$id)
+			echo 'duplicate name '.$monstername_to_id[$name_in_other_lang[$lang]].' for monster ('.$id.' with another id)'."\n";
 		if(!preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
 			continue;
 		$description=text_operation_first_letter_upper(preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry));
@@ -171,9 +176,11 @@ foreach($temp_monsters as $monster_file)
 		preg_match_all('#<attack[^>]+/>#isU',$entry,$temp_text_list);
 		foreach($temp_text_list[0] as $attack_text)
 		{
-			if(!preg_match('#<attack[^>]*id="[0-9]+"[^>]*>#isU',$attack_text))
+			if(!preg_match('#<attack[^>]*id="[^"]+"[^>]*>#isU',$attack_text))
 				continue;
-			$skill_id=preg_replace('#^.*<attack[^>]*id="([0-9]+)"[^>]*>.*$#isU','$1',$attack_text);
+			$skill_id=preg_replace('#^.*<attack[^>]*id="([^"]+)"[^>]*>.*$#isU','$1',$attack_text);
+			if(isset($skillname_to_id[$skill_id]))
+				$skill_id=$skillname_to_id[$skill_id];
 			if(preg_match('#<attack[^>]*attack_level="[0-9]+"[^>]*>#isU',$attack_text))
 				$attack_level=preg_replace('#^.*<attack[^>]*attack_level="([0-9]+)"[^>]*>.*$#isU','$1',$attack_text);
 			else
@@ -193,6 +200,8 @@ foreach($temp_monsters as $monster_file)
 			else if(preg_match('#<attack[^>]* byitem="[0-9]+"[^>]*>#isU',$attack_text))
 			{
 				$byitem=preg_replace('#^.*<attack[^>]* byitem="([0-9]+)"[^>]*>.*$#isU','$1',$attack_text);
+				if(isset($itemname_to_id[$byitem]))
+					$byitem=$itemname_to_id[$byitem];
 				if(!isset($attack_list_byitem[$byitem]))
 					$attack_list_byitem[$byitem]=array();
 				$attack_list_byitem[$byitem][]=array('id'=>$skill_id,'attack_level'=>$attack_level);
@@ -210,18 +219,24 @@ foreach($temp_monsters as $monster_file)
 		preg_match_all('#<evolution [^>]+/>#isU',$entry,$temp_text_list);
 		foreach($temp_text_list[0] as $attack_text)
 		{
-			if(!preg_match('#level="([0-9]+)"#isU',$attack_text) && !preg_match('#item="([0-9]+)"#isU',$attack_text))
+			if(!preg_match('#level="([0-9]+)"#isU',$attack_text) && !preg_match('#item="([^"]+)"#isU',$attack_text))
 				continue;
 			if(!preg_match('#type="([^"]+)"#isU',$attack_text))
 				continue;
-			if(!preg_match('#evolveTo="([0-9]+)"#isU',$attack_text))
+			if(!preg_match('#evolveTo="([^"]+)"#isU',$attack_text))
 				continue;
             if(preg_match('#level="([0-9]+)"#isU',$attack_text))
                 $level=preg_replace('#^.*level="([0-9]+)".*$#isU','$1',$attack_text);
             else
-                $level=preg_replace('#^.*item="([0-9]+)".*$#isU','$1',$attack_text);
+			{
+                $level=preg_replace('#^.*item="([^"]+)".*$#isU','$1',$attack_text);
+				if(isset($itemname_to_id[$level]))
+					$level=$itemname_to_id[$level];
+			}
 			$type_evolution=preg_replace('#^.*type="([^"]+)".*$#isU','$1',$attack_text);
 			$evolveTo=preg_replace('#^.*evolveTo="([0-9]+)".*$#isU','$1',$attack_text);
+			if(isset($monstername_to_id[$evolveTo]))
+				$evolveTo=$monstername_to_id[$evolveTo];
 			if(!isset($reverse_evolution[$evolveTo]))
 				$reverse_evolution[$evolveTo]=array();
 			if($type_evolution=='item')
@@ -240,9 +255,11 @@ foreach($temp_monsters as $monster_file)
 			$quantity_min=1;
 			$quantity_max=1;
 			$luck=1;
-			if(!preg_match('#<drop[^>]*item="[0-9]+"[^>]*>#isU',$attack_text))
+			if(!preg_match('#<drop[^>]*item="[^"]+"[^>]*>#isU',$attack_text))
 				continue;
-			$item=preg_replace('#^.*<drop[^>]*item="([0-9]+)"[^>]*>.*$#isU','$1',$attack_text);
+			$item=preg_replace('#^.*<drop[^>]*item="([^"]+)"[^>]*>.*$#isU','$1',$attack_text);
+			if(isset($itemname_to_id[$item]))
+				$item=$itemname_to_id[$item];
 			if(preg_match('#<drop[^>]*quantity="[0-9]+"[^>]*>#isU',$attack_text))
 			{
 				$quantity_min=preg_replace('#^.*<drop[^>]*quantity="([0-9]+)"[^>]*>.*$#isU','$1',$attack_text);

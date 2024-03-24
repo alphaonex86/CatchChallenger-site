@@ -2,7 +2,7 @@
 if(!isset($datapackexplorergeneratorinclude))
 	die('abort into load industries'."\n");
 
-$industrie_meta=array();
+/*$industrie_meta=array();
 $industrie_link_meta=array();
 $item_produced_by=array();
 $item_consumed_by=array();
@@ -155,3 +155,4 @@ ksort($industrie_meta);
 ksort($industrie_link_meta);
 ksort($item_produced_by);
 ksort($item_consumed_by);
+*/

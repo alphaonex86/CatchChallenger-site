@@ -313,26 +313,31 @@ foreach($map_list as $map)
                 {
                     if($subdatapackcode!='')
                     {
-                        if(count($monster_list_temp[''])!=count($monster_list_temp[$subdatapackcode]))
+                        if(!isset($monster_list_temp['']))
+                            echo '$monster_list_temp[] is not set for '.$maindatapackcode.'/'.$map."\n";
+                        else
                         {
-                            $specversion=true;
-                            break;
-                            break;
-                        }
-                        foreach($monster_list as $index=>$monster)
-                        {
-                            if($monster_list_temp[''][$index]['id']==$monster_list_temp[$subdatapackcode][$index]['id'] && 
-                            $monster_list_temp[''][$index]['minLevel']==$monster_list_temp[$subdatapackcode][$index]['minLevel'] && 
-                            $monster_list_temp[''][$index]['maxLevel']==$monster_list_temp[$subdatapackcode][$index]['maxLevel'] && 
-                            $monster_list_temp[''][$index]['luck']==$monster_list_temp[$subdatapackcode][$index]['luck'])
-                            {
-                            }
-                            else
+                            if(count($monster_list_temp[''])!=count($monster_list_temp[$subdatapackcode]))
                             {
                                 $specversion=true;
                                 break;
                                 break;
-                                break;
+                            }
+                            foreach($monster_list as $index=>$monster)
+                            {
+                                if($monster_list_temp[''][$index]['id']==$monster_list_temp[$subdatapackcode][$index]['id'] && 
+                                $monster_list_temp[''][$index]['minLevel']==$monster_list_temp[$subdatapackcode][$index]['minLevel'] && 
+                                $monster_list_temp[''][$index]['maxLevel']==$monster_list_temp[$subdatapackcode][$index]['maxLevel'] && 
+                                $monster_list_temp[''][$index]['luck']==$monster_list_temp[$subdatapackcode][$index]['luck'])
+                                {
+                                }
+                                else
+                                {
+                                    $specversion=true;
+                                    break;
+                                    break;
+                                    break;
+                                }
                             }
                         }
                     }
@@ -562,6 +567,7 @@ foreach($map_list as $map)
 		</tr>'."\n";
 		foreach($map_current_object['bots'] as $bot_on_map)
 		{
+            $bot_id=$bot_on_map['id'];
             if(isset($bot_id_to_skin[$bot_id][$maindatapackcode]))
             {
                 if(file_exists($datapack_path.'skin/bot/'.$bot_id_to_skin[$bot_id][$maindatapackcode].'/trainer.png'))
@@ -604,7 +610,6 @@ foreach($map_list as $map)
 
 			if(isset($bots_meta[$maindatapackcode][$bot_on_map['id']]))
 			{
-                $bot_id=$bot_on_map['id'];
                 $bot=$bots_meta[$maindatapackcode][$bot_id];
 				if($bot['name'][$current_lang]=='')
 					$link=text_operation_do_for_url('bot '.$bot_on_map['id']);

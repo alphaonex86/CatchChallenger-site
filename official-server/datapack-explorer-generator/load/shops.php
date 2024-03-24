@@ -2,9 +2,8 @@
 if(!isset($datapackexplorergeneratorinclude))
 	die('abort into load shop'."\n");
 
-$shop_meta=array();
-$item_to_shop=array();
 
+/*
 $dir = $datapack_path.'map/main/';
 $dh  = opendir($dir);
 while ($dh!==FALSE && false !== ($maindatapackcode = readdir($dh)))
@@ -21,6 +20,7 @@ while ($dh!==FALSE && false !== ($maindatapackcode = readdir($dh)))
                 if(!preg_match('#<shop id="([0-9]+)".*</shop>#isU',$entry))
                     continue;
                 $id=preg_replace('#^.*<shop id="([0-9]+)".*</shop>.*$#isU','$1',$entry);
+                $shop_toconvert[$id]=$entry;
                 if(isset($shop_meta[$id]))
                 {
                     echo 'duplicate id '.$id.' for the shop'."\n";
@@ -68,3 +68,4 @@ closedir($dh);
 
 ksort($shop_meta);
 ksort($item_to_shop);
+*/

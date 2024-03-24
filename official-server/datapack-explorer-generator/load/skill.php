@@ -5,6 +5,7 @@ if(!isset($datapackexplorergeneratorinclude))
 $duplicate_skill_name=array();
 $buff_to_skill=array();
 $skill_meta=array();
+$skillname_to_id=array();
 $temp_skills=getXmlList($datapack_path.'monsters/skill/');
 $skill_type_to_id=array();
 foreach($temp_skills as $skill_file)
@@ -59,6 +60,10 @@ foreach($temp_skills as $skill_file)
                 $name_in_other_lang[$lang]=$name;
                 $temp_name=$name;
             }
+			if(!isset($skillname_to_id[$name_in_other_lang[$lang]]))
+				$skillname_to_id[$name_in_other_lang[$lang]]=$id;
+			elseif($skillname_to_id[$name_in_other_lang[$lang]]!=$id)
+				echo 'duplicate name '.$skillname_to_id[$name_in_other_lang[$lang]].' for monster ('.$id.' with another id)'."\n";
             if(isset($duplicate_skill_name[$lang][$temp_name]) && $duplicate_skill_name[$lang][$temp_name]!=$id)
                 echo 'duplicate name '.$temp_name.' for skill ('.$id.' previously on '.$duplicate_skill_name[$lang][$temp_name].') for lang '.$lang."\n";
             else

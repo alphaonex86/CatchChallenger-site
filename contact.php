@@ -9,15 +9,12 @@ include 'template/top2.php';
 				<div id="title">CatchChallenger contact</div>
 				<br />
 				<br />
-                <h2>Director</h2>
+                <h2>Herman BRULE</h2>
 				<img src="/images/avatar/alpha_one_x86.png" width="96" height="96" style="float:left; margin-right:7px;" class="tiers_img" alt="alpha_one_x86 BRULE Herman" />
-				<p class="text">alpha_one_x86: Project developper (features, performance, securisation, ...), projet leader, administrator. Real name: BRULE Herman. Languages: FR, EN, ES</p>
+				<p class="text">Project master (features, performance, security, marketing, cluster, server, backend, lib, ...). Languages: FR, EN, ES</p>
 				<ul>
-					<li>Email: <u>alpha_one_x86<i></i>&#64;<b></b>first-world.info</u></li>
-					<li>Email i2p: <u>alphaonex86<i></i>&#64;<b></b>mail.i2p</u></li>
-					<li>GTalk: <u>brule.herman<i></i>&#64;<b></b>gmail.com</u></li>
-					<li>Jabber: <u>alpha_one_x86<i></i>&#64;<b></b>jappix.com</u></li>
-					<li>Site: <a href="https://www.first-world.info/">www.first-world.info</a> and <a href="https://ultracopier.first-world.info/">ultracopier.first-world.info</a></li>
+					<li>Email: <u>contact<i></i>&#64;<b></b>herman-brule.com</u></li>
+					<li>Site: <a href="https://www.herman-brule.com/">www.herman-brule.com</a> and <a href="https://ultracopier.herman-brule.com/">ultracopier.herman-brule.com</a></li>
 				</ul>
 
 <?php

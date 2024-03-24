@@ -49,7 +49,7 @@ require 'datapack-explorer-generator/translation/en.php';
 
 $template=file_get_contents('template.html');
 if(preg_match('#/home/user/#isU',$_SERVER['PWD']))
-    $template=str_replace('stat.first-world.info','localhost',$template);
+    $template=str_replace('stat.herman-brule.com','localhost',$template);
 
 if(isset($wikivarsapp))
 {    
@@ -197,6 +197,7 @@ if($argc<=1 || in_array('explorer',$argv))
 
 //require 'datapack-explorer-generator/tools/map-fix-broken-links.php';
 //require 'datapack-explorer-generator/tools/rename-map-file-name.php';
+//require 'datapack-explorer-generator/tools/map-converter.php';
 
 //session_destroy();
 echo 'All is done'."\n";

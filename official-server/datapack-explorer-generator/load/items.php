@@ -36,6 +36,7 @@ if(is_file($datapack_path.'items/groups.xml'))
 
 $duplicate_item_name=array();
 $item_meta=array();
+$itemname_to_id=array();
 $item_to_trap=array();
 $item_to_regeneration=array();
 $temp_items=getXmlList($datapack_path.'items/');
@@ -105,6 +106,10 @@ foreach($temp_items as $item_file)
                 $temp_name=$name;
                 $name_in_other_lang[$lang]=$name;
             }
+            if(!isset($itemname_to_id[$name_in_other_lang[$lang]]))
+				$itemname_to_id[$name_in_other_lang[$lang]]=$id;
+			elseif($itemname_to_id[$name_in_other_lang[$lang]]!=$id)
+				echo 'duplicate name '.$itemname_to_id[$name_in_other_lang[$lang]].' for item ('.$id.' with another id)'."\n";
             if(isset($duplicate_item_name[$lang][$temp_name]) && $duplicate_item_name[$lang][$temp_name]!=$id)
                 echo 'duplicate name '.$temp_name.' for item ('.$id.' previously on '.$duplicate_item_name[$lang][$temp_name].') for lang '.$lang."\n";
             else

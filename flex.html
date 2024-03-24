@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style> 
+#main {
+  border: 1px solid black;
+  display: flex;
+}
+#main div {
+  -ms-flex: 1;  /* IE 10 */  
+  flex: 1;
+}
+
+@media screen and (max-width: 600px) {
+  #main {
+   Flex-direction: column;
+  }
+}
+</style>
+</head>
+<body>
+
+<h1>The flex Property</h1>
+
+<div id="main">
+  <div style="background-color:coral;">RED</div>
+  <div style="background-color:lightblue;">BLUE</div>  
+  <div style="background-color:lightgreen;">Green div with more content.</div>
+</div>
+
+<p><b>Note:</b> IE11 and newer versions support the flex property. Internet Explorer 10 supports an alternative, the -ms-flex property.</p>
+
+</body>
+</html>

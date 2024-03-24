@@ -3,7 +3,7 @@
 RANDOMNUMBERTOKEN=`/usr/bin/openssl rand -hex 14`
 find datapack/ -type d -exec chmod 700 "{}" \;
 find datapack/ -type f -exec chmod 600 "{}" \;
-find datapack/ -type f -print | grep -F -v 'datapack/pack/' | grep -F -v 'map/main/' | sort > /tmp/temporary_file_list${RANDOMNUMBERTOKEN}
+find datapack/ -type f -print | grep -F -v 'datapack/pack/' | grep -F -v 'map/main/' | grep -F -v '.git' | grep -F -v '.xcf' | sort > /tmp/temporary_file_list${RANDOMNUMBERTOKEN}
 tar --owner=0 --group=0 --mtime='2010-01-01' -H ustar -c -f - -T /tmp/temporary_file_list${RANDOMNUMBERTOKEN} > /tmp/datapack-new.tar${RANDOMNUMBERTOKEN}
 rm /tmp/temporary_file_list${RANDOMNUMBERTOKEN}
 mkdir -p /tmp/datapack/pack/
@@ -31,7 +31,7 @@ fi
 PATHB=`pwd`
 for main in $(ls ${PATHB}/datapack/map/main); do
         cd ${PATHB}/datapack/map/main/
-        find ${main}/ -type f -print | grep -F -v 'sub/' | sort > /tmp/temporary_file_list${RANDOMNUMBERTOKEN}
+        find ${main}/ -type f -print | grep -F -v 'sub/' | grep -F -v '.git' | grep -F -v '.xcf' | sort > /tmp/temporary_file_list${RANDOMNUMBERTOKEN}
         tar --owner=0 --group=0 --mtime='2010-01-01' -H ustar -c -f - -T /tmp/temporary_file_list${RANDOMNUMBERTOKEN} > /tmp/datapack-main-${main}-new.tar${RANDOMNUMBERTOKEN}
         rm /tmp/temporary_file_list${RANDOMNUMBERTOKEN}
         if [ ! -e /tmp/datapack-main-${main}-new.tar${RANDOMNUMBERTOKEN} ] || [ "`sha256sum /tmp/datapack-main-${main}-new.tar${RANDOMNUMBERTOKEN} | awk '{print $1}'`" != "`sha256sum /tmp/datapack-main-${main}.tar | awk '{print $1}'`" ]
@@ -57,7 +57,7 @@ for main in $(ls ${PATHB}/datapack/map/main); do
         fi
         for sub in $(ls ${PATHB}/datapack/map/main/${main}/sub/); do
                 cd ${PATHB}/datapack/map/main/${main}/sub/
-                find ${sub}/ -type f -print | sort > /tmp/temporary_file_list${RANDOMNUMBERTOKEN}
+                find ${sub}/ -type f -print | grep -F -v '.git' | grep -F -v '.xcf' | sort > /tmp/temporary_file_list${RANDOMNUMBERTOKEN}
                 tar --owner=0 --group=0 --mtime='2010-01-01' -H ustar -c -f - -T /tmp/temporary_file_list${RANDOMNUMBERTOKEN} > /tmp/datapack-sub-${main}-${sub}-new.tar${RANDOMNUMBERTOKEN}
                 rm /tmp/temporary_file_list${RANDOMNUMBERTOKEN}
                 if [ ! -e /tmp/datapack-sub-${main}-${sub}-new.tar${RANDOMNUMBERTOKEN} ] || [ "`sha256sum /tmp/datapack-sub-${main}-${sub}-new.tar${RANDOMNUMBERTOKEN} | awk '{print $1}'`" != "`sha256sum /tmp/datapack-sub-${main}-${sub}.tar | awk '{print $1}'`" ]

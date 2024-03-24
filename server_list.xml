@@ -1,16 +1,16 @@
 <servers>
-    <server host="catchchallenger.first-world.info" port="42489" unique_code="9e3n9n3FUi0598IN">
+    <server host="catchchallenger.herman-brule.com" port="42489" unique_code="9e3n9n3FUi0598IN">
         <lang lang="en">
             <name>Official CatchChallenger server</name>
-            <register_page>http://catchchallenger.first-world.info/register.html</register_page>
-            <lost_passwd_page>http://catchchallenger.first-world.info/lost_password.html</lost_passwd_page>
-            <site_page>http://catchchallenger.first-world.info/</site_page>
+            <register_page>http://catchchallenger.herman-brule.com/register.html</register_page>
+            <lost_passwd_page>http://catchchallenger.herman-brule.com/lost_password.html</lost_passwd_page>
+            <site_page>http://catchchallenger.herman-brule.com/</site_page>
         </lang>
     </server>
-    <server host="catchchallenger.first-world.info" port="45626" unique_code="6jPb6u6Nd3Qqwquk">
+    <server host="catchchallenger.herman-brule.com" port="45626" unique_code="6jPb6u6Nd3Qqwquk">
         <lang lang="en">
             <name>Pokemon CatchChallenger server</name>
-            <site_page>http://pkmn-i2p.first-world.info/</site_page>
+            <site_page>http://pkmn-i2p.herman-brule.com/</site_page>
         </lang>
     </server>
 </servers>

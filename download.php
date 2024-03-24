@@ -12,8 +12,8 @@ $version=file_get_contents('updater.txt');
 				<br />
 				<table>
                     <tr>
-                        <td class="tiers_img bigbutton"><a href="//cdn.confiared.com/catchchallenger.first-world.info/files/<?php echo $version; ?>/catchchallenger-qtcpu800x600-windows-x86-<?php echo $version; ?>-setup.exe"><center><img src="/images/windows.png" width="96" height="96" alt="" />Windows</center></a></td>
-                        <td class="tiers_img bigbutton"><a href="//cdn.confiared.com/catchchallenger.first-world.info/files/<?php echo $version; ?>/catchchallenger-mac-os-x-<?php echo $version; ?>.dmg"><center><img src="/images/mac.png" width="96" height="96" alt="" />Mac</center></a></td>
+                        <td class="tiers_img bigbutton"><a href="//cdn.confiared.com/catchchallenger.herman-brule.com/files/<?php echo $version; ?>/catchchallenger-qtcpu800x600-windows-x86-<?php echo $version; ?>-setup.exe"><center><img src="/images/windows.png" width="96" height="96" alt="" />Windows</center></a></td>
+                        <td class="tiers_img bigbutton"><a href="//cdn.confiared.com/catchchallenger.herman-brule.com/files/<?php echo $version; ?>/catchchallenger-mac-os-x-<?php echo $version; ?>.dmg"><center><img src="/images/mac.png" width="96" height="96" alt="" />Mac</center></a></td>
                     </tr>
                 </table>
 				<br />

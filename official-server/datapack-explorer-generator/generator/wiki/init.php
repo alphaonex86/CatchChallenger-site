@@ -10,7 +10,7 @@ $other_error='';
 $_SESSION['login_result']='';
 date_default_timezone_set('UTC');
 $wikivars['lastmod']=date('Y-m-d H:i',getlastmod()).' UTC';
-$wikivars['useragent']='Bot catchchallenger@first-world.info';
+$wikivars['useragent']='Bot catchchallenger@herman-brule.com';
 $wikivars['cookiefile']=tempnam('/tmp','CURLCOOKIE');
 $wikivars['curloptions']=array(
         CURLOPT_COOKIEFILE => $wikivars['cookiefile'],

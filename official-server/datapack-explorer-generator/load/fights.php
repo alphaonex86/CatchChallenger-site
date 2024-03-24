@@ -2,10 +2,8 @@
 if(!isset($datapackexplorergeneratorinclude))
 	die('abort into load fights'."\n");
 
-$fight_meta=array();
-$monster_to_fight=array();
-$item_to_fight=array();
 
+/*
 $dir = $datapack_path.'map/main/';
 $dh  = opendir($dir);
 while ($dh!==FALSE && false !== ($maindatapackcode = readdir($dh)))
@@ -26,6 +24,7 @@ while ($dh!==FALSE && false !== ($maindatapackcode = readdir($dh)))
                 if(!preg_match('#<fight id="[0-9]+".*</fight>#isU',$entry))
                     continue;
                 $id=preg_replace('#^.*<fight id="([0-9]+)".*</fight>.*$#isU','$1',$entry);
+                $fight_toconvert[$id]=$entry;
                 if(isset($fight_meta[$id]))
                 {
                     echo 'duplicate id '.$id.' for the fight'."\n";
@@ -66,4 +65,5 @@ while ($dh!==FALSE && false !== ($maindatapackcode = readdir($dh)))
 closedir($dh);
 ksort($fight_meta);
 ksort($item_to_fight);
+*/
 

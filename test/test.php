@@ -1,4 +1,6 @@
 <?php
+exit;
+//found another say to do this
 if(!isset($_SERVER['REMOTE_ADDR']))
     exit;
 if($_SERVER['REMOTE_ADDR']!='190.186.245.10' && $_SERVER['REMOTE_ADDR']!='127.0.0.1' && $_SERVER['REMOTE_ADDR']!='2803:1920::2:10' && $_SERVER['REMOTE_ADDR']!='::1' && $_SERVER['REMOTE_ADDR']!='2803:1920::3:6d')
@@ -22,7 +24,7 @@ $mail->setFrom($admin_email, 'CatchChallenger');
 $mail->addReplyTo($admin_email, 'CatchChallenger');
 $mail->isHTML(false);
 
-$mail->addAddress('alpha_one_x86@first-world.info','Test cron');
+$mail->addAddress('contact@herman-brule.com','Test cron');
 $mail->Subject = 'Cron test mail via CatchChallenger';
 $mail->Body = 'Cron test mail via CatchChallenger';
 if (!$mail->send())

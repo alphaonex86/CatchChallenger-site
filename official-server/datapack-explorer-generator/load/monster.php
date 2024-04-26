@@ -110,10 +110,13 @@ foreach($temp_monsters as $monster_file)
             else
                 $name_in_other_lang[$lang]=$name;
         }
-		if(!isset($monstername_to_id[$name_in_other_lang[$lang]]))
-			$monstername_to_id[$name_in_other_lang[$lang]]=$id;
-		elseif($monstername_to_id[$name_in_other_lang[$lang]]!=$id)
-			echo 'duplicate name '.$monstername_to_id[$name_in_other_lang[$lang]].' for monster ('.$id.' with another id)'."\n";
+        foreach($name_in_other_lang as $lang=>$name)
+		{
+			if(!isset($monstername_to_id[$name]))
+				$monstername_to_id[$name]=$id;
+			elseif($monstername_to_id[$name]!=$id)
+				echo 'duplicate name '.$monstername_to_id[$name].' for monster ('.$id.' with another id)'."\n";
+		}
 		if(!preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
 			continue;
 		$description=text_operation_first_letter_upper(preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry));
@@ -283,6 +286,11 @@ foreach($temp_monsters as $monster_file)
         'game'=>array(),'rarity'=>0
 		);
 	}
+}
+if(count($monstername_to_id)<=0)
+{
+	echo '$monstername_to_id is empty';
+	exit;
 }
 ksort($monster_meta);
 ksort($item_to_monster);

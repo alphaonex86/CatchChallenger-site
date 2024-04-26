@@ -55,7 +55,7 @@ while ($dh!==FALSE && false !== ($maindatapackcode = readdir($dh)))
                     }
                     else
                     {
-                        echo 'item not found '.$item.' for the shop'.$id."\n";
+                        echo 'item not found for shop '.$item.' for the shop'.$id."\n";
                         continue;
                     }
                 }

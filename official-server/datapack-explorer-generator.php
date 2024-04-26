@@ -94,7 +94,7 @@ require 'datapack-explorer-generator/load/shops.php';
 require 'datapack-explorer-generator/load/layer.php';
 require 'datapack-explorer-generator/load/map.php';
 require 'datapack-explorer-generator/load/fights.php';
-require 'datapack-explorer-generator/load/bots.php';
+//require 'datapack-explorer-generator/load/bots.php';
 require 'datapack-explorer-generator/load/team.php';
 require 'datapack-explorer-generator/load/informations.php';
 echo 'Datapack loaded'."\n";

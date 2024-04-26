@@ -229,7 +229,7 @@ foreach($type_meta as $type=>$type_content)
         $content=clean_html($content);
         $filedestination=$datapack_explorer_local_path.'monsters/type-'.$type.'.html';
         if(file_exists($filedestination))
-            die('The file already exists: '.$filedestination);
+            die('Types The file already exists: '.$filedestination);
         filewrite($filedestination,$content);
     }
     else
@@ -320,7 +320,7 @@ if(!$wikimode)
     $content=clean_html($content);
     $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['types.html'];
     if(file_exists($filedestination))
-        die('The file already exists: '.$filedestination);
+        die('Type 2 The file already exists: '.$filedestination);
     filewrite($filedestination,$content);
 }
 else

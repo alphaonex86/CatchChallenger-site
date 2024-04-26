@@ -121,7 +121,7 @@ foreach($buff_meta as $buff_id=>$buff)
         $content=clean_html($content);
         $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['buffs/'].text_operation_do_for_url($buff['name'][$current_lang]).'.html';
         if(file_exists($filedestination))
-            die('The file already exists: '.$filedestination);
+            die('Buff The file already exists: '.$filedestination);
         filewrite($filedestination,$content);
     }
     else
@@ -179,7 +179,7 @@ if(!$wikimode)
     $content=clean_html($content);
     $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['buffs.html'];
     if(file_exists($filedestination))
-        die('The file already exists: '.$filedestination);
+        die('Buff 2 The file already exists: '.$filedestination);
     filewrite($filedestination,$content);
 }
 else

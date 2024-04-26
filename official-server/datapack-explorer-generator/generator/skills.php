@@ -219,7 +219,7 @@ foreach($skill_meta as $skill_id=>$skill)
         $content=clean_html($content);
         $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['skills/'].text_operation_do_for_url($skill['name'][$current_lang]).'.html';
         if(file_exists($filedestination))
-            die('The file already exists: '.$filedestination);
+            die('Skills The file already exists: '.$filedestination);
         filewrite($filedestination,$content);
     }
     else
@@ -320,7 +320,7 @@ if(!$wikimode)
     $content=clean_html($content);
     $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['skills.html'];
     if(file_exists($filedestination))
-        die('The file already exists: '.$filedestination);
+        die('Skill 2 The file already exists: '.$filedestination);
     filewrite($filedestination,$content);
 }
 else

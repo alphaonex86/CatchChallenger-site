@@ -185,7 +185,7 @@ foreach($industry_list as $id=>$industry)
         else
             $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['industries/'].$industrie_path.'/'.$id.'.html';
         if(file_exists($filedestination))
-            die('The file already exists: '.$filedestination);
+            die('Industries The file already exists: '.$filedestination);
         filewrite($filedestination,$content);
     }
     else
@@ -420,7 +420,7 @@ if(!$wikimode)
     $content=clean_html($content);
     $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['industries.html'];
     if(file_exists($filedestination))
-        die('The file already exists: '.$filedestination);
+        die('Industries 2 The file already exists: '.$filedestination);
     filewrite($filedestination,$content);
 }
 else

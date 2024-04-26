@@ -862,7 +862,7 @@ foreach($monster_meta as $id=>$monster)
         $content=clean_html($content);
         $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['monsters/'].text_operation_do_for_url($monster['name'][$current_lang]).'.html';
         if(file_exists($filedestination))
-            die('The file already exists: '.$filedestination);
+            die('Monster The file already exists: '.$filedestination);
         filewrite($filedestination,$content);
     }
     else
@@ -1047,7 +1047,7 @@ if(!$wikimode)
     $content=clean_html($content);
     $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['monsters.html'];
     if(file_exists($filedestination))
-        die('The file already exists: '.$filedestination);
+        die('Monster 2 The file already exists: '.$filedestination);
     filewrite($filedestination,$content);
 }
 else

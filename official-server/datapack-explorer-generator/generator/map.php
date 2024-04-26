@@ -611,12 +611,31 @@ foreach($map_list as $map)
 			if(isset($bots_meta[$maindatapackcode][$bot_on_map['id']]))
 			{
                 $bot=$bots_meta[$maindatapackcode][$bot_id];
-				if($bot['name'][$current_lang]=='')
-					$link=text_operation_do_for_url('bot '.$bot_on_map['id']);
-				else if($bots_name_count[$maindatapackcode][$current_lang][text_operation_do_for_url($bot['name'][$current_lang])]==1)
-					$link=text_operation_do_for_url($bot['name'][$current_lang]);
-				else
-					$link=text_operation_do_for_url($bot_on_map['id'].'-'.$bot['name'][$current_lang]);
+                if($bot['name'][$current_lang]=='')
+                {
+                    echo __FILE__." mapbot have only id for id $bot_id\n";
+                    $final_url_name='bot-'.$bot_id;
+                }
+                else
+                {
+                    $n=text_operation_do_for_url($bot['name'][$current_lang]);
+                    if(!isset($bots_name_count[$maindatapackcode][$current_lang][$n]))
+                    {
+                        echo __FILE__." bug name $n for id $bot_id\n";
+                        print_r($bots_name_count);
+                        die('bug into $bots_name_count not found');
+                    }
+                    if($bots_name_count[$maindatapackcode][$current_lang][$n]==1)
+                    {
+                        echo __FILE__." bot have unique name\n";
+                        $final_url_name=$bot['name'][$current_lang];
+                    }
+                    else
+                    {
+                        echo __FILE__." bot have duplicate name $n for id $bot_id\n";
+                        $final_url_name=$bot_id.'-'.$bot['name'][$current_lang];
+                    }
+                }
 				if($bot['onlytext']==true)
 				{
 					$map_descriptor.='<tr class="value">'."\n";
@@ -642,9 +661,9 @@ foreach($map_list as $map)
 					else
 						$map_descriptor.=' colspan="2"';
 					if($bot['name'][$current_lang]=='')
-						$map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].$maindatapackcode.'/'.$link.'.html" title="Bot #'.$bot_id.'">Bot #'.$bot_id.'</a></td>'."\n";
+						$map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].$maindatapackcode.'/'.$final_url_name.'.html" title="Bot #'.$bot_id.'">Bot #'.$bot_id.'</a></td>'."\n";
 					else
-						$map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].$maindatapackcode.'/'.$link.'.html" title="'.$bot['name'][$current_lang].'">'.$bot['name'][$current_lang].'</a></td>'."\n";
+						$map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].$maindatapackcode.'/'.$final_url_name.'.html" title="'.$bot['name'][$current_lang].'">'.$bot['name'][$current_lang].'</a></td>'."\n";
                     if(!isset($bot_start_to_quests[$bot_id]))
                         $map_descriptor.='<td>'.$translation_list[$current_lang]['Text only'].'</td>'."\n";
                     else
@@ -698,9 +717,9 @@ foreach($map_list as $map)
                             if(!$have_skin)
                                 $map_descriptor.=' colspan="2"';
                             if($bot['name'][$current_lang]=='')
-                                $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].$maindatapackcode.'/'.$link.'.html" title="Bot #'.$bot_id.'">Bot #'.$bot_id.'</a></td>'."\n";
+                                $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].$maindatapackcode.'/'.$final_url_name.'.html" title="Bot #'.$bot_id.'">Bot #'.$bot_id.'</a></td>'."\n";
                             else
-                                $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].$maindatapackcode.'/'.$link.'.html" title="'.$bot['name'][$current_lang].'">'.$bot['name'][$current_lang].'</a></td>'."\n";
+                                $map_descriptor.='><a href="'.$base_datapack_explorer_site_path.$translation_list[$current_lang]['bots/'].$maindatapackcode.'/'.$final_url_name.'.html" title="'.$bot['name'][$current_lang].'">'.$bot['name'][$current_lang].'</a></td>'."\n";
                         }
                         if($step['type']=='text')
                         {}
@@ -1035,7 +1054,7 @@ foreach($map_list as $map)
         $content=clean_html($content);
         $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['maps/'].$map_html;
         if(file_exists($filedestination))
-            die('The file already exists: '.$filedestination);
+            die('Map The file already exists: '.$filedestination);
         $count_time[6]+=microtime(true)-$temp_time_start;
         $temp_time_start=microtime(true);
         filewrite($filedestination,$content);
@@ -1343,7 +1362,7 @@ if(!$wikimode)
     $content=clean_html($content);
     $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['maps.html'];
     if(file_exists($filedestination))
-        die('The file already exists: '.$filedestination);
+        die('Map 2 The file already exists: '.$filedestination);
     filewrite($filedestination,$content);
 }
 else

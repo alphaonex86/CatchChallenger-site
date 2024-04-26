@@ -56,11 +56,30 @@ foreach($bot_list as $bot_id=>$bot)
 
 	$map_descriptor.='<div class="map item_details">'."\n";
         if($bot['name'][$current_lang]=='')
+        {
+            echo __FILE__." bot have only id for id $bot_id\n";
             $final_url_name='bot-'.$bot_id;
-        else if($bots_name_count[$maindatapackcode][$current_lang][text_operation_do_for_url($bot['name'][$current_lang])]==1)
-            $final_url_name=$bot['name'][$current_lang];
+        }
         else
-            $final_url_name=$bot_id.'-'.$bot['name'][$current_lang];
+        {
+            $n=text_operation_do_for_url($bot['name'][$current_lang]);
+            if(!isset($bots_name_count[$maindatapackcode][$current_lang][$n]))
+            {
+                echo __FILE__."b ug name $n for id $bot_id\n";
+                print_r($bots_name_count);
+                die('bug into $bots_name_count not found');
+            }
+            if($bots_name_count[$maindatapackcode][$current_lang][$n]==1)
+            {
+                echo __FILE__." bot have unique name\n";
+                $final_url_name=$bot['name'][$current_lang];
+            }
+            else
+            {
+                echo __FILE__." bot have duplicate name $n for id $bot_id\n";
+                $final_url_name=$bot_id.'-'.$bot['name'][$current_lang];
+            }
+        }
 		if($bot['name'][$current_lang]=='')
 			$map_descriptor.='<div class="subblock"><h1>Bot #'.$bot_id.'</h1>'."\n";
 		else
@@ -508,8 +527,9 @@ foreach($bot_list as $bot_id=>$bot)
         $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['bots/'].$maindatapackcode.'/'.text_operation_do_for_url($final_url_name).'.html';
         if(file_exists($filedestination))
         {
-            print_r($bot['name'][$current_lang]);
-            die('The file already exists: '.$filedestination);
+            print_r($bot);
+            echo "\n";
+            die('Bots The file already exists: '.$filedestination);
         }
         filewrite($filedestination,$content);
     }
@@ -694,7 +714,7 @@ if(!$wikimode)
     $content=clean_html($content);
     $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['bots.html'];
     if(file_exists($filedestination))
-        die('The file already exists: '.$filedestination);
+        die('Bots 2 The file already exists: '.$filedestination);
     filewrite($filedestination,$content);
 }
 else

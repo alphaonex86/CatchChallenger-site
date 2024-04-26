@@ -2,14 +2,8 @@
 if(!isset($datapackexplorergeneratorinclude))
 	die('abort into load bots'."\n");
 
-$bots_meta=array();
-$bots_found_in=array();
-$fight_to_bot=array();
-$bots_name_count=array();
-$industry_to_bot=array();
-$team_to_bot=array();
-$item_to_bot_shop=array();
-$highest_bot_id=0;
+die('not load here');
+
 foreach($bots_file as $file=>$bots_file_list)
 foreach($bots_file_list as $maindatapackcode=>$value)
 {
@@ -20,13 +14,13 @@ foreach($bots_file_list as $maindatapackcode=>$value)
         foreach($temp_text_list[0] as $bot_text)
         {
             $botbal=preg_replace('#^.*(<bot [^>]+>).*$#isU','$1',$bot_text);
-            $id=preg_replace('#^.*<bot [^>]*id="([0-9]+)"[^>]*>.*$#isU','$1',$botbal);
+            $id=$file.preg_replace('#^.*<bot [^>]*id="([0-9]+)"[^>]*>.*$#isU','$1',$botbal);
             if(!preg_match('#^[0-9]+$#isU',$id))
                 echo $maindatapackcode.'/'.$file.': bot with id wrong '.$botbal."\n";
             else
             {
                 if(isset($bots_meta[$maindatapackcode][$id]))
-                    echo $maindatapackcode.'/'.$file.': bot with id '.$id.' is already found into: '.$bots_found_in[$maindatapackcode][$id]."\n";
+                    echo $maindatapackcode.'/'.$file.': bot with id '.$id.' is already found into: '.$bots_found_in[$maindatapackcode][$id].' map '.$file."\n";
                 else
                 {
                     $name='';
@@ -254,30 +248,5 @@ foreach($bots_file_list as $maindatapackcode=>$value)
     else
         echo $datapack_path.'map/'.$maindatapackcode.'/'.$file.' not found for the map: '.$value['map']."\n";
 }
-ksort($bots_meta);
-ksort($bots_found_in);
-ksort($fight_to_bot);
-ksort($bots_name_count);
-ksort($industry_to_bot);
-ksort($team_to_bot);
-ksort($item_to_bot_shop);
+print_r($bots_meta);exit;
 
-//scan each map to set average fight level
-foreach($maps_list as $maindatapackcode=>$map_list)
-foreach($map_list as $mapTempId=>$map)
-{
-    $maxlevel=0;
-    if(isset($map['bots']) && count($map['bots'])>0)
-		foreach($map['bots'] as $bot_on_map)
-			if(isset($bots_meta[$maindatapackcode][$bot_on_map['id']]))
-			{
-                $bot=$bots_meta[$maindatapackcode][$bot_on_map['id']];
-                foreach($bot['step'] as $step_id=>$step)
-                    if($step['type']=='fight')
-                        if(isset($fight_meta[$maindatapackcode][$step['fightid']]))
-                            foreach($fight_meta[$maindatapackcode][$step['fightid']]['monsters'] as $monster)
-                                if($maxlevel<$monster['level'])
-                                    $maxlevel=$monster['level'];
-            }
-    $maps_list[$maindatapackcode][$mapTempId]['maxfightlevel']=$maxlevel;
-}

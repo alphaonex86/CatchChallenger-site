@@ -49,7 +49,7 @@ while ($dh!==FALSE && false !== ($maindatapackcode = readdir($dh)))
                 $start=str_replace('<![CDATA[','',$start);
                 $win=str_replace('<![CDATA[','',$win);
                 $monsters=array();
-                preg_match_all('#<monster .*/>#isU',$entry,$monster_text_list);
+                //preg_match_all('#<monster .* />#isU',$entry,$monster_text_list);
                 foreach($monster_text_list[0] as $monster_text)
                 {
                     $monster=preg_replace('#^.*id="([0-9]+)".*$#isU','$1',$monster_text);

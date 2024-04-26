@@ -60,15 +60,18 @@ foreach($temp_skills as $skill_file)
                 $name_in_other_lang[$lang]=$name;
                 $temp_name=$name;
             }
-			if(!isset($skillname_to_id[$name_in_other_lang[$lang]]))
-				$skillname_to_id[$name_in_other_lang[$lang]]=$id;
-			elseif($skillname_to_id[$name_in_other_lang[$lang]]!=$id)
-				echo 'duplicate name '.$skillname_to_id[$name_in_other_lang[$lang]].' for monster ('.$id.' with another id)'."\n";
             if(isset($duplicate_skill_name[$lang][$temp_name]) && $duplicate_skill_name[$lang][$temp_name]!=$id)
                 echo 'duplicate name '.$temp_name.' for skill ('.$id.' previously on '.$duplicate_skill_name[$lang][$temp_name].') for lang '.$lang."\n";
             else
                 $duplicate_skill_name[$lang][$temp_name]=$id;
         }
+        foreach($name_in_other_lang as $lang=>$name)
+		{
+			if(!isset($skillname_to_id[$name]))
+				$skillname_to_id[$name]=$id;
+			elseif($skillname_to_id[$name]!=$id)
+				echo 'duplicate name '.$skillname_to_id[$name].' for skill ('.$id.' with another id)'."\n";
+		}
 		$level_list=array();
 		preg_match_all('#<level.*</level>#isU',$entry,$temp_level_list);
 		foreach($temp_level_list[0] as $level_text)
@@ -118,6 +121,11 @@ foreach($temp_skills as $skill_file)
         $skill_type_to_id[$type][]=$id;
         ksort($skill_type_to_id[$type]);
 	}
+}
+if(count($skillname_to_id)<=0)
+{
+	echo '$skillname_to_id is empty';
+	exit;
 }
 ksort($skill_meta);
 ksort($skill_type_to_id);

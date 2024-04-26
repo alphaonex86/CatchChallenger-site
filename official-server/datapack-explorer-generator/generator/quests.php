@@ -361,7 +361,7 @@ foreach($quest_list as $id=>$quest)
         $content=clean_html($content);
         $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['quests/'].$maindatapackcode.'/'.$id.'-'.text_operation_do_for_url($quest['name'][$current_lang]).'.html';
         if(file_exists($filedestination))
-            die('The file already exists: '.$filedestination);
+            die('Quests The file already exists: '.$filedestination);
         filewrite($filedestination,$content);
     }
     else
@@ -408,7 +408,7 @@ if(!$wikimode)
     $content=clean_html($content);
     $filedestination=$datapack_explorer_local_path.$translation_list[$current_lang]['quests.html'];
     if(file_exists($filedestination))
-        die('The file already exists: '.$filedestination);
+        die('Quest 2 The file already exists: '.$filedestination);
     filewrite($filedestination,$content);
 }
 else

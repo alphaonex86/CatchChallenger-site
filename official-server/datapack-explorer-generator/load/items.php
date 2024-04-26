@@ -106,15 +106,18 @@ foreach($temp_items as $item_file)
                 $temp_name=$name;
                 $name_in_other_lang[$lang]=$name;
             }
-            if(!isset($itemname_to_id[$name_in_other_lang[$lang]]))
-				$itemname_to_id[$name_in_other_lang[$lang]]=$id;
-			elseif($itemname_to_id[$name_in_other_lang[$lang]]!=$id)
-				echo 'duplicate name '.$itemname_to_id[$name_in_other_lang[$lang]].' for item ('.$id.' with another id)'."\n";
             if(isset($duplicate_item_name[$lang][$temp_name]) && $duplicate_item_name[$lang][$temp_name]!=$id)
                 echo 'duplicate name '.$temp_name.' for item ('.$id.' previously on '.$duplicate_item_name[$lang][$temp_name].') for lang '.$lang."\n";
             else
                 $duplicate_item_name[$lang][$temp_name]=$id;
         }
+        foreach($name_in_other_lang as $lang=>$name)
+		{
+			if(!isset($itemname_to_id[$name]))
+				$itemname_to_id[$name]=$id;
+			elseif($itemname_to_id[$name]!=$id)
+				echo 'duplicate name '.$itemname_to_id[$name].' for item ('.$id.' with another id)'."\n";
+		}
 		if(preg_match('#<description( lang="en")?>.*</description>#isU',$entry))
 			$description=text_operation_first_letter_upper(preg_replace('#^.*<description( lang="en")?>(.*)</description>.*$#isU','$2',$entry));
 		else
@@ -188,6 +191,11 @@ foreach($temp_items as $item_file)
 				$item_meta[$id]=array('group'=>$group,'price'=>$price,'image'=>$image,'name'=>$name_in_other_lang,'description'=>$description_in_other_lang);
 		}
 	}
+}
+if(count($itemname_to_id)<=0)
+{
+	echo '$itemname_to_id is empty';
+	exit;
 }
 ksort($item_meta);
 ksort($item_group);
